@@ -12,7 +12,7 @@ def parse_local_html(file_path):
 
         # Теперь можно парсить soup так же, как и при запросах через requests
         # Например, найдем все элементы с определенным классом
-        elements = soup.find_all('div', class_='ygtvchildren')
+        elements = soup.find_all('div', class_='ygtvitem')
         for element in elements:
             print(element.text)
 
