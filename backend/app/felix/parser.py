@@ -1,25 +1,28 @@
-import requests
 from bs4 import BeautifulSoup
 
-def parse_icd_site(url):
+def parse_local_html(file_path):
     try:
-        # Отправляем запрос на сайт
-        response = requests.get(url)
-        response.raise_for_status()  # Проверяем, что запрос выполнен успешно
+        # Открываем файл для чтения (в режиме текста)
+        with open(file_path, 'r', encoding='utf-8') as file:
+            # Читаем содержимое файла
+            html_content = file.read()
 
-        # Создаём объект BeautifulSoup для анализа HTML
-        soup = BeautifulSoup(response.content, 'html.parser')
+        # Создаем объект BeautifulSoup
+        soup = BeautifulSoup(html_content, 'html.parser')
 
-        div_elements = soup.find_all('div', class_='ygtvitem')
-        print(div_elements)
-        
-        # здесь то чтот парсим
-        
-        # return 
+        # Теперь можно парсить soup так же, как и при запросах через requests
+        # Например, найдем все элементы с определенным классом
+        elements = soup.find_all('div', class_='ygtvchildren')
+        for element in elements:
+            print(element.text)
+
+        # Возвращаем результаты
+        return elements
     except Exception as e:
-        return f"Error: {e}"
+        print(f"Error: {e}")
 
-# Пример использования функции
-url = "https://icd.who.int/browse11/l-m/ru"
-result = parse_icd_site(url)
-print()
+# Путь к вашему HTML файлу
+file_path = 'index.html'
+
+# Вызываем функцию
+parse_local_html(file_path)
