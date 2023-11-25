@@ -1,0 +1,88 @@
+Uri: https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js
+File Name: C:\Downloaded Web Sites\icd.who.int\ajax\libs\showdown\1.9.1\showdown.min.js
+Content Type: application/javascript
+
+Uri: https://icd.who.int/browse11/bundles/library.min.js?v=hCJchYXq1Zo7fyoIEUCY-TW3Z0BBzUlBOVVGJ92usuw
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\bundles\library.min.js
+Content Type: text/javascript
+
+Uri: https://icd.who.int/browse11/bundles/misc.min.css?v=x8NyQojcZkRskNBlHn-qwinI-orNIOM1UIN0p9iYm1c
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\bundles\misc.min.css
+Content Type: text/css
+
+Uri: https://icd.who.int/browse11/bundles/project.min.css?v=74SJ5zeT3OQ76pR5V5ZqXXeMsNcbI8lGbRi3NERTAPg
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\bundles\project.min.css
+Content Type: text/css
+
+Uri: https://icd.who.int/browse11/bundles/projectscript.min.js?v=Y8dqn_k_cw9G7GEU8xz3w9m0S4ebjofKT0caUiiyKvQ
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\bundles\projectscript.min.js
+Content Type: text/javascript
+
+Uri: https://icd.who.int/browse11/Content/collapse.png
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\Content\collapse.png
+Content Type: image/png
+
+Uri: https://icd.who.int/browse11/Content/globe.svg
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\Content\globe.svg
+Content Type: image/svg+xml
+
+Uri: https://icd.who.int/browse11/Content/helpfiles.ICD11_ru/images/advancedsearch1.png
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\Content\helpfiles.ICD11_ru\images\advancedsearch1.png
+Content Type: image/png
+
+Uri: https://icd.who.int/browse11/Content/helpfiles.ICD11_ru/images/advancedsearch2.png
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\Content\helpfiles.ICD11_ru\images\advancedsearch2.png
+Content Type: image/png
+
+Uri: https://icd.who.int/browse11/Content/helpfiles.ICD11_ru/images/quicksearch.png
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\Content\helpfiles.ICD11_ru\images\quicksearch.png
+Content Type: image/png
+
+Uri: https://icd.who.int/browse11/Content/ICD11.RELEASE.png
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\Content\ICD11.RELEASE.png
+Content Type: image/png
+
+Uri: https://icd.who.int/browse11/Content/load.gif
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\Content\load.gif
+Content Type: image/gif
+
+Uri: https://icd.who.int/browse11/Content/wait.gif
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\Content\wait.gif
+Content Type: image/gif
+
+Uri: https://icd.who.int/browse11/Content/waitbig.gif
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\Content\waitbig.gif
+Content Type: image/gif
+
+Uri: https://icd.who.int/browse11/Downloads/Download?fileName=mapping.zip
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\Downloads\mapping.zip
+Content Type: application/zip
+
+Uri: https://icd.who.int/browse11/Downloads/Download?fileName=morbidity-list.zip
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\Downloads\morbidity-list.zip
+Content Type: application/zip
+
+Uri: https://icd.who.int/browse11/Downloads/Download?fileName=mortality-list.zip
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\Downloads\mortality-list.zip
+Content Type: application/zip
+
+Uri: https://icd.who.int/browse11/Downloads/Download?fileName=simpletabulation.zip
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\Downloads\simpletabulation.zip
+Content Type: application/zip
+
+Uri: https://icd.who.int/browse11/l-m/ru
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\l-m\ru.html
+Content Type: text/html
+
+Uri: https://icd.who.int/browse11/Scripts/jquery.layout-latest.js
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\Scripts\jquery.layout-latest.js
+Content Type: text/javascript
+
+Uri: https://icd.who.int/browse11/Scripts/ts/obrowser_helper.js
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\Scripts\ts\obrowser_helper.js
+Content Type: text/javascript
+
+Uri: https://icd.who.int/browse11/Styles/fancydropdown/fancydropdownICD11.RELEASE.css
+File Name: C:\Downloaded Web Sites\icd.who.int\browse11\Styles\fancydropdown\fancydropdownICD11.RELEASE.css
+Content Type: text/css
+

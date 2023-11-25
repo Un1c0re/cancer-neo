@@ -1,0 +1,605 @@
+﻿
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta name="fragment" content="!">
+    <meta name="google-site-verification" content="INKtg_4AcvauV4s-ZBZ5SidBwCFkxK2XfoiOE3iYM-g">
+    <meta name="msvalidate.01" content="9BB0063D535B2050751F8A6D728E83F7">
+    <meta name="buildDate" content='2023 Feb 13 - 10:49'>
+    <meta name="icd11Date" content='2023 Jan 23'>
+
+    <title>&#x41C;&#x41A;&#x411;-11 &#x434;&#x43B;&#x44F; &#x432;&#x435;&#x434;&#x435;&#x43D;&#x438;&#x44F; &#x441;&#x442;&#x430;&#x442;&#x438;&#x441;&#x442;&#x438;&#x43A;&#x438; &#x441;&#x43C;&#x435;&#x440;&#x442;&#x43D;&#x43E;&#x441;&#x442;&#x438; &#x438; &#x437;&#x430;&#x431;&#x43E;&#x43B;&#x435;&#x432;&#x430;&#x435;&#x43C;&#x43E;&#x441;&#x442;&#x438; </title>
+
+            
+    <link href="../bundles/misc.min.css?v=x8NyQojcZkRskNBlHn-qwinI-orNIOM1UIN0p9iYm1c" rel="stylesheet">
+
+    <link href="../Styles/fancydropdown/fancydropdownICD11.RELEASE.css" rel="stylesheet">
+
+
+    <link href="../bundles/project.min.css?v=74SJ5zeT3OQ76pR5V5ZqXXeMsNcbI8lGbRi3NERTAPg" rel="stylesheet">
+
+
+
+
+    <script src="../bundles/library.min.js?v=hCJchYXq1Zo7fyoIEUCY-TW3Z0BBzUlBOVVGJ92usuw" type="text/javascript"></script>
+
+
+
+    <script src="../Scripts/ts/obrowser_helper.js"></script>
+
+
+
+
+
+    <script src="../Scripts/jquery.layout-latest.js"></script>
+    <script src="../../ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+    
+    
+
+        <script src="../bundles/projectscript.min.js?v=Y8dqn_k_cw9G7GEU8xz3w9m0S4ebjofKT0caUiiyKvQ" type="text/javascript"></script>
+
+
+
+
+        <meta name="description" content="ICD-11 Browser contains the ICD-11 (International Classification of Diseases 11th Revision) ">
+
+
+
+    <link rel="icon" href="../Content/ICD11.RELEASE.png">
+
+    
+  <script type="text/javascript">
+
+       var oInfo = new OntologyBasicInfo();
+       oInfo.ontologyKey = "l-m";
+       oInfo.ontologyId = "ICD11_MMS";
+       oInfo.theLanguage = "ru";
+       oInfo.isLinearization =  true;
+       oInfo.baseURL = location.protocol + "//" + location.hostname + ":" + location.port + '/browse11/';
+        //oInfo.ontologyLabel = "&#x41C;&#x41A;&#x411;-11 - &#x41C;&#x41A;&#x411;-11 &#x434;&#x43B;&#x44F; &#x432;&#x435;&#x434;&#x435;&#x43D;&#x438;&#x44F; &#x441;&#x442;&#x430;&#x442;&#x438;&#x441;&#x442;&#x438;&#x43A;&#x438; &#x441;&#x43C;&#x435;&#x440;&#x442;&#x43D;&#x43E;&#x441;&#x442;&#x438; &#x438; &#x437;&#x430;&#x431;&#x43E;&#x43B;&#x435;&#x432;&#x430;&#x435;&#x43C;&#x43E;&#x441;&#x442;&#x438;";
+       oInfo.ontologyLabel = "&#x41C;&#x41A;&#x411;-11 &#x434;&#x43B;&#x44F; &#x432;&#x435;&#x434;&#x435;&#x43D;&#x438;&#x44F; &#x441;&#x442;&#x430;&#x442;&#x438;&#x441;&#x442;&#x438;&#x43A;&#x438; &#x441;&#x43C;&#x435;&#x440;&#x442;&#x43D;&#x43E;&#x441;&#x442;&#x438; &#x438; &#x437;&#x430;&#x431;&#x43E;&#x43B;&#x435;&#x432;&#x430;&#x435;&#x43C;&#x43E;&#x441;&#x442;&#x438;";
+       oInfo.usesElastic = true;
+
+
+       var appState = new ApplicationStateInformation();
+       appState.userLoggedIn =  false;
+       appState.appMode = "ICD11.RELEASE";
+       appState.scrollToEntity = false;
+       appState.defaultShowGrayNodes = true;
+       $(document).ready(function(){
+           OBrowserNavigation.getInstance().navigationMode=NavigationMode.Browser;
+           OBrowserNavigation.getInstance().initialize(oInfo,appState);
+           OBrowserContributions.getInstance().initialize(oInfo.baseURL,OBrowserNavigation.getInstance());
+       });
+
+                </script>
+            
+
+
+</head>
+<body>
+
+
+
+    <div id="showinpopudiv" style="display:none"></div>
+       
+
+<script type="text/javascript">
+    function checkAllSearchFields() {
+        $("form input:checkbox").prop('checked', true);
+    }
+
+    function uncheckAllSearchFields() {
+        $("form input:checkbox").prop('checked', false);
+    }
+    
+</script>
+<div id="advancedSearchBox" class="advancedsearch ">
+
+
+        <form id="advancedSearchForm" method="post">
+
+        &#x418;&#x441;&#x43A;&#x430;&#x442;&#x44C; &#x432; &#x442;&#x435;&#x43A;&#x441;&#x442;&#x435; :
+                   <span style="float:right;margin-right:-12px;margin-bottom:2px">
+            
+
+
+        <span id="imagebutton_cd92c700-416c-47ad-9d16-04209ec1fdd0advancedsearch" title="&#x41F;&#x43E;&#x43C;&#x43E;&#x449;&#x44C;" class="helpbutton helpbuttonICD11RELEASE" onclick="Helper.popupContent('cd92c700-416c-47ad-9d16-04209ec1fdd0advancedsearch','&#x41F;&#x43E;&#x43C;&#x43E;&#x449;&#x44C;')">
+                &nbsp;
+            </span>
+    <div id="content_cd92c700-416c-47ad-9d16-04209ec1fdd0advancedsearch" class="hiddenhelp">
+        <div class="help" autofocus="true">
+            
+<h2> Справка по расширенному поиску</h2>
+
+<p>
+    <img class="dropshadow" alt="Изображение Справки по расширенному поиску" src="../Content/helpfiles.ICD11_ru/images/advancedsearch1.png"></p>
+<p>
+
+    Расширенный поиск позволяет искать в различных типах записей классификации. Вы можете искать по всем типам записей или только по выбранным.</p>
+<p>
+
+    Пожалуйста, 
+	введите ключевые слова в поле <b>«Поиск текста»</b> и отметьте типы записей, которые вы хотите включить в поиск.</p>
+<p>
+
+    Система будет искать ключевые слова в типах записей, которые вы отметили. </p>
+
+
+<p>
+    Результаты сортируются по степени соответствия введенного текста фразе в МКБ. Они также группируются с использованием иерархии МКБ так, что, если введенный текст соответствует родительской рубрике и нескольким дочерним, результаты появятся в таком виде, чтобы легко было определить эту связь визуально. В списке отображаются только наименования основных терминов или полное совпадение среди подходящих терминов, если с основным термином нет совпадений.  Однако, нажатие на значок ▤ отобразит больше результатов совпадения под записью.
+</p>
+
+    <p>Если поисковый запрос выдает более 200 результатов, то будут показаны только первые 200 лучших совпадений.</p>
+<p>
+
+    Если вы указали более одного ключевого слова, система будет искать элементы, содержащие все ключевые слова.</p>
+
+<p>
+
+    <strong>Подстановочные знаки:</strong>
+
+    Вы также можете использовать символ подстановки *.</p>
+<p>
+
+    Например, поиск  <b>диабет*</b> находит все записи, в которых есть слово, начинающееся с  
+    &quot;диабет&quot; .</p>
+
+<h4>Результаты поиска</h4>
+<p>
+    <img class="dropshadow" alt="Изображение Справки по расширенному поиску" src="../Content/helpfiles.ICD11_ru/images/advancedsearch2.png"></p>
+<p>
+<p> После поиска результаты отображаются в правой нижней части экрана. Нажатие на любой результат приведет к загрузке данной записи.</p>
+<p> Вы можете закрыть окно  <b>расширенного поиска </b> или панель <b>результатов поиска</b>, нажав на X в левом верхнем углу окна. </p>
+
+        
+        </div>
+    </div>
+ 
+                </span>
+            <input autocomplete="off" class="advancedSearchTextBox" id="SearchText" name="SearchText" type="text" value="">
+
+     
+        <br>
+            <span style="font-style:italic">
+                &#x41F;&#x43E;&#x436;&#x430;&#x43B;&#x443;&#x439;&#x441;&#x442;&#x430;, &#x432;&#x44B;&#x431;&#x435;&#x440;&#x438;&#x442;&#x435; &#x441;&#x432;&#x43E;&#x439;&#x441;&#x442;&#x432;&#x430;, &#x43A;&#x43E;&#x442;&#x43E;&#x440;&#x44B;&#x435; &#x432;&#x44B; &#x445;&#x43E;&#x442;&#x435;&#x43B;&#x438; &#x431;&#x44B; &#x432;&#x43A;&#x43B;&#x44E;&#x447;&#x438;&#x442;&#x44C; &#x432; &#x43F;&#x43E;&#x438;&#x441;&#x43A;
+            </span>
+        <div style="float: right">
+            <span class="buttonLike" onclick="checkAllSearchFields(); ">
+                [ 
+                &#x412;&#x44B;&#x431;&#x440;&#x430;&#x442;&#x44C; &#x432;&#x441;&#x435;  
+                ]
+            </span> 
+            &nbsp;&nbsp;&nbsp;
+            <span class="buttonLike" onclick="uncheckAllSearchFields(); ">
+                [ 
+                &#x41E;&#x442;&#x43C;&#x435;&#x43D;&#x438;&#x442;&#x44C; &#x432;&#x441;&#x435; &#x432;&#x44B;&#x431;&#x440;&#x430;&#x43D;&#x43D;&#x43E;&#x435;
+                ]
+            </span>   
+        </div>
+        <br>
+            <div class="advsearchpropertiesdiv">
+                <div class="advsearchpropertiesdivLeft">
+
+<input checked="checked" id="Search_Title" name="Search_Title" type="checkbox" value="true">                        <span class="advsearchptext" onclick="OBrowserNavigation.getInstance().theSearcher.onTextClick('Search_Title')">
+                            &#x41D;&#x430;&#x437;&#x432;&#x430;&#x43D;&#x438;&#x435;
+                        </span>
+                        <br>
+<input id="Search_Synonym" name="Search_Synonym" type="checkbox" value="true">                        <span class="advsearchptext" onclick="OBrowserNavigation.getInstance().theSearcher.onTextClick('Search_Synonym')">
+                            &#x421;&#x438;&#x43D;&#x43E;&#x43D;&#x438;&#x43C;
+                        </span>
+                        <br>
+<input id="Search_Definition" name="Search_Definition" type="checkbox" value="true">                        <span class="advsearchptext" onclick="OBrowserNavigation.getInstance().theSearcher.onTextClick('Search_Definition')">
+                            &#x41E;&#x43F;&#x438;&#x441;&#x430;&#x43D;&#x438;&#x435;
+                        </span>
+                        <br>
+<input id="Search_Inclusion" name="Search_Inclusion" type="checkbox" value="true">                        <span class="advsearchptext" onclick="OBrowserNavigation.getInstance().theSearcher.onTextClick('Search_Inclusion')">
+                            &#x412;&#x43A;&#x43B;&#x44E;&#x447;&#x435;&#x43D;&#x438;&#x435;
+                        </span>
+                        <br>
+<input id="Search_Exclusion" name="Search_Exclusion" type="checkbox" value="true">                        <span class="advsearchptext" onclick="OBrowserNavigation.getInstance().theSearcher.onTextClick('Search_Exclusion')">
+                            &#x418;&#x441;&#x43A;&#x43B;&#x44E;&#x447;&#x435;&#x43D;&#x438;&#x435;
+                        </span>
+                        <br>
+
+                </div>
+                <div class="advsearchpropertiesdivRight">
+
+
+                </div>
+                </div>
+
+
+
+<input name="__RequestVerificationToken" type="hidden" value="CfDJ8CVWVBH4RiJIl2RxmU14S91DfSMjXIUbtJ7BUIxguKPK9p_6FXnz8KC6riZRY-3WoruXXmQUVIHikeJbwPDJfZzYdWqFtlZEgjPgskdmI0QxD5oLMOjE_aR0Jcj0smkfWrcDjOmTZaVyuSCgD4aXq6U"><input name="Search_Title" type="hidden" value="false"><input name="Search_Synonym" type="hidden" value="false"><input name="Search_Definition" type="hidden" value="false"><input name="Search_Inclusion" type="hidden" value="false"><input name="Search_Exclusion" type="hidden" value="false"></form>
+
+</div>
+
+
+
+    <div class='outer-north header-ltr headerICD11RELEASE'>
+
+        <div id="headerleft" style="height: 100%">
+            
+                <h1>&#x41C;&#x41A;&#x411;-11 &#x434;&#x43B;&#x44F; &#x432;&#x435;&#x434;&#x435;&#x43D;&#x438;&#x44F; &#x441;&#x442;&#x430;&#x442;&#x438;&#x441;&#x442;&#x438;&#x43A;&#x438; &#x441;&#x43C;&#x435;&#x440;&#x442;&#x43D;&#x43E;&#x441;&#x442;&#x438; &#x438; &#x437;&#x430;&#x431;&#x43E;&#x43B;&#x435;&#x432;&#x430;&#x435;&#x43C;&#x43E;&#x441;&#x442;&#x438;</h1>
+                        <span class="lfdetail">(&#x412;&#x435;&#x440;&#x441;&#x438;&#x44F; : 01/2023)</span>
+
+            
+            
+                <div id="searchcontainer">
+                    
+
+&#x41F;&#x43E;&#x438;&#x441;&#x43A; 
+<input class="search" id="searchbox" data-searchtype="full" type="text">
+<img class="searchwait" src="../Content/load.gif">
+
+
+
+        <span id="imagebutton_1e18d7fa-5314-4974-9940-7fe57af2d34cquicksearch" title="&#x41F;&#x43E;&#x43C;&#x43E;&#x449;&#x44C;" class="helpbutton helpbuttonICD11RELEASE" onclick="Helper.popupContent('1e18d7fa-5314-4974-9940-7fe57af2d34cquicksearch','&#x41F;&#x43E;&#x43C;&#x43E;&#x449;&#x44C;')">
+                &nbsp;
+            </span>
+    <div id="content_1e18d7fa-5314-4974-9940-7fe57af2d34cquicksearch" class="hiddenhelp">
+        <div class="help" autofocus="true">
+            
+<h2>Справка по быстрому поиску</h2>
+
+<p>
+    <img class="dropshadow" alt=" Изображение быстрого поиска" src="../Content/helpfiles.ICD11_ru/images/quicksearch.png"></p>
+<p>
+    Быстрый поиск помогает быстро перейти к определенной рубрике. 
+Поиск идет по названиям, включениям, синонимам и уточненным терминам. 
+Поиск начинается по мере ввода текста, предоставляя варианты в динамически выпадающем списке.
+</p>
+<p>
+  При нажатии на одну из записей, которые появляются в списке, происходит загрузка записи.</p>
+
+<p> Результаты сортируются по степени соответствия введенного текста фразе в МКБ. 
+Они также группируются с использованием иерархии МКБ так, что, если текст поиска соответствует родительской рубрике и нескольким дочерним, результаты появятся в таком виде, чтобы легко было определить эту связь визуально. 
+В списке отображаются только наименование основных терминов или полное совпадение среди подходящих терминов, если с основным термином нет совпадений. 
+Однако, нажатие на значок  <span class="detailsicon">&#9636;</span> отобразит больше результатов совпадения под записью.</p>
+
+<p>
+    Вы также можете использовать подстановочные знаки, чтобы найти похожие слова или просто сэкономить время на наборе текста. 
+
+    Например, <strong>транспо* «несчастный случай» </strong> найдет записи с «транспортный» и «несчастный случай».</p>
+
+
+        
+        </div>
+    </div>
+ 
+
+
+                    <a class="buttonLike" id="advancedSearchButton">
+                        [
+                        &#x420;&#x430;&#x441;&#x448;&#x438;&#x440;&#x435;&#x43D;&#x43D;&#x44B;&#x439; &#x43F;&#x43E;&#x438;&#x441;&#x43A;
+                        ]
+                    </a>
+                </div>
+            
+        </div>
+        <div id="messageArea"></div>
+        <div style="display:none" id="notificationdomainsarea"></div>
+    </div>
+
+
+
+<div id="menu" class="menu-ltr">
+    <ul class="tabs">
+
+                    <li>
+                        <a id="mainmenu-&#x41F;&#x440;&#x43E;&#x441;&#x43C;&#x430;&#x442;&#x440;&#x438;&#x432;&#x430;&#x442;&#x44C;" href="ru.html" title="&#x41C;&#x41A;&#x411;-11 - &#x41C;&#x41A;&#x411;-11 &#x434;&#x43B;&#x44F; &#x432;&#x435;&#x434;&#x435;&#x43D;&#x438;&#x44F; &#x441;&#x442;&#x430;&#x442;&#x438;&#x441;&#x442;&#x438;&#x43A;&#x438; &#x441;&#x43C;&#x435;&#x440;&#x442;&#x43D;&#x43E;&#x441;&#x442;&#x438; &#x438; &#x437;&#x430;&#x431;&#x43E;&#x43B;&#x435;&#x432;&#x430;&#x435;&#x43C;&#x43E;&#x441;&#x442;&#x438;">
+                            &#x41F;&#x440;&#x43E;&#x441;&#x43C;&#x430;&#x442;&#x440;&#x438;&#x432;&#x430;&#x442;&#x44C;
+                        </a>
+
+                    </li>
+                    <li>
+                        <a id="mainmenu-&#x418;&#x43D;&#x441;&#x442;&#x440;&#x443;&#x43C;&#x435;&#x43D;&#x442;_&#x43A;&#x43E;&#x434;&#x438;&#x440;&#x43E;&#x432;&#x430;&#x43D;&#x438;&#x44F;" href="http://icd.who.int/ct11/icd11_mms/ru/release" title="&#x418;&#x43D;&#x441;&#x442;&#x440;&#x443;&#x43C;&#x435;&#x43D;&#x442; &#x43A;&#x43E;&#x434;&#x438;&#x440;&#x43E;&#x432;&#x430;&#x43D;&#x438;&#x44F; (&#x41C;&#x41A;&#x411;-11 - &#x41C;&#x41A;&#x411;-11 &#x434;&#x43B;&#x44F; &#x432;&#x435;&#x434;&#x435;&#x43D;&#x438;&#x44F; &#x441;&#x442;&#x430;&#x442;&#x438;&#x441;&#x442;&#x438;&#x43A;&#x438; &#x441;&#x43C;&#x435;&#x440;&#x442;&#x43D;&#x43E;&#x441;&#x442;&#x438; &#x438; &#x437;&#x430;&#x431;&#x43E;&#x43B;&#x435;&#x432;&#x430;&#x435;&#x43C;&#x43E;&#x441;&#x442;&#x438;" target="_blank">
+                            &#x418;&#x43D;&#x441;&#x442;&#x440;&#x443;&#x43C;&#x435;&#x43D;&#x442; &#x43A;&#x43E;&#x434;&#x438;&#x440;&#x43E;&#x432;&#x430;&#x43D;&#x438;&#x44F;
+                        </a>
+
+
+
+
+        <span id="imagebutton_2faa01fb-0c30-4ceb-84fb-f9dd1b5940b5codingtool" title="&#x41F;&#x43E;&#x43C;&#x43E;&#x449;&#x44C;" class="helpbutton helpbuttonICD11RELEASE" onclick="Helper.popupContent('2faa01fb-0c30-4ceb-84fb-f9dd1b5940b5codingtool','&#x41F;&#x43E;&#x43C;&#x43E;&#x449;&#x44C;')">
+                &nbsp;
+            </span>
+    <div id="content_2faa01fb-0c30-4ceb-84fb-f9dd1b5940b5codingtool" class="hiddenhelp">
+        <div class="help" autofocus="true">
+            
+
+<h3>Инструмент кодирования</h3>
+
+<p>
+    Инструмент кодирования МКБ-11 - это программное обеспечение, помогающее пользователям осуществлять кодирование по МКБ-11.
+ </p>
+<p>
+
+   <p> Существуют некоторые различия в проведении поиска в Инструменте кодирования и Браузере МКБ-11.</p>
+<ul>
+    <li>
+        Поиск в браузере может дать вам результаты, представляющие собой группы (или блоки) в дополнение к записям с кодами. Однако инструмент кодирования показывает только те записи, которые имеют коды.
+    </li>
+    <li>
+        Браузер имеет функцию расширенного поиска, которая позволяет выбрать, что искать (т.е. можно искать исключения, определения и т.д.), тогда как инструмент кодирования ищет только в Алфавитном указателе, включая основные термины.
+    </li>
+    <li>
+        Инструмент кодирования имеет функцию завершения слов и подсказки слов.
+    </li>
+    <li>
+        Инструмент кодирования имеет функцию фильтрации результатов по классам, которая по умолчанию не включает классы "Коды расширения" и "Традиционная медицина".
+    </li>
+</ul>
+
+        
+        </div>
+    </div>
+                    </li>
+                <li class="hasmore" id="pmenu_&#x418;&#x43D;&#x444;&#x43E;&#x440;&#x43C;&#x430;&#x446;&#x438;&#x44F;">
+                    <a title=""><span>&#x418;&#x43D;&#x444;&#x43E;&#x440;&#x43C;&#x430;&#x446;&#x438;&#x44F;</span></a>
+                    <ul class="dropdown">
+                                    <li>
+                                        <a id="submenu-&#x420;&#x443;&#x43A;&#x43E;&#x432;&#x43E;&#x434;&#x441;&#x442;&#x432;&#x43E;_&#x43F;&#x43E;&#x43B;&#x44C;&#x437;&#x43E;&#x432;&#x430;&#x442;&#x435;&#x43B;&#x44F;" href="/browse11/Help/ru" title="&#x420;&#x443;&#x43A;&#x43E;&#x432;&#x43E;&#x434;&#x441;&#x442;&#x432;&#x43E; &#x43F;&#x43E; &#x438;&#x441;&#x43F;&#x43E;&#x43B;&#x44C;&#x437;&#x43E;&#x432;&#x430;&#x43D;&#x438;&#x44E; &#x431;&#x440;&#x430;&#x443;&#x437;&#x435;&#x440;&#x430; &#x41C;&#x41A;&#x411;-11">
+                                            &#x420;&#x443;&#x43A;&#x43E;&#x432;&#x43E;&#x434;&#x441;&#x442;&#x432;&#x43E; &#x43F;&#x43E;&#x43B;&#x44C;&#x437;&#x43E;&#x432;&#x430;&#x442;&#x435;&#x43B;&#x44F;
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a id="submenu-&#x424;&#x430;&#x439;&#x43B;_&#x44D;&#x43B;&#x435;&#x43A;&#x442;&#x440;&#x43E;&#x43D;&#x43D;&#x44B;&#x445;_&#x442;&#x430;&#x431;&#x43B;&#x438;&#x446;" href="../Downloads/simpletabulation.zip?fileName=simpletabulation.zip" title="&#x41F;&#x440;&#x43E;&#x441;&#x442;&#x43E;&#x435; &#x442;&#x430;&#x431;&#x443;&#x43B;&#x438;&#x440;&#x43E;&#x432;&#x430;&#x43D;&#x438;&#x435;" target="_blank">
+                                            &#x424;&#x430;&#x439;&#x43B; &#x44D;&#x43B;&#x435;&#x43A;&#x442;&#x440;&#x43E;&#x43D;&#x43D;&#x44B;&#x445; &#x442;&#x430;&#x431;&#x43B;&#x438;&#x446;
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a id="submenu-&#x422;&#x430;&#x431;&#x43B;&#x438;&#x446;&#x44B;_&#x441;&#x43E;&#x43F;&#x43E;&#x441;&#x442;&#x430;&#x432;&#x43B;&#x435;&#x43D;&#x438;&#x44F;_&#x41C;&#x41A;&#x411;-10_&#x41C;&#x41A;&#x411;-11" href="../Downloads/mapping.zip?fileName=mapping.zip" title="" target="_blank">
+                                            &#x422;&#x430;&#x431;&#x43B;&#x438;&#x446;&#x44B; &#x441;&#x43E;&#x43F;&#x43E;&#x441;&#x442;&#x430;&#x432;&#x43B;&#x435;&#x43D;&#x438;&#x44F; &#x41C;&#x41A;&#x411;-10/&#x41C;&#x41A;&#x411;-11
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a id="submenu-&#x421;&#x43E;&#x43F;&#x440;&#x43E;&#x432;&#x43E;&#x436;&#x434;&#x435;&#x43D;&#x438;&#x435;_&#x41C;&#x41A;&#x411;-11,_&#x412;&#x43D;&#x435;&#x441;&#x435;&#x43D;&#x43D;&#x44B;&#x435;_&#x43F;&#x440;&#x435;&#x434;&#x43B;&#x43E;&#x436;&#x435;&#x43D;&#x438;&#x44F;,_&#x41F;&#x440;&#x435;&#x434;&#x43B;&#x43E;&#x436;&#x435;&#x43D;&#x438;&#x44F;" href="https://icd.who.int/dev11" title="" target="_blank">
+                                            &#x421;&#x43E;&#x43F;&#x440;&#x43E;&#x432;&#x43E;&#x436;&#x434;&#x435;&#x43D;&#x438;&#x435; &#x41C;&#x41A;&#x411;-11, &#x412;&#x43D;&#x435;&#x441;&#x435;&#x43D;&#x43D;&#x44B;&#x435; &#x43F;&#x440;&#x435;&#x434;&#x43B;&#x43E;&#x436;&#x435;&#x43D;&#x438;&#x44F;, &#x41F;&#x440;&#x435;&#x434;&#x43B;&#x43E;&#x436;&#x435;&#x43D;&#x438;&#x44F;
+                                        </a>
+
+
+
+        <span id="imagebutton_532748de-432d-419c-9a3b-ef8eec0025f6livebrowser" title="&#x41F;&#x43E;&#x43C;&#x43E;&#x449;&#x44C;" class="helpbutton helpbuttonICD11RELEASE" onclick="Helper.popupContent('532748de-432d-419c-9a3b-ef8eec0025f6livebrowser','&#x41F;&#x43E;&#x43C;&#x43E;&#x449;&#x44C;')">
+                &nbsp;
+            </span>
+    <div id="content_532748de-432d-419c-9a3b-ef8eec0025f6livebrowser" class="hiddenhelp">
+        <div class="help" autofocus="true">
+            
+
+<h3>ICD-11 Maintenance Platform</h3>
+
+<p>
+    The ICD maintenance process allows the continuous adaptation of the ICD following the evolution in the understanding of diseases, 
+    treatments, and prevention. A proposal and review mechanism on an online platform makes the process transparent.
+
+    This platform allows users see the suggested updates, make change proposals or correction suggestions.
+    In addition we provide a mechanism to contibute to the translations of ICD-11.
+
+</p>
+
+<p>
+    The browser contained in the maintenance platform (with the orange background) is mainly for the contributors of the classification development and it has the following differences
+    <ul>
+        <li>
+            It shows the current work in progress. I.e. it may contain content that is not released and may change before releasing. Therefore it should not be used for coding cases
+        </li>
+        <li>It shows the ICD-11 foundation as well as the several linearizations including the ICD-11 for mortality morbidty statistics (MMS)</li>
+        <li>It has features for facilitating contribution such as commenting and the proposal mechanism</li>
+        <li>It contains a translation tool to aid the translations</li>
+    </ul>
+
+
+        
+        </div>
+    </div>
+                                    </li>
+                                    <li>
+                                        <a id="submenu-&#x413;&#x43B;&#x430;&#x432;&#x43D;&#x430;&#x44F;_&#x441;&#x442;&#x440;&#x430;&#x43D;&#x438;&#x446;&#x430;_&#x41C;&#x41A;&#x411;" href="https://icd.who.int" title="" target="_blank">
+                                            &#x413;&#x43B;&#x430;&#x432;&#x43D;&#x430;&#x44F; &#x441;&#x442;&#x440;&#x430;&#x43D;&#x438;&#x446;&#x430; &#x41C;&#x41A;&#x411;
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a id="submenu-&#x411;&#x43E;&#x43B;&#x435;&#x435;_&#x440;&#x430;&#x43D;&#x43D;&#x438;&#x435;_&#x440;&#x435;&#x43B;&#x438;&#x437;&#x44B;_&#x438;_&#x438;&#x441;&#x442;&#x43E;&#x440;&#x438;&#x44F;_&#x43E;&#x431;&#x43D;&#x43E;&#x432;&#x43B;&#x435;&#x43D;&#x438;&#x439;" href="https://icd.who.int/browse/releases/mms" title="">
+                                            &#x411;&#x43E;&#x43B;&#x435;&#x435; &#x440;&#x430;&#x43D;&#x43D;&#x438;&#x435; &#x440;&#x435;&#x43B;&#x438;&#x437;&#x44B; &#x438; &#x438;&#x441;&#x442;&#x43E;&#x440;&#x438;&#x44F; &#x43E;&#x431;&#x43D;&#x43E;&#x432;&#x43B;&#x435;&#x43D;&#x438;&#x439;
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a id="submenu-_ICDLanguageResource_Mortality_List_" href="../Downloads/mortality-list.zip?fileName=mortality-list.zip" title="" target="_blank">
+                                            _ICDLanguageResource_Mortality_List_
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a id="submenu-_ICDLanguageResource_Morbidity_List_" href="../Downloads/morbidity-list.zip?fileName=morbidity-list.zip" title="" target="_blank">
+                                            _ICDLanguageResource_Morbidity_List_
+                                        </a>
+                                    </li>
+                    </ul>
+                </li>
+    </ul>
+
+</div>
+
+
+    <div id="langarea" class="langarea-ltr">
+        <div id="langbutton">
+            <img id="mlimg" alt="language change icon" src="../Content/globe.svg">
+            RU
+        </div>
+        <ul id="languagelist">
+                <li>
+                        <a href="/browse11/l-m/ar" class="languageswitch">
+                            <span class="selstatus"></span>
+                            Arabic
+                        </a>
+                </li>
+                <li>
+                        <a href="/browse11/l-m/en" class="languageswitch">
+                            <span class="selstatus"></span>
+                            English
+                        </a>
+                </li>
+                <li>
+                        <a href="/browse11/l-m/es" class="languageswitch">
+                            <span class="selstatus"></span>
+                            Spanish
+                        </a>
+                </li>
+                <li>
+                        <a href="/browse11/l-m/fr" class="languageswitch">
+                            <span class="selstatus"></span>
+                            French
+                        </a>
+                </li>
+                <li>
+                        <span class="languageselected">
+                            <span class="selstatus">&#x2713</span>
+                            Russian
+                        </span>
+                </li>
+                <li>
+                        <a href="/browse11/l-m/tr" class="languageswitch">
+                            <span class="selstatus"></span>
+                            Turkish
+                        </a>
+                </li>
+                <li>
+                        <a href="/browse11/l-m/zh" class="languageswitch">
+                            <span class="selstatus"></span>
+                            Chinese
+                        </a>
+                </li>
+            <hr class="secondlanguageinmenu">
+                <li>
+                    <a title="&#x41E;&#x442;&#x43A;&#x440;&#x44B;&#x442;&#x44C; &#x43A;&#x430;&#x43A; &#x432;&#x442;&#x43E;&#x440;&#x43E;&#x439; &#x44F;&#x437;&#x44B;&#x43A;" onclick="OBrowserNavigation.getInstance().setSecondLanguage('ar')" class="languageswitch">
+                        <span class="selstatus"></span>
+                        ➢ Arabic
+                    </a>
+
+                </li>
+                <li>
+                    <a title="&#x41E;&#x442;&#x43A;&#x440;&#x44B;&#x442;&#x44C; &#x43A;&#x430;&#x43A; &#x432;&#x442;&#x43E;&#x440;&#x43E;&#x439; &#x44F;&#x437;&#x44B;&#x43A;" onclick="OBrowserNavigation.getInstance().setSecondLanguage('en')" class="languageswitch">
+                        <span class="selstatus"></span>
+                        ➢ English
+                    </a>
+
+                </li>
+                <li>
+                    <a title="&#x41E;&#x442;&#x43A;&#x440;&#x44B;&#x442;&#x44C; &#x43A;&#x430;&#x43A; &#x432;&#x442;&#x43E;&#x440;&#x43E;&#x439; &#x44F;&#x437;&#x44B;&#x43A;" onclick="OBrowserNavigation.getInstance().setSecondLanguage('es')" class="languageswitch">
+                        <span class="selstatus"></span>
+                        ➢ Spanish
+                    </a>
+
+                </li>
+                <li>
+                    <a title="&#x41E;&#x442;&#x43A;&#x440;&#x44B;&#x442;&#x44C; &#x43A;&#x430;&#x43A; &#x432;&#x442;&#x43E;&#x440;&#x43E;&#x439; &#x44F;&#x437;&#x44B;&#x43A;" onclick="OBrowserNavigation.getInstance().setSecondLanguage('fr')" class="languageswitch">
+                        <span class="selstatus"></span>
+                        ➢ French
+                    </a>
+
+                </li>
+                <li>
+                    <a title="&#x41E;&#x442;&#x43A;&#x440;&#x44B;&#x442;&#x44C; &#x43A;&#x430;&#x43A; &#x432;&#x442;&#x43E;&#x440;&#x43E;&#x439; &#x44F;&#x437;&#x44B;&#x43A;" onclick="OBrowserNavigation.getInstance().setSecondLanguage('tr')" class="languageswitch">
+                        <span class="selstatus"></span>
+                        ➢ Turkish
+                    </a>
+
+                </li>
+                <li>
+                    <a title="&#x41E;&#x442;&#x43A;&#x440;&#x44B;&#x442;&#x44C; &#x43A;&#x430;&#x43A; &#x432;&#x442;&#x43E;&#x440;&#x43E;&#x439; &#x44F;&#x437;&#x44B;&#x43A;" onclick="OBrowserNavigation.getInstance().setSecondLanguage('zh')" class="languageswitch">
+                        <span class="selstatus"></span>
+                        ➢ Chinese
+                    </a>
+
+                </li>
+
+        </ul>
+
+    </div>
+    <div class="outer-center" id="xx" style="padding: 0 !important; border: 0 !important;">
+        <div class="inner-center">
+            <div class="inner2-center details" id="firstright">
+                <img id="conceptdetailswaitimg" alt="waiting" style="display: none; float: right" src='../Content/wait.gif'>
+                <div class="initialpageRight">
+                    
+                
+<h3 class="page_heading1">
+   МКБ-11 для ведения статистики смертности и заболеваемости (МКБ-11 ССЗ) <br> 
+</h3>
+
+
+
+            
+                </div>
+            </div>
+            <div class="inner2-east details" id="secondright">
+                
+                <div class="slclose">
+                    <span onclick="OBrowserNavigation.getInstance().removeSecondLanguage()" title="close">&times;</span>
+                </div>
+                <div id="secondlanguage"></div>
+            
+            </div>
+            <div class="inner2-south" id="searchResultPane" style="overflow:hidden!important;display:none">
+                
+
+<div class="tableWrapper ui-widget ui-widget-header  ui-dialog-title" style="font-size:0.75em;">
+    <table style="width:100%; table-layout:fixed">
+        <tr><td>
+     <span class="ui-dialog-title">
+         &#x420;&#x435;&#x437;&#x443;&#x43B;&#x44C;&#x442;&#x430;&#x442;&#x44B; &#x43F;&#x43E;&#x438;&#x441;&#x43A;&#x430; </span>
+         <span class="ui-icon close" style="background-position: -96px -128px; float:right;cursor:pointer" title="Close search results. (It will reopen when you make another advanced search)">close</span>
+          </td></tr>
+
+        </table>
+     </div>
+<img class="searchresultwaitimg" alt="waiting" src='../Content/waitbig.gif'>
+
+<div class="searchResultDiv data tableWrapper" style="position:relative;height:100%;">
+    <div class="innerWrapper">
+        <table style="width:100%; table-layout:fixed">
+
+        </table>
+    </div>
+</div>
+
+ 
+            </div>
+        </div>
+        <div class="inner-west details">
+            
+            
+        </div>
+    </div>
+
+    <div class="outer-west details ltr">
+        
+                
+
+<div id="mainhiearchydiv">
+<div class='topicons2'>    
+    <div class="fx">
+                 <span id="fchld" class="sidebutton" alt='&#x41F;&#x435;&#x440;&#x435;&#x43A;&#x43B;&#x44E;&#x447;&#x430;&#x442;&#x44C; &#x43E;&#x442;&#x43E;&#x431;&#x440;&#x430;&#x436;&#x435;&#x43D;&#x438;&#x435; &#x434;&#x43E;&#x447;&#x435;&#x440;&#x43D;&#x438;&#x445; &#x437;&#x430;&#x43F;&#x438;&#x441;&#x435;&#x439; &#x411;&#x430;&#x437;&#x43E;&#x432;&#x43E;&#x433;&#x43E; &#x43A;&#x43E;&#x43C;&#x43F;&#x43E;&#x43D;&#x435;&#x43D;&#x442;&#x430;, &#x440;&#x430;&#x441;&#x43F;&#x43E;&#x43B;&#x43E;&#x436;&#x435;&#x43D;&#x43D;&#x44B;&#x445; &#x432; &#x434;&#x440;&#x443;&#x433;&#x438;&#x445; &#x440;&#x430;&#x437;&#x434;&#x435;&#x43B;&#x430;&#x445; &#x43A;&#x43B;&#x430;&#x441;&#x441;&#x438;&#x444;&#x438;&#x43A;&#x430;&#x446;&#x438;&#x438; (&#x441;&#x435;&#x440;&#x44B;&#x435; &#x434;&#x43E;&#x447;&#x435;&#x440;&#x43D;&#x438;&#x435; &#x437;&#x430;&#x43F;&#x438;&#x441;&#x438;)' title='&#x41F;&#x435;&#x440;&#x435;&#x43A;&#x43B;&#x44E;&#x447;&#x430;&#x442;&#x44C; &#x43E;&#x442;&#x43E;&#x431;&#x440;&#x430;&#x436;&#x435;&#x43D;&#x438;&#x435; &#x434;&#x43E;&#x447;&#x435;&#x440;&#x43D;&#x438;&#x445; &#x437;&#x430;&#x43F;&#x438;&#x441;&#x435;&#x439; &#x411;&#x430;&#x437;&#x43E;&#x432;&#x43E;&#x433;&#x43E; &#x43A;&#x43E;&#x43C;&#x43F;&#x43E;&#x43D;&#x435;&#x43D;&#x442;&#x430;, &#x440;&#x430;&#x441;&#x43F;&#x43E;&#x43B;&#x43E;&#x436;&#x435;&#x43D;&#x43D;&#x44B;&#x445; &#x432; &#x434;&#x440;&#x443;&#x433;&#x438;&#x445; &#x440;&#x430;&#x437;&#x434;&#x435;&#x43B;&#x430;&#x445; &#x43A;&#x43B;&#x430;&#x441;&#x441;&#x438;&#x444;&#x438;&#x43A;&#x430;&#x446;&#x438;&#x438; (&#x441;&#x435;&#x440;&#x44B;&#x435; &#x434;&#x43E;&#x447;&#x435;&#x440;&#x43D;&#x438;&#x435; &#x437;&#x430;&#x43F;&#x438;&#x441;&#x438;)' onclick="OBrowserNavigation.getInstance().toggleAdoptedChildren()"></span>
+        
+
+        <img class="sidebutton" alt='&#x441;&#x432;&#x435;&#x440;&#x43D;&#x443;&#x442;&#x44C; &#x432;&#x441;&#x435; &#x443;&#x437;&#x43B;&#x44B;' title='&#x441;&#x432;&#x435;&#x440;&#x43D;&#x443;&#x442;&#x44C; &#x432;&#x441;&#x435; &#x443;&#x437;&#x43B;&#x44B;' src="../Content/collapse.png" onclick="OBrowserNavigation.getInstance().theHierarchy.collapseTree()">
+
+    </div>
+
+</div>
+    <div id="hierarchy" class="ygtv-highlight ">
+    </div>
+
+</div>
+
+
+            
+    </div>
+
+</body>
+</html>
+
+
