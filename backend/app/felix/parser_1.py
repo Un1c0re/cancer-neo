@@ -15,16 +15,10 @@ soup = BeautifulSoup(html_content, 'html.parser')
 root_div = soup.find('div', {'class': 'ygtvchildren', 'id': 'ygtvc1'})
 # print(root_div)
 # Находим все вложенные div с классом ygtvitem
-items = root_div.find_all('div', class_='ygtvitem')
-print(items)
+items = root_div.find_all('a', class_='ygtvlabel')
+# print(items)
 
 # Извлекаем информацию из каждого элемента
 for item in items:
-    # Находим внутренний div с текстовой информацией
-    text_div = item.find('div', class_='ygtvcontent')
-    if text_div:
-        # Извлекаем текст, удаляя лишние пробелы
-        text = text_div.get_text(strip=True)
-        # Дополнительно обрабатываем текст, если это необходимо
-        text = text.replace('\n', ' ').replace('\r', ' ').strip()
-        print(text)
+    text = item.get_text(strip=True)
+    print(text)
