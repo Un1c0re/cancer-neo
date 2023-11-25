@@ -20,42 +20,39 @@ def parse_file(file_path):
     # Ищем все элементы списка условий
     for li in soup.find_all('li'):
         code_span = li.find('span', class_="")
-        print(code_span)
         title_span = li.find('span', class_="titlelabel")
-        print(title_span)
         
         if code_span and title_span:
             code = code_span.get_text(strip=True)
-            print(code)
             title = title_span.get_text(strip=True)
-            print(title)
             results.append({'code': code, 'title': title})
 
     return results
 
-# Получаем содержимое веб-страницы
-html_content = parser("панкреатит")
+# Функция для обработки пользовательского запроса
+def process_user_query(query):
+    # Получаем содержимое веб-страницы
+    html_content = parser(query)
+    
+    if html_content:
+        soup = BeautifulSoup(html_content, 'html.parser')
+    
+        # Записываем содержимое soup в файл
+        file_name = f"output_{query}.html"
+        with open(file_name, 'w', encoding='utf-8') as file:
+            file.write(str(soup))
 
-if html_content:
-    soup = BeautifulSoup(html_content, 'html.parser')
+        print(f"Содержимое soup было записано в файл '{file_name}'")
 
-    # Записываем содержимое soup в файл
-    with open('index1_1.html', 'w', encoding='utf-8') as file:
-        file.write(str(soup))
+        # Обработка сохраненных данных из файла
+        parsed_data = parse_file(file_name)
+        for data in parsed_data:
+            print(f"Номер: {data['code']}, Название: {data['title']}")
+        print(f"!!!-----------------------------!!!\n      Все данные были обработаны.")
+    else:
+        print(f"Не получилось найти данные по запросу '{query}'.")
 
-    print("Содержимое soup было записано в файл 'index1_1.html'")
-
-    # Обработка данных непосредственно из HTML-ответа
-    root_div = soup.find('div', {'class': 'ygtvchildren', 'id': 'ygtvc1'})
-    if root_div:
-        labels = root_div.find_all('a', class_='ygtvlabel')
-        for label in labels:
-            text = label.get_text(strip=True)
-            print(text)
-else:
-    print("Не получилось найти данные.")
-
-# Обработка сохраненных данных из файла
-parsed_data = parse_file('index1_1.html')
-for data in parsed_data:
-    print(f"Номер: {data['code']}, Название: {data['title']}")
+# Запрашиваем ввод пользователя
+user_input = input("Введите диагноз для поиска: ")
+print('---------------------------------------------')
+process_user_query(user_input)
