@@ -1322,6 +1322,7 @@ const PatientPage = () => {
                                     }}
                                 />
                             </div>
+                            
                         </div>
                         <div className="bg-white shadow flex-col justify-start items-start flex">
                             <div className="self-stretch h-[100px] p-2.5 bg-orange-300 justify-center items-center gap-2.5 inline-flex">
