@@ -1,7 +1,7 @@
-import 'package:diplom/backend/requests/get_patient.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../backend/requests/get_patient.dart';
 import '../../Theme/app_style.dart';
 import '../../Theme/constants.dart';
 import '../../screens/home/home_screen.dart';

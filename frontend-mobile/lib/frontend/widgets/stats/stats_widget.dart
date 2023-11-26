@@ -1,9 +1,9 @@
 import 'dart:math';
 
-import 'package:diplom/backend/requests/post_symptoms.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../backend/requests/post_symptoms.dart';
 import '../../Theme/app_style.dart';
 
 class SymptomsData {

@@ -1,11 +1,12 @@
-import 'package:diplom/frontend/Theme/app_style.dart';
-import 'package:diplom/backend/repositories/auth_repository.dart';
-import 'package:diplom/frontend/Theme/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'backend/repositories/auth_repository.dart';
 import 'firebase_options.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+import 'frontend/Theme/app_style.dart';
+import 'frontend/Theme/constants.dart';
 
 Future<void> main() async {
   // await dotenv.load(fileName: '.env');

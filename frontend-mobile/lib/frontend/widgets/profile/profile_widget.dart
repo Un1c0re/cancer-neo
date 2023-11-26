@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:diplom/frontend/screens/auth/auth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,6 +8,7 @@ import '../../../backend/repositories/user_repository.dart';
 import '../../Theme/app_style.dart';
 import '../../Theme/constants.dart';
 import '../../Theme/navbar_icons.dart';
+import '../../screens/auth/auth_screen.dart';
 import '../../screens/edit/edit_profile_screen.dart';
 
 class SettingsWidget extends StatefulWidget {

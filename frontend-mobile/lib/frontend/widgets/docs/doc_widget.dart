@@ -149,6 +149,7 @@ class _DocMiniature extends StatelessWidget {
         maxHeight: 70,
         maxWidth: 70,
       ),
+      
       child: Stack(
         children: [
           const AppStyleCard (

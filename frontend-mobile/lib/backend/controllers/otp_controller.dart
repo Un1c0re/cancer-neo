@@ -1,6 +1,7 @@
-import 'package:diplom/backend/repositories/auth_repository.dart';
-import 'package:diplom/frontend/screens/home/home_screen.dart';
 import 'package:get/get.dart';
+
+import '../../frontend/screens/home/home_screen.dart';
+import '../repositories/auth_repository.dart';
 
 class OTPController extends GetxController {
   static OTPController get instance => Get.find();
