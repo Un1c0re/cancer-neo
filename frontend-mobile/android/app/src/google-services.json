@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1078531888246",
+    "project_id": "flutter-mobile-app-232c8",
+    "storage_bucket": "flutter-mobile-app-232c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1078531888246:android:7fc70b3b81721f1529fb57",
+        "android_client_info": {
+          "package_name": "com.example.diplom"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGrKYWK5nQ2B0xPAubA4RiGWvRCtY0Gjk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
