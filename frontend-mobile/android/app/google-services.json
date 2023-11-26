@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "832081818236",
+    "firebase_url": "https://flutter-mobile-app-e54fe-default-rtdb.firebaseio.com",
+    "project_id": "flutter-mobile-app-e54fe",
+    "storage_bucket": "flutter-mobile-app-e54fe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832081818236:android:8d16cb290311ad1b4bcff9",
+        "android_client_info": {
+          "package_name": "com.example.diplom"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHCOiNxcl_KZbSaKcLI6BiVI43s5d3Niw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
