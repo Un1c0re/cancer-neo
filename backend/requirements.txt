@@ -1,0 +1,12 @@
+pyOpenSSL>=23.2.0
+fastapi
+pydantic
+uvicorn
+python-jose[cryptography]
+bcrypt
+python-dotenv
+peewee
+pandas
+reportlab
+docx
+openpyxl
