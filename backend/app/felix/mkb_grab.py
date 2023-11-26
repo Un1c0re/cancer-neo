@@ -37,7 +37,6 @@ def parser(diagnos):
 
 # Функция для обработки пользовательского запроса
 def process_user_query(query):
-    # Получаем содержимое веб-страницы
     html_content = parser(query)
 
     all_results = []  # Создаем пустой список для результатов
@@ -49,30 +48,13 @@ def process_user_query(query):
         with open(file_name, "w", encoding="utf-8") as file:
             file.write(str(soup))
 
-        print(f"Содержимое soup было записано в файл '{file_name}'")
 
         # Обработка сохраненных данных из файла
         parsed_data = parse_file(file_name)
         for data in parsed_data:
-            # print(f"Номер: {data['code']}, Название: {data['title']}")
             all_results.append(data)  # Добавляем данные в список
-            # for i in all_results:
-            #     print(i)
 
-        # Записываем результаты из all_results в текстовый файл
-        with open(f"results_{query}.txt", "w", encoding="utf-8") as file:
-            for item in all_results:
-                file.write(f"Номер: {item['code']}, Название: {item['title']}\n")
-
-        print("Результаты были записаны в файл.")
         return all_results  # !Возвращаем список результатов
     else:
-        print(f"Не получилось найти данные по запросу '{query}'.")
         return []
 
-
-# Запрашиваем ввод пользователя
-# user_input = input("Введите диагноз для поиска: ") #!получаемое слово для поиска
-user_input = input("Введите диагноз для поиска: ")  #!получаемое слово для поиска
-print("---------------------------------------------")
-process_user_query(user_input)
