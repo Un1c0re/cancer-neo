@@ -2,8 +2,6 @@ import 'package:diplom/frontend/Theme/app_colors.dart';
 import 'package:diplom/frontend/Theme/app_style.dart';
 import 'package:diplom/frontend/Theme/app_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-
 
 class StatsWidget extends StatefulWidget {
   const StatsWidget({super.key});
@@ -38,7 +36,7 @@ class _StatsWidgetState extends State<StatsWidget> {
         children: [
           ConstrainedBox(
           constraints: const BoxConstraints(
-            maxHeight: 40,
+            maxHeight: 50,
             maxWidth: 150,
           ),
           child: Row(
@@ -47,7 +45,18 @@ class _StatsWidgetState extends State<StatsWidget> {
                 child: OutlinedButton(
                   style: AppButtonStyle.dateButton,
                   onPressed: () => _selectDate(context),
-                  child: const Icon(Icons.calendar_today_outlined),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.calendar_today_outlined),
+                      Text(selectedDate.toIso8601String().substring(0, 10), 
+                        style: const TextStyle(
+                          fontSize: 18
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

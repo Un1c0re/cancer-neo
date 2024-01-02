@@ -120,10 +120,10 @@ class _DocDataWidgetState extends State<_DocDataWidget> {
   void initState() {
     _pickedDateTime = DateTime.now();
 
-    nameController = widget.nameController;
-    birthController = widget.birthController;
+    nameController    = widget.nameController;
+    birthController   = widget.birthController;
     diseaseController = widget.diseaseController;
-    phoneController = widget.phoneController;
+    phoneController   = widget.phoneController;
     super.initState();
   }
 

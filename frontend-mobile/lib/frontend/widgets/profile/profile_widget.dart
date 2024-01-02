@@ -70,12 +70,12 @@ class _ProfileCard extends StatefulWidget {
 }
 
 class _ProfileCardState extends State<_ProfileCard> {
-  final userRepo = Get.put(UserRepository());
-  String userName = 'Тестов Тест Тестович';
-  String birthdate = '01.01.20001';
-  String disease = '01.01.20001';
-  String phone = '+79991112233';
-  String doctor = 'Врачев Врач Врачович';
+  final userRepo    = Get.put(UserRepository());
+  String userName   = 'Тестов Тест Тестович';
+  String birthdate  = '01.01.20001';
+  String disease    = '01.01.20001';
+  String phone      = '+79991112233';
+  String doctor     = 'Врачев Врач Врачович';
 
   late bool _isUserLoggedIn;
   bool isDataFetched = false;

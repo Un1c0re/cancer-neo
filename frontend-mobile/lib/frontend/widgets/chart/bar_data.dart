@@ -1,44 +1,91 @@
-class UserBar {
+class SymptomeData {
+  final List<double> values;
+  final String name;
+  final bool isBoolean;
 
-  final int x;
-  final double y;
-
-  const UserBar({
-    required this.x,
-    required this.y,
+  SymptomeData({
+    required this.isBoolean,
+    required this.values,
+    required this.name,
   });
 }
 
-class BarData {
-  final double day1Amount;
-  final double day2Amount;
-  final double day3Amount;
-  final double day4Amount;
-  final double day5Amount;
-  final double day6Amount;
-  final double day7Amount;
 
-  BarData({
-    required this.day1Amount,
-    required this.day2Amount,
-    required this.day3Amount,
-    required this.day4Amount,
-    required this.day5Amount,
-    required this.day6Amount,
-    required this.day7Amount,
-  });
-
-  List<UserBar> barData = [];
+class SymptomeBarData {
+  List<SymptomeData> symptomeData = [];
 
   void initializeData() {
-    barData = [
-      UserBar(x: 0, y: day1Amount),
-      UserBar(x: 1, y: day2Amount),
-      UserBar(x: 2, y: day3Amount),
-      UserBar(x: 3, y: day4Amount),
-      UserBar(x: 4, y: day5Amount),
-      UserBar(x: 5, y: day6Amount),
-      UserBar(x: 6, y: day7Amount),
+    symptomeData = [
+    SymptomeData(
+        values: [0, 1, 0, 2, 2, 1, 0],
+        name: 'Слабость, утомляемость',
+        isBoolean: false),
+    SymptomeData(
+        values: [1, 1, 2, 0, 3, 3, 1],
+        name: 'Болевой синдром',
+        isBoolean: false),
+    SymptomeData(
+        values: [0, 1, 0, 1, 2, 1, 3],
+        name: 'Депрессия, тревога',
+        isBoolean: false),
+    SymptomeData(
+        values: [2, 3, 1, 1, 1, 1, 0],
+        name: 'Мигрень',
+        isBoolean: false),
+    SymptomeData(
+        values: [0, 1, 0, 1, 0, 0, 1], 
+        name: 'Рвота', 
+        isBoolean: true),
+    SymptomeData(
+        values: [0, 1, 0, 1, 0, 0, 1],
+        name: 'Уменьшение диуреза',
+        isBoolean: true),
+    SymptomeData(
+        values: [1, 1, 1, 0, 1, 1, 1],
+        name: 'Ухудшение памяти',
+        isBoolean: true),
+    SymptomeData(
+        values: [0, 1, 0, 1, 1, 1, 0],
+        name: 'Нарушение моторных функций',
+        isBoolean: true),
+    SymptomeData(
+        values: [1, 0, 0, 0, 0, 1, 0], name: 'Хрипы', isBoolean: true),
+    SymptomeData(
+        values: [1, 0, 0, 0, 0, 1, 0],
+        name: 'Бронхоспазм',
+        isBoolean: true),
+    SymptomeData(
+        values: [1, 0, 0, 0, 0, 1, 0],
+        name: 'Боль в левой части грудной клетки',
+        isBoolean: true),
+    SymptomeData(
+        values: [1, 0, 0, 0, 0, 1, 0],
+        name: 'Аритмия',
+        isBoolean: true),
+    SymptomeData(
+        values: [1, 0, 0, 0, 0, 1, 0],
+        name: 'Спутанность сознания (химический мозг)',
+        isBoolean: true),
+    SymptomeData(
+        values: [1, 0, 0, 0, 0, 1, 0],
+        name: 'Спутанность сознания (прилив жара к верхней части туловища)',
+        isBoolean: true),
+    SymptomeData(
+        values: [1, 0, 0, 0, 0, 1, 0],
+        name: 'Нейродермит (сыпь, зуд)',
+        isBoolean: true),
+    SymptomeData(
+        values: [1, 0, 0, 0, 0, 1, 0],
+        name: 'Стоматит',
+        isBoolean: true),
+    SymptomeData(
+        values: [1, 0, 0, 0, 0, 1, 0],
+        name: 'Невропатия руки',
+        isBoolean: true),
+    SymptomeData(
+        values: [1, 0, 0, 0, 0, 1, 0],
+        name: 'Невропатия ноги',
+        isBoolean: true),
     ];
   }
 }
