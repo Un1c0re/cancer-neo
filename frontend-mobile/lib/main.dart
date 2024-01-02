@@ -1,24 +1,23 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'package:diplom/frontend/Theme/app_colors.dart';
+import 'package:diplom/frontend/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'backend/repositories/auth_repository.dart';
-import 'firebase_options.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'frontend/Theme/app_style.dart';
 import 'frontend/Theme/constants.dart';
 
-Future<void> main() async {
+void main() {
   // await dotenv.load(fileName: '.env');
 
   WidgetsFlutterBinding.ensureInitialized();
-  
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-).then((value) => Get.put(AuthRepository()));
-	
+
   runApp(
     GetMaterialApp(
+      initialRoute: '/', // Указываем начальный маршрут
+      getPages: [
+        GetPage(name: '/', page: () => MyApp()), // Сопоставляем начальный маршрут с вашим MyApp
+        // Другие страницы
+      ],
       theme: ThemeData(
         useMaterial3: true,
         scaffoldBackgroundColor: AppColors.backgroundColor,
@@ -28,19 +27,10 @@ Future<void> main() async {
         ),
         fontFamily: 'Jost',
       ),
-      home: const MyApp(),
     ));
 }
 
-
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DeviceScreenConstants.init(context);
@@ -55,6 +45,7 @@ class _MyAppState extends State<MyApp> {
         ),
         fontFamily: 'Jost',
       ),
+      home: HomeScreen(), // Замените YourHomePage на вашу домашнюю страницу
     );
   }
 }

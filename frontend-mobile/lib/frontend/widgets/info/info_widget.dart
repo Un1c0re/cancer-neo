@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:diplom/frontend/Theme/app_colors.dart';
+import 'package:diplom/frontend/Theme/app_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -107,20 +109,7 @@ class _InfoWigetState extends State<InfoWiget> {
             subLabel: infoData[index].subLabel,
             articles: infoData[index].article,
           ),
-          // child: _InfoSpaceWidget(
-          //   cardColor: Color.fromRGBO(
-          //     min + Random().nextInt(diff),
-          //     min + Random().nextInt(diff),
-          //     min + Random().nextInt(diff),
-          //     1,
-          //   ),
-          //   textColor: Color.fromRGBO(
-          //     Random().nextInt(diff),
-          //     Random().nextInt(diff),
-          //     Random().nextInt(diff),
-          //     1,
-          //   ),
-          // ),
+
         );
       },
     );
@@ -164,13 +153,13 @@ class _InfoSpaceWidget extends StatelessWidget {
         ),
         const SizedBox(height: 15),
         SizedBox(
-          height: 100,
+          height: 110,
           child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: articles.length,
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 5),
                   child: _InfoCardWidget(
                     title: articles[index],
                     textColor: textColor,
@@ -204,7 +193,7 @@ class _InfoCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints(
-        maxHeight: 100,
+        maxHeight: 110,
         maxWidth: 150,
       ),
       child: Stack(

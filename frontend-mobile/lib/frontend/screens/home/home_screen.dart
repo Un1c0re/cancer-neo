@@ -1,8 +1,8 @@
+import 'package:diplom/frontend/Theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import '../../Theme/app_style_icons.dart';
 import '../../widgets/chart/chart_widget.dart';
 import '../../widgets/docs/docs_list_widget.dart';
-import '../../Theme/app_style.dart';
 import '../../widgets/info/info_widget.dart';
 import '../../widgets/profile/profile_widget.dart';
 import '../../widgets/stats/stats_widget.dart';

@@ -1,3 +1,5 @@
+import 'package:diplom/frontend/Theme/app_colors.dart';
+import 'package:diplom/frontend/Theme/app_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -52,15 +54,9 @@ class _DocsListWidgetState extends State<DocsListWidget> {
   ];
 
   var _filteredData     = <DocsRowData>[];
-  bool _favButtonActive = false;
   
   final DateRangePickerController _pickerController = DateRangePickerController();
   PickerDateRange? _selectedRange;
-
-  void _switchFavButton() {
-    _favButtonActive = !_favButtonActive;
-    setState(() {});
-  }
 
   void _addDocOrDiary() {
     Get.to(()=> const AddDocScreen());
@@ -155,31 +151,24 @@ class _DocsListWidgetState extends State<DocsListWidget> {
       children: [
         ConstrainedBox(
           constraints: const BoxConstraints(
-            maxHeight: 50,
+            maxHeight: 40,
+            maxWidth: 150,
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ElevatedButton(
-                style: AppButtonStyle.dateButton,
-                onPressed: () => _showCalendar(context),
-                child: const Icon(Icons.calendar_today_outlined),
-              ),
-        
-              ElevatedButton(
-                style: _favButtonActive
-                    ? AppButtonStyle.activeFavButton
-                    : AppButtonStyle.inactiveFavButton,
-                onPressed: _switchFavButton,
-                child: const Icon(Icons.favorite_outline),
+              Expanded(
+                child: OutlinedButton(
+                  style: AppButtonStyle.dateButton,
+                  onPressed: () => _showCalendar(context),
+                  child: const Icon(Icons.calendar_today_outlined),
+                ),
               ),
             ],
           ),
         ),
 
         SizedBox(
-          height: DeviceScreenConstants.screenHeight * 0.55,
+          height: DeviceScreenConstants.screenHeight * 0.65,
           child: _filteredData.isNotEmpty
             ? ListView.builder(
                 itemCount: _filteredData.length,
@@ -207,8 +196,8 @@ class _DocsListWidgetState extends State<DocsListWidget> {
 
         ConstrainedBox(
           constraints: const BoxConstraints(
-            maxHeight: 50,
-            maxWidth: 250,
+            maxHeight: 45,
+            maxWidth: 300,
           ),
           child: Center(
             child: ElevatedButton(

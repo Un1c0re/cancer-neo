@@ -1,10 +1,12 @@
+import 'package:diplom/frontend/Theme/app_colors.dart';
+import 'package:diplom/frontend/Theme/app_widgets.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import '../../Theme/app_style.dart';
 
 class ChartWidget extends StatefulWidget {
   final Color leftBarColor = AppColors.activeColor;
-  final Color rightBarColor = AppColors.favouriteColor;
+  final Color rightBarColor = AppColors.redColor;
 
   const ChartWidget({super.key});
   @override

@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:diplom/frontend/Theme/app_colors.dart';
+import 'package:diplom/frontend/Theme/app_widgets.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
