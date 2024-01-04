@@ -16,18 +16,18 @@ class _StatsWidgetState extends State<StatsWidget> {
   DateTime selectedDate = DateTime.now();
   
   Future<void> _selectDate(BuildContext context) async {
-  final DateTime? picked = await showDatePicker(
-    context: context,
-    initialDate: selectedDate,
-    firstDate: DateTime(2020),
-    lastDate: DateTime(2025),
-  );
-  if (picked != null && picked != selectedDate) {
-    setState(() {
-      selectedDate = picked;
-    });
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
