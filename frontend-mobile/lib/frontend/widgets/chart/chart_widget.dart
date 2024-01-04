@@ -73,34 +73,19 @@ Widget bottomTitles(double value, TitleMeta meta) {
 
   switch (value.toInt()) {
     case 0:
-      date = DateTime.now()
-          .subtract(const Duration(days: 30))
-          .toString()
-          .substring(8, 10);
+      date = '01';
       break;
     case 7:
-      date = DateTime.now()
-          .subtract(const Duration(days: 23))
-          .toString()
-          .substring(8, 10);
+      date = '08';
       break;
-    case 14:
-      date = DateTime.now()
-          .subtract(const Duration(days: 16))
-          .toString()
-          .substring(8, 10);
+    case 15:
+      date = '15';
       break;
-    case 21:
-      date = DateTime.now()
-          .subtract(const Duration(days: 9))
-          .toString()
-          .substring(8, 10);
+    case 22:
+      date = '22';
       break;
-    case 28:
-      date = DateTime.now()
-          .subtract(const Duration(days: 2))
-          .toString()
-          .substring(8, 10);
+    case 29:
+      date = '29';
       break;
     default:
       date = '';
@@ -263,6 +248,7 @@ class _ChartWidgetState extends State<ChartWidget> {
 
       roundedCornersRadius: 10,
       dismissible: true,
+      animationMilliseconds: 300,
 
       cancelWidget: const Text('Отмена', 
         style: TextStyle(
@@ -360,9 +346,17 @@ class _ChartWidgetState extends State<ChartWidget> {
         ),
         SizedBox(height: 25),
         ElevatedButton(
-          style: AppButtonStyle.filledRoundedButton,
+        
+          style: AppButtonStyle.basicButton.copyWith(
+            padding: const MaterialStatePropertyAll(
+              EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
+          ),
           onPressed: () {},
-          child: const Text('Экспорт отчета за месяц'),
+          child: const Text('Экспорт отчета за месяц',
+            style: TextStyle(
+              fontSize: 20
+            ),
+          ),
         ),
       ]),
     );
