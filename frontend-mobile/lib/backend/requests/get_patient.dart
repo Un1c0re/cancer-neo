@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import '../../frontend/screens/edit/edit_profile_screen.dart';
+import '../../frontend/screens/profile/edit_profile_screen.dart';
 import '../../frontend/screens/home/home_screen.dart';
 import '../repositories/user_repository.dart';
 

@@ -299,11 +299,12 @@ class _ChartWidgetState extends State<ChartWidget> {
             maxHeight: 50,
           ),
           child: OutlinedButton(
-            style: AppButtonStyle.dateButton,
+            style: AppButtonStyle.dateButton.copyWith(
+              foregroundColor: const MaterialStatePropertyAll(AppColors.activeColor),
+            ),
             onPressed: () => _selectMonthYear(context),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Icon(Icons.calendar_today_outlined),
                 Text(
@@ -314,7 +315,7 @@ class _ChartWidgetState extends State<ChartWidget> {
             ),
           ),
         ),
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

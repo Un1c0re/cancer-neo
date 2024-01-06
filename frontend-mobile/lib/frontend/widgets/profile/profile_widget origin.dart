@@ -11,7 +11,7 @@ import '../../Theme/app_style.dart';
 import '../../Theme/constants.dart';
 import '../../Theme/navbar_icons.dart';
 import '../../screens/auth/auth_screen.dart';
-import '../../screens/edit/edit_profile_screen.dart';
+import '../../screens/profile/edit_profile_screen.dart';
 
 class SettingsWidget extends StatefulWidget {
   const SettingsWidget({super.key});

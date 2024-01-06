@@ -8,6 +8,7 @@ import '../../Theme/app_style.dart';
 import '../../Theme/constants.dart';
 import '../../screens/doc/add_doc_screen.dart';
 import '../../screens/doc/doc_screen.dart';
+ 
 
 class DocsRowData {
   final IconData icon;
@@ -17,6 +18,9 @@ class DocsRowData {
   DocsRowData(this.icon, this.label, this.datetime);
 }
 
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
 class DocsListWidget extends StatefulWidget {
   const DocsListWidget({super.key});
@@ -101,24 +105,22 @@ class _DocsListWidgetState extends State<DocsListWidget> {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
           child: Container(
             padding: const EdgeInsets.all(10),
             height: 400,
             width: 400,
             child: Theme(
               data: ThemeData(
-                useMaterial3: true,
-                colorScheme: const ColorScheme.light(
-                  brightness: Brightness.light,
-                  primary: AppColors.activeColor,
-                  onPrimary: Colors.white,
-                  secondary: AppColors.secondaryColor,
-                  onSecondary: Colors.white,
-                  error: Colors.red,
-                  onError: Colors.white,
-                )
               ),
               child: SfDateRangePicker(
+                selectionColor: AppColors.activeColor,
+                startRangeSelectionColor: AppColors.activeColor,
+                endRangeSelectionColor: AppColors.activeColor,
+
+                confirmText: 'Подтвердить',
+                cancelText: 'Отменить',
                 view: DateRangePickerView.month,
                 controller: _pickerController,
                 selectionMode: DateRangePickerSelectionMode.range,
@@ -128,7 +130,7 @@ class _DocsListWidgetState extends State<DocsListWidget> {
                   _setList(),
                   Navigator.of(context).pop()
                 },
-
+            
                 onSubmit: (dates) => {
                   _setList(),
                   setState(() {}),
@@ -151,21 +153,39 @@ class _DocsListWidgetState extends State<DocsListWidget> {
       children: [
         ConstrainedBox(
           constraints: const BoxConstraints(
-            maxHeight: 40,
-            maxWidth: 150,
+            maxHeight: 50,
+            maxWidth: 250,
           ),
           child: Row(
             children: [
               Expanded(
-                child: OutlinedButton(
-                  style: AppButtonStyle.dateButton,
+                child: TextButton(
+                  style: ButtonStyle(
+                    foregroundColor: const MaterialStatePropertyAll(AppColors.activeColor),
+                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                          side: const BorderSide(
+                            style: BorderStyle.solid,
+                            color: AppColors.activeColor,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                    ),
+                  ),
                   onPressed: () => _showCalendar(context),
-                  child: const Icon(Icons.calendar_today_outlined),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Icon(Icons.calendar_today_outlined),
+                      Text('Отфильтровать по дате', style: TextStyle(fontSize: 18),),
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
         ),
+
 
         SizedBox(
           height: DeviceScreenConstants.screenHeight * 0.65,
@@ -222,6 +242,9 @@ class _DocsListWidgetState extends State<DocsListWidget> {
   }
 }
 
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
 class _DocsWidgetRow extends StatelessWidget {
   final DocsRowData data;

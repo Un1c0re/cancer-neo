@@ -1,5 +1,7 @@
 import 'package:diplom/frontend/Theme/app_colors.dart';
 import 'package:diplom/frontend/Theme/app_widgets.dart';
+import 'package:diplom/frontend/screens/medkit/medkit_screen.dart';
+import 'package:diplom/frontend/screens/profile/community_sreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -41,19 +43,24 @@ class _SettingsWidgetState extends State<SettingsWidget> {
 class SettingsButtonsData {
   final IconData icon;
   final String label;
+  final dynamic dest;
 
-  SettingsButtonsData(this.icon, this.label);
+  SettingsButtonsData(this.icon, this.label, this.dest);
 }
 
 class _SettingsButtons extends StatelessWidget {
   _SettingsButtons();
 
   final List<SettingsButtonsData> data = [
-    SettingsButtonsData(MyFlutterApp.pills, 'Аптечка'),
-    SettingsButtonsData(Icons.people_alt_outlined, 'Сообщества'),
-    SettingsButtonsData(Icons.phone_rounded, 'Горячая линия поддержки'),
-    SettingsButtonsData(Icons.help_outline_rounded, 'Помощь'),
+    SettingsButtonsData(MyFlutterApp.pills, 'Аптечка', () => Get.to(() => const MedKitScreen())),
+    SettingsButtonsData(Icons.people_alt_outlined, 'Сообщества', () => Get.to(() => const CommunityScreen())),
+    SettingsButtonsData(Icons.phone_rounded, 'Горячая линия поддержки', () {}),
+    SettingsButtonsData(Icons.help_outline_rounded, 'Помощь', ()),
   ];
+
+  void _getToPage(page) {
+    page();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +93,7 @@ class _SettingsButtons extends StatelessWidget {
                       Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () => content.dest(),
                           overlayColor: const MaterialStatePropertyAll(
                               AppColors.overlayColor),
                           splashColor: AppColors.splashColor,

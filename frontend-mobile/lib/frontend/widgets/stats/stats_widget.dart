@@ -16,18 +16,32 @@ class _StatsWidgetState extends State<StatsWidget> {
   DateTime selectedDate = DateTime.now();
   
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2025),
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: selectedDate,
+    firstDate: DateTime(2020),
+    lastDate: DateTime(2025),
+
+    cancelText: 'Отменить',
+    confirmText: 'Подтвердить',
+    builder: (BuildContext context, Widget? child) {
+      return Theme(
+        data: ThemeData.light().copyWith(
+          useMaterial3: true,
+          primaryColor: AppColors.primaryColor, // Цвет выбранной даты
+          colorScheme: const ColorScheme.light(primary: AppColors.primaryColor), // Цветовая схема
+          buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary), // Тема кнопок
+        ),
+        child: child!,
+      );
+    },
+  );
+  if (picked != null && picked != selectedDate) {
+    setState(() {
+      selectedDate = picked;
+    });
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +57,16 @@ class _StatsWidgetState extends State<StatsWidget> {
             children: [
               Expanded(
                 child: OutlinedButton(
-                  style: AppButtonStyle.dateButton,
+                  style: AppButtonStyle.dateButton.copyWith(
+                    foregroundColor: const MaterialStatePropertyAll(AppColors.activeColor),
+                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                      side: const BorderSide(
+                        color: AppColors.activeColor,
+                        style: BorderStyle.solid,
+                      ),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ))
+                  ),
                   onPressed: () => _selectDate(context),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,

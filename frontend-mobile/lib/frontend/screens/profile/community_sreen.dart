@@ -1,19 +1,20 @@
-import 'package:diplom/frontend/widgets/medkit/medkit_widget.dart';
+import 'package:diplom/frontend/widgets/profile/community_widget.dart';
 import 'package:flutter/material.dart';
 
-class MedKitScreen extends StatefulWidget {
-  const MedKitScreen({super.key});
+
+class CommunityScreen extends StatefulWidget {
+  const CommunityScreen({super.key});
 
   @override
-  State<MedKitScreen> createState() => _MedkitScreenState();
+  State<CommunityScreen> createState() => _CommunityScreenState();
 }
 
-class _MedkitScreenState extends State<MedKitScreen> {
+class _CommunityScreenState extends State<CommunityScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Аптечка'),
+        title: const Text('Сообщества'),
         centerTitle: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -24,7 +25,7 @@ class _MedkitScreenState extends State<MedKitScreen> {
       ),
       body: const Padding(
         padding: EdgeInsets.all(10),
-        child: MedKitWidget(),
+        child: CommunityWidget(),
       ),
     );
   }

@@ -107,19 +107,32 @@ class _DocDataWidgetState extends State<_DocDataWidget> {
 
 
   Future<void> _selectDate(BuildContext context) async {
-    DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-    );
-    if (picked != null && picked != _pickedDateTime) {
-      setState(() {
-        _pickedDateTime = picked;
-        _dateInputController.text = _pickedDateTime.toString().substring(0, 10);
-      });
-    }
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime(2020),
+    lastDate: DateTime(2025),
+
+    cancelText: 'Отменить',
+    confirmText: 'Подтвердить',
+    builder: (BuildContext context, Widget? child) {
+      return Theme(
+        data: ThemeData.light().copyWith(
+          useMaterial3: true,
+          primaryColor: AppColors.primaryColor, // Цвет выбранной даты
+          colorScheme: const ColorScheme.light(primary: AppColors.primaryColor), // Цветовая схема
+          buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary), // Тема кнопок
+        ),
+        child: child!,
+      );
+    },
+  );
+  if (picked != null && picked != _pickedDateTime) {
+    setState(() {
+      _pickedDateTime = picked;
+    });
   }
+}
 
 
   @override
