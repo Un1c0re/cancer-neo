@@ -77,7 +77,6 @@ class _ProfileCardState extends State<_ProfileCard> {
   String phone      = '+79991112233';
   String doctor     = 'Врачев Врач Врачович';
 
-  late bool _isUserLoggedIn;
   bool isDataFetched = false;
 
   // @override

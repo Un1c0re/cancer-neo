@@ -143,16 +143,6 @@ class _DocDataWidgetState extends State<_DocDataWidget> {
     }
   }
 
-  void _sendData() {
-    Map<String, dynamic> data = buildDataJson(
-      nameController,
-      birthController,
-      diseaseController,
-      phoneController,
-    );
-
-    sendDataToServer(data);
-  }
 
   @override
   Widget build(BuildContext context) {
