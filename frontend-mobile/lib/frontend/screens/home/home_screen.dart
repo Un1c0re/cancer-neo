@@ -1,4 +1,5 @@
 import 'package:diplom/frontend/Theme/app_colors.dart';
+import 'package:diplom/frontend/Theme/app_icons.dart';
 import 'package:flutter/material.dart';
 import '../../Theme/app_style_icons.dart';
 import '../../widgets/chart/chart_widget.dart';
@@ -38,10 +39,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   static final List<NavContent> content = [
     NavContent('Трекинг', AppStyleIcons.leaderboard),
-    NavContent('Данные', AppStyleIcons.edit),
-    NavContent('Архив', AppStyleIcons.docs),
-    NavContent('Информация', AppStyleIcons.graduation_cap),
-    NavContent('Профиль', AppStyleIcons.profile),
+    NavContent('Данные', AppIcons.heart),
+    NavContent('Архив', AppIcons.file),
+    NavContent('Информация', AppIcons.lightbulb),
+    NavContent('Другое', AppIcons.bookmark),
   ];
 
   static final List<Row> _appBarContent = content.map((data) {

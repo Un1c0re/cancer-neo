@@ -8,6 +8,11 @@ WORKDIR /code
 COPY ./requirements.txt /code/requirements.txt
 
 #
+RUN \
+ apk add --no-cache postgresql-libs && \
+ apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev
+
+#
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 #

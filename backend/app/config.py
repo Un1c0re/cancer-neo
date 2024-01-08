@@ -6,7 +6,9 @@ class Config(object):
     def __init__(self):
         load_dotenv()
 
-        self.ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
+
+        self.ACCESS_TOKEN_EXPIRE_MINUTES = 1440
+        # self.ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
         self.ALGORITHM = os.getenv("ALGORITHM")
         self.SECRET_KEY = os.getenv("SECRET_KEY")
         self.DATABASE_TYPE = os.getenv("DATABASE_TYPE")

@@ -1,0 +1,14 @@
+Collecting pyOpenSSL
+  Obtaining dependency information for pyOpenSSL from https://files.pythonhosted.org/packages/db/de/007b832ad7a95e6a73745609bbe123c407aa2c46bb0b8f765c8718294e7f/pyOpenSSL-23.3.0-py3-none-any.whl.metadata
+  Downloading pyOpenSSL-23.3.0-py3-none-any.whl.metadata (12 kB)
+Collecting cryptography<42,>=41.0.5 (from pyOpenSSL)
+  Obtaining dependency information for cryptography<42,>=41.0.5 from https://files.pythonhosted.org/packages/f6/23/b28f4a03650512efff13a8fcbb977bac178a765c5a887a6720bee13fa85b/cryptography-41.0.7-cp37-abi3-win_amd64.whl.metadata
+  Downloading cryptography-41.0.7-cp37-abi3-win_amd64.whl.metadata (5.3 kB)
+Requirement already satisfied: cffi>=1.12 in c:\python311\lib\site-packages (from cryptography<42,>=41.0.5->pyOpenSSL) (1.15.1)
+Requirement already satisfied: pycparser in c:\python311\lib\site-packages (from cffi>=1.12->cryptography<42,>=41.0.5->pyOpenSSL) (2.21)
+Downloading pyOpenSSL-23.3.0-py3-none-any.whl (58 kB)
+   ---------------------------------------- 58.8/58.8 kB 522.3 kB/s eta 0:00:00
+Downloading cryptography-41.0.7-cp37-abi3-win_amd64.whl (2.7 MB)
+   ---------------------------------------- 2.7/2.7 MB 4.6 MB/s eta 0:00:00
+Installing collected packages: cryptography, pyOpenSSL
+Successfully installed cryptography-41.0.7 pyOpenSSL-23.3.0

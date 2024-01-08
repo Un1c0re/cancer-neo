@@ -118,7 +118,6 @@ class _DocDataWidgetState extends State<_DocDataWidget> {
     builder: (BuildContext context, Widget? child) {
       return Theme(
         data: ThemeData.light().copyWith(
-          useMaterial3: true,
           primaryColor: AppColors.primaryColor, // Цвет выбранной даты
           colorScheme: const ColorScheme.light(primary: AppColors.primaryColor), // Цветовая схема
           buttonTheme: const ButtonThemeData(textTheme: ButtonTextTheme.primary), // Тема кнопок

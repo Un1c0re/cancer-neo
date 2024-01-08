@@ -6,7 +6,8 @@ from contextvars import ContextVar
 import peewee as pw
 from jose import jwt
 from playhouse.postgres_ext import PostgresqlExtDatabase
-from .config import Config
+from .config import Config # когда в докере
+# from config import Config # когда не в докере
 
 load_dotenv()
 
@@ -18,6 +19,7 @@ config = Config()
 db = PostgresqlExtDatabase(config.DATABASE_NAME, user=config.DATABASE_USERNAME, password=config.DATABASE_PASSWORD,
                            host=config.DATABASE_HOST, port=config.DATABASE_PORT)
 
+print(db)
 
 def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None):
     to_encode = {"id": str(data.id)}

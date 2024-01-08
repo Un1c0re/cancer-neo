@@ -3,10 +3,11 @@ version: "3"
 
 
 services:
-#  backend:
-#    build: .
-#    ports:
-#      - "8000:8000"
+  # backend:
+  #   build: .
+  #   ports:
+  #     - "8000:8000"
+
   postgres:
     image: postgres:16.0-alpine
     env_file: .env

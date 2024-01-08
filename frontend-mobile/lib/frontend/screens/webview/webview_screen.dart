@@ -20,45 +20,34 @@ class _WebViewScreenState extends State<WebViewScreen> {
   @override
   Widget build(BuildContext context) {
     final url = widget.url;
-    return WillPopScope(
-
-      onWillPop: () async {
-        var isLastPage = await inAppWebViewController.canGoBack();
-
-        if(isLastPage) {
-          inAppWebViewController.goBack();
-          return false;
-        }
-        return true;
-      },
-      child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-          title: const Text('Внешние ресурсы'),
-          centerTitle: true,
-        ),
-          body: Stack(
-            children: [
-              InAppWebView(
-                initialUrlRequest: URLRequest(
-                  url: WebUri.uri(Uri.parse(url)),
-                ),
-                onWebViewCreated: (InAppWebViewController controller) {
-                  inAppWebViewController = controller;
-                },
-                onProgressChanged: (InAppWebViewController contorller, int progress) {
-                  setState(() {
-                    _progress = progress / 100;
-                  });
-                },
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: AppColors.activeColor,
+        title: const Text('Внешние ресурсы'),
+        centerTitle: true,
+      ),
+        body: Stack(
+          children: [
+            InAppWebView(
+              initialUrlRequest: URLRequest(
+                url: WebUri.uri(Uri.parse(url)),
               ),
-              _progress < 1 ? LinearProgressIndicator(
-                color: AppColors.primaryColor,
-                value: _progress,
-              ): const SizedBox(),
-            ],
-          )
-        ),
+              onWebViewCreated: (InAppWebViewController controller) {
+                inAppWebViewController = controller;
+              },
+              onProgressChanged: (InAppWebViewController contorller, int progress) {
+                setState(() {
+                  _progress = progress / 100;
+                });
+              },
+            ),
+            _progress < 1 ? LinearProgressIndicator(
+              color: AppColors.primaryColor,
+              value: _progress,
+            ): const SizedBox(),
+          ],
+        )
       ),
     );
   }

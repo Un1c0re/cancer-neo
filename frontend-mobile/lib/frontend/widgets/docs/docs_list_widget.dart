@@ -1,4 +1,5 @@
 import 'package:diplom/frontend/Theme/app_colors.dart';
+import 'package:diplom/frontend/Theme/app_icons.dart';
 import 'package:diplom/frontend/Theme/app_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,16 +32,16 @@ class DocsListWidget extends StatefulWidget {
 
 class _DocsListWidgetState extends State<DocsListWidget> {
   final List<DocsRowData> docsRow = [
-    DocsRowData(Icons.abc_outlined, 'Результаты анализов', DateTime.parse('2023-02-01')),
-    DocsRowData(Icons.dangerous_outlined, 'Результаты рентгенографии', DateTime.parse('2023-01-02')),
+    DocsRowData(AppIcons.syringe, 'Результаты анализов', DateTime.parse('2023-02-01')),
+    DocsRowData(AppIcons.bone, 'Результаты рентгенографии', DateTime.parse('2023-01-02')),
     DocsRowData(Icons.computer_outlined, 'Результаты КТ', DateTime.parse('2023-03-02')),
     DocsRowData(Icons.badge_outlined, 'Результаты МРТ', DateTime.parse('2023-01-11')),
     DocsRowData(Icons.abc_outlined, 'Результаты анализов', DateTime.parse('2023-02-05')),
     DocsRowData(Icons.dangerous_outlined, 'Результаты рентгенографии', DateTime.parse('2023-11-01')),
     DocsRowData(Icons.computer_outlined, 'Результаты КТ', DateTime.parse('2023-01-21')),
     DocsRowData(Icons.badge_outlined, 'Результаты МРТ', DateTime.parse('2023-10-01')),
-    DocsRowData(Icons.abc_outlined, 'Результаты анализов', DateTime.parse('2023-01-01')),
-    DocsRowData(Icons.dangerous_outlined, 'Результаты рентгенографии', DateTime.parse('2023-01-01')),
+    DocsRowData(AppIcons.capsules, 'Результаты анализов', DateTime.parse('2023-01-01')),
+    DocsRowData(AppIcons.vial, 'Результаты рентгенографии', DateTime.parse('2023-01-01')),
     DocsRowData(Icons.computer_outlined, 'Результаты КТ', DateTime.parse('2023-01-01')),
     DocsRowData(Icons.badge_outlined, 'Результаты МРТ', DateTime.parse('2023-01-01')),
     DocsRowData(Icons.abc_outlined, 'Результаты анализов', DateTime.parse('2023-01-01')),

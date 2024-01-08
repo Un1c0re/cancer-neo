@@ -10,3 +10,4 @@ pandas
 reportlab
 docx
 openpyxl
+psycopg2

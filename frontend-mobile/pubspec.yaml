@@ -66,6 +66,8 @@ dependencies:
   csv: ^5.1.1
   intl: ^0.18.1
   url_launcher: ^6.2.2
+  meta: ^1.10.0
+  bloc: ^8.1.2
 
 dev_dependencies:
   flutter_test:
@@ -124,6 +126,10 @@ flutter:
       - family: AppStyleIcons
         fonts:
           - asset: fonts/AppStyleIcons.ttf
+          
+      - family: AppIcons
+        fonts:
+          - asset: fonts/AppIcons.ttf
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

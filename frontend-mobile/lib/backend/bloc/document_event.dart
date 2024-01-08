@@ -1,7 +1,14 @@
 part of 'document_bloc.dart';
 
+
+
 @immutable
-sealed class DocumentEvent {}
+abstract class DocumentEvent extends Equatable {
+  const DocumentEvent();
+
+  @override
+  List<Object> get props => [];
+}
 
 
 class AddDocument extends DocumentEvent {
@@ -11,7 +18,7 @@ class AddDocument extends DocumentEvent {
   final DateTime date;
   final Uint8List pdfFile;
 
-  AddDocument(
+  const AddDocument(
     this.name, 
     this.date, 
     this.pdfFile, 
@@ -38,7 +45,7 @@ class UpdateDocument extends DocumentEvent {
   final DateTime newDate;
   final Uint8List newPdfFile;
 
-  UpdateDocument(
+  const UpdateDocument(
     this.documentId, 
     this.newName, 
     this.newDate, 
@@ -46,7 +53,7 @@ class UpdateDocument extends DocumentEvent {
     this.newPlace, 
     this.newNotes,
   );
-
+  
   @override
   List<Object> get props => [
     documentId, 
@@ -61,8 +68,8 @@ class UpdateDocument extends DocumentEvent {
 class DeleteDocument extends DocumentEvent {
   final String documentId;
 
-  DeleteDocument(this.documentId);
-
+  const DeleteDocument(this.documentId);
+  
   @override
   List<Object> get props => [documentId];
 }

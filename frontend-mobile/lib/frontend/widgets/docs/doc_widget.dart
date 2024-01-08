@@ -1,4 +1,6 @@
 import 'package:diplom/frontend/Theme/app_colors.dart';
+import 'package:diplom/frontend/Theme/app_icons.dart';
+import 'package:diplom/frontend/Theme/app_style.dart';
 import 'package:diplom/frontend/Theme/app_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -36,22 +38,57 @@ class DocWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          height: DeviceScreenConstants.screenHeight * 0.6,
-
-          child: AppStyleCard(
-            backgroundColor: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-              
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  DocDataWidget(docData: docData),
-                ],
+        Column(
+          children: [
+            ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxHeight: 500,
               ),
-            ), 
-          ),
+            
+              child: AppStyleCard(
+                backgroundColor: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10), 
+                  child: DocDataWidget(docData: docData),
+                ), 
+              ),
+            ),
+            SizedBox(height: 50,),
+            ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxHeight: 150,
+                maxWidth: 350
+              ),
+              child: Column(
+                children: [
+                  ElevatedButton(
+                    style: AppButtonStyle.filledRoundedButton,
+                    onPressed: () {}, 
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(AppIcons.pen),
+                        SizedBox(width: 20),
+                        Text('Изменить', style: TextStyle(fontSize: 18),),
+                      ],
+                    ),
+                  ),
+                  OutlinedButton(
+                    style: AppButtonStyle.outlinedRedRoundedButton,
+                    onPressed: () {}, 
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.error),
+                        SizedBox(width: 20),
+                        Text('Удалить', style: TextStyle(fontSize: 18),),
+                      ],
+                    ),
+                  ),
+                ]
+              ),
+            ),
+          ],
         ),
       ],
     );
@@ -77,7 +114,7 @@ class DocDataWidget extends StatelessWidget {
           Text(
             docData.label, 
             style: const TextStyle(
-              fontSize: 18,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -89,10 +126,10 @@ class DocDataWidget extends StatelessWidget {
 
           const SizedBox(height: 10),
           
-          Text(
+          const Text(
             'Дата оформления документа:', 
             style: TextStyle(
-              fontSize: 16, 
+              fontSize: 18, 
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -109,7 +146,7 @@ class DocDataWidget extends StatelessWidget {
           Text(
             'Учреждение:', 
             style: TextStyle(
-              fontSize: 16, 
+              fontSize: 18, 
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -123,15 +160,16 @@ class DocDataWidget extends StatelessWidget {
           Text(
             'Примечания:', 
             style: TextStyle(
-              fontSize: 16, 
+              fontSize: 18, 
               fontWeight: FontWeight.bold,
             ),
           ),
           
            Text(
             docData.description,
-            style: const TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 18),
           ),
+          SizedBox(height: 20),
 
           const _DocMiniature(),
         ],

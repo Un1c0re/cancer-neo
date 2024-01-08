@@ -2,7 +2,6 @@
 from datetime import datetime
 from typing import Any, List, Union
 
-from bson import objectid
 from pydantic import BaseModel, validator, root_validator, field_validator
 from pydantic.utils import GetterDict
 

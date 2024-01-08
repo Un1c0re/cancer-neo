@@ -3,7 +3,6 @@ import 'package:diplom/frontend/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'frontend/Theme/app_style.dart';
 import 'frontend/Theme/constants.dart';
 
 void main() {
