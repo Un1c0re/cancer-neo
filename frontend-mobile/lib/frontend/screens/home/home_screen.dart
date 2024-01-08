@@ -5,7 +5,7 @@ import '../../widgets/chart/chart_widget.dart';
 import '../../widgets/docs/docs_list_widget.dart';
 import '../../widgets/info/info_widget.dart';
 import '../../widgets/profile/profile_widget.dart';
-import '../../widgets/stats/stats_widget.dart';
+import '../../widgets/symptoms/symptoms_widget.dart';
 
 
 class NavContent {
@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
 	static final List<Widget> _widgetTabs = <Widget>[
 		const ChartWidget(),
-    const StatsWidget(),
+    const SymptomsWidget(),
 		const DocsListWidget(),
 		const InfoWiget(),
 		const SettingsWidget(),

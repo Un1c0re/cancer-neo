@@ -3,18 +3,19 @@ import 'package:diplom/frontend/Theme/app_style.dart';
 import 'package:diplom/frontend/Theme/app_widgets.dart';
 import 'package:flutter/material.dart';
 
-class StatsWidget extends StatefulWidget {
-  const StatsWidget({super.key});
+class SymptomsWidget extends StatefulWidget {
+  const SymptomsWidget({super.key});
 
   @override
-  State<StatsWidget> createState() => _StatsWidgetState();
+  State<SymptomsWidget> createState() => _SymptomsWidgetState();
 }
-class _StatsWidgetState extends State<StatsWidget> {
+class _SymptomsWidgetState extends State<SymptomsWidget> {
 
   final _notesInputController = TextEditingController();
-  final notesInputDecoration = AppStyleTextFields.sharedDecoration;
-  DateTime selectedDate = DateTime.now();
+  final notesInputDecoration  = AppStyleTextFields.sharedDecoration;
+  DateTime selectedDate       = DateTime.now();
   
+  // Calendar
   Future<void> _selectDate(BuildContext context) async {
   final DateTime? picked = await showDatePicker(
     context: context,

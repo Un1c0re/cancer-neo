@@ -38,6 +38,7 @@ dependencies:
   flutter_otp_text_field: ^1.1.1
   fl_chart: ^0.64.0
   month_picker_dialog: 2.2.1
+  flutter_inappwebview: ^6.0.0
   
   
   # Backend dependencies
@@ -46,8 +47,13 @@ dependencies:
   provider: ^6.0.5
   shared_preferences: ^2.2.2
   file_picker: ^6.1.1
-  flutter_inappwebview: ^6.0.0
-  # flutter_dotenv: ^5.1.0
+  flutter_bloc: ^8.1.3
+  equatable: 
+
+
+  # Database dependencies
+  moor_flutter: 
+
   # logging: ^1.2.0
 
   # The following adds the Cupertino Icons font to your application.
@@ -64,6 +70,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  moor_generator:
+  build_runner:
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -116,16 +124,6 @@ flutter:
       - family: AppStyleIcons
         fonts:
           - asset: fonts/AppStyleIcons.ttf
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

@@ -55,12 +55,8 @@ class _SettingsButtons extends StatelessWidget {
     SettingsButtonsData(MyFlutterApp.pills, 'Аптечка', () => Get.to(() => const MedKitScreen())),
     SettingsButtonsData(Icons.people_alt_outlined, 'Сообщества', () => Get.to(() => const CommunityScreen())),
     SettingsButtonsData(Icons.phone_rounded, 'Горячая линия поддержки', () {}),
-    SettingsButtonsData(Icons.help_outline_rounded, 'Помощь', ()),
+    SettingsButtonsData(Icons.help_outline_rounded, 'Помощь', () {}),
   ];
-
-  void _getToPage(page) {
-    page();
-  }
 
   @override
   Widget build(BuildContext context) {

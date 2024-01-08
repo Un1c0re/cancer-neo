@@ -1,12 +1,8 @@
-import 'dart:io';
-
 import 'package:diplom/frontend/Theme/app_colors.dart';
 import 'package:diplom/frontend/Theme/app_widgets.dart';
 import 'package:diplom/frontend/screens/webview/webview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 
 class CommunityData {
   final String    image;
@@ -87,14 +83,6 @@ class CommunityCard extends StatelessWidget {
     required this.subtitle, 
     required this.url, 
   });
-
-  void _launchURL(String url) async {
-    try {
-      await launchUrl(Uri.parse(url));
-    } catch (e) {
-      throw 'Could not launch $url';
-    }
-  }
   
   @override
   Widget build(BuildContext context) {

@@ -1,8 +1,6 @@
 import 'package:diplom/frontend/Theme/app_widgets.dart';
 import 'package:flutter/material.dart';
 
-import '../../Theme/app_style.dart';
-
 class ArticleWidget extends StatelessWidget {
   const ArticleWidget({super.key});
 
