@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
     NavContent('Трекинг', AppStyleIcons.leaderboard),
     NavContent('Данные', AppIcons.heart),
     NavContent('Архив', AppIcons.file),
-    NavContent('Информация', AppIcons.lightbulb),
+    NavContent('Инфо', AppIcons.lightbulb),
     NavContent('Другое', AppIcons.bookmark),
   ];
 

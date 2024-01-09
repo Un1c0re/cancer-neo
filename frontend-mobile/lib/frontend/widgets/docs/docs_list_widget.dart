@@ -189,7 +189,7 @@ class _DocsListWidgetState extends State<DocsListWidget> {
 
 
         SizedBox(
-          height: DeviceScreenConstants.screenHeight * 0.65,
+          height: DeviceScreenConstants.screenHeight * 0.60,
           child: _filteredData.isNotEmpty
             ? ListView.builder(
                 itemCount: _filteredData.length,

@@ -505,7 +505,7 @@ class _BoolChartState extends State<BoolChart> {
               ),
               ConstrainedBox(
                 constraints: const BoxConstraints(
-                  maxWidth: 350,
+                  maxWidth: 300,
                 ),
                 child: BarChart(
                   BarChartData(
@@ -540,7 +540,7 @@ class _BoolChartState extends State<BoolChart> {
                           sideTitles: SideTitles(
                             showTitles: true,
                             getTitlesWidget: boolChartleftTitles,
-                            reservedSize: 100,
+                            reservedSize: 80,
                           ),
                         ),
                       ),

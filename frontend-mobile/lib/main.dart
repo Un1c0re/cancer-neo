@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Jost',
       ),
-      home: HomeScreen(), // Замените YourHomePage на вашу домашнюю страницу
+      home: HomeScreen(),
     );
   }
 }

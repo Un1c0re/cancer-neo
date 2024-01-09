@@ -97,7 +97,7 @@ class CommunityCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset(image, width: 100),
+                Image.asset(image, width: 60),
                 ConstrainedBox(
                   constraints: const BoxConstraints(
                     maxWidth: 255

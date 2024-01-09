@@ -36,61 +36,61 @@ class DocWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Column(
-          children: [
-            ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxHeight: 500,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Column(
+            children: [
+              SizedBox(
+                height: DeviceScreenConstants.screenHeight * 0.75,
+              
+                child: AppStyleCard(
+                  backgroundColor: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10), 
+                    child: DocDataWidget(docData: docData),
+                  ), 
+                ),
               ),
-            
-              child: AppStyleCard(
-                backgroundColor: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10), 
-                  child: DocDataWidget(docData: docData),
-                ), 
-              ),
-            ),
-            SizedBox(height: 50,),
-            ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxHeight: 150,
-                maxWidth: 350
-              ),
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    style: AppButtonStyle.filledRoundedButton,
-                    onPressed: () {}, 
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(AppIcons.pen),
-                        SizedBox(width: 20),
-                        Text('Изменить', style: TextStyle(fontSize: 18),),
-                      ],
+              SizedBox(height: 40,),
+              ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxHeight: 100,
+                  maxWidth: 350
+                ),
+                child: Column(
+                  children: [
+                    ElevatedButton(
+                      style: AppButtonStyle.filledRoundedButton,
+                      onPressed: () {}, 
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(AppIcons.pen),
+                          SizedBox(width: 20),
+                          Text('Изменить', style: TextStyle(fontSize: 18),),
+                        ],
+                      ),
                     ),
-                  ),
-                  OutlinedButton(
-                    style: AppButtonStyle.outlinedRedRoundedButton,
-                    onPressed: () {}, 
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.error),
-                        SizedBox(width: 20),
-                        Text('Удалить', style: TextStyle(fontSize: 18),),
-                      ],
+                    OutlinedButton(
+                      style: AppButtonStyle.outlinedRedRoundedButton,
+                      onPressed: () {}, 
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.error),
+                          SizedBox(width: 20),
+                          Text('Удалить', style: TextStyle(fontSize: 18),),
+                        ],
+                      ),
                     ),
-                  ),
-                ]
+                  ]
+                ),
               ),
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
