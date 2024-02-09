@@ -4,10 +4,10 @@ import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/views/screens/medkit/medkit_screen.dart';
 import 'package:diplom/views/screens/profile/community_sreen.dart';
 import 'package:diplom/views/screens/profile/edit_profile_screen.dart';
+import 'package:diplom/views/screens/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../utils/constants.dart';
 import '../../../utils/navbar_icons.dart';
 
 class SettingsWidget extends StatefulWidget {
@@ -67,7 +67,7 @@ class _ProfileCardState extends State<_ProfileCard> {
 
   bool isDataFetched = false;
 
-  void _editProfile() => Get.to(() => const EditProfileScreen());
+  void _checkProfileCard() => Get.to(() => const ProfileCardScreen());
  
   @override
   Widget build(BuildContext context) {
@@ -101,8 +101,8 @@ class _ProfileCardState extends State<_ProfileCard> {
               children: [
                 ElevatedButton(
                   style: AppButtonStyle.filledRoundedButton,
-                  onPressed: _editProfile,
-                  child: const Text('изменить данные профиля'),
+                  onPressed: _checkProfileCard,
+                  child: const Text('посмотреть карточку пациента'),
                 ),
               ],
             ),
