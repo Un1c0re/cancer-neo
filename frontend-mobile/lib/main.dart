@@ -1,9 +1,9 @@
-import 'package:diplom/frontend/Theme/app_colors.dart';
-import 'package:diplom/frontend/screens/home/home_screen.dart';
+import 'package:diplom/utils/app_colors.dart';
+import 'package:diplom/utils/constants.dart';
+import 'package:diplom/views/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'frontend/Theme/constants.dart';
 
 void main() {
   // await dotenv.load(fileName: '.env');
@@ -12,10 +12,12 @@ void main() {
 
   runApp(
     GetMaterialApp(
-      initialRoute: '/', // Указываем начальный маршрут
+      initialRoute: '/',
       getPages: [
-        GetPage(name: '/', page: () => MyApp()), // Сопоставляем начальный маршрут с вашим MyApp
-        // Другие страницы
+        GetPage(
+          name: '/', 
+          page: () => MyApp(),
+        ),
       ],
       theme: ThemeData(
         useMaterial3: true,
