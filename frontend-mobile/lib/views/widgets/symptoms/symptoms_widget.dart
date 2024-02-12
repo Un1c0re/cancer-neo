@@ -96,10 +96,10 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
           child: Column(
             children: [
               SymptomsBlock(
-                gradeSymptom: 'Симптом',
-                boolSymptom1: 'Симптом',
-                boolSymptom2: 'Симптом',
-                boolSymptom3: 'Симптом',
+                gradeSymptom: 'Тревожность',
+                boolSymptom1: 'Уменьшение диуреза',
+                boolSymptom2: 'Боль в левой части груди',
+                boolSymptom3: 'Тошнота',
                 boolSymptom4: 'Симптом',
               ),
               const SizedBox(height: 20),
@@ -176,7 +176,7 @@ class _GradeSymptomState extends State<GradeSymptom> {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints(
-        maxHeight: 100,
+        maxHeight: 120,
       ),
       child: AppStyleCard(
         backgroundColor: Colors.white,
@@ -194,7 +194,7 @@ class _GradeSymptomState extends State<GradeSymptom> {
                   enabledThumbRadius: 6,
                   elevation: 0,
                 ),
-                trackShape: RoundedRectSliderTrackShape(),
+                trackShape: const RoundedRectSliderTrackShape(),
                 tickMarkShape: CustomTickMarkShape(),
               ),
               child: Slider(
@@ -213,6 +213,17 @@ class _GradeSymptomState extends State<GradeSymptom> {
                 },
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: labels.map((text) {
+                return Text(
+                  text,
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                );
+              }).toList(),
+            )
           ],
         ),
       ),
