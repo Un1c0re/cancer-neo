@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 class ProfileCardWidget extends StatelessWidget {
   const ProfileCardWidget({super.key});
 
-  void _getBack () => Get.back();
+  void _getBack() => Get.back();
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +16,7 @@ class ProfileCardWidget extends StatelessWidget {
         children: [
           ConstrainedBox(
             constraints: BoxConstraints(
-              maxHeight: DeviceScreenConstants.screenHeight * 0.8
-            ),
+                maxHeight: DeviceScreenConstants.screenHeight * 0.8),
             child: AppStyleCard(
               backgroundColor: Colors.white,
               child: SingleChildScrollView(
@@ -40,18 +39,20 @@ class ProfileCardWidget extends StatelessWidget {
                     ),
                     SizedBox(height: 15),
                     TextBlock(
-                      subtitle: 'Код заболевания по МКБ', 
+                      subtitle: 'Код заболевания по МКБ',
                       text: '1101',
                     ),
                     SizedBox(height: 15),
                     TextBlock(
-                      subtitle: 'История болезни:', 
-                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                      subtitle: 'История болезни:',
+                      text:
+                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
                     ),
                     SizedBox(height: 15),
                     TextBlock(
-                      subtitle: 'История лечения:', 
-                      text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                      subtitle: 'История лечения:',
+                      text:
+                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
                     ),
                   ],
                 ),
@@ -59,10 +60,10 @@ class ProfileCardWidget extends StatelessWidget {
             ),
           ),
           ElevatedButton(
-                style: AppButtonStyle.filledRoundedButton,
-                onPressed: _getBack, 
-                child: Text('Изменить данные'),
-              ),
+            style: AppButtonStyle.filledRoundedButton,
+            onPressed: _getBack,
+            child: Text('Изменить данные'),
+          ),
         ],
       ),
     );
@@ -75,8 +76,8 @@ class TextBlock extends StatelessWidget {
   const TextBlock({
     super.key,
     required this.subtitle,
-    required this.text, 
-    });
+    required this.text,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,9 @@
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_style.dart';
 import 'package:diplom/utils/app_widgets.dart';
+import 'package:diplom/views/screens/symptoms/add_symptom_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SymptomsWidget extends StatefulWidget {
   const SymptomsWidget({super.key});
@@ -43,6 +45,8 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
       });
     }
   }
+
+  void _addSymptom() => Get.to(() => AddSymptomScreen());
 
   @override
   Widget build(BuildContext context) {
@@ -86,75 +90,41 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
           ),
         ),
       ),
-      
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              GradeSymptom(
-                label: 'Симптом',
-                elIndex: 0,
+              SymptomsBlock(
+                gradeSymptom: 'Симптом',
+                boolSymptom1: 'Симптом',
+                boolSymptom2: 'Симптом',
+                boolSymptom3: 'Симптом',
+                boolSymptom4: 'Симптом',
               ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ApppStyleChip(label: 'Симптом'),
-                  ApppStyleChip(label: 'Симптом'),
-                ],
+              const SizedBox(height: 20),
+              SymptomsBlock(
+                gradeSymptom: 'Симптом',
+                boolSymptom1: 'Симптом',
+                boolSymptom2: 'Симптом',
+                boolSymptom3: 'Симптом',
+                boolSymptom4: 'Симптом',
               ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ApppStyleChip(label: 'Симптом'),
-                  ApppStyleChip(label: 'Симптом'),
-                ],
+              const SizedBox(height: 20),
+              SymptomsBlock(
+                gradeSymptom: 'Симптом',
+                boolSymptom1: 'Симптом',
+                boolSymptom2: 'Симптом',
+                boolSymptom3: 'Симптом',
+                boolSymptom4: 'Симптом',
               ),
-              SizedBox(height: 20),
-              GradeSymptom(
-                label: 'Симптом',
-                elIndex: 0,
+              const SizedBox(height: 20),
+              ElevatedButton(
+                style: AppButtonStyle.filledRoundedButton,
+                onPressed: _addSymptom, 
+                child: const Text('Добавить симптом'),
               ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ApppStyleChip(label: 'Симптом'),
-                  ApppStyleChip(label: 'Симптом'),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ApppStyleChip(label: 'Симптом'),
-                  ApppStyleChip(label: 'Симптом'),
-                ],
-              ),
-              SizedBox(height: 20),
-              GradeSymptom(
-                label: 'Симптом',
-                elIndex: 0,
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ApppStyleChip(label: 'Симптом'),
-                  ApppStyleChip(label: 'Симптом'),
-                ],
-              ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ApppStyleChip(label: 'Симптом'),
-                  ApppStyleChip(label: 'Симптом'),
-                ],
-              ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ConstrainedBox(
                 constraints: const BoxConstraints(
                   maxHeight: 200,
@@ -163,7 +133,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                   backgroundColor: Colors.white,
                   child: Column(
                     children: [
-                      Text(
+                      const Text(
                         'Ваша заметка',
                         style: TextStyle(fontSize: 20),
                       ),
@@ -241,6 +211,51 @@ class _GradeSymptomState extends State<GradeSymptom> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class SymptomsBlock extends StatelessWidget {
+  final String gradeSymptom;
+  final String boolSymptom1;
+  final String boolSymptom2;
+  final String boolSymptom3;
+  final String boolSymptom4;
+
+  const SymptomsBlock({
+    super.key,
+    required this.gradeSymptom,
+    required this.boolSymptom1,
+    required this.boolSymptom2,
+    required this.boolSymptom3,
+    required this.boolSymptom4,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        GradeSymptom(
+          label: gradeSymptom,
+          elIndex: 0,
+        ),
+        const SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ApppStyleChip(label: boolSymptom1),
+            ApppStyleChip(label: boolSymptom2),
+          ],
+        ),
+        const SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ApppStyleChip(label: boolSymptom3),
+            ApppStyleChip(label: boolSymptom4),
+          ],
+        ),
+      ],
     );
   }
 }

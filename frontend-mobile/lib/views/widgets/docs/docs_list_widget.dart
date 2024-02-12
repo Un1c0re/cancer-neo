@@ -176,17 +176,7 @@ class _DocsListWidgetState extends State<DocsListWidget> {
                 child: TextButton(
                   style: ButtonStyle(
                     foregroundColor:
-                        const MaterialStatePropertyAll(Color.fromARGB(255, 255, 255, 255)),
-                    shape: MaterialStatePropertyAll(
-                      RoundedRectangleBorder(
-                        side: const BorderSide(
-                          style: BorderStyle.solid,
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          width: 1.0,
-                        ),
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                    ),
+                        const MaterialStatePropertyAll(Colors.white),
                   ),
                   onPressed: () => _showCalendar(context),
                   child: const Row(
