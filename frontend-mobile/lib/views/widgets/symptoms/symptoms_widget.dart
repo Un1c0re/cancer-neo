@@ -121,7 +121,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
               const SizedBox(height: 20),
               ElevatedButton(
                 style: AppButtonStyle.filledRoundedButton,
-                onPressed: _addSymptom, 
+                onPressed: _addSymptom,
                 child: const Text('Добавить симптом'),
               ),
               const SizedBox(height: 20),
@@ -187,10 +187,15 @@ class _GradeSymptomState extends State<GradeSymptom> {
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SliderTheme(
-              data: const SliderThemeData(
+              data: SliderThemeData(
                 trackHeight: 10,
                 showValueIndicator: ShowValueIndicator.never,
+                thumbShape: const RoundSliderThumbShape(
+                  enabledThumbRadius: 6,
+                  elevation: 0,
+                ),
                 trackShape: RoundedRectSliderTrackShape(),
+                tickMarkShape: CustomTickMarkShape(),
               ),
               child: Slider(
                 label: labels[_currentSliderValue.toInt()],
@@ -212,6 +217,31 @@ class _GradeSymptomState extends State<GradeSymptom> {
         ),
       ),
     );
+  }
+}
+
+class CustomTickMarkShape extends SliderTickMarkShape {
+  @override
+  Size getPreferredSize({
+    required SliderThemeData sliderTheme,
+    required bool isEnabled,
+  }) {
+    // Вы можете изменить размеры, если это необходимо
+    return Size.zero; // Size.zero означает, что фигура не будет отображаться
+  }
+
+  @override
+  void paint(
+    PaintingContext context,
+    Offset center, {
+    required RenderBox parentBox,
+    required SliderThemeData sliderTheme,
+    required Animation<double> enableAnimation,
+    required Offset thumbCenter,
+    bool isEnabled = false,
+    TextDirection textDirection = TextDirection.ltr,
+  }) {
+    // Ничего не рисуем, так как мы хотим, чтобы деления были невидимы
   }
 }
 
