@@ -1,6 +1,7 @@
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_style.dart';
 import 'package:diplom/utils/app_widgets.dart';
+import 'package:diplom/utils/constants.dart';
 import 'package:diplom/views/screens/symptoms/add_symptom_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -176,55 +177,60 @@ class _GradeSymptomState extends State<GradeSymptom> {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints(
-        maxHeight: 120,
+        maxHeight: 100,
       ),
       child: AppStyleCard(
         backgroundColor: Colors.white,
-        child: Column(
-          children: [
-            Text(
-              widget.label,
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            SliderTheme(
-              data: SliderThemeData(
-                trackHeight: 10,
-                showValueIndicator: ShowValueIndicator.never,
-                thumbShape: const RoundSliderThumbShape(
-                  enabledThumbRadius: 6,
-                  elevation: 0,
-                ),
-                trackShape: const RoundedRectSliderTrackShape(),
-                tickMarkShape: CustomTickMarkShape(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text(
+                widget.label,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
-              child: Slider(
-                label: labels[_currentSliderValue.toInt()],
-                value: _currentSliderValue,
-                max: 3,
-                divisions: 3,
-                activeColor: ColorTween(
-                  begin: AppColors.barColor,
-                  end: AppColors.barShadow,
-                ).evaluate(AlwaysStoppedAnimation(_currentSliderValue / 4)),
-                onChanged: (double value) {
-                  setState(() {
-                    _currentSliderValue = value;
-                  });
-                },
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: labels.map((text) {
-                return Text(
-                  text,
-                  style: const TextStyle(
-                    fontSize: 16,
+              SliderTheme(
+                data: SliderThemeData(
+                  trackHeight: 10,
+                  showValueIndicator: ShowValueIndicator.never,
+                  thumbShape: const RoundSliderThumbShape(
+                    enabledThumbRadius: 6,
+                    elevation: 0,
                   ),
-                );
-              }).toList(),
-            )
-          ],
+                  overlayShape: SliderComponentShape.noOverlay,
+                  trackShape: const RoundedRectSliderTrackShape(),
+                  tickMarkShape: CustomTickMarkShape(),
+                ),
+                child: Slider(
+                  label: labels[_currentSliderValue.toInt()],
+                  value: _currentSliderValue,
+                  max: 3,
+                  divisions: 3,
+                  activeColor: ColorTween(
+                    begin: AppColors.barColor,
+                    end: AppColors.barShadow,
+                  ).evaluate(AlwaysStoppedAnimation(_currentSliderValue / 4)),
+                  onChanged: (double value) {
+                    setState(() {
+                      _currentSliderValue = value;
+                    });
+                  },
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: labels.map((text) {
+                  return Text(
+                    text,
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  );
+                }).toList(),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -274,29 +280,34 @@ class SymptomsBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        GradeSymptom(
-          label: gradeSymptom,
-          elIndex: 0,
-        ),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ApppStyleChip(label: boolSymptom1),
-            ApppStyleChip(label: boolSymptom2),
-          ],
-        ),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ApppStyleChip(label: boolSymptom3),
-            ApppStyleChip(label: boolSymptom4),
-          ],
-        ),
-      ],
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: DeviceScreenConstants.screenWidth * 0.9,
+      ),
+      child: Column(
+        children: [
+          GradeSymptom(
+            label: gradeSymptom,
+            elIndex: 0,
+          ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ApppStyleChip(label: boolSymptom1),
+              ApppStyleChip(label: boolSymptom2),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ApppStyleChip(label: boolSymptom3),
+              ApppStyleChip(label: boolSymptom4),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

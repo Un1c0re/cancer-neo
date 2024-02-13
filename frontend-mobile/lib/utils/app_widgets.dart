@@ -25,7 +25,7 @@ class AppStyleCard extends StatelessWidget {
           ),
         ],
         borderRadius: const BorderRadius.all(
-          Radius.circular(10),
+          Radius.circular(12.5),
         ),
       ),
       child: SizedBox(
@@ -56,8 +56,8 @@ class _ApppStyleChipState extends State<ApppStyleChip> {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints(
-        maxWidth: 150,
-        maxHeight: 70, // Добавьте максимальную высоту, чтобы предотвратить Infinity
+        maxWidth: 170,
+        maxHeight: 65,
       ),
       child: Stack(
         children: [
