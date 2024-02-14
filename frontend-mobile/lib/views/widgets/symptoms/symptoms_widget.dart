@@ -193,6 +193,7 @@ class _GradeSymptomState extends State<GradeSymptom> {
               SliderTheme(
                 data: SliderThemeData(
                   trackHeight: 10,
+                  inactiveTrackColor: Colors.transparent,
                   showValueIndicator: ShowValueIndicator.never,
                   thumbShape: const RoundSliderThumbShape(
                     enabledThumbRadius: 6,
