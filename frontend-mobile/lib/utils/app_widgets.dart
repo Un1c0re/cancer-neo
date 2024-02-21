@@ -1,4 +1,5 @@
 import 'package:diplom/utils/app_colors.dart';
+import 'package:diplom/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class AppStyleCard extends StatelessWidget {
@@ -55,8 +56,8 @@ class _ApppStyleChipState extends State<ApppStyleChip> {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(
-        maxWidth: 170,
+      constraints: BoxConstraints(
+        maxWidth: DeviceScreenConstants.screenWidth * 0.4,
         maxHeight: 65,
       ),
       child: Stack(
