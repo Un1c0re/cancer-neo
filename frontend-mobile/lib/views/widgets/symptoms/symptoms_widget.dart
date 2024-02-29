@@ -101,29 +101,51 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                 boolSymptom1: 'Уменьшение диуреза',
                 boolSymptom2: 'Боль в левой части груди',
                 boolSymptom3: 'Тошнота',
-                boolSymptom4: 'Симптом',
+                boolSymptom4: 'Рвота',
               ),
               const SizedBox(height: 20),
               SymptomsBlock(
-                gradeSymptom: 'Симптом',
-                boolSymptom1: 'Симптом',
-                boolSymptom2: 'Симптом',
-                boolSymptom3: 'Симптом',
-                boolSymptom4: 'Симптом',
+                gradeSymptom: 'Головная боль',
+                boolSymptom1: 'головокружение',
+                boolSymptom2: 'Мигрень',
+                boolSymptom3: 'Метеоризм',
+                boolSymptom4: 'Спутанность сознания',
               ),
               const SizedBox(height: 20),
               SymptomsBlock(
-                gradeSymptom: 'Симптом',
-                boolSymptom1: 'Симптом',
-                boolSymptom2: 'Симптом',
-                boolSymptom3: 'Симптом',
-                boolSymptom4: 'Симптом',
+                gradeSymptom: 'Слабость',
+                boolSymptom1: 'Нарушение сна',
+                boolSymptom2: 'Периферическая невропатия',
+                boolSymptom3: 'Стоматит',
+                boolSymptom4: 'Хрипы',
               ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                style: AppButtonStyle.filledRoundedButton,
-                onPressed: _addSymptom,
-                child: const Text('Добавить симптом'),
+              const SizedBox(height: 40),
+              NumSymptoms(label: 'Температура'),
+              const SizedBox(height:15),
+              NumSymptoms(label: 'Масса тела'),
+              const SizedBox(height: 15),
+              NumSymptoms(label: 'Кровяное давление'),
+              const SizedBox(height: 15),
+              NumSymptoms(label: 'Уровень сахара'),
+              const SizedBox(height: 40),
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxWidth: DeviceScreenConstants.screenWidth * 0.9,
+                  maxHeight: DeviceScreenConstants.screenHeight * 0.1
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                      style: AppButtonStyle.filledRoundedButton,
+                      onPressed: _addSymptom,
+                      child: const Text('Добавить симптом'),
+                                        ),
+                    ),
+                  ]
+                  
+                ),
               ),
               const SizedBox(height: 20),
               ConstrainedBox(
@@ -193,7 +215,7 @@ class _GradeSymptomState extends State<GradeSymptom> {
               SliderTheme(
                 data: SliderThemeData(
                   trackHeight: 10,
-                  inactiveTrackColor: Colors.transparent,
+                  inactiveTrackColor: Color.fromARGB(40, 109, 109, 109),
                   showValueIndicator: ShowValueIndicator.never,
                   thumbShape: const RoundSliderThumbShape(
                     enabledThumbRadius: 6,
@@ -308,6 +330,57 @@ class SymptomsBlock extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+
+
+class NumSymptoms extends StatefulWidget {
+  final String label;
+  const NumSymptoms({
+    super.key, 
+    required this.label
+  });
+
+  @override
+  State<NumSymptoms> createState() => _NumSymptomsState();
+}
+
+class _NumSymptomsState extends State<NumSymptoms> {
+  final valueInputController = TextEditingController();
+  
+  @override
+  Widget build(BuildContext context) {
+    final valueInputDecoration = AppStyleTextFields.sharedDecoration;
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: DeviceScreenConstants.screenHeight * 0.08,
+        maxWidth: DeviceScreenConstants.screenWidth * 0.9,
+      ),
+      child: AppStyleCard(
+        backgroundColor: Colors.white, 
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              widget.label, 
+              style: const TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: 60,
+              ),
+              child: TextField(
+                decoration: valueInputDecoration,
+                controller: valueInputController,
+              ),
+            ),
+          ],
+        )
       ),
     );
   }

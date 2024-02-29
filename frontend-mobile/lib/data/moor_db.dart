@@ -78,6 +78,5 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   int get schemaVersion => 1;
-
 }
 //  flutter packages pub run build_runner watch

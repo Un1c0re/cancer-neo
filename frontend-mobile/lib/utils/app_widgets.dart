@@ -63,12 +63,15 @@ class _ApppStyleChipState extends State<ApppStyleChip> {
       child: Stack(
         children: [
           AppStyleCard(
-            backgroundColor: _isSelected? AppColors.redColor: Colors.white,
-            child: Text(
-              widget.label,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 16,
+            backgroundColor: _isSelected? AppColors.activeColor : Colors.white,
+            child: Center(
+              child: Text(
+                widget.label,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: _isSelected? Colors.white : Colors.black,
+                ),
               ),
             ),
           ),

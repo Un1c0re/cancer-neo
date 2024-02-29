@@ -548,13 +548,29 @@ class _LineChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints(
-        maxHeight: 250
+        maxHeight: 300
       ),
       child: AppStyleCard(
         backgroundColor: Colors.white,
-        child: LineChart(
-          sampleData2,
-          duration: const Duration(milliseconds: 250),
+        child: Column(
+          children: [
+            Text('Симптом',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+            ),
+            SizedBox(height: 5),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: 250,
+              ),
+              child: LineChart(
+                sampleData2,
+                duration: const Duration(milliseconds: 250),
+              ),
+            ),
+          ],
         ),
       ),
     );
