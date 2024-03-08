@@ -6,6 +6,23 @@ class UsersDao extends DatabaseAccessor<AppDatabase> with _$UsersDaoMixin {
 
   UsersDao(this.db) : super(db);
 
+  Future<void> createUser() async {
+    final newUser = UsersCompanion(
+      id: Value(0),
+      name: Value('test testovich'),
+      birthdate: Value(DateTime.parse('2000-01-01')),
+      deseaseHistory: Value('none'),
+      threatmentHistory: Value('none'),
+    );
+    await into(users).insert(newUser);
+  }
+
+  Future<UserModel?> getUserdata() async {
+    final user = await (select(users)..where((user) => user.id.equals(0)))
+        .getSingleOrNull();
+    return user != null ? UserModel.fromMap(user.toJson()) : null;
+  }
+
   Future<void> updateUser({
     required int userId,
     String? name,
@@ -15,12 +32,16 @@ class UsersDao extends DatabaseAccessor<AppDatabase> with _$UsersDaoMixin {
   }) async {
     final updateUser = UsersCompanion(
       id: Value(userId),
-      name:           name                != null ? Value(name)             : const Value.absent(),
-      birthdate:      birthdate           != null ? Value(birthdate)        : const Value.absent(),
-      deseaseHistory: diseaseHistory      != null ? Value(diseaseHistory)   : const Value.absent(),
-      threatmentHistory: treatmentHistory != null ? Value(treatmentHistory) : const Value.absent(),
+      name: name != null ? Value(name) : const Value.absent(),
+      birthdate: birthdate != null ? Value(birthdate) : const Value.absent(),
+      deseaseHistory:
+          diseaseHistory != null ? Value(diseaseHistory) : const Value.absent(),
+      threatmentHistory: treatmentHistory != null
+          ? Value(treatmentHistory)
+          : const Value.absent(),
     );
 
-    await (update(users)..where((tbl) => tbl.id.equals(userId))).write(updateUser);
+    await (update(users)..where((tbl) => tbl.id.equals(userId)))
+        .write(updateUser);
   }
 }

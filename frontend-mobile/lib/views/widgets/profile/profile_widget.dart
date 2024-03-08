@@ -1,3 +1,5 @@
+import 'package:diplom/models/user_model.dart';
+import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_style.dart';
 import 'package:diplom/utils/app_widgets.dart';
@@ -52,25 +54,30 @@ class _SettingsWidgetState extends State<SettingsWidget> {
 ///////////////////////////////////////////////////////////////////////////////
 
 class _ProfileCard extends StatefulWidget {
-
   const _ProfileCard({super.key});
   @override
   State<_ProfileCard> createState() => _ProfileCardState();
 }
 
 class _ProfileCardState extends State<_ProfileCard> {
-  String userName   = 'Тестов Тест Тестович';
-  String birthdate  = '01.01.20001';
-  String disease    = '01.01.20001';
-  String phone      = '+79991112233';
-  String doctor     = 'Врачев Врач Врачович';
+  String userName = 'Тестов Тест Тестович';
+  String birthdate = '01.01.20001';
+  String disease = '01.01.20001';
+  String phone = '+79991112233';
+  String doctor = 'Врачев Врач Врачович';
 
   bool isDataFetched = false;
 
   void _checkProfileCard() => Get.to(() => const ProfileCardScreen());
- 
+
   @override
   Widget build(BuildContext context) {
+    final DatabaseService databaseService = Get.find();
+
+    Future<UserModel?> getUser() {
+      return databaseService.database.usersDao.getUserdata();
+    }
+
     return ConstrainedBox(
       constraints: const BoxConstraints(
         maxHeight: 200,
@@ -80,22 +87,30 @@ class _ProfileCardState extends State<_ProfileCard> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  userName,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20,
-                  ),
-                ),
-                Text(birthdate),
-                Text(phone),
-                Text(disease),
-                Text('Лечащий врач: $doctor'),
-              ],
-            ),
+            FutureBuilder<UserModel?>(
+                future: getUser(),
+                builder: ((context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    final UserModel userdata = snapshot.data!;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          userdata.username,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Text(userdata.birthdate.toString()),
+                      ],
+                    );
+                  }
+                })),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -112,8 +127,6 @@ class _ProfileCardState extends State<_ProfileCard> {
     );
   }
 }
-
-
 
 class SettingsButtonsData {
   final IconData icon;

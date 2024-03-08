@@ -1,8 +1,13 @@
+import 'package:diplom/data/moor_db.dart';
+import 'package:diplom/models/docs_models.dart';
+import 'package:diplom/providers/database_provider.dart';
+import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_icons.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../utils/app_style.dart';
@@ -30,58 +35,7 @@ class DocsListWidget extends StatefulWidget {
 }
 
 class _DocsListWidgetState extends State<DocsListWidget> {
-  final List<DocsRowData> docsRow = [
-    DocsRowData(
-        AppIcons.syringe, 'Результаты анализов', DateTime.parse('2023-02-01')),
-    DocsRowData(AppIcons.bone, 'Результаты рентгенографии',
-        DateTime.parse('2023-01-02')),
-    DocsRowData(
-        Icons.computer_outlined, 'Результаты КТ', DateTime.parse('2023-03-02')),
-    DocsRowData(
-        Icons.badge_outlined, 'Результаты МРТ', DateTime.parse('2023-01-11')),
-    DocsRowData(Icons.abc_outlined, 'Результаты анализов',
-        DateTime.parse('2023-02-05')),
-    DocsRowData(Icons.dangerous_outlined, 'Результаты рентгенографии',
-        DateTime.parse('2023-11-01')),
-    DocsRowData(
-        Icons.computer_outlined, 'Результаты КТ', DateTime.parse('2023-01-21')),
-    DocsRowData(
-        Icons.badge_outlined, 'Результаты МРТ', DateTime.parse('2023-10-01')),
-    DocsRowData(
-        AppIcons.capsules, 'Результаты анализов', DateTime.parse('2023-01-01')),
-    DocsRowData(AppIcons.vial, 'Результаты рентгенографии',
-        DateTime.parse('2023-01-01')),
-    DocsRowData(
-        Icons.computer_outlined, 'Результаты КТ', DateTime.parse('2023-01-01')),
-    DocsRowData(
-        Icons.badge_outlined, 'Результаты МРТ', DateTime.parse('2023-01-01')),
-    DocsRowData(Icons.abc_outlined, 'Результаты анализов',
-        DateTime.parse('2023-01-01')),
-    DocsRowData(Icons.dangerous_outlined, 'Результаты рентгенографии',
-        DateTime.parse('2023-01-01')),
-    DocsRowData(
-        Icons.computer_outlined, 'Результаты КТ', DateTime.parse('2023-01-01')),
-    DocsRowData(
-        Icons.badge_outlined, 'Результаты МРТ', DateTime.parse('2023-01-01')),
-    DocsRowData(Icons.abc_outlined, 'Результаты анализов',
-        DateTime.parse('2023-01-01')),
-    DocsRowData(Icons.dangerous_outlined, 'Результаты рентгенографии',
-        DateTime.parse('2023-01-01')),
-    DocsRowData(
-        Icons.computer_outlined, 'Результаты КТ', DateTime.parse('2023-01-01')),
-    DocsRowData(
-        Icons.badge_outlined, 'Результаты МРТ', DateTime.parse('2023-01-01')),
-    DocsRowData(Icons.abc_outlined, 'Результаты анализов',
-        DateTime.parse('2023-01-01')),
-    DocsRowData(Icons.dangerous_outlined, 'Результаты рентгенографии',
-        DateTime.parse('2023-01-01')),
-    DocsRowData(
-        Icons.computer_outlined, 'Результаты КТ', DateTime.parse('2023-01-01')),
-    DocsRowData(
-        Icons.badge_outlined, 'Результаты МРТ', DateTime.parse('2023-01-01')),
-  ];
-
-  var _filteredData = <DocsRowData>[];
+  var _filteredData = <DocSummary>[];
 
   final DateRangePickerController _pickerController =
       DateRangePickerController();
@@ -99,7 +53,7 @@ class _DocsListWidgetState extends State<DocsListWidget> {
     );
     _pickerController.displayDate = DateTime.now();
     _pickerController.addPropertyChangedListener(handlePropertyChange);
-    _filteredData = docsRow;
+    _filteredData = [];
     super.initState();
   }
 
@@ -113,12 +67,10 @@ class _DocsListWidgetState extends State<DocsListWidget> {
     if (_selectedRange?.startDate != null) {
       var dateStart = _selectedRange!.startDate;
       var dateEnd = _selectedRange!.endDate;
-      _filteredData = docsRow.where((DocsRowData data) {
-        return (!data.datetime.isBefore(dateStart!) &&
-            !data.datetime.isAfter(dateEnd!));
+      _filteredData = _filteredData.where((DocSummary data) {
+        return (!data.docDate.isBefore(dateStart!) &&
+            !data.docDate.isAfter(dateEnd!));
       }).toList();
-    } else {
-      _filteredData = docsRow;
     }
     setState(() {});
   }
@@ -164,6 +116,12 @@ class _DocsListWidgetState extends State<DocsListWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final DatabaseService databaseService = Get.find();
+
+    Future<List<DocSummary>> getDocs() async {
+      return await databaseService.database.docsDao.getAllDocSummaries();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: ConstrainedBox(
@@ -174,9 +132,8 @@ class _DocsListWidgetState extends State<DocsListWidget> {
             children: [
               Expanded(
                 child: TextButton(
-                  style: ButtonStyle(
-                    foregroundColor:
-                        const MaterialStatePropertyAll(Colors.white),
+                  style: const ButtonStyle(
+                    foregroundColor: MaterialStatePropertyAll(Colors.white),
                   ),
                   onPressed: () => _showCalendar(context),
                   child: const Row(
@@ -202,7 +159,6 @@ class _DocsListWidgetState extends State<DocsListWidget> {
           ),
         ),
       ),
-
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -210,31 +166,32 @@ class _DocsListWidgetState extends State<DocsListWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              height: DeviceScreenConstants.screenHeight * 0.70,
-              child: _filteredData.isNotEmpty
-                  ? ListView.builder(
-                      itemCount: _filteredData.length,
-                      itemExtent: 80,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: _DocsWidgetRow(data: _filteredData[index]),
-                        );
-                      })
-                  : const Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Center(
-                        child: Text(
-                          'Вы еще не добавили ни одного документа',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: AppColors.activeColor,
-                            fontSize: 25,
-                          ),
-                        ),
-                      ),
-                    ),
-            ),
+                height: DeviceScreenConstants.screenHeight * 0.70,
+                child: FutureBuilder<List<DocSummary>>(
+                    future: getDocs(),
+                    builder: ((context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        final List<DocSummary> docsList = snapshot.data!;
+                        print('${docsList}\n\n\n\n');
+                        _filteredData = docsList;
+
+                        return ListView.builder(
+                            itemCount: docsList.length,
+                            itemExtent: 80,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child:
+                                    _DocsWidgetRow(data: docsList[index]),
+                              );
+                            });
+                      }
+                    }))),
             ConstrainedBox(
               constraints: const BoxConstraints(
                 maxHeight: 45,
@@ -272,7 +229,7 @@ class _DocsListWidgetState extends State<DocsListWidget> {
 ///////////////////////////////////////////////////////////////////////////////
 
 class _DocsWidgetRow extends StatelessWidget {
-  final DocsRowData data;
+  final DocSummary data;
 
   const _DocsWidgetRow({
     required this.data,
@@ -288,11 +245,11 @@ class _DocsWidgetRow extends StatelessWidget {
           backgroundColor: Colors.white,
           child: Row(
             children: [
-              Icon(data.icon),
+              Icon(Icons.document_scanner_outlined),
               const SizedBox(width: 15),
               Expanded(
                 child: Text(
-                  data.label,
+                  data.docName,
                   maxLines: 1,
                   style: const TextStyle(
                     fontSize: 18,
@@ -303,7 +260,7 @@ class _DocsWidgetRow extends StatelessWidget {
               Align(
                 alignment: Alignment.bottomRight,
                 child: Text(
-                  data.datetime.toString().substring(0, 10),
+                  data.docDate.toString().substring(0, 10),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.blueGrey.shade300,
