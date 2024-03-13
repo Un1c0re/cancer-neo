@@ -1,13 +1,10 @@
-import 'package:diplom/data/moor_db.dart';
 import 'package:diplom/models/docs_models.dart';
-import 'package:diplom/providers/database_provider.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
-import 'package:diplom/utils/app_icons.dart';
+// import 'package:diplom/utils/app_icons.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../utils/app_style.dart';
@@ -176,7 +173,6 @@ class _DocsListWidgetState extends State<DocsListWidget> {
                         return Text('Error: ${snapshot.error}');
                       } else {
                         final List<DocSummary> docsList = snapshot.data!;
-                        print('${docsList}\n\n\n\n');
                         _filteredData = docsList;
 
                         return ListView.builder(

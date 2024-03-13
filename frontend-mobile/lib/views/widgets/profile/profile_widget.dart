@@ -60,12 +60,6 @@ class _ProfileCard extends StatefulWidget {
 }
 
 class _ProfileCardState extends State<_ProfileCard> {
-  String userName = 'Тестов Тест Тестович';
-  String birthdate = '01.01.20001';
-  String disease = '01.01.20001';
-  String phone = '+79991112233';
-  String doctor = 'Врачев Врач Врачович';
-
   bool isDataFetched = false;
 
   void _checkProfileCard() => Get.to(() => const ProfileCardScreen());
@@ -74,8 +68,8 @@ class _ProfileCardState extends State<_ProfileCard> {
   Widget build(BuildContext context) {
     final DatabaseService databaseService = Get.find();
 
-    Future<UserModel?> getUser() {
-      return databaseService.database.usersDao.getUserdata();
+    Future<UserModel?> getUser() async {
+      return await databaseService.database.usersDao.getUserdata();
     }
 
     return ConstrainedBox(
@@ -88,29 +82,29 @@ class _ProfileCardState extends State<_ProfileCard> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             FutureBuilder<UserModel?>(
-                future: getUser(),
-                builder: ((context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    final UserModel userdata = snapshot.data!;
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          userdata.username,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20,
-                          ),
+              future: getUser(),
+              builder: ((context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  final UserModel userdata = snapshot.data!;
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        userdata.username,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20,
                         ),
-                        Text(userdata.birthdate.toString()),
-                      ],
-                    );
-                  }
-                })),
+                      ),
+                      Text(userdata.birthdate.toString().substring(0, 10)),
+                    ],
+                  );
+                }
+              })),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
