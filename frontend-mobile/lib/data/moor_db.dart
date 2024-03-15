@@ -1,3 +1,4 @@
+import 'package:diplom/models/doc_list_model.dart';
 import 'package:diplom/models/user_model.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 import 'package:diplom/models/docs_models.dart';

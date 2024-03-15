@@ -1,7 +1,6 @@
-import 'package:diplom/models/docs_models.dart';
+import 'package:diplom/models/doc_list_model.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
-// import 'package:diplom/utils/app_icons.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,7 +23,7 @@ class DocsListWidget extends StatefulWidget {
 }
 
 class _DocsListWidgetState extends State<DocsListWidget> {
-  var _filteredData = <DocSummary>[];
+  var _filteredData = <DocSummaryModel>[];
 
   final DateRangePickerController _pickerController =
       DateRangePickerController();
@@ -56,7 +55,7 @@ class _DocsListWidgetState extends State<DocsListWidget> {
     if (_selectedRange?.startDate != null) {
       var dateStart = _selectedRange!.startDate;
       var dateEnd = _selectedRange!.endDate;
-      _filteredData = _filteredData.where((DocSummary data) {
+      _filteredData = _filteredData.where((DocSummaryModel data) {
         return (!data.docDate.isBefore(dateStart!) &&
             !data.docDate.isAfter(dateEnd!));
       }).toList();
@@ -107,7 +106,7 @@ class _DocsListWidgetState extends State<DocsListWidget> {
   Widget build(BuildContext context) {
     final DatabaseService databaseService = Get.find();
 
-    Future<List<DocSummary>> getDocs() async {
+    Future<List<DocSummaryModel>> getDocs() async {
       return await databaseService.database.docsDao.getAllDocSummaries();
     }
 
@@ -156,7 +155,7 @@ class _DocsListWidgetState extends State<DocsListWidget> {
           children: [
             SizedBox(
                 height: DeviceScreenConstants.screenHeight * 0.70,
-                child: FutureBuilder<List<DocSummary>>(
+                child: FutureBuilder<List<DocSummaryModel>>(
                     future: getDocs(),
                     builder: ((context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -164,7 +163,7 @@ class _DocsListWidgetState extends State<DocsListWidget> {
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
                       } else {
-                        final List<DocSummary> docsList = snapshot.data!;
+                        final List<DocSummaryModel> docsList = snapshot.data!;
                         _filteredData = docsList;
 
                         return ListView.builder(
@@ -217,7 +216,7 @@ class _DocsListWidgetState extends State<DocsListWidget> {
 ///////////////////////////////////////////////////////////////////////////////
 
 class _DocsWidgetRow extends StatelessWidget {
-  final DocSummary data;
+  final DocSummaryModel data;
 
   const _DocsWidgetRow({
     required this.data,

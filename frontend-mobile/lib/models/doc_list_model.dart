@@ -1,9 +1,9 @@
-class DocSummary {
+class DocSummaryModel {
   final int id;
   final String docName;
   final DateTime docDate;
 
-  DocSummary({
+  DocSummaryModel({
     required this.id,
     required this.docName,
     required this.docDate,

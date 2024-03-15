@@ -7,11 +7,11 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
 
   DocsDao(this.db) : super(db);
 
-  Future<List<DocSummary>> getAllDocSummaries() async {
+  Future<List<DocSummaryModel>> getAllDocSummaries() async {
     final query = select(docs);
     final result = await query.get();
     return result
-        .map((row) => DocSummary(
+        .map((row) => DocSummaryModel(
           id: row.id,
           docName: row.docName,
           docDate: row.docDate!,
