@@ -1,6 +1,7 @@
 import 'package:diplom/utils/app_style.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/utils/constants.dart';
+import 'package:diplom/views/screens/profile/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +9,7 @@ class ProfileCardWidget extends StatelessWidget {
   const ProfileCardWidget({super.key});
 
   void _getBack() => Get.back();
+  void _getEdit() => Get.to(() => EditProfileScreen());
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,7 @@ class ProfileCardWidget extends StatelessWidget {
           ),
           ElevatedButton(
             style: AppButtonStyle.filledRoundedButton,
-            onPressed: _getBack,
+            onPressed: _getEdit,
             child: Text('Изменить данные'),
           ),
         ],

@@ -64,27 +64,10 @@ class _AddDocWidgetState extends State<AddDocWidget> {
   }
 
   void _cancel() => Get.back();
-  // void _submit() {
-  //   var docName = _nameInputController.toString();
-  //   var docDate = _dateInputController.toString();
-  //   var docPlace = _placeInputController.toString();
-  //   var DocNote = _notesInputController.toString();
-
-  //   Get.snackbar(
-  //     'Успешно!',
-  //     'Документ добавлен',
-  //     backgroundColor: Colors.tealAccent.withOpacity(0.4),
-  //     colorText: Colors.teal.shade900,
-  //     snackPosition: SnackPosition.TOP,
-  //     duration: const Duration(milliseconds: 1500),
-  //     animationDuration: const Duration(milliseconds: 500),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
     final DatabaseService _databaseService = Get.find();
-    // final database = Provider.of<AppDatabase>(context);
 
     final nameInputDecoration = AppStyleTextFields.sharedDecoration.copyWith(
       label: const Text('название документа'),

@@ -15,11 +15,13 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      id: map['id'] as int,
-      username: map['name'] as String,
-      birthdate: DateTime.fromMillisecondsSinceEpoch(map['birthdate'] as int),
-      deseaseHistory: map['deseaseHistory'] as String,
-      threatmentHistory: map['threatmentHistory'] as String,
+      id:                 map['id'] as int,
+      username:           map['name'] as String,
+      birthdate:          DateTime.fromMillisecondsSinceEpoch(
+                            map['birthdate'] as int
+                          ),
+      deseaseHistory:     map['deseaseHistory'] as String,
+      threatmentHistory:  map['threatmentHistory'] as String,
     );
   }
 

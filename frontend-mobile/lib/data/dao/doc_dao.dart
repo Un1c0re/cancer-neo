@@ -12,10 +12,16 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
     final result = await query.get();
     return result
         .map((row) => DocSummary(
-              docName: row.docName,
-              docDate: row.docDate!,
-            ))
+          id: row.id,
+          docName: row.docName,
+          docDate: row.docDate!,
+        ))
         .toList();
+  }
+
+  Future<DocModel?> getDoc(id) async {
+    final doc = await (select(docs)..where((doc) => doc.id.equals(id))).getSingleOrNull();
+    return doc != null ? DocModel.fromMap(doc.toJson()) : null;
   }
 
   Future<void> insertDoc({

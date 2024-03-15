@@ -12,14 +12,6 @@ import '../../../utils/constants.dart';
 import '../../screens/doc/add_doc_screen.dart';
 import '../../screens/doc/doc_screen.dart';
 
-class DocsRowData {
-  final IconData icon;
-  final String label;
-  final DateTime datetime;
-
-  DocsRowData(this.icon, this.label, this.datetime);
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -231,7 +223,7 @@ class _DocsWidgetRow extends StatelessWidget {
     required this.data,
   });
 
-  void _getDocScreen() => Get.to(() => const DocScreen());
+  void _getDocScreen(docId) => Get.to(() => DocScreen(docID: docId,));
 
   @override
   Widget build(BuildContext context) {
@@ -269,7 +261,7 @@ class _DocsWidgetRow extends StatelessWidget {
         Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: _getDocScreen,
+            onTap: () => _getDocScreen(data.id),
             borderRadius: const BorderRadius.all(
               Radius.circular(10),
             ),

@@ -24,7 +24,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('neo go'),
+        title: const Text('Профиль'),
         centerTitle: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -82,29 +82,29 @@ class _ProfileCardState extends State<_ProfileCard> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             FutureBuilder<UserModel?>(
-              future: getUser(),
-              builder: ((context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  final UserModel userdata = snapshot.data!;
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        userdata.username,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
+                future: getUser(),
+                builder: ((context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    final UserModel userdata = snapshot.data!;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          userdata.username,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                          ),
                         ),
-                      ),
-                      Text(userdata.birthdate.toString().substring(0, 10)),
-                    ],
-                  );
-                }
-              })),
+                        Text(userdata.birthdate.toIso8601String().substring(0, 10)),
+                      ],
+                    );
+                  }
+                })),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [

@@ -19,14 +19,14 @@ class UsersDao extends DatabaseAccessor<AppDatabase> with _$UsersDaoMixin {
 
   Future<UserModel?> getUserdata() async {
     final user = await (select(users)..where((user) => user.id.equals(0))).getSingleOrNull();
-    if (user != null) {
-      final tt = user.toJson();
-      final UserModel user_m = UserModel.fromMap(tt);
-      return user_m;
-    } else {
-      return null;
-    }
-    // return user != null ? UserModel.fromMap(user.toJson()) : null;
+    // if (user != null) {
+    //   final tt = user.toJson();
+    //   final UserModel user_m = UserModel.fromMap(tt);
+    //   return user_m;
+    // } else {
+    //   return null;
+    // }
+    return user != null ? UserModel.fromMap(user.toJson()) : null;
   }
 
   Future<void> updateUser({
@@ -34,7 +34,7 @@ class UsersDao extends DatabaseAccessor<AppDatabase> with _$UsersDaoMixin {
     String? name,
     DateTime? birthdate,
     String? diseaseHistory,
-    String? treatmentHistory,
+    String? threatmentHistory,
   }) async {
     final updateUser = UsersCompanion(
       id: Value(userId),
@@ -42,8 +42,8 @@ class UsersDao extends DatabaseAccessor<AppDatabase> with _$UsersDaoMixin {
       birthdate: birthdate != null ? Value(birthdate) : const Value.absent(),
       deseaseHistory:
           diseaseHistory != null ? Value(diseaseHistory) : const Value.absent(),
-      threatmentHistory: treatmentHistory != null
-          ? Value(treatmentHistory)
+      threatmentHistory: threatmentHistory != null
+          ? Value(threatmentHistory)
           : const Value.absent(),
     );
 

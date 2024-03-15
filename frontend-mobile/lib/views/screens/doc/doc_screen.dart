@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import '../../widgets/docs/doc_widget.dart';
 
 class DocScreen extends StatefulWidget {
-  const DocScreen({super.key});
+  final int docID;
+  const DocScreen({
+    super.key,
+    required this.docID,
+  });
 
   @override
   State<DocScreen> createState() => _DocScreenState();
@@ -25,7 +29,7 @@ class _DocScreenState extends State<DocScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
-        child: DocWidget(),
+        child: DocWidget(docID: widget.docID),
       ),
     );
   }
