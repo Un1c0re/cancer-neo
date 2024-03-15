@@ -92,10 +92,11 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
+              SizedBox(height: 10),
               SymptomsBlock(
                 gradeSymptom: 'Тревожность',
                 boolSymptom1: 'Уменьшение диуреза',
@@ -170,6 +171,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                   ),
                 ),
               ),
+              SizedBox(height: 10),
             ],
           ),
         ),

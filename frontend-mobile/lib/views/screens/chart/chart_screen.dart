@@ -24,7 +24,7 @@ class _TrackerScreenState extends State<TrackerScreen> {
         ),
       ),
       body: const Padding(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.symmetric(horizontal: 10),
         child: ChartWidget(),
       ),
     );

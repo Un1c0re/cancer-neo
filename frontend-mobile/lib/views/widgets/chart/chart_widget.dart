@@ -322,11 +322,12 @@ class _ChartWidgetState extends State<ChartWidget> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: SingleChildScrollView(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                SizedBox(height: 10),
                 GradeChart(),
                 SizedBox(height: 30),
                 BoolChart(),
@@ -344,6 +345,7 @@ class _ChartWidgetState extends State<ChartWidget> {
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
+                SizedBox(height: 10),
               ]),
         ),
       ),

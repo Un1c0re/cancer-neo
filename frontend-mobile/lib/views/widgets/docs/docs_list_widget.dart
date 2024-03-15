@@ -3,6 +3,7 @@ import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -148,13 +149,11 @@ class _DocsListWidgetState extends State<DocsListWidget> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Stack(
           children: [
             SizedBox(
-                height: DeviceScreenConstants.screenHeight * 0.70,
+                height: DeviceScreenConstants.screenHeight,
                 child: FutureBuilder<List<DocSummaryModel>>(
                     future: getDocs(),
                     builder: ((context, snapshot) {
@@ -179,27 +178,36 @@ class _DocsListWidgetState extends State<DocsListWidget> {
                             });
                       }
                     }))),
-            ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxHeight: 45,
-                maxWidth: 300,
-              ),
-              child: Center(
-                child: ElevatedButton(
-                  style: AppButtonStyle.basicButton,
-                  onPressed: _addDocOrDiary,
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.add_outlined),
-                      SizedBox(width: 5),
-                      Text(
-                        'Добавить',
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
+
+            Padding(
+              padding: const EdgeInsets.only(bottom: 25),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxHeight: 65,
+                    maxWidth: 300,
+                  ),
+                  child: Center(
+                    child: ElevatedButton(
+                      style: AppButtonStyle.basicButton.copyWith(
+                        elevation: MaterialStatePropertyAll(5)
                       ),
-                    ],
+                      onPressed: _addDocOrDiary,
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.add_outlined),
+                          SizedBox(width: 5),
+                          Text(
+                            'Добавить',
+                            style: TextStyle(
+                              fontSize: 22,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),

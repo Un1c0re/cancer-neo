@@ -1,21 +1,14 @@
-import 'package:diplom/data/moor_db.dart';
-import 'package:diplom/providers/database_provider.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/constants.dart';
-import 'package:diplom/views/screens/doc/add_doc_screen.dart';
-import 'package:diplom/views/screens/doc/doc_screen.dart';
 import 'package:diplom/views/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 
 
 void main() async {
-  // await dotenv.load(fileName: '.env');
-
   WidgetsFlutterBinding.ensureInitialized();
-  Get.put(DatabaseService()).init(); // Инициализируем сервис базы данных
+  Get.put(DatabaseService()).init();
   
   runApp(MyApp());
 }

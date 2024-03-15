@@ -1,13 +1,11 @@
 import 'dart:io';
 
-import 'package:diplom/data/moor_db.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 
 import '../../../utils/app_style.dart';
 import '../../../utils/constants.dart';

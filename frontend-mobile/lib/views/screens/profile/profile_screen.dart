@@ -1,8 +1,6 @@
 import 'package:diplom/views/widgets/profile/profile_card_widget.dart';
 import 'package:flutter/material.dart';
 
-import '../../widgets/profile/edit_profile_widget.dart';
-
 class ProfileCardScreen extends StatefulWidget {
   const ProfileCardScreen({super.key});
 
