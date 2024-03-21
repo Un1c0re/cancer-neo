@@ -1,6 +1,8 @@
 
 import 'package:diplom/models/doc_list_model.dart';
 import 'package:diplom/utils/app_colors.dart';
+import 'package:diplom/utils/app_icons.dart';
+import 'package:diplom/utils/app_style_icons.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/views/screens/doc/doc_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,21 @@ class DocCardWidget extends StatelessWidget {
   });
 
   void _getDocScreen(docId) => Get.to(() => DocScreen(docID: docId,));
+  
+  Icon _getTypeIcon(typeID) {
+    switch(typeID) {
+      case 0:
+        return Icon(AppIcons.lightbulb);
+      case 1:
+        return Icon(AppIcons.capsules);
+      case 2:
+        return Icon(AppIcons.dna);
+      case 3:
+        return Icon(AppIcons.clock);
+      default:
+        return Icon(Icons.error, color: Colors.red);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +40,7 @@ class DocCardWidget extends StatelessWidget {
           backgroundColor: Colors.white,
           child: Row(
             children: [
-              Icon(Icons.document_scanner_outlined),
+              _getTypeIcon(data.docType),
               const SizedBox(width: 15),
               Expanded(
                 child: Text(

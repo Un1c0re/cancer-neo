@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:diplom/services/database_service.dart';
@@ -20,6 +21,7 @@ class AddDocWidget extends StatefulWidget {
 
 class _AddDocWidgetState extends State<AddDocWidget> {
   final _nameInputController = TextEditingController();
+  final _typeInputController = TextEditingController();
   final _placeInputController = TextEditingController();
   final _dateInputController = TextEditingController();
   final _notesInputController = TextEditingController();
@@ -71,6 +73,10 @@ class _AddDocWidgetState extends State<AddDocWidget> {
       label: const Text('название документа'),
     );
 
+    final typeInputDecoration = AppStyleTextFields.sharedDecoration.copyWith(
+      label: const Text('тип документа'),
+    );
+
     final dateInputDecoration = AppStyleTextFields.sharedDecoration.copyWith(
       label: const Text('дд.мм.гггг'),
       suffix: IconButton(
@@ -118,6 +124,11 @@ class _AddDocWidgetState extends State<AddDocWidget> {
                       controller: _nameInputController,
                     ),
                     TextField(
+                      decoration: typeInputDecoration,
+                      cursorColor: AppColors.activeColor,
+                      controller: _typeInputController,
+                    ),
+                    TextField(
                       decoration: dateInputDecoration,
                       cursorColor: AppColors.activeColor,
                       controller: _dateInputController,
@@ -156,11 +167,11 @@ class _AddDocWidgetState extends State<AddDocWidget> {
                       style: AppButtonStyle.filledRoundedButton,
                       onPressed: () {
                         String docName = _nameInputController.text;
+                        int docType = int.parse(_typeInputController.text);
                         DateTime docDate = DateTime.parse(_dateInputController.text);
                         String docPlace = _placeInputController.text;
-                        String DocNote = _notesInputController.text;
-                        // TODO: add docType input
-                        saveDoc(docName, docDate, docPlace, DocNote);
+                        String docNote = _notesInputController.text;
+                        saveDoc(docName, docType, docDate, docPlace, docNote);
 
                         Get.back();
                         Get.snackbar(

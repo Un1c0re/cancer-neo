@@ -14,6 +14,7 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
         .map((row) => DocSummaryModel(
           id: row.id,
           docName: row.docName,
+          docType: row.docType,
           docDate: row.docDate!,
         ))
         .toList();
@@ -25,13 +26,13 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
   }
 
   Future<void> insertDoc({
-    required String userName,
-    required String docName,
-    required int docType,
+    required String   userName,
+    required String   docName,
+    required int      docType,
     required DateTime docDate,
-    required String docPlace,
-    required String docNotes,
-    Uint8List? pdfFile,
+    required String   docPlace,
+    required String   docNotes,
+    Uint8List?        pdfFile,
   }) async {
     // Находим пользователя по имени
     final userQuery = select(users)..where((tbl) => tbl.name.equals(userName));

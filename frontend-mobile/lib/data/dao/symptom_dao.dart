@@ -50,7 +50,6 @@ class SymptomsDao extends DatabaseAccessor<AppDatabase>
       value: newValue != null ? Value(newValue) : Value.absent(),
       date: Value.absent(),
     );
-
     await (update(symptomsValues)
           ..where((tbl) => tbl.id.equals(symptomValueId)))
         .write(symptomValueEntry);
@@ -70,6 +69,7 @@ class SymptomsDao extends DatabaseAccessor<AppDatabase>
     final results = await query.get();
     return results
         .map((row) => SymptomDetails(
+              id: row.read<int>('id'),
               symptomName: row.read<String>('symptomName'),
               symptomType: row.read<String>('symptomType'),
               symptomValue: row.read<int>('symptomValue'),

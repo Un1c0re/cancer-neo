@@ -1,6 +1,8 @@
+import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class GradeSymptom extends StatefulWidget {
   final String label;
@@ -21,6 +23,15 @@ class _GradeSymptomState extends State<GradeSymptom> {
 
   @override
   Widget build(BuildContext context) {
+    final DatabaseService databaseService = Get.find();
+    
+    Future<void> updateValue(int id, int value) async {
+      await databaseService.database.symptomsDao.updateSymptomValue(
+        symptomValueId: id, 
+        newValue: value,
+        );
+    }
+
     return ConstrainedBox(
       constraints: const BoxConstraints(
         maxHeight: 100,
@@ -62,6 +73,7 @@ class _GradeSymptomState extends State<GradeSymptom> {
                     setState(() {
                       _currentSliderValue = value;
                     });
+                    updateValue(0, value as int);
                   },
                 ),
               ),
