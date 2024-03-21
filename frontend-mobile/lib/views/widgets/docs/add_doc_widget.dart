@@ -25,8 +25,15 @@ class _AddDocWidgetState extends State<AddDocWidget> {
   final _placeInputController = TextEditingController();
   final _dateInputController = TextEditingController();
   final _notesInputController = TextEditingController();
-
+  
   DateTime? _pickedDateTime;
+  int? selectedCategoryIndex;
+
+  void _onCategorySelected(int? index) {
+    setState(() {
+      selectedCategoryIndex = index;
+    });
+  }
 
   @override
   void initState() {
@@ -93,8 +100,8 @@ class _AddDocWidgetState extends State<AddDocWidget> {
       label: const Text('примечания'),
     );
 
-    Future<void> saveDoc(String docName, int docType, DateTime docDate, String docPlace,
-        String docNotes) async {
+    Future<void> saveDoc(String docName, int docType, DateTime docDate,
+        String docPlace, String docNotes) async {
       await _databaseService.database.docsDao.insertDoc(
         userName: 'test testovich',
         docName: docName,
@@ -123,11 +130,7 @@ class _AddDocWidgetState extends State<AddDocWidget> {
                       cursorColor: AppColors.activeColor,
                       controller: _nameInputController,
                     ),
-                    TextField(
-                      decoration: typeInputDecoration,
-                      cursorColor: AppColors.activeColor,
-                      controller: _typeInputController,
-                    ),
+                    DocumentTypeSelector(onSelected: _onCategorySelected),
                     TextField(
                       decoration: dateInputDecoration,
                       cursorColor: AppColors.activeColor,
@@ -167,8 +170,9 @@ class _AddDocWidgetState extends State<AddDocWidget> {
                       style: AppButtonStyle.filledRoundedButton,
                       onPressed: () {
                         String docName = _nameInputController.text;
-                        int docType = int.parse(_typeInputController.text);
-                        DateTime docDate = DateTime.parse(_dateInputController.text);
+                        int docType = selectedCategoryIndex!;
+                        DateTime docDate =
+                            DateTime.parse(_dateInputController.text);
                         String docPlace = _placeInputController.text;
                         String docNote = _notesInputController.text;
                         saveDoc(docName, docType, docDate, docPlace, docNote);
@@ -251,6 +255,63 @@ class _AddPhotoWidgetState extends State<_AddPhotoWidget> {
                   style: AppButtonStyle.textRoundedButton,
                 ),
         ],
+      ),
+    );
+  }
+}
+
+class DocumentTypeSelector extends StatefulWidget {
+  final Function(int?) onSelected;
+
+  const DocumentTypeSelector({super.key, required this.onSelected});
+
+  @override
+  _DocumentTypeSelectorState createState() => _DocumentTypeSelectorState();
+}
+
+class _DocumentTypeSelectorState extends State<DocumentTypeSelector> {
+  int? selectedIndex;
+  final List<Map<String, dynamic>> categories = [
+    {'name': 'Анализы', 'index': 0},
+    {'name': 'КТ', 'index': 1},
+    {'name': 'МРТ', 'index': 2},
+    {'name': 'Исследования', 'index': 3},
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: DropdownButtonFormField<Map<String, dynamic>>(
+        decoration: InputDecoration(
+          labelText: 'Категория документа',
+          labelStyle: const TextStyle(color: AppColors.activeColor),
+          filled: true,
+          fillColor: AppColors.fillColor,
+          focusColor: AppColors.activeColor,
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide.none,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        ),
+        value: categories.firstWhere((category) => category['index'] == selectedIndex, orElse: () => categories[0]),
+        onChanged: (Map<String, dynamic>? newValue) {
+        setState(() {
+          selectedIndex = newValue?['index'];
+        });
+        widget.onSelected(newValue?['index']); // Вызов callback-функции с индексом
+      },
+      items: categories.map((Map<String, dynamic> category) {
+        return DropdownMenuItem<Map<String, dynamic>>(
+          value: category,
+          child: Text(category['name']),
+        );
+      }).toList(),
       ),
     );
   }
