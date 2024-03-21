@@ -1,58 +1,23 @@
 import 'package:diplom/utils/app_colors.dart';
+import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/utils/constants.dart';
 import 'package:flutter/material.dart';
 
-class AppStyleCard extends StatelessWidget {
-  final Widget child;
-  final Color backgroundColor;
-
-  const AppStyleCard({
-    super.key,
-    required this.backgroundColor,
-    required this.child,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.15),
-            spreadRadius: 1,
-            blurRadius: 0.8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-        borderRadius: const BorderRadius.all(
-          Radius.circular(12.5),
-        ),
-      ),
-      child: SizedBox(
-        height: double.maxFinite,
-        width: double.maxFinite,
-        child: Padding(padding: const EdgeInsets.all(8.0), child: child),
-      ),
-    );
-  }
-}
-
-class ApppStyleChip extends StatefulWidget {
+class BoolSymptomWidget extends StatefulWidget {
   final String label;
   final int value;
 
-  const ApppStyleChip({
+  const BoolSymptomWidget({
     super.key,
     required this.label,
     required this.value,
   });
 
   @override
-  State<ApppStyleChip> createState() => _ApppStyleChipState();
+  State<BoolSymptomWidget> createState() => _BoolSymptomWidgetState();
 }
 
-class _ApppStyleChipState extends State<ApppStyleChip> {
+class _BoolSymptomWidgetState extends State<BoolSymptomWidget> {
   bool _isSelected = false;
 
   @override

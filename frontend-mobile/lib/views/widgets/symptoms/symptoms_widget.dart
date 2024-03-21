@@ -1,8 +1,12 @@
+import 'package:diplom/models/symptoms_models.dart';
+import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_style.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/utils/constants.dart';
 import 'package:diplom/views/screens/symptoms/add_symptom_screen.dart';
+import 'package:diplom/views/widgets/symptoms/bool_symptom_widget.dart';
+import 'package:diplom/views/widgets/symptoms/grade_symptom_widget.dart';
 import 'package:diplom/views/widgets/symptoms/num_symptom_widget.dart';
 import 'package:diplom/views/widgets/symptoms/symptoms_block_widget.dart';
 import 'package:flutter/material.dart';
@@ -53,6 +57,13 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final DatabaseService _databaseService = Get.find();
+
+    Future<List<SymptomDetails>> getSymptomData() async {
+      return await _databaseService.database.symptomsDao
+          .getSymptomsDetails(selectedDate);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Container(
@@ -98,56 +109,72 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 10),
-              SymptomsBlock(
-                gradeSymptom: 'Тревожность',
-                boolSymptom1: 'Уменьшение диуреза',
-                boolSymptom2: 'Боль в левой части груди',
-                boolSymptom3: 'Тошнота',
-                boolSymptom4: 'Рвота',
+              FutureBuilder(
+                future: getSymptomData(),
+                builder: ((context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    final List<SymptomDetails> symptoms = snapshot.data!;
+                    final List<SymptomDetails> gradeSymptoms = [];
+                    final List<SymptomDetails> boolSymptoms = [];
+
+                    for (int i = 0; i < symptoms.length; i++) {
+                      if (symptoms[i].symptomType == 'grade') {
+                        gradeSymptoms.add(symptoms[i]);
+                      } else if (symptoms[i].symptomType == 'bool') {
+                        boolSymptoms.add(symptoms[i]);
+                      } 
+                    }
+
+                    final List<Widget> gradeSymptomsWidgets = [];
+                    for(int i = 0; i < gradeSymptoms.length; i ++) {
+                      gradeSymptomsWidgets.add(
+                        GradeSymptom(
+                          label: gradeSymptoms[i].symptomName, 
+                          elIndex: gradeSymptoms[i].symptomValue
+                        ),
+                      );
+                    }
+
+                    final List<Widget> boolSymptomsWidgets = [];
+                    for(int i = 0; i < boolSymptoms.length; i ++) {
+                      gradeSymptomsWidgets.add(
+                        BoolSymptomWidget(
+                          label: boolSymptoms[i].symptomName,
+                          value: boolSymptoms[i].symptomValue,
+                        ),
+                      );
+                    }
+
+                    return Column(
+                      children: [
+                        ...gradeSymptomsWidgets,
+                        ...boolSymptomsWidgets,
+                      ],
+                    );
+                  }
+                }),
               ),
-              const SizedBox(height: 20),
-              SymptomsBlock(
-                gradeSymptom: 'Головная боль',
-                boolSymptom1: 'головокружение',
-                boolSymptom2: 'Мигрень',
-                boolSymptom3: 'Метеоризм',
-                boolSymptom4: 'Спутанность сознания',
-              ),
-              const SizedBox(height: 20),
-              SymptomsBlock(
-                gradeSymptom: 'Слабость',
-                boolSymptom1: 'Нарушение сна',
-                boolSymptom2: 'Периферическая невропатия',
-                boolSymptom3: 'Стоматит',
-                boolSymptom4: 'Хрипы',
-              ),
-              const SizedBox(height: 40),
-              NumSymptoms(label: 'Температура'),
-              const SizedBox(height:15),
-              NumSymptoms(label: 'Масса тела'),
-              const SizedBox(height: 15),
-              NumSymptoms(label: 'Кровяное давление'),
-              const SizedBox(height: 15),
-              NumSymptoms(label: 'Уровень сахара'),
-              const SizedBox(height: 40),
               ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxWidth: DeviceScreenConstants.screenWidth * 0.9,
-                  maxHeight: DeviceScreenConstants.screenHeight * 0.1
-                ),
+                  maxWidth:
+                      DeviceScreenConstants.screenWidth * 0.9,
+                  maxHeight:
+                      DeviceScreenConstants.screenHeight * 0.1),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
                       child: ElevatedButton(
-                      style: AppButtonStyle.filledRoundedButton,
-                      onPressed: _addSymptom,
-                      child: const Text('Добавить симптом'),
-                                        ),
+                        style: AppButtonStyle.filledRoundedButton,
+                        onPressed: _addSymptom,
+                        child: const Text('Добавить симптом'),
+                      ),
                     ),
-                  ]
-                  
+                  ],
                 ),
               ),
               const SizedBox(height: 20),
@@ -169,15 +196,15 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                         cursorColor: AppColors.activeColor,
                         controller: _notesInputController,
                       ),
+                      SizedBox(height: 10),
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 10),
             ],
           ),
-        ),
-      ),
+        )
+      )
     );
   }
 }

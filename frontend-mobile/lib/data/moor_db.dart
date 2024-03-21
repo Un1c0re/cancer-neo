@@ -53,8 +53,8 @@ class SymptomsTypes extends Table {
 
 class SymptomsNames extends Table {
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get type =>
-      text().customConstraint('REFERENCES symptomsTypes(id)')();
+  IntColumn get type =>
+      integer().customConstraint('REFERENCES symptomsTypes(id)')();
   TextColumn get name => text()();
 }
 

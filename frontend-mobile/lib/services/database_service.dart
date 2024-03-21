@@ -8,6 +8,8 @@ class DatabaseService extends GetxService {
     _database = AppDatabase(); // Создание экземпляра базы данных
     // _database.usersDao.createUser();
     // _database.doctypesDao.initializeDocTypes();
+    // _database.symptomsDao.addSymptomTypes();
+    // _database.symptomsDao.addSymptomNames();
   }
 
   AppDatabase get database => _database;

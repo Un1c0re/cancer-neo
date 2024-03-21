@@ -1,4 +1,4 @@
-part of 'package:diplom/data/moor_db.dart'; 
+part of 'package:diplom/data/moor_db.dart';
 
 @UseDao(tables: [Users, SymptomsTypes, SymptomsNames, SymptomsValues])
 class SymptomsDao extends DatabaseAccessor<AppDatabase>
@@ -7,15 +7,62 @@ class SymptomsDao extends DatabaseAccessor<AppDatabase>
 
   SymptomsDao(this.db) : super(db);
 
+  Future<void> addSymptomTypes() async {
+    final type1 = 'bool';
+    final type2 = 'grade';
+    final type3 = 'num';
+
+    await into(symptomsTypes).insert(
+      SymptomsTypesCompanion.insert(type: type1));
+    
+    await into(symptomsTypes).insert(
+      SymptomsTypesCompanion.insert(type: type2));
+    
+    await into(symptomsTypes).insert(
+      SymptomsTypesCompanion.insert(type: type3));
+
+  }
+
+  Future<void> addSymptomNames() async {
+    final String name1 = "тревожность";
+    final String name2 = "Головная боль";
+    final String name3 = "мигрень";
+    final String name4 = "кашель";
+
+    await into(symptomsNames).insert(
+      SymptomsNamesCompanion(
+        type: Value(1),
+        name: Value(name1),
+      )
+    );
+    await into(symptomsNames).insert(
+      SymptomsNamesCompanion(
+        type: Value(1),
+        name: Value(name2),
+      )
+    );
+    await into(symptomsNames).insert(
+      SymptomsNamesCompanion(
+        type: Value(0),
+        name: Value(name3),
+      )
+    );
+    await into(symptomsNames).insert(
+      SymptomsNamesCompanion(
+        type: Value(0),
+        name: Value(name4),
+      )
+    );
+
+  }
+
   Future<void> addSymptomValue({
-    required String userName,
     required String symptomTypeName,
     required String symptomName,
     required int value,
     required DateTime date,
   }) async {
-    // Поиск пользователя по имени
-    final userQuery = select(users)..where((u) => u.name.equals(userName));
+    final userQuery = select(users)..where((u) => u.id.equals(0));
     final user = await userQuery.getSingle();
 
     // Поиск типа симптома по названию
@@ -23,11 +70,10 @@ class SymptomsDao extends DatabaseAccessor<AppDatabase>
       ..where((t) => t.type.equals(symptomTypeName));
     final symptomType = await symptomTypeQuery.getSingle();
 
-
     // Поиск имени симптома по типу и названию
     final symptomNameQuery = select(symptomsNames)
       ..where((n) =>
-          n.type.equals(symptomType.id.toString()) &
+          n.type.equals(symptomType.id) &
           n.name.equals(symptomName));
     final symptomNameEntry = await symptomNameQuery.getSingle();
 
@@ -58,9 +104,9 @@ class SymptomsDao extends DatabaseAccessor<AppDatabase>
   Future<List<SymptomDetails>> getSymptomsDetails(DateTime date) async {
     final query = customSelect(
       'SELECT sn.name AS symptomName, st.type AS symptomType, sv.value AS symptomValue '
-      'FROM symptomsvalues AS sv '
-      'JOIN symptomsnames AS sn ON sv.symptomNameId = sn.id '
-      'JOIN symptomstypes AS st ON sn.typeId = st.id '
+      'FROM symptoms_values AS sv '
+      'JOIN symptoms_names AS sn ON sv.name = sn.id '
+      'JOIN symptoms_types AS st ON sn.type = st.id '
       'WHERE DATE(sv.date) = DATE(?)',
       readsFrom: {symptomsValues, symptomsNames, symptomsTypes},
       variables: [Variable.withDateTime(date)],

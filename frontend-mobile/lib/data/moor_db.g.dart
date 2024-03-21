@@ -1044,7 +1044,7 @@ class $SymptomsTypesTable extends SymptomsTypes
 
 class SymptomsName extends DataClass implements Insertable<SymptomsName> {
   final int id;
-  final String type;
+  final int type;
   final String name;
   SymptomsName({required this.id, required this.type, required this.name});
   factory SymptomsName.fromData(Map<String, dynamic> data, GeneratedDatabase db,
@@ -1053,7 +1053,7 @@ class SymptomsName extends DataClass implements Insertable<SymptomsName> {
     return SymptomsName(
       id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
-      type: const StringType()
+      type: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}type'])!,
       name: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}name'])!,
@@ -1063,7 +1063,7 @@ class SymptomsName extends DataClass implements Insertable<SymptomsName> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['type'] = Variable<String>(type);
+    map['type'] = Variable<int>(type);
     map['name'] = Variable<String>(name);
     return map;
   }
@@ -1081,7 +1081,7 @@ class SymptomsName extends DataClass implements Insertable<SymptomsName> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return SymptomsName(
       id: serializer.fromJson<int>(json['id']),
-      type: serializer.fromJson<String>(json['type']),
+      type: serializer.fromJson<int>(json['type']),
       name: serializer.fromJson<String>(json['name']),
     );
   }
@@ -1090,12 +1090,12 @@ class SymptomsName extends DataClass implements Insertable<SymptomsName> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'type': serializer.toJson<String>(type),
+      'type': serializer.toJson<int>(type),
       'name': serializer.toJson<String>(name),
     };
   }
 
-  SymptomsName copyWith({int? id, String? type, String? name}) => SymptomsName(
+  SymptomsName copyWith({int? id, int? type, String? name}) => SymptomsName(
         id: id ?? this.id,
         type: type ?? this.type,
         name: name ?? this.name,
@@ -1123,7 +1123,7 @@ class SymptomsName extends DataClass implements Insertable<SymptomsName> {
 
 class SymptomsNamesCompanion extends UpdateCompanion<SymptomsName> {
   final Value<int> id;
-  final Value<String> type;
+  final Value<int> type;
   final Value<String> name;
   const SymptomsNamesCompanion({
     this.id = const Value.absent(),
@@ -1132,13 +1132,13 @@ class SymptomsNamesCompanion extends UpdateCompanion<SymptomsName> {
   });
   SymptomsNamesCompanion.insert({
     this.id = const Value.absent(),
-    required String type,
+    required int type,
     required String name,
   })  : type = Value(type),
         name = Value(name);
   static Insertable<SymptomsName> custom({
     Expression<int>? id,
-    Expression<String>? type,
+    Expression<int>? type,
     Expression<String>? name,
   }) {
     return RawValuesInsertable({
@@ -1149,7 +1149,7 @@ class SymptomsNamesCompanion extends UpdateCompanion<SymptomsName> {
   }
 
   SymptomsNamesCompanion copyWith(
-      {Value<int>? id, Value<String>? type, Value<String>? name}) {
+      {Value<int>? id, Value<int>? type, Value<String>? name}) {
     return SymptomsNamesCompanion(
       id: id ?? this.id,
       type: type ?? this.type,
@@ -1164,7 +1164,7 @@ class SymptomsNamesCompanion extends UpdateCompanion<SymptomsName> {
       map['id'] = Variable<int>(id.value);
     }
     if (type.present) {
-      map['type'] = Variable<String>(type.value);
+      map['type'] = Variable<int>(type.value);
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
@@ -1198,9 +1198,9 @@ class $SymptomsNamesTable extends SymptomsNames
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
   final VerificationMeta _typeMeta = const VerificationMeta('type');
   @override
-  late final GeneratedColumn<String?> type = GeneratedColumn<String?>(
+  late final GeneratedColumn<int?> type = GeneratedColumn<int?>(
       'type', aliasedName, false,
-      type: const StringType(),
+      type: const IntType(),
       requiredDuringInsert: true,
       $customConstraints: 'REFERENCES symptomsTypes(id)');
   final VerificationMeta _nameMeta = const VerificationMeta('name');
