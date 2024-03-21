@@ -8,7 +8,7 @@ import 'package:moor_flutter/moor_flutter.dart';
 part 'moor_db.g.dart';
 
 part 'package:diplom/data/dao/user_dao.dart';
-part 'package:diplom/data/dao/doc_type_dao.dart';
+part 'package:diplom/data/dao/doctype_dao.dart';
 part 'package:diplom/data/dao/doc_dao.dart';
 part 'package:diplom/data/dao/symptom_dao.dart';
 part 'package:diplom/data/dao/daynote_dao.dart';
@@ -26,7 +26,7 @@ class Users extends Table {
 
 ////////////////////////////////// CATEGORIES //////////////////////////////////
 
-class DocTypes extends Table {
+class Doctypes extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
 }
@@ -77,8 +77,8 @@ class DayNotes extends Table {
 ////////////////////////////////// APPDATABASE ////////////////////////////////
 
 @UseMoor(
-  tables: [Users, DocTypes, Docs, SymptomsTypes, SymptomsNames, SymptomsValues, DayNotes], 
-  daos:   [UsersDao, DocTypesDao, DocsDao, SymptomsDao, DayNotesDao]
+  tables: [Users, Doctypes, Docs, SymptomsTypes, SymptomsNames, SymptomsValues, DayNotes], 
+  daos:   [UsersDao, DoctypesDao, DocsDao, SymptomsDao, DayNotesDao]
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase()
@@ -91,3 +91,5 @@ class AppDatabase extends _$AppDatabase {
   int get schemaVersion => 1;
 }
 //  flutter packages pub run build_runner watch
+//  dart run build_runner watch
+// dart --disable-analytics

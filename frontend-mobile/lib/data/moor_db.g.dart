@@ -301,14 +301,14 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   }
 }
 
-class DocType extends DataClass implements Insertable<DocType> {
+class Doctype extends DataClass implements Insertable<Doctype> {
   final int id;
   final String name;
-  DocType({required this.id, required this.name});
-  factory DocType.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+  Doctype({required this.id, required this.name});
+  factory Doctype.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
-    return DocType(
+    return Doctype(
       id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
       name: const StringType()
@@ -323,17 +323,17 @@ class DocType extends DataClass implements Insertable<DocType> {
     return map;
   }
 
-  DocTypesCompanion toCompanion(bool nullToAbsent) {
-    return DocTypesCompanion(
+  DoctypesCompanion toCompanion(bool nullToAbsent) {
+    return DoctypesCompanion(
       id: Value(id),
       name: Value(name),
     );
   }
 
-  factory DocType.fromJson(Map<String, dynamic> json,
+  factory Doctype.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return DocType(
+    return Doctype(
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
     );
@@ -347,13 +347,13 @@ class DocType extends DataClass implements Insertable<DocType> {
     };
   }
 
-  DocType copyWith({int? id, String? name}) => DocType(
+  Doctype copyWith({int? id, String? name}) => Doctype(
         id: id ?? this.id,
         name: name ?? this.name,
       );
   @override
   String toString() {
-    return (StringBuffer('DocType(')
+    return (StringBuffer('Doctype(')
           ..write('id: $id, ')
           ..write('name: $name')
           ..write(')'))
@@ -365,21 +365,21 @@ class DocType extends DataClass implements Insertable<DocType> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is DocType && other.id == this.id && other.name == this.name);
+      (other is Doctype && other.id == this.id && other.name == this.name);
 }
 
-class DocTypesCompanion extends UpdateCompanion<DocType> {
+class DoctypesCompanion extends UpdateCompanion<Doctype> {
   final Value<int> id;
   final Value<String> name;
-  const DocTypesCompanion({
+  const DoctypesCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
   });
-  DocTypesCompanion.insert({
+  DoctypesCompanion.insert({
     this.id = const Value.absent(),
     required String name,
   }) : name = Value(name);
-  static Insertable<DocType> custom({
+  static Insertable<Doctype> custom({
     Expression<int>? id,
     Expression<String>? name,
   }) {
@@ -389,8 +389,8 @@ class DocTypesCompanion extends UpdateCompanion<DocType> {
     });
   }
 
-  DocTypesCompanion copyWith({Value<int>? id, Value<String>? name}) {
-    return DocTypesCompanion(
+  DoctypesCompanion copyWith({Value<int>? id, Value<String>? name}) {
+    return DoctypesCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
     );
@@ -410,7 +410,7 @@ class DocTypesCompanion extends UpdateCompanion<DocType> {
 
   @override
   String toString() {
-    return (StringBuffer('DocTypesCompanion(')
+    return (StringBuffer('DoctypesCompanion(')
           ..write('id: $id, ')
           ..write('name: $name')
           ..write(')'))
@@ -418,11 +418,11 @@ class DocTypesCompanion extends UpdateCompanion<DocType> {
   }
 }
 
-class $DocTypesTable extends DocTypes with TableInfo<$DocTypesTable, DocType> {
+class $DoctypesTable extends Doctypes with TableInfo<$DoctypesTable, Doctype> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $DocTypesTable(this.attachedDatabase, [this._alias]);
+  $DoctypesTable(this.attachedDatabase, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
@@ -438,11 +438,11 @@ class $DocTypesTable extends DocTypes with TableInfo<$DocTypesTable, DocType> {
   @override
   List<GeneratedColumn> get $columns => [id, name];
   @override
-  String get aliasedName => _alias ?? 'doc_types';
+  String get aliasedName => _alias ?? 'doctypes';
   @override
-  String get actualTableName => 'doc_types';
+  String get actualTableName => 'doctypes';
   @override
-  VerificationContext validateIntegrity(Insertable<DocType> instance,
+  VerificationContext validateIntegrity(Insertable<Doctype> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -461,14 +461,14 @@ class $DocTypesTable extends DocTypes with TableInfo<$DocTypesTable, DocType> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  DocType map(Map<String, dynamic> data, {String? tablePrefix}) {
-    return DocType.fromData(data, attachedDatabase,
+  Doctype map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return Doctype.fromData(data, attachedDatabase,
         prefix: tablePrefix != null ? '$tablePrefix.' : null);
   }
 
   @override
-  $DocTypesTable createAlias(String alias) {
-    return $DocTypesTable(attachedDatabase, alias);
+  $DoctypesTable createAlias(String alias) {
+    return $DoctypesTable(attachedDatabase, alias);
   }
 }
 
@@ -1788,14 +1788,14 @@ class $DayNotesTable extends DayNotes with TableInfo<$DayNotesTable, DayNote> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   late final $UsersTable users = $UsersTable(this);
-  late final $DocTypesTable docTypes = $DocTypesTable(this);
+  late final $DoctypesTable doctypes = $DoctypesTable(this);
   late final $DocsTable docs = $DocsTable(this);
   late final $SymptomsTypesTable symptomsTypes = $SymptomsTypesTable(this);
   late final $SymptomsNamesTable symptomsNames = $SymptomsNamesTable(this);
   late final $SymptomsValuesTable symptomsValues = $SymptomsValuesTable(this);
   late final $DayNotesTable dayNotes = $DayNotesTable(this);
   late final UsersDao usersDao = UsersDao(this as AppDatabase);
-  late final DocTypesDao docTypesDao = DocTypesDao(this as AppDatabase);
+  late final DoctypesDao doctypesDao = DoctypesDao(this as AppDatabase);
   late final DocsDao docsDao = DocsDao(this as AppDatabase);
   late final SymptomsDao symptomsDao = SymptomsDao(this as AppDatabase);
   late final DayNotesDao dayNotesDao = DayNotesDao(this as AppDatabase);
@@ -1804,7 +1804,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
         users,
-        docTypes,
+        doctypes,
         docs,
         symptomsTypes,
         symptomsNames,
@@ -1820,8 +1820,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 mixin _$UsersDaoMixin on DatabaseAccessor<AppDatabase> {
   $UsersTable get users => attachedDatabase.users;
 }
-mixin _$DocTypesDaoMixin on DatabaseAccessor<AppDatabase> {
-  $DocTypesTable get docTypes => attachedDatabase.docTypes;
+mixin _$DoctypesDaoMixin on DatabaseAccessor<AppDatabase> {
+  $DoctypesTable get doctypes => attachedDatabase.doctypes;
 }
 mixin _$DocsDaoMixin on DatabaseAccessor<AppDatabase> {
   $UsersTable get users => attachedDatabase.users;
