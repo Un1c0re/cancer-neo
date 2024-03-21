@@ -185,7 +185,7 @@ class _DocsListWidgetState extends State<DocsListWidget> {
                   child: Center(
                     child: ElevatedButton(
                       style: AppButtonStyle.basicButton.copyWith(
-                        elevation: MaterialStatePropertyAll(5)
+                        elevation: const MaterialStatePropertyAll(5)
                       ),
                       onPressed: _addDocOrDiary,
                       child: const Row(

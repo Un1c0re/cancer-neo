@@ -301,10 +301,182 @@ class $UsersTable extends Users with TableInfo<$UsersTable, User> {
   }
 }
 
+class DocType extends DataClass implements Insertable<DocType> {
+  final int id;
+  final String name;
+  DocType({required this.id, required this.name});
+  factory DocType.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String? prefix}) {
+    final effectivePrefix = prefix ?? '';
+    return DocType(
+      id: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
+      name: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}name'])!,
+    );
+  }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    return map;
+  }
+
+  DocTypesCompanion toCompanion(bool nullToAbsent) {
+    return DocTypesCompanion(
+      id: Value(id),
+      name: Value(name),
+    );
+  }
+
+  factory DocType.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return DocType(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+    };
+  }
+
+  DocType copyWith({int? id, String? name}) => DocType(
+        id: id ?? this.id,
+        name: name ?? this.name,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('DocType(')
+          ..write('id: $id, ')
+          ..write('name: $name')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DocType && other.id == this.id && other.name == this.name);
+}
+
+class DocTypesCompanion extends UpdateCompanion<DocType> {
+  final Value<int> id;
+  final Value<String> name;
+  const DocTypesCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+  });
+  DocTypesCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+  }) : name = Value(name);
+  static Insertable<DocType> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    });
+  }
+
+  DocTypesCompanion copyWith({Value<int>? id, Value<String>? name}) {
+    return DocTypesCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DocTypesCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $DocTypesTable extends DocTypes with TableInfo<$DocTypesTable, DocType> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DocTypesTable(this.attachedDatabase, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int?> id = GeneratedColumn<int?>(
+      'id', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: false,
+      defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
+      'name', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, name];
+  @override
+  String get aliasedName => _alias ?? 'doc_types';
+  @override
+  String get actualTableName => 'doc_types';
+  @override
+  VerificationContext validateIntegrity(Insertable<DocType> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  DocType map(Map<String, dynamic> data, {String? tablePrefix}) {
+    return DocType.fromData(data, attachedDatabase,
+        prefix: tablePrefix != null ? '$tablePrefix.' : null);
+  }
+
+  @override
+  $DocTypesTable createAlias(String alias) {
+    return $DocTypesTable(attachedDatabase, alias);
+  }
+}
+
 class Doc extends DataClass implements Insertable<Doc> {
   final int id;
   final int ownerId;
   final String docName;
+  final int docType;
   final DateTime? docDate;
   final String docPlace;
   final String docNotes;
@@ -313,6 +485,7 @@ class Doc extends DataClass implements Insertable<Doc> {
       {required this.id,
       required this.ownerId,
       required this.docName,
+      required this.docType,
       this.docDate,
       required this.docPlace,
       required this.docNotes,
@@ -327,6 +500,8 @@ class Doc extends DataClass implements Insertable<Doc> {
           .mapFromDatabaseResponse(data['${effectivePrefix}owner_id'])!,
       docName: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}doc_name'])!,
+      docType: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}doc_type'])!,
       docDate: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}doc_date']),
       docPlace: const StringType()
@@ -343,6 +518,7 @@ class Doc extends DataClass implements Insertable<Doc> {
     map['id'] = Variable<int>(id);
     map['owner_id'] = Variable<int>(ownerId);
     map['doc_name'] = Variable<String>(docName);
+    map['doc_type'] = Variable<int>(docType);
     if (!nullToAbsent || docDate != null) {
       map['doc_date'] = Variable<DateTime?>(docDate);
     }
@@ -359,6 +535,7 @@ class Doc extends DataClass implements Insertable<Doc> {
       id: Value(id),
       ownerId: Value(ownerId),
       docName: Value(docName),
+      docType: Value(docType),
       docDate: docDate == null && nullToAbsent
           ? const Value.absent()
           : Value(docDate),
@@ -377,6 +554,7 @@ class Doc extends DataClass implements Insertable<Doc> {
       id: serializer.fromJson<int>(json['id']),
       ownerId: serializer.fromJson<int>(json['ownerId']),
       docName: serializer.fromJson<String>(json['docName']),
+      docType: serializer.fromJson<int>(json['docType']),
       docDate: serializer.fromJson<DateTime?>(json['docDate']),
       docPlace: serializer.fromJson<String>(json['docPlace']),
       docNotes: serializer.fromJson<String>(json['docNotes']),
@@ -390,6 +568,7 @@ class Doc extends DataClass implements Insertable<Doc> {
       'id': serializer.toJson<int>(id),
       'ownerId': serializer.toJson<int>(ownerId),
       'docName': serializer.toJson<String>(docName),
+      'docType': serializer.toJson<int>(docType),
       'docDate': serializer.toJson<DateTime?>(docDate),
       'docPlace': serializer.toJson<String>(docPlace),
       'docNotes': serializer.toJson<String>(docNotes),
@@ -401,6 +580,7 @@ class Doc extends DataClass implements Insertable<Doc> {
           {int? id,
           int? ownerId,
           String? docName,
+          int? docType,
           DateTime? docDate,
           String? docPlace,
           String? docNotes,
@@ -409,6 +589,7 @@ class Doc extends DataClass implements Insertable<Doc> {
         id: id ?? this.id,
         ownerId: ownerId ?? this.ownerId,
         docName: docName ?? this.docName,
+        docType: docType ?? this.docType,
         docDate: docDate ?? this.docDate,
         docPlace: docPlace ?? this.docPlace,
         docNotes: docNotes ?? this.docNotes,
@@ -420,6 +601,7 @@ class Doc extends DataClass implements Insertable<Doc> {
           ..write('id: $id, ')
           ..write('ownerId: $ownerId, ')
           ..write('docName: $docName, ')
+          ..write('docType: $docType, ')
           ..write('docDate: $docDate, ')
           ..write('docPlace: $docPlace, ')
           ..write('docNotes: $docNotes, ')
@@ -429,8 +611,8 @@ class Doc extends DataClass implements Insertable<Doc> {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, ownerId, docName, docDate, docPlace, docNotes, pdfFile);
+  int get hashCode => Object.hash(
+      id, ownerId, docName, docType, docDate, docPlace, docNotes, pdfFile);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -438,6 +620,7 @@ class Doc extends DataClass implements Insertable<Doc> {
           other.id == this.id &&
           other.ownerId == this.ownerId &&
           other.docName == this.docName &&
+          other.docType == this.docType &&
           other.docDate == this.docDate &&
           other.docPlace == this.docPlace &&
           other.docNotes == this.docNotes &&
@@ -448,6 +631,7 @@ class DocsCompanion extends UpdateCompanion<Doc> {
   final Value<int> id;
   final Value<int> ownerId;
   final Value<String> docName;
+  final Value<int> docType;
   final Value<DateTime?> docDate;
   final Value<String> docPlace;
   final Value<String> docNotes;
@@ -456,6 +640,7 @@ class DocsCompanion extends UpdateCompanion<Doc> {
     this.id = const Value.absent(),
     this.ownerId = const Value.absent(),
     this.docName = const Value.absent(),
+    this.docType = const Value.absent(),
     this.docDate = const Value.absent(),
     this.docPlace = const Value.absent(),
     this.docNotes = const Value.absent(),
@@ -465,18 +650,21 @@ class DocsCompanion extends UpdateCompanion<Doc> {
     this.id = const Value.absent(),
     required int ownerId,
     required String docName,
+    required int docType,
     this.docDate = const Value.absent(),
     required String docPlace,
     required String docNotes,
     this.pdfFile = const Value.absent(),
   })  : ownerId = Value(ownerId),
         docName = Value(docName),
+        docType = Value(docType),
         docPlace = Value(docPlace),
         docNotes = Value(docNotes);
   static Insertable<Doc> custom({
     Expression<int>? id,
     Expression<int>? ownerId,
     Expression<String>? docName,
+    Expression<int>? docType,
     Expression<DateTime?>? docDate,
     Expression<String>? docPlace,
     Expression<String>? docNotes,
@@ -486,6 +674,7 @@ class DocsCompanion extends UpdateCompanion<Doc> {
       if (id != null) 'id': id,
       if (ownerId != null) 'owner_id': ownerId,
       if (docName != null) 'doc_name': docName,
+      if (docType != null) 'doc_type': docType,
       if (docDate != null) 'doc_date': docDate,
       if (docPlace != null) 'doc_place': docPlace,
       if (docNotes != null) 'doc_notes': docNotes,
@@ -497,6 +686,7 @@ class DocsCompanion extends UpdateCompanion<Doc> {
       {Value<int>? id,
       Value<int>? ownerId,
       Value<String>? docName,
+      Value<int>? docType,
       Value<DateTime?>? docDate,
       Value<String>? docPlace,
       Value<String>? docNotes,
@@ -505,6 +695,7 @@ class DocsCompanion extends UpdateCompanion<Doc> {
       id: id ?? this.id,
       ownerId: ownerId ?? this.ownerId,
       docName: docName ?? this.docName,
+      docType: docType ?? this.docType,
       docDate: docDate ?? this.docDate,
       docPlace: docPlace ?? this.docPlace,
       docNotes: docNotes ?? this.docNotes,
@@ -523,6 +714,9 @@ class DocsCompanion extends UpdateCompanion<Doc> {
     }
     if (docName.present) {
       map['doc_name'] = Variable<String>(docName.value);
+    }
+    if (docType.present) {
+      map['doc_type'] = Variable<int>(docType.value);
     }
     if (docDate.present) {
       map['doc_date'] = Variable<DateTime?>(docDate.value);
@@ -545,6 +739,7 @@ class DocsCompanion extends UpdateCompanion<Doc> {
           ..write('id: $id, ')
           ..write('ownerId: $ownerId, ')
           ..write('docName: $docName, ')
+          ..write('docType: $docType, ')
           ..write('docDate: $docDate, ')
           ..write('docPlace: $docPlace, ')
           ..write('docNotes: $docNotes, ')
@@ -578,6 +773,13 @@ class $DocsTable extends Docs with TableInfo<$DocsTable, Doc> {
   late final GeneratedColumn<String?> docName = GeneratedColumn<String?>(
       'doc_name', aliasedName, false,
       type: const StringType(), requiredDuringInsert: true);
+  final VerificationMeta _docTypeMeta = const VerificationMeta('docType');
+  @override
+  late final GeneratedColumn<int?> docType = GeneratedColumn<int?>(
+      'doc_type', aliasedName, false,
+      type: const IntType(),
+      requiredDuringInsert: true,
+      $customConstraints: 'REFERENCES doctypes(id)');
   final VerificationMeta _docDateMeta = const VerificationMeta('docDate');
   @override
   late final GeneratedColumn<DateTime?> docDate = GeneratedColumn<DateTime?>(
@@ -600,7 +802,7 @@ class $DocsTable extends Docs with TableInfo<$DocsTable, Doc> {
       type: const BlobType(), requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, ownerId, docName, docDate, docPlace, docNotes, pdfFile];
+      [id, ownerId, docName, docType, docDate, docPlace, docNotes, pdfFile];
   @override
   String get aliasedName => _alias ?? 'docs';
   @override
@@ -624,6 +826,12 @@ class $DocsTable extends Docs with TableInfo<$DocsTable, Doc> {
           docName.isAcceptableOrUnknown(data['doc_name']!, _docNameMeta));
     } else if (isInserting) {
       context.missing(_docNameMeta);
+    }
+    if (data.containsKey('doc_type')) {
+      context.handle(_docTypeMeta,
+          docType.isAcceptableOrUnknown(data['doc_type']!, _docTypeMeta));
+    } else if (isInserting) {
+      context.missing(_docTypeMeta);
     }
     if (data.containsKey('doc_date')) {
       context.handle(_docDateMeta,
@@ -1580,20 +1788,29 @@ class $DayNotesTable extends DayNotes with TableInfo<$DayNotesTable, DayNote> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   late final $UsersTable users = $UsersTable(this);
+  late final $DocTypesTable docTypes = $DocTypesTable(this);
   late final $DocsTable docs = $DocsTable(this);
   late final $SymptomsTypesTable symptomsTypes = $SymptomsTypesTable(this);
   late final $SymptomsNamesTable symptomsNames = $SymptomsNamesTable(this);
   late final $SymptomsValuesTable symptomsValues = $SymptomsValuesTable(this);
   late final $DayNotesTable dayNotes = $DayNotesTable(this);
   late final UsersDao usersDao = UsersDao(this as AppDatabase);
+  late final DocTypesDao docTypesDao = DocTypesDao(this as AppDatabase);
   late final DocsDao docsDao = DocsDao(this as AppDatabase);
   late final SymptomsDao symptomsDao = SymptomsDao(this as AppDatabase);
   late final DayNotesDao dayNotesDao = DayNotesDao(this as AppDatabase);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [users, docs, symptomsTypes, symptomsNames, symptomsValues, dayNotes];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+        users,
+        docTypes,
+        docs,
+        symptomsTypes,
+        symptomsNames,
+        symptomsValues,
+        dayNotes
+      ];
 }
 
 // **************************************************************************
@@ -1602,6 +1819,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 
 mixin _$UsersDaoMixin on DatabaseAccessor<AppDatabase> {
   $UsersTable get users => attachedDatabase.users;
+}
+mixin _$DocTypesDaoMixin on DatabaseAccessor<AppDatabase> {
+  $DocTypesTable get docTypes => attachedDatabase.docTypes;
 }
 mixin _$DocsDaoMixin on DatabaseAccessor<AppDatabase> {
   $UsersTable get users => attachedDatabase.users;

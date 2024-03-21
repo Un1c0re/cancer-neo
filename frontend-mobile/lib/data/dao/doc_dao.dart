@@ -14,6 +14,7 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
         .map((row) => DocSummaryModel(
           id: row.id,
           docName: row.docName,
+          docType: row.docType,
           docDate: row.docDate!,
         ))
         .toList();
@@ -25,12 +26,13 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
   }
 
   Future<void> insertDoc({
-    required String userName,
-    required String docName,
+    required String   userName,
+    required String   docName,
+    required int      docType,
     required DateTime docDate,
-    required String docPlace,
-    required String docNotes,
-    Uint8List? pdfFile,
+    required String   docPlace,
+    required String   docNotes,
+    Uint8List?        pdfFile,
   }) async {
     // Находим пользователя по имени
     final userQuery = select(users)..where((tbl) => tbl.name.equals(userName));
@@ -41,6 +43,7 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
       await into(docs).insert(DocsCompanion(
         ownerId: Value(user.id),
         docName: Value(docName),
+        docType: Value(docType),
         docDate: Value(docDate),
         docPlace: Value(docPlace),
         docNotes: Value(docNotes),
@@ -55,6 +58,7 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
   Future<void> updateDoc({
     required int docId,
     String? docName,
+    int? docType,
     DateTime? docDate,
     String? docPlace,
     String? docNotes,
@@ -63,6 +67,7 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
     final docEntry = DocsCompanion(
       id: Value(docId),
       docName: docName != null ? Value(docName) : Value.absent(),
+      docType: docType != null ? Value(docType) : Value.absent(),
       docDate: docDate != null ? Value(docDate) : Value.absent(),
       docPlace: docPlace != null ? Value(docPlace) : Value.absent(),
       docNotes: docNotes != null ? Value(docNotes) : Value.absent(),

@@ -19,13 +19,6 @@ class UsersDao extends DatabaseAccessor<AppDatabase> with _$UsersDaoMixin {
 
   Future<UserModel?> getUserdata() async {
     final user = await (select(users)..where((user) => user.id.equals(0))).getSingleOrNull();
-    // if (user != null) {
-    //   final tt = user.toJson();
-    //   final UserModel user_m = UserModel.fromMap(tt);
-    //   return user_m;
-    // } else {
-    //   return null;
-    // }
     return user != null ? UserModel.fromMap(user.toJson()) : null;
   }
 
