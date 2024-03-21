@@ -73,16 +73,16 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
   }
 
   Future<void> deleteDoc(
-      {required String userName, required String docName}) async {
+      {required int docID}) async {
     // Находим пользователя по имени
-    final userQuery = select(users)..where((tbl) => tbl.name.equals(userName));
+    final userQuery = select(users)..where((tbl) => tbl.id.equals(0));
     final User? user = await userQuery.getSingleOrNull();
 
     if (user != null) {
       // Если пользователь найден, находим и удаляем документ
       final docQuery = select(docs)
         ..where(
-            (tbl) => tbl.ownerId.equals(user.id) & tbl.docName.equals(docName));
+            (tbl) => tbl.ownerId.equals(user.id) & tbl.id.equals(docID));
       final doc = await docQuery.getSingleOrNull();
       if (doc != null) {
         await delete(docs).delete(doc);

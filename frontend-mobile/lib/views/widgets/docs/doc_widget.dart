@@ -18,6 +18,22 @@ class DocWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DatabaseService _databaseService = Get.find();
+
+    Future<void> deleteDoc(docID) async {
+      await _databaseService.database.docsDao.deleteDoc(docID: docID);
+      Get.back();
+      Get.snackbar(
+        'Успешно!',
+        'Документ удален',
+        backgroundColor: Colors.tealAccent.withOpacity(0.4),
+        colorText: Colors.teal.shade900,
+        snackPosition: SnackPosition.TOP,
+        duration: const Duration(milliseconds: 1500),
+        animationDuration: const Duration(milliseconds: 500),
+      );
+    }
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -60,7 +76,7 @@ class DocWidget extends StatelessWidget {
                   ),
                   OutlinedButton(
                     style: AppButtonStyle.outlinedRedRoundedButton,
-                    onPressed: () {},
+                    onPressed: () => deleteDoc(docID),
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

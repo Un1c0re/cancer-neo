@@ -181,7 +181,3 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
     );
   }
 }
-
-
-
-
