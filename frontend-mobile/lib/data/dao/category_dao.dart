@@ -2,13 +2,13 @@ part of 'package:diplom/data/moor_db.dart';
 
 
 @UseDao(tables: [Users, Docs])
-class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
+class CategoriesDao extends DatabaseAccessor<AppDatabase> with _$CategoriesDaoMixin {
   final AppDatabase db;
 
-  DocsDao(this.db) : super(db);
+  CategoriesDao(this.db) : super(db);
 
-  Future<List<DocSummaryModel>> getAllDocSummaries() async {
-    final query = select(docs);
+  Future<List<DocSummaryModel>> getAllCategories() async {
+    final query = select(categories);
     final result = await query.get();
     return result
         .map((row) => DocSummaryModel(
@@ -27,7 +27,7 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
   Future<void> insertDoc({
     required String userName,
     required String docName,
-    required int docType,
+    required String docType,
     required DateTime docDate,
     required String docPlace,
     required String docNotes,

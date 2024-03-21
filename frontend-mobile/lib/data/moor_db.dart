@@ -11,6 +11,7 @@ part 'package:diplom/data/dao/user_dao.dart';
 part 'package:diplom/data/dao/doc_dao.dart';
 part 'package:diplom/data/dao/symptom_dao.dart';
 part 'package:diplom/data/dao/daynote_dao.dart';
+part 'package:diplom/data/dao/category_dao.dart';
 
 
 ////////////////////////////////// USERS //////////////////////////////////////
@@ -23,12 +24,20 @@ class Users extends Table {
   TextColumn get threatmentHistory => text()();
 }
 
+////////////////////////////////// CATEGORIES //////////////////////////////////
+
+class Categories extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
+}
+
 ////////////////////////////////// DOCUMENTS //////////////////////////////////
 
 class Docs extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get ownerId => integer().customConstraint('REFERENCES users(id)')();
   TextColumn get docName => text()();
+  IntColumn get docType => integer().customConstraint('REFERENCES categories(id)')();
   DateTimeColumn get docDate => dateTime().nullable()();
   TextColumn get docPlace => text()();
   TextColumn get docNotes => text()();
@@ -68,8 +77,8 @@ class DayNotes extends Table {
 ////////////////////////////////// APPDATABASE ////////////////////////////////
 
 @UseMoor(
-  tables: [Users, Docs, SymptomsTypes, SymptomsNames, SymptomsValues, DayNotes], 
-  daos:   [UsersDao, DocsDao, SymptomsDao, DayNotesDao]
+  tables: [Users, Categories, Docs, SymptomsTypes, SymptomsNames, SymptomsValues, DayNotes], 
+  daos:   [UsersDao, CategoriesDao, DocsDao, SymptomsDao, DayNotesDao]
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase()

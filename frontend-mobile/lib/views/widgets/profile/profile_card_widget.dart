@@ -1,18 +1,29 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'package:diplom/views/screens/profile/edit_profile_screen.dart';
+
+import 'package:diplom/services/database_service.dart';
+import 'package:diplom/models/user_model.dart';
+
 import 'package:diplom/utils/app_style.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/utils/constants.dart';
-import 'package:diplom/views/screens/profile/edit_profile_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
 
 class ProfileCardWidget extends StatelessWidget {
   const ProfileCardWidget({super.key});
 
-  void _getBack() => Get.back();
   void _getEdit() => Get.to(() => EditProfileScreen());
 
   @override
   Widget build(BuildContext context) {
+    final DatabaseService databaseService = Get.find();
+
+    Future<UserModel?> getUser() async {
+      return await databaseService.database.usersDao.getUserdata();
+    }
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -22,42 +33,32 @@ class ProfileCardWidget extends StatelessWidget {
             child: AppStyleCard(
               backgroundColor: Colors.white,
               child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextBlock(
-                      subtitle: 'Имя',
-                      text: 'Тестов тест тестоич',
-                    ),
-                    SizedBox(height: 15),
-                    TextBlock(
-                      subtitle: 'Дата рождения',
-                      text: '01-01-2001',
-                    ),
-                    SizedBox(height: 15),
-                    TextBlock(
-                      subtitle: 'Заболевание',
-                      text: 'Тестрит тестов',
-                    ),
-                    SizedBox(height: 15),
-                    TextBlock(
-                      subtitle: 'Код заболевания по МКБ',
-                      text: '1101',
-                    ),
-                    SizedBox(height: 15),
-                    TextBlock(
-                      subtitle: 'История болезни:',
-                      text:
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-                    ),
-                    SizedBox(height: 15),
-                    TextBlock(
-                      subtitle: 'История лечения:',
-                      text:
-                          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-                    ),
-                  ],
-                ),
+                child: FutureBuilder<UserModel?>(
+                future: getUser(),
+                builder: ((context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    final UserModel userdata = snapshot.data!;
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          userdata.username,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Text(userdata.birthdate.toIso8601String().substring(0, 10)),
+                        Text(userdata.deseaseHistory),
+                        Text(userdata.threatmentHistory),
+                      ],
+                    );
+                  }
+                })),
               ),
             ),
           ),

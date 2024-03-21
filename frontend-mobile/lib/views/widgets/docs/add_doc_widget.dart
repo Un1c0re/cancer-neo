@@ -87,11 +87,12 @@ class _AddDocWidgetState extends State<AddDocWidget> {
       label: const Text('примечания'),
     );
 
-    Future<void> saveDoc(String docName, DateTime docDate, String docPlace,
+    Future<void> saveDoc(String docName, int docType, DateTime docDate, String docPlace,
         String docNotes) async {
       await _databaseService.database.docsDao.insertDoc(
         userName: 'test testovich',
         docName: docName,
+        docType: docType,
         docDate: docDate,
         docPlace: docPlace,
         docNotes: docNotes,
@@ -158,7 +159,7 @@ class _AddDocWidgetState extends State<AddDocWidget> {
                         DateTime docDate = DateTime.parse(_dateInputController.text);
                         String docPlace = _placeInputController.text;
                         String DocNote = _notesInputController.text;
-
+                        // TODO: add docType input
                         saveDoc(docName, docDate, docPlace, DocNote);
 
                         Get.back();
