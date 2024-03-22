@@ -12,15 +12,14 @@ class SymptomsDao extends DatabaseAccessor<AppDatabase>
     final type2 = 'grade';
     final type3 = 'num';
 
-    await into(symptomsTypes).insert(
-      SymptomsTypesCompanion.insert(type: type1));
-    
-    await into(symptomsTypes).insert(
-      SymptomsTypesCompanion.insert(type: type2));
-    
-    await into(symptomsTypes).insert(
-      SymptomsTypesCompanion.insert(type: type3));
+    await into(symptomsTypes)
+        .insert(SymptomsTypesCompanion.insert(type: type1));
 
+    await into(symptomsTypes)
+        .insert(SymptomsTypesCompanion.insert(type: type2));
+
+    await into(symptomsTypes)
+        .insert(SymptomsTypesCompanion.insert(type: type3));
   }
 
   Future<void> addSymptomNames() async {
@@ -29,31 +28,25 @@ class SymptomsDao extends DatabaseAccessor<AppDatabase>
     final String name3 = "мигрень";
     final String name4 = "кашель";
 
-    await into(symptomsNames).insert(
-      SymptomsNamesCompanion(
-        type: Value(1),
-        name: Value(name1),
-      )
-    );
-    await into(symptomsNames).insert(
-      SymptomsNamesCompanion(
-        type: Value(1),
-        name: Value(name2),
-      )
-    );
-    await into(symptomsNames).insert(
-      SymptomsNamesCompanion(
-        type: Value(0),
-        name: Value(name3),
-      )
-    );
-    await into(symptomsNames).insert(
-      SymptomsNamesCompanion(
-        type: Value(0),
-        name: Value(name4),
-      )
-    );
+    await into(symptomsNames).insert(SymptomsNamesCompanion(
+      type: Value(2),
+      name: Value(name1),
+    ));
 
+    await into(symptomsNames).insert(SymptomsNamesCompanion(
+      type: Value(2),
+      name: Value(name2),
+    ));
+
+    await into(symptomsNames).insert(SymptomsNamesCompanion(
+      type: Value(1),
+      name: Value(name3),
+    ));
+
+    await into(symptomsNames).insert(SymptomsNamesCompanion(
+      type: Value(1),
+      name: Value(name4),
+    ));
   }
 
   Future<void> addSymptomValue({
@@ -72,9 +65,8 @@ class SymptomsDao extends DatabaseAccessor<AppDatabase>
 
     // Поиск имени симптома по типу и названию
     final symptomNameQuery = select(symptomsNames)
-      ..where((n) =>
-          n.type.equals(symptomType.id) &
-          n.name.equals(symptomName));
+      ..where(
+          (n) => n.type.equals(symptomType.id) & n.name.equals(symptomName));
     final symptomNameEntry = await symptomNameQuery.getSingle();
 
     // Добавление значения симптома
@@ -101,7 +93,34 @@ class SymptomsDao extends DatabaseAccessor<AppDatabase>
         .write(symptomValueEntry);
   }
 
+  Future<void> initializeSymptomsValues(DateTime date) async {
+    final query = customSelect(
+      'SELECT id FROM symptoms_names',
+      readsFrom: {symptomsNames},
+    );
+
+    final namesID = await query.get().then((rows) {
+      return rows.map((row) => row.read<int>('id')).toList();
+    });
+
+    print(namesID);
+    print('DATE HEEEERE: ${date}');
+
+    for (int i = 0; i < namesID.length; i++) {
+      await into(symptomsValues).insert(
+        SymptomsValuesCompanion.insert(
+          ownerId: 0,
+          date: date,
+          // date: DateTime(date.year, date.month, date.day),
+          name: namesID[i],
+          value: Value(0),
+        ),
+      );
+    }
+  }
+
   Future<List<SymptomDetails>> getSymptomsDetails(DateTime date) async {
+    print('DAAAAAAAATE --- ${date}');
     final query = customSelect(
       'SELECT sn.name AS symptomName, st.type AS symptomType, sv.value AS symptomValue '
       'FROM symptoms_values AS sv '
@@ -112,14 +131,35 @@ class SymptomsDao extends DatabaseAccessor<AppDatabase>
       variables: [Variable.withDateTime(date)],
     );
 
-    final results = await query.get();
-    return results
-        .map((row) => SymptomDetails(
+    final results = await query.get().then(
+      (rows) {
+        return rows.map((row) => SymptomDetails(
               id: row.read<int>('id'),
               symptomName: row.read<String>('symptomName'),
               symptomType: row.read<String>('symptomType'),
               symptomValue: row.read<int>('symptomValue'),
-            ))
-        .toList();
+            )).toList();
+      }
+    );
+
+    final query1 = customSelect(
+      'SELECT * FROM symptoms_values',
+      readsFrom: {symptomsValues},
+    );
+    final valuesRes = await query1.get();
+    List<Map<String, dynamic>> valuesInfo = valuesRes.map(
+      (row) {
+        return {
+          'id': row.read<int>('id'),
+          'name': row.read<int>('name'),
+          'date': row.read<DateTime>('date'),
+          'value': row.read<int>('value'),
+        };
+      }).toList();
+
+      print(valuesInfo);
+
+    return results;
+
   }
 }

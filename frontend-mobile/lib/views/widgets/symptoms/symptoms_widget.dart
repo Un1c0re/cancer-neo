@@ -60,8 +60,15 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
     final DatabaseService _databaseService = Get.find();
 
     Future<List<SymptomDetails>> getSymptomData() async {
-      return await _databaseService.database.symptomsDao
-          .getSymptomsDetails(selectedDate);
+      DateTime date = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
+      var symptomDetails = await _databaseService.database.symptomsDao
+        .getSymptomsDetails(date);
+      if (symptomDetails.isEmpty) {
+        _databaseService.database.symptomsDao.initializeSymptomsValues(date);
+        symptomDetails = await _databaseService.database.symptomsDao
+        .getSymptomsDetails(date);
+      }
+      return symptomDetails;
     }
 
     return Scaffold(
