@@ -66,7 +66,6 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
       List<SymptomDetails> symptomDetails =
           await _databaseService.database.symptomsDao.getSymptomsDetails(date);
 
-      // Если записей нет, инициализируйте их для данной даты, затем получите данные снова
       if (symptomDetails.isEmpty) {
         await _databaseService.database.symptomsDao
             .initializeSymptomsValues(date);
@@ -142,30 +141,45 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                           }
                         }
 
-                        final List<Widget> gradeSymptomsWidgets = [];
-                        for (int i = 0; i < gradeSymptoms.length; i++) {
-                          gradeSymptomsWidgets.add(
-                            GradeSymptom(
-                                label: gradeSymptoms[i].symptomName,
-                                elIndex: gradeSymptoms[i].symptomValue),
-                          );
-                        }
+                        final List<Widget> combinedSymptomsWidgets = [];
+                        int gradeIndex = 0;
+                        int boolIndex = 0;
 
-                        final List<Widget> boolSymptomsWidgets = [];
-                        for (int i = 0; i < boolSymptoms.length; i++) {
-                          gradeSymptomsWidgets.add(
-                            BoolSymptomWidget(
-                              label: boolSymptoms[i].symptomName,
-                              value: boolSymptoms[i].symptomValue,
-                            ),
-                          );
+                        while (gradeIndex < gradeSymptoms.length ||
+                            boolIndex < boolSymptoms.length) {
+                          // Добавляем GradeSymptom, если он доступен
+                          if (gradeIndex < gradeSymptoms.length) {
+                            combinedSymptomsWidgets.add(
+                              GradeSymptom(
+                                label: gradeSymptoms[gradeIndex].symptomName,
+                                elIndex: gradeSymptoms[gradeIndex].symptomValue,
+                              ),
+                            );
+                            gradeIndex++;
+                          }
+                          // Добавляем две строки с BoolSymptomWidget, если они доступны
+                          List<Widget> rowWidgets = [];
+                          for (int i = 0;
+                              i < 4 && boolIndex < boolSymptoms.length;
+                              i++, boolIndex++) {
+                            rowWidgets.add(
+                              BoolSymptomWidget(
+                                label: boolSymptoms[boolIndex].symptomName,
+                                value:boolSymptoms[boolIndex].symptomValue,
+                              ),
+                            );
+                            if ((i + 1) % 2 == 0 ||
+                                boolIndex == boolSymptoms.length) {
+                              // Каждые два BoolSymptomWidget добавляем в Row и сбрасываем rowWidgets
+                              combinedSymptomsWidgets
+                                  .add(Row(children: List.from(rowWidgets)));
+                              rowWidgets.clear();
+                            }
+                          }
                         }
 
                         return Column(
-                          children: [
-                            ...gradeSymptomsWidgets,
-                            ...boolSymptomsWidgets,
-                          ],
+                          children: combinedSymptomsWidgets
                         );
                       }
                     }),

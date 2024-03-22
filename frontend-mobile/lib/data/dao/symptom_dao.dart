@@ -109,8 +109,7 @@ class SymptomsDao extends DatabaseAccessor<AppDatabase>
       await into(symptomsValues).insert(
         SymptomsValuesCompanion.insert(
           owner_id: 0,
-          date: date,
-          // date: DateTime(date.year, date.month, date.day),
+          date: DateTime(date.year, date.month, date.day),
           name_id: namesID[i],
           value: Value(0),
         ),
@@ -124,22 +123,12 @@ class SymptomsDao extends DatabaseAccessor<AppDatabase>
       'FROM symptoms_values AS sv '
       'JOIN symptoms_names AS sn ON sv.name_id = sn.id '
       'JOIN symptoms_types AS st ON sn.type_id = st.id '
-      'WHERE DATE(sv.date) = DATE(?)',
+      'WHERE sv.date = ?',
       readsFrom: {symptomsValues, symptomsNames, symptomsTypes},
-      variables: [Variable.withDateTime(date)]
+      variables: [Variable.withInt(date.millisecondsSinceEpoch ~/1000)]
     );
 
     final results = await query.get();
-    // List<Map<String, dynamic>> chack = results.map((row) {
-    //   return {
-    //     'id': row.read<int>('symptomID'),
-    //     'name': row.read<String>('symptomName'),
-    //     'type': row.read<String>('symptomType'),
-    //     'value':row.read<String>('symptomValue')
-    //   };
-    // }).toList();
-
-    // print(chack);
 
     List<SymptomDetails> symptomsList = results
         .map(
