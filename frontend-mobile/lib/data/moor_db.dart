@@ -3,6 +3,7 @@ import 'package:diplom/models/doc_list_model.dart';
 import 'package:diplom/models/user_model.dart';
 import 'package:diplom/models/docs_models.dart';
 import 'package:diplom/models/symptoms_models.dart';
+import 'package:intl/intl.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
 part 'moor_db.g.dart';
@@ -48,28 +49,28 @@ class Docs extends Table {
 
 class SymptomsTypes extends Table {
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get type => text()();
+  TextColumn get name => text()();
 }
 
 class SymptomsNames extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get type =>
+  IntColumn get type_id =>
       integer().customConstraint('REFERENCES symptomsTypes(id)')();
   TextColumn get name => text()();
 }
 
 class SymptomsValues extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get ownerId => integer().customConstraint('REFERENCES users(id)')();
+  IntColumn get owner_id => integer().customConstraint('REFERENCES users(id)')();
   DateTimeColumn get date => dateTime()();
-  IntColumn get name =>
+  IntColumn get name_id =>
       integer().customConstraint('REFERENCES symptomsNames(id)')();
   IntColumn get value => integer().withDefault(const Constant(0))();
 }
 
 class DayNotes extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get ownerId => integer().customConstraint('REFERENCES users(id)')();
+  IntColumn get owner_id => integer().customConstraint('REFERENCES users(id)')();
   DateTimeColumn get date => dateTime()();
   TextColumn get note => text()();
 }
@@ -91,5 +92,5 @@ class AppDatabase extends _$AppDatabase {
   int get schemaVersion => 1;
 }
 //  flutter packages pub run build_runner watch
-//  dart run build_runner watch
+//  dart run build_runner build
 // dart --disable-analytics

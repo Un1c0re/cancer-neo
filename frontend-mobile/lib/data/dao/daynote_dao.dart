@@ -12,7 +12,7 @@ class DayNotesDao extends DatabaseAccessor<AppDatabase> with _$DayNotesDaoMixin 
     required String note,
   }) async {
     final dayNoteEntry = DayNotesCompanion.insert(
-      ownerId: ownerId,
+      owner_id: ownerId,
       date: date,
       note: note,
     );

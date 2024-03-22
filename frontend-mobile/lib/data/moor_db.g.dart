@@ -872,30 +872,30 @@ class $DocsTable extends Docs with TableInfo<$DocsTable, Doc> {
 
 class SymptomsType extends DataClass implements Insertable<SymptomsType> {
   final int id;
-  final String type;
-  SymptomsType({required this.id, required this.type});
+  final String name;
+  SymptomsType({required this.id, required this.name});
   factory SymptomsType.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return SymptomsType(
       id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
-      type: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}type'])!,
+      name: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}name'])!,
     );
   }
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['type'] = Variable<String>(type);
+    map['name'] = Variable<String>(name);
     return map;
   }
 
   SymptomsTypesCompanion toCompanion(bool nullToAbsent) {
     return SymptomsTypesCompanion(
       id: Value(id),
-      type: Value(type),
+      name: Value(name),
     );
   }
 
@@ -904,7 +904,7 @@ class SymptomsType extends DataClass implements Insertable<SymptomsType> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return SymptomsType(
       id: serializer.fromJson<int>(json['id']),
-      type: serializer.fromJson<String>(json['type']),
+      name: serializer.fromJson<String>(json['name']),
     );
   }
   @override
@@ -912,56 +912,56 @@ class SymptomsType extends DataClass implements Insertable<SymptomsType> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'type': serializer.toJson<String>(type),
+      'name': serializer.toJson<String>(name),
     };
   }
 
-  SymptomsType copyWith({int? id, String? type}) => SymptomsType(
+  SymptomsType copyWith({int? id, String? name}) => SymptomsType(
         id: id ?? this.id,
-        type: type ?? this.type,
+        name: name ?? this.name,
       );
   @override
   String toString() {
     return (StringBuffer('SymptomsType(')
           ..write('id: $id, ')
-          ..write('type: $type')
+          ..write('name: $name')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, type);
+  int get hashCode => Object.hash(id, name);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is SymptomsType && other.id == this.id && other.type == this.type);
+      (other is SymptomsType && other.id == this.id && other.name == this.name);
 }
 
 class SymptomsTypesCompanion extends UpdateCompanion<SymptomsType> {
   final Value<int> id;
-  final Value<String> type;
+  final Value<String> name;
   const SymptomsTypesCompanion({
     this.id = const Value.absent(),
-    this.type = const Value.absent(),
+    this.name = const Value.absent(),
   });
   SymptomsTypesCompanion.insert({
     this.id = const Value.absent(),
-    required String type,
-  }) : type = Value(type);
+    required String name,
+  }) : name = Value(name);
   static Insertable<SymptomsType> custom({
     Expression<int>? id,
-    Expression<String>? type,
+    Expression<String>? name,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (type != null) 'type': type,
+      if (name != null) 'name': name,
     });
   }
 
-  SymptomsTypesCompanion copyWith({Value<int>? id, Value<String>? type}) {
+  SymptomsTypesCompanion copyWith({Value<int>? id, Value<String>? name}) {
     return SymptomsTypesCompanion(
       id: id ?? this.id,
-      type: type ?? this.type,
+      name: name ?? this.name,
     );
   }
 
@@ -971,8 +971,8 @@ class SymptomsTypesCompanion extends UpdateCompanion<SymptomsType> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (type.present) {
-      map['type'] = Variable<String>(type.value);
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
     }
     return map;
   }
@@ -981,7 +981,7 @@ class SymptomsTypesCompanion extends UpdateCompanion<SymptomsType> {
   String toString() {
     return (StringBuffer('SymptomsTypesCompanion(')
           ..write('id: $id, ')
-          ..write('type: $type')
+          ..write('name: $name')
           ..write(')'))
         .toString();
   }
@@ -1000,13 +1000,13 @@ class $SymptomsTypesTable extends SymptomsTypes
       type: const IntType(),
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _typeMeta = const VerificationMeta('type');
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
-  late final GeneratedColumn<String?> type = GeneratedColumn<String?>(
-      'type', aliasedName, false,
+  late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
+      'name', aliasedName, false,
       type: const StringType(), requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [id, type];
+  List<GeneratedColumn> get $columns => [id, name];
   @override
   String get aliasedName => _alias ?? 'symptoms_types';
   @override
@@ -1019,11 +1019,11 @@ class $SymptomsTypesTable extends SymptomsTypes
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('type')) {
+    if (data.containsKey('name')) {
       context.handle(
-          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
     } else if (isInserting) {
-      context.missing(_typeMeta);
+      context.missing(_nameMeta);
     }
     return context;
   }
@@ -1044,17 +1044,17 @@ class $SymptomsTypesTable extends SymptomsTypes
 
 class SymptomsName extends DataClass implements Insertable<SymptomsName> {
   final int id;
-  final int type;
+  final int type_id;
   final String name;
-  SymptomsName({required this.id, required this.type, required this.name});
+  SymptomsName({required this.id, required this.type_id, required this.name});
   factory SymptomsName.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return SymptomsName(
       id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
-      type: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}type'])!,
+      type_id: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}type_id'])!,
       name: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}name'])!,
     );
@@ -1063,7 +1063,7 @@ class SymptomsName extends DataClass implements Insertable<SymptomsName> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['type'] = Variable<int>(type);
+    map['type_id'] = Variable<int>(type_id);
     map['name'] = Variable<String>(name);
     return map;
   }
@@ -1071,7 +1071,7 @@ class SymptomsName extends DataClass implements Insertable<SymptomsName> {
   SymptomsNamesCompanion toCompanion(bool nullToAbsent) {
     return SymptomsNamesCompanion(
       id: Value(id),
-      type: Value(type),
+      type_id: Value(type_id),
       name: Value(name),
     );
   }
@@ -1081,7 +1081,7 @@ class SymptomsName extends DataClass implements Insertable<SymptomsName> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return SymptomsName(
       id: serializer.fromJson<int>(json['id']),
-      type: serializer.fromJson<int>(json['type']),
+      type_id: serializer.fromJson<int>(json['type_id']),
       name: serializer.fromJson<String>(json['name']),
     );
   }
@@ -1090,69 +1090,69 @@ class SymptomsName extends DataClass implements Insertable<SymptomsName> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'type': serializer.toJson<int>(type),
+      'type_id': serializer.toJson<int>(type_id),
       'name': serializer.toJson<String>(name),
     };
   }
 
-  SymptomsName copyWith({int? id, int? type, String? name}) => SymptomsName(
+  SymptomsName copyWith({int? id, int? type_id, String? name}) => SymptomsName(
         id: id ?? this.id,
-        type: type ?? this.type,
+        type_id: type_id ?? this.type_id,
         name: name ?? this.name,
       );
   @override
   String toString() {
     return (StringBuffer('SymptomsName(')
           ..write('id: $id, ')
-          ..write('type: $type, ')
+          ..write('type_id: $type_id, ')
           ..write('name: $name')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, type, name);
+  int get hashCode => Object.hash(id, type_id, name);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is SymptomsName &&
           other.id == this.id &&
-          other.type == this.type &&
+          other.type_id == this.type_id &&
           other.name == this.name);
 }
 
 class SymptomsNamesCompanion extends UpdateCompanion<SymptomsName> {
   final Value<int> id;
-  final Value<int> type;
+  final Value<int> type_id;
   final Value<String> name;
   const SymptomsNamesCompanion({
     this.id = const Value.absent(),
-    this.type = const Value.absent(),
+    this.type_id = const Value.absent(),
     this.name = const Value.absent(),
   });
   SymptomsNamesCompanion.insert({
     this.id = const Value.absent(),
-    required int type,
+    required int type_id,
     required String name,
-  })  : type = Value(type),
+  })  : type_id = Value(type_id),
         name = Value(name);
   static Insertable<SymptomsName> custom({
     Expression<int>? id,
-    Expression<int>? type,
+    Expression<int>? type_id,
     Expression<String>? name,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (type != null) 'type': type,
+      if (type_id != null) 'type_id': type_id,
       if (name != null) 'name': name,
     });
   }
 
   SymptomsNamesCompanion copyWith(
-      {Value<int>? id, Value<int>? type, Value<String>? name}) {
+      {Value<int>? id, Value<int>? type_id, Value<String>? name}) {
     return SymptomsNamesCompanion(
       id: id ?? this.id,
-      type: type ?? this.type,
+      type_id: type_id ?? this.type_id,
       name: name ?? this.name,
     );
   }
@@ -1163,8 +1163,8 @@ class SymptomsNamesCompanion extends UpdateCompanion<SymptomsName> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (type.present) {
-      map['type'] = Variable<int>(type.value);
+    if (type_id.present) {
+      map['type_id'] = Variable<int>(type_id.value);
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
@@ -1176,7 +1176,7 @@ class SymptomsNamesCompanion extends UpdateCompanion<SymptomsName> {
   String toString() {
     return (StringBuffer('SymptomsNamesCompanion(')
           ..write('id: $id, ')
-          ..write('type: $type, ')
+          ..write('type_id: $type_id, ')
           ..write('name: $name')
           ..write(')'))
         .toString();
@@ -1196,10 +1196,10 @@ class $SymptomsNamesTable extends SymptomsNames
       type: const IntType(),
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _typeMeta = const VerificationMeta('type');
+  final VerificationMeta _type_idMeta = const VerificationMeta('type_id');
   @override
-  late final GeneratedColumn<int?> type = GeneratedColumn<int?>(
-      'type', aliasedName, false,
+  late final GeneratedColumn<int?> type_id = GeneratedColumn<int?>(
+      'type_id', aliasedName, false,
       type: const IntType(),
       requiredDuringInsert: true,
       $customConstraints: 'REFERENCES symptomsTypes(id)');
@@ -1209,7 +1209,7 @@ class $SymptomsNamesTable extends SymptomsNames
       'name', aliasedName, false,
       type: const StringType(), requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [id, type, name];
+  List<GeneratedColumn> get $columns => [id, type_id, name];
   @override
   String get aliasedName => _alias ?? 'symptoms_names';
   @override
@@ -1222,11 +1222,11 @@ class $SymptomsNamesTable extends SymptomsNames
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('type')) {
-      context.handle(
-          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    if (data.containsKey('type_id')) {
+      context.handle(_type_idMeta,
+          type_id.isAcceptableOrUnknown(data['type_id']!, _type_idMeta));
     } else if (isInserting) {
-      context.missing(_typeMeta);
+      context.missing(_type_idMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -1253,15 +1253,15 @@ class $SymptomsNamesTable extends SymptomsNames
 
 class SymptomsValue extends DataClass implements Insertable<SymptomsValue> {
   final int id;
-  final int ownerId;
+  final int owner_id;
   final DateTime date;
-  final int name;
+  final int name_id;
   final int value;
   SymptomsValue(
       {required this.id,
-      required this.ownerId,
+      required this.owner_id,
       required this.date,
-      required this.name,
+      required this.name_id,
       required this.value});
   factory SymptomsValue.fromData(
       Map<String, dynamic> data, GeneratedDatabase db,
@@ -1270,12 +1270,12 @@ class SymptomsValue extends DataClass implements Insertable<SymptomsValue> {
     return SymptomsValue(
       id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
-      ownerId: const IntType()
+      owner_id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}owner_id'])!,
       date: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}date'])!,
-      name: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}name'])!,
+      name_id: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}name_id'])!,
       value: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}value'])!,
     );
@@ -1284,9 +1284,9 @@ class SymptomsValue extends DataClass implements Insertable<SymptomsValue> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['owner_id'] = Variable<int>(ownerId);
+    map['owner_id'] = Variable<int>(owner_id);
     map['date'] = Variable<DateTime>(date);
-    map['name'] = Variable<int>(name);
+    map['name_id'] = Variable<int>(name_id);
     map['value'] = Variable<int>(value);
     return map;
   }
@@ -1294,9 +1294,9 @@ class SymptomsValue extends DataClass implements Insertable<SymptomsValue> {
   SymptomsValuesCompanion toCompanion(bool nullToAbsent) {
     return SymptomsValuesCompanion(
       id: Value(id),
-      ownerId: Value(ownerId),
+      owner_id: Value(owner_id),
       date: Value(date),
-      name: Value(name),
+      name_id: Value(name_id),
       value: Value(value),
     );
   }
@@ -1306,9 +1306,9 @@ class SymptomsValue extends DataClass implements Insertable<SymptomsValue> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return SymptomsValue(
       id: serializer.fromJson<int>(json['id']),
-      ownerId: serializer.fromJson<int>(json['ownerId']),
+      owner_id: serializer.fromJson<int>(json['owner_id']),
       date: serializer.fromJson<DateTime>(json['date']),
-      name: serializer.fromJson<int>(json['name']),
+      name_id: serializer.fromJson<int>(json['name_id']),
       value: serializer.fromJson<int>(json['value']),
     );
   }
@@ -1317,96 +1317,96 @@ class SymptomsValue extends DataClass implements Insertable<SymptomsValue> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'ownerId': serializer.toJson<int>(ownerId),
+      'owner_id': serializer.toJson<int>(owner_id),
       'date': serializer.toJson<DateTime>(date),
-      'name': serializer.toJson<int>(name),
+      'name_id': serializer.toJson<int>(name_id),
       'value': serializer.toJson<int>(value),
     };
   }
 
   SymptomsValue copyWith(
-          {int? id, int? ownerId, DateTime? date, int? name, int? value}) =>
+          {int? id, int? owner_id, DateTime? date, int? name_id, int? value}) =>
       SymptomsValue(
         id: id ?? this.id,
-        ownerId: ownerId ?? this.ownerId,
+        owner_id: owner_id ?? this.owner_id,
         date: date ?? this.date,
-        name: name ?? this.name,
+        name_id: name_id ?? this.name_id,
         value: value ?? this.value,
       );
   @override
   String toString() {
     return (StringBuffer('SymptomsValue(')
           ..write('id: $id, ')
-          ..write('ownerId: $ownerId, ')
+          ..write('owner_id: $owner_id, ')
           ..write('date: $date, ')
-          ..write('name: $name, ')
+          ..write('name_id: $name_id, ')
           ..write('value: $value')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, ownerId, date, name, value);
+  int get hashCode => Object.hash(id, owner_id, date, name_id, value);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is SymptomsValue &&
           other.id == this.id &&
-          other.ownerId == this.ownerId &&
+          other.owner_id == this.owner_id &&
           other.date == this.date &&
-          other.name == this.name &&
+          other.name_id == this.name_id &&
           other.value == this.value);
 }
 
 class SymptomsValuesCompanion extends UpdateCompanion<SymptomsValue> {
   final Value<int> id;
-  final Value<int> ownerId;
+  final Value<int> owner_id;
   final Value<DateTime> date;
-  final Value<int> name;
+  final Value<int> name_id;
   final Value<int> value;
   const SymptomsValuesCompanion({
     this.id = const Value.absent(),
-    this.ownerId = const Value.absent(),
+    this.owner_id = const Value.absent(),
     this.date = const Value.absent(),
-    this.name = const Value.absent(),
+    this.name_id = const Value.absent(),
     this.value = const Value.absent(),
   });
   SymptomsValuesCompanion.insert({
     this.id = const Value.absent(),
-    required int ownerId,
+    required int owner_id,
     required DateTime date,
-    required int name,
+    required int name_id,
     this.value = const Value.absent(),
-  })  : ownerId = Value(ownerId),
+  })  : owner_id = Value(owner_id),
         date = Value(date),
-        name = Value(name);
+        name_id = Value(name_id);
   static Insertable<SymptomsValue> custom({
     Expression<int>? id,
-    Expression<int>? ownerId,
+    Expression<int>? owner_id,
     Expression<DateTime>? date,
-    Expression<int>? name,
+    Expression<int>? name_id,
     Expression<int>? value,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (ownerId != null) 'owner_id': ownerId,
+      if (owner_id != null) 'owner_id': owner_id,
       if (date != null) 'date': date,
-      if (name != null) 'name': name,
+      if (name_id != null) 'name_id': name_id,
       if (value != null) 'value': value,
     });
   }
 
   SymptomsValuesCompanion copyWith(
       {Value<int>? id,
-      Value<int>? ownerId,
+      Value<int>? owner_id,
       Value<DateTime>? date,
-      Value<int>? name,
+      Value<int>? name_id,
       Value<int>? value}) {
     return SymptomsValuesCompanion(
       id: id ?? this.id,
-      ownerId: ownerId ?? this.ownerId,
+      owner_id: owner_id ?? this.owner_id,
       date: date ?? this.date,
-      name: name ?? this.name,
+      name_id: name_id ?? this.name_id,
       value: value ?? this.value,
     );
   }
@@ -1417,14 +1417,14 @@ class SymptomsValuesCompanion extends UpdateCompanion<SymptomsValue> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (ownerId.present) {
-      map['owner_id'] = Variable<int>(ownerId.value);
+    if (owner_id.present) {
+      map['owner_id'] = Variable<int>(owner_id.value);
     }
     if (date.present) {
       map['date'] = Variable<DateTime>(date.value);
     }
-    if (name.present) {
-      map['name'] = Variable<int>(name.value);
+    if (name_id.present) {
+      map['name_id'] = Variable<int>(name_id.value);
     }
     if (value.present) {
       map['value'] = Variable<int>(value.value);
@@ -1436,9 +1436,9 @@ class SymptomsValuesCompanion extends UpdateCompanion<SymptomsValue> {
   String toString() {
     return (StringBuffer('SymptomsValuesCompanion(')
           ..write('id: $id, ')
-          ..write('ownerId: $ownerId, ')
+          ..write('owner_id: $owner_id, ')
           ..write('date: $date, ')
-          ..write('name: $name, ')
+          ..write('name_id: $name_id, ')
           ..write('value: $value')
           ..write(')'))
         .toString();
@@ -1458,9 +1458,9 @@ class $SymptomsValuesTable extends SymptomsValues
       type: const IntType(),
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _ownerIdMeta = const VerificationMeta('ownerId');
+  final VerificationMeta _owner_idMeta = const VerificationMeta('owner_id');
   @override
-  late final GeneratedColumn<int?> ownerId = GeneratedColumn<int?>(
+  late final GeneratedColumn<int?> owner_id = GeneratedColumn<int?>(
       'owner_id', aliasedName, false,
       type: const IntType(),
       requiredDuringInsert: true,
@@ -1470,10 +1470,10 @@ class $SymptomsValuesTable extends SymptomsValues
   late final GeneratedColumn<DateTime?> date = GeneratedColumn<DateTime?>(
       'date', aliasedName, false,
       type: const IntType(), requiredDuringInsert: true);
-  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  final VerificationMeta _name_idMeta = const VerificationMeta('name_id');
   @override
-  late final GeneratedColumn<int?> name = GeneratedColumn<int?>(
-      'name', aliasedName, false,
+  late final GeneratedColumn<int?> name_id = GeneratedColumn<int?>(
+      'name_id', aliasedName, false,
       type: const IntType(),
       requiredDuringInsert: true,
       $customConstraints: 'REFERENCES symptomsNames(id)');
@@ -1485,7 +1485,7 @@ class $SymptomsValuesTable extends SymptomsValues
       requiredDuringInsert: false,
       defaultValue: const Constant(0));
   @override
-  List<GeneratedColumn> get $columns => [id, ownerId, date, name, value];
+  List<GeneratedColumn> get $columns => [id, owner_id, date, name_id, value];
   @override
   String get aliasedName => _alias ?? 'symptoms_values';
   @override
@@ -1499,10 +1499,10 @@ class $SymptomsValuesTable extends SymptomsValues
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('owner_id')) {
-      context.handle(_ownerIdMeta,
-          ownerId.isAcceptableOrUnknown(data['owner_id']!, _ownerIdMeta));
+      context.handle(_owner_idMeta,
+          owner_id.isAcceptableOrUnknown(data['owner_id']!, _owner_idMeta));
     } else if (isInserting) {
-      context.missing(_ownerIdMeta);
+      context.missing(_owner_idMeta);
     }
     if (data.containsKey('date')) {
       context.handle(
@@ -1510,11 +1510,11 @@ class $SymptomsValuesTable extends SymptomsValues
     } else if (isInserting) {
       context.missing(_dateMeta);
     }
-    if (data.containsKey('name')) {
-      context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    if (data.containsKey('name_id')) {
+      context.handle(_name_idMeta,
+          name_id.isAcceptableOrUnknown(data['name_id']!, _name_idMeta));
     } else if (isInserting) {
-      context.missing(_nameMeta);
+      context.missing(_name_idMeta);
     }
     if (data.containsKey('value')) {
       context.handle(
@@ -1539,12 +1539,12 @@ class $SymptomsValuesTable extends SymptomsValues
 
 class DayNote extends DataClass implements Insertable<DayNote> {
   final int id;
-  final int ownerId;
+  final int owner_id;
   final DateTime date;
   final String note;
   DayNote(
       {required this.id,
-      required this.ownerId,
+      required this.owner_id,
       required this.date,
       required this.note});
   factory DayNote.fromData(Map<String, dynamic> data, GeneratedDatabase db,
@@ -1553,7 +1553,7 @@ class DayNote extends DataClass implements Insertable<DayNote> {
     return DayNote(
       id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
-      ownerId: const IntType()
+      owner_id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}owner_id'])!,
       date: const DateTimeType()
           .mapFromDatabaseResponse(data['${effectivePrefix}date'])!,
@@ -1565,7 +1565,7 @@ class DayNote extends DataClass implements Insertable<DayNote> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['owner_id'] = Variable<int>(ownerId);
+    map['owner_id'] = Variable<int>(owner_id);
     map['date'] = Variable<DateTime>(date);
     map['note'] = Variable<String>(note);
     return map;
@@ -1574,7 +1574,7 @@ class DayNote extends DataClass implements Insertable<DayNote> {
   DayNotesCompanion toCompanion(bool nullToAbsent) {
     return DayNotesCompanion(
       id: Value(id),
-      ownerId: Value(ownerId),
+      owner_id: Value(owner_id),
       date: Value(date),
       note: Value(note),
     );
@@ -1585,7 +1585,7 @@ class DayNote extends DataClass implements Insertable<DayNote> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return DayNote(
       id: serializer.fromJson<int>(json['id']),
-      ownerId: serializer.fromJson<int>(json['ownerId']),
+      owner_id: serializer.fromJson<int>(json['owner_id']),
       date: serializer.fromJson<DateTime>(json['date']),
       note: serializer.fromJson<String>(json['note']),
     );
@@ -1595,16 +1595,16 @@ class DayNote extends DataClass implements Insertable<DayNote> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'ownerId': serializer.toJson<int>(ownerId),
+      'owner_id': serializer.toJson<int>(owner_id),
       'date': serializer.toJson<DateTime>(date),
       'note': serializer.toJson<String>(note),
     };
   }
 
-  DayNote copyWith({int? id, int? ownerId, DateTime? date, String? note}) =>
+  DayNote copyWith({int? id, int? owner_id, DateTime? date, String? note}) =>
       DayNote(
         id: id ?? this.id,
-        ownerId: ownerId ?? this.ownerId,
+        owner_id: owner_id ?? this.owner_id,
         date: date ?? this.date,
         note: note ?? this.note,
       );
@@ -1612,7 +1612,7 @@ class DayNote extends DataClass implements Insertable<DayNote> {
   String toString() {
     return (StringBuffer('DayNote(')
           ..write('id: $id, ')
-          ..write('ownerId: $ownerId, ')
+          ..write('owner_id: $owner_id, ')
           ..write('date: $date, ')
           ..write('note: $note')
           ..write(')'))
@@ -1620,45 +1620,45 @@ class DayNote extends DataClass implements Insertable<DayNote> {
   }
 
   @override
-  int get hashCode => Object.hash(id, ownerId, date, note);
+  int get hashCode => Object.hash(id, owner_id, date, note);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is DayNote &&
           other.id == this.id &&
-          other.ownerId == this.ownerId &&
+          other.owner_id == this.owner_id &&
           other.date == this.date &&
           other.note == this.note);
 }
 
 class DayNotesCompanion extends UpdateCompanion<DayNote> {
   final Value<int> id;
-  final Value<int> ownerId;
+  final Value<int> owner_id;
   final Value<DateTime> date;
   final Value<String> note;
   const DayNotesCompanion({
     this.id = const Value.absent(),
-    this.ownerId = const Value.absent(),
+    this.owner_id = const Value.absent(),
     this.date = const Value.absent(),
     this.note = const Value.absent(),
   });
   DayNotesCompanion.insert({
     this.id = const Value.absent(),
-    required int ownerId,
+    required int owner_id,
     required DateTime date,
     required String note,
-  })  : ownerId = Value(ownerId),
+  })  : owner_id = Value(owner_id),
         date = Value(date),
         note = Value(note);
   static Insertable<DayNote> custom({
     Expression<int>? id,
-    Expression<int>? ownerId,
+    Expression<int>? owner_id,
     Expression<DateTime>? date,
     Expression<String>? note,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (ownerId != null) 'owner_id': ownerId,
+      if (owner_id != null) 'owner_id': owner_id,
       if (date != null) 'date': date,
       if (note != null) 'note': note,
     });
@@ -1666,12 +1666,12 @@ class DayNotesCompanion extends UpdateCompanion<DayNote> {
 
   DayNotesCompanion copyWith(
       {Value<int>? id,
-      Value<int>? ownerId,
+      Value<int>? owner_id,
       Value<DateTime>? date,
       Value<String>? note}) {
     return DayNotesCompanion(
       id: id ?? this.id,
-      ownerId: ownerId ?? this.ownerId,
+      owner_id: owner_id ?? this.owner_id,
       date: date ?? this.date,
       note: note ?? this.note,
     );
@@ -1683,8 +1683,8 @@ class DayNotesCompanion extends UpdateCompanion<DayNote> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (ownerId.present) {
-      map['owner_id'] = Variable<int>(ownerId.value);
+    if (owner_id.present) {
+      map['owner_id'] = Variable<int>(owner_id.value);
     }
     if (date.present) {
       map['date'] = Variable<DateTime>(date.value);
@@ -1699,7 +1699,7 @@ class DayNotesCompanion extends UpdateCompanion<DayNote> {
   String toString() {
     return (StringBuffer('DayNotesCompanion(')
           ..write('id: $id, ')
-          ..write('ownerId: $ownerId, ')
+          ..write('owner_id: $owner_id, ')
           ..write('date: $date, ')
           ..write('note: $note')
           ..write(')'))
@@ -1719,9 +1719,9 @@ class $DayNotesTable extends DayNotes with TableInfo<$DayNotesTable, DayNote> {
       type: const IntType(),
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _ownerIdMeta = const VerificationMeta('ownerId');
+  final VerificationMeta _owner_idMeta = const VerificationMeta('owner_id');
   @override
-  late final GeneratedColumn<int?> ownerId = GeneratedColumn<int?>(
+  late final GeneratedColumn<int?> owner_id = GeneratedColumn<int?>(
       'owner_id', aliasedName, false,
       type: const IntType(),
       requiredDuringInsert: true,
@@ -1737,7 +1737,7 @@ class $DayNotesTable extends DayNotes with TableInfo<$DayNotesTable, DayNote> {
       'note', aliasedName, false,
       type: const StringType(), requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [id, ownerId, date, note];
+  List<GeneratedColumn> get $columns => [id, owner_id, date, note];
   @override
   String get aliasedName => _alias ?? 'day_notes';
   @override
@@ -1751,10 +1751,10 @@ class $DayNotesTable extends DayNotes with TableInfo<$DayNotesTable, DayNote> {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('owner_id')) {
-      context.handle(_ownerIdMeta,
-          ownerId.isAcceptableOrUnknown(data['owner_id']!, _ownerIdMeta));
+      context.handle(_owner_idMeta,
+          owner_id.isAcceptableOrUnknown(data['owner_id']!, _owner_idMeta));
     } else if (isInserting) {
-      context.missing(_ownerIdMeta);
+      context.missing(_owner_idMeta);
     }
     if (data.containsKey('date')) {
       context.handle(

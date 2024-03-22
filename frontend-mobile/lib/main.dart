@@ -8,7 +8,7 @@ import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Get.put(DatabaseService()).init();
+  await Get.putAsync(() => DatabaseService().init());
   
   runApp(MyApp());
 }

@@ -22,7 +22,7 @@ class _BoolSymptomWidgetState extends State<BoolSymptomWidget> {
 
   @override
   Widget build(BuildContext context) {
-    _isSelected = bool.parse(widget.value.toString());
+    _isSelected = widget.value == 0 ? false : true;
 
     return ConstrainedBox(
       constraints: BoxConstraints(
