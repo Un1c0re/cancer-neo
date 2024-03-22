@@ -4,38 +4,51 @@
 // import 'package:flutter/material.dart';
 
 // class SymptomsBlock extends StatelessWidget {
-//   final List<Widget> combinedSymptomsWidgets = [];
+//   final String gradeSymptom;
+//   final String boolSymptom1;
+//   final String boolSymptom2;
+//   final String boolSymptom3;
+//   final String boolSymptom4;
 
-// int gradeIndex = 0;
-// int boolIndex = 0;
+//   const SymptomsBlock({
+//     super.key,
+//     required this.gradeSymptom,
+//     required this.boolSymptom1,
+//     required this.boolSymptom2,
+//     required this.boolSymptom3,
+//     required this.boolSymptom4,
+//   });
 
-// while (gradeIndex < gradeSymptoms.length || boolIndex < boolSymptoms.length) {
-//   // Добавляем GradeSymptom, если он доступен
-//   if (gradeIndex < gradeSymptoms.length) {
-//     combinedSymptomsWidgets.add(
-//       GradeSymptom(
-//         label: gradeSymptoms[gradeIndex].symptomName,
-//         elIndex: gradeSymptoms[gradeIndex].symptomValue,
+//   @override
+//   Widget build(BuildContext context) {
+//     return ConstrainedBox(
+//       constraints: BoxConstraints(
+//         maxWidth: DeviceScreenConstants.screenWidth * 0.9,
+//       ),
+//       child: Column(
+//         children: [
+//           GradeSymptom(
+//             label: gradeSymptom,
+//             elIndex: 0,
+//           ),
+//           const SizedBox(height: 20),
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               ApppStyleChip(label: boolSymptom1),
+//               ApppStyleChip(label: boolSymptom2),
+//             ],
+//           ),
+//           const SizedBox(height: 20),
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               ApppStyleChip(label: boolSymptom3),
+//               ApppStyleChip(label: boolSymptom4),
+//             ],
+//           ),
+//         ],
 //       ),
 //     );
-//     gradeIndex++;
 //   }
-
-//   // Добавляем две строки с BoolSymptomWidget, если они доступны
-//   List<Widget> rowWidgets = [];
-//   for (int i = 0; i < 4 && boolIndex < boolSymptoms.length; i++, boolIndex++) {
-//     rowWidgets.add(
-//       BoolSymptomWidget(
-//         label: boolSymptoms[boolIndex].symptomName,
-//         value: boolSymptoms[boolIndex].symptomValue == 1,
-//       ),
-//     );
-//     if ((i + 1) % 2 == 0 || boolIndex == boolSymptoms.length) {
-//       // Каждые два BoolSymptomWidget добавляем в Row и сбрасываем rowWidgets
-//       combinedSymptomsWidgets.add(Row(children: List.from(rowWidgets)));
-//       rowWidgets.clear();
-//     }
-//   }
-// }
-
 // }

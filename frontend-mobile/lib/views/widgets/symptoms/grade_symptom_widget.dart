@@ -4,30 +4,35 @@ import 'package:diplom/utils/app_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class GradeSymptom extends StatefulWidget {
+class GradeSymptomWidget extends StatefulWidget {
+  final int symptomID;
   final String label;
-  final int elIndex;
-  const GradeSymptom({
+  final int symptomCurrentValue;
+  final Function onUpdate;
+
+  const GradeSymptomWidget({
     super.key,
-    required this.label,
-    required this.elIndex,
+    required this.symptomID,
+    required this.symptomCurrentValue, 
+    required this.label, 
+    required this.onUpdate,
   });
 
   @override
-  State<GradeSymptom> createState() => _GradeSymptomState();
+  State<GradeSymptomWidget> createState() => _GradeSymptomWidgetState();
 }
 
-class _GradeSymptomState extends State<GradeSymptom> {
-  double _currentSliderValue = 0;
+class _GradeSymptomWidgetState extends State<GradeSymptomWidget> {
   List<String> labels = ['нет', 'слабо', 'средне', 'сильно'];
 
   @override
   Widget build(BuildContext context) {
+    double currentSliderValue = widget.symptomCurrentValue.toDouble();
     final DatabaseService databaseService = Get.find();
     
     Future<void> updateValue(int id, int value) async {
       await databaseService.database.symptomsDao.updateSymptomValue(
-        symptomValueId: id, 
+        symptomValueId: id,
         newValue: value,
         );
     }
@@ -61,19 +66,20 @@ class _GradeSymptomState extends State<GradeSymptom> {
                   tickMarkShape: CustomTickMarkShape(),
                 ),
                 child: Slider(
-                  label: labels[_currentSliderValue.toInt()],
-                  value: _currentSliderValue,
+                  label: labels[currentSliderValue.toInt()],
+                  value: currentSliderValue,
                   max: 3,
                   divisions: 3,
                   activeColor: ColorTween(
                     begin: AppColors.barColor,
                     end: AppColors.barShadow,
-                  ).evaluate(AlwaysStoppedAnimation(_currentSliderValue / 4)),
-                  onChanged: (double value) {
+                  ).evaluate(AlwaysStoppedAnimation(currentSliderValue / 4)),
+                  onChanged: (double value) async {
                     setState(() {
-                      _currentSliderValue = value;
+                      currentSliderValue = value;
                     });
-                    updateValue(0, value as int);
+                    await updateValue(widget.symptomID, value.toInt());
+                    widget.onUpdate();
                   },
                 ),
               ),

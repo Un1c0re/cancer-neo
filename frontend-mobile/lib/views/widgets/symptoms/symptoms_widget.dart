@@ -25,6 +25,12 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
   final notesInputDecoration = AppStyleTextFields.sharedDecoration;
   DateTime selectedDate = DateTime.now();
 
+  void updateData() {
+    setState(() {
+      // Это заставит виджет перерисоваться
+    });
+  }
+
   // Calendar
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -150,13 +156,17 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                           // Добавляем GradeSymptom, если он доступен
                           if (gradeIndex < gradeSymptoms.length) {
                             combinedSymptomsWidgets.add(
-                              GradeSymptom(
+                              GradeSymptomWidget(
+                                symptomID: gradeSymptoms[gradeIndex].id,
                                 label: gradeSymptoms[gradeIndex].symptomName,
-                                elIndex: gradeSymptoms[gradeIndex].symptomValue,
+                                symptomCurrentValue:
+                                    gradeSymptoms[gradeIndex].symptomValue,
+                                onUpdate: updateData,
                               ),
                             );
                             gradeIndex++;
                           }
+                          combinedSymptomsWidgets.add(SizedBox(height: 20));
                           // Добавляем две строки с BoolSymptomWidget, если они доступны
                           List<Widget> rowWidgets = [];
                           for (int i = 0;
@@ -164,22 +174,29 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                               i++, boolIndex++) {
                             rowWidgets.add(
                               BoolSymptomWidget(
+                                symptomID: boolSymptoms[boolIndex].id,
                                 label: boolSymptoms[boolIndex].symptomName,
-                                value:boolSymptoms[boolIndex].symptomValue,
+                                value: boolSymptoms[boolIndex].symptomValue,
                               ),
                             );
                             if ((i + 1) % 2 == 0 ||
                                 boolIndex == boolSymptoms.length) {
                               // Каждые два BoolSymptomWidget добавляем в Row и сбрасываем rowWidgets
-                              combinedSymptomsWidgets
-                                  .add(Row(children: List.from(rowWidgets)));
+                              combinedSymptomsWidgets.add(Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: List.from(rowWidgets)));
                               rowWidgets.clear();
                             }
+                            combinedSymptomsWidgets.add(SizedBox(height: 20));
                           }
                         }
 
-                        return Column(
-                          children: combinedSymptomsWidgets
+                        return ConstrainedBox(
+                          constraints: BoxConstraints(
+                              maxWidth:
+                                  DeviceScreenConstants.screenWidth * 0.9),
+                          child: Column(children: combinedSymptomsWidgets),
                         );
                       }
                     }),
