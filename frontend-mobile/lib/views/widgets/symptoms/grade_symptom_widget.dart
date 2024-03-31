@@ -16,16 +16,6 @@ class GradeSymptomWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // double currentSliderValue = symptomCurrentValue.toDouble();
-    // final DatabaseService databaseService = Get.find();
-    
-    // Future<void> updateValue(int id, int value) async {
-    //   await databaseService.database.symptomsValuesDao.updateSymptomValue(
-    //     symptomValueId: id,
-    //     newValue: value,
-    //     );
-    // }
-
     return ConstrainedBox(
       constraints: const BoxConstraints(
         maxHeight: 100,
