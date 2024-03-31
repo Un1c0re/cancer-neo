@@ -1797,7 +1797,12 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final UsersDao usersDao = UsersDao(this as AppDatabase);
   late final DoctypesDao doctypesDao = DoctypesDao(this as AppDatabase);
   late final DocsDao docsDao = DocsDao(this as AppDatabase);
-  late final SymptomsDao symptomsDao = SymptomsDao(this as AppDatabase);
+  late final SymptomsTypesDao symptomsTypesDao =
+      SymptomsTypesDao(this as AppDatabase);
+  late final SymptomsNamesDao symptomsNamesDao =
+      SymptomsNamesDao(this as AppDatabase);
+  late final SymptomsValuesDao symptomsValuesDao =
+      SymptomsValuesDao(this as AppDatabase);
   late final DayNotesDao dayNotesDao = DayNotesDao(this as AppDatabase);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
@@ -1827,7 +1832,19 @@ mixin _$DocsDaoMixin on DatabaseAccessor<AppDatabase> {
   $UsersTable get users => attachedDatabase.users;
   $DocsTable get docs => attachedDatabase.docs;
 }
-mixin _$SymptomsDaoMixin on DatabaseAccessor<AppDatabase> {
+mixin _$SymptomsTypesDaoMixin on DatabaseAccessor<AppDatabase> {
+  $UsersTable get users => attachedDatabase.users;
+  $SymptomsTypesTable get symptomsTypes => attachedDatabase.symptomsTypes;
+  $SymptomsNamesTable get symptomsNames => attachedDatabase.symptomsNames;
+  $SymptomsValuesTable get symptomsValues => attachedDatabase.symptomsValues;
+}
+mixin _$SymptomsNamesDaoMixin on DatabaseAccessor<AppDatabase> {
+  $UsersTable get users => attachedDatabase.users;
+  $SymptomsTypesTable get symptomsTypes => attachedDatabase.symptomsTypes;
+  $SymptomsNamesTable get symptomsNames => attachedDatabase.symptomsNames;
+  $SymptomsValuesTable get symptomsValues => attachedDatabase.symptomsValues;
+}
+mixin _$SymptomsValuesDaoMixin on DatabaseAccessor<AppDatabase> {
   $UsersTable get users => attachedDatabase.users;
   $SymptomsTypesTable get symptomsTypes => attachedDatabase.symptomsTypes;
   $SymptomsNamesTable get symptomsNames => attachedDatabase.symptomsNames;

@@ -31,7 +31,7 @@ class _GradeSymptomWidgetState extends State<GradeSymptomWidget> {
     final DatabaseService databaseService = Get.find();
     
     Future<void> updateValue(int id, int value) async {
-      await databaseService.database.symptomsDao.updateSymptomValue(
+      await databaseService.database.symptomsValuesDao.updateSymptomValue(
         symptomValueId: id,
         newValue: value,
         );

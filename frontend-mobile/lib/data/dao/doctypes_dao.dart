@@ -18,7 +18,7 @@ class DoctypesDao extends DatabaseAccessor<AppDatabase> with _$DoctypesDaoMixin 
         .toList();
   }
 
-  Future<void> initializeDocTypes() async {
+  Future<void> initDocTypes() async {
     // category 1
     final String doctype1 = 'анализы';
     final String doctype2 = 'КТ';

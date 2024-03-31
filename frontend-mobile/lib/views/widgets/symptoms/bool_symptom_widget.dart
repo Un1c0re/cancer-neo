@@ -25,7 +25,7 @@ class _BoolSymptomWidgetState extends State<BoolSymptomWidget> {
   final DatabaseService databaseService = Get.find();
   bool _isSelected = false;
   Future<void> updateValue(int id, int value) async {
-    await databaseService.database.symptomsDao.updateSymptomValue(
+    await databaseService.database.symptomsValuesDao.updateSymptomValue(
       symptomValueId: id,
       newValue: value,
     );

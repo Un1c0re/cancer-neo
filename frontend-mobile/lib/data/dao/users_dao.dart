@@ -6,15 +6,12 @@ class UsersDao extends DatabaseAccessor<AppDatabase> with _$UsersDaoMixin {
 
   UsersDao(this.db) : super(db);
 
-  Future<void> createUser() async {
-    final newUser = UsersCompanion(
-      id: Value(0),
-      name: Value('test testovich'),
-      birthdate: Value(DateTime.parse('2000-01-01')),
-      deseaseHistory: Value('none'),
-      threatmentHistory: Value('none'),
-    );
-    await into(users).insert(newUser);
+  Future<void> initUser() async {
+    final isUserExist = await (select(users)..where((user) => user.id.equals(0))).getSingleOrNull();
+    if (isUserExist != null) return;
+    
+    User initUser = User.fromJson(json.decode(dotenv.env['INIT_USER']!));
+    await into(users).insert(initUser);
   }
 
   Future<UserModel?> getUserdata() async {

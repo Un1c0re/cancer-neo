@@ -22,12 +22,12 @@ class DatabaseService extends GetxService {
 
   Future<void> initializeDatabase() async {
     if (_initialized) return;
-    await Future.wait([
-      _database.usersDao.createUser(),
-      _database.doctypesDao.initializeDocTypes(),
-      _database.symptomsDao.addSymptomTypes(),
-      _database.symptomsDao.addSymptomNames(),
-    ]);
+    
+    await _database.usersDao.initUser();
+    await _database.doctypesDao.initDocTypes();
+    await _database.symptomsTypesDao.initSymptomsTypes();
+    await _database.symptomsNamesDao.initSymptomsNames();
+
   }
 
   AppDatabase get database => _database;

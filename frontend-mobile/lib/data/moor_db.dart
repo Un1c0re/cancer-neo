@@ -1,18 +1,26 @@
+import 'dart:convert';
+
 import 'package:diplom/models/doc_type_model.dart';
 import 'package:diplom/models/doc_list_model.dart';
 import 'package:diplom/models/user_model.dart';
 import 'package:diplom/models/docs_models.dart';
 import 'package:diplom/models/symptoms_models.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+// import 'package:intl/intl.dart';
 import 'package:moor_flutter/moor_flutter.dart';
+
 
 part 'moor_db.g.dart';
 
-part 'package:diplom/data/dao/user_dao.dart';
-part 'package:diplom/data/dao/doctype_dao.dart';
-part 'package:diplom/data/dao/doc_dao.dart';
-part 'package:diplom/data/dao/symptom_dao.dart';
-part 'package:diplom/data/dao/daynote_dao.dart';
+part 'package:diplom/data/dao/users_dao.dart';
+
+part 'package:diplom/data/dao/doctypes_dao.dart';
+part 'package:diplom/data/dao/docs_dao.dart';
+
+part 'package:diplom/data/dao/symptoms_types_dao.dart';
+part 'package:diplom/data/dao/symptoms_names_dao.dart';
+part 'package:diplom/data/dao/symptoms_values_dao.dart';
+part 'package:diplom/data/dao/daynotes_dao.dart';
 
 
 ////////////////////////////////// USERS //////////////////////////////////////
@@ -75,11 +83,12 @@ class DayNotes extends Table {
   TextColumn get note => text()();
 }
 
+
 ////////////////////////////////// APPDATABASE ////////////////////////////////
 
 @UseMoor(
   tables: [Users, Doctypes, Docs, SymptomsTypes, SymptomsNames, SymptomsValues, DayNotes], 
-  daos:   [UsersDao, DoctypesDao, DocsDao, SymptomsDao, DayNotesDao]
+  daos:   [UsersDao, DoctypesDao, DocsDao, SymptomsTypesDao, SymptomsNamesDao, SymptomsValuesDao, DayNotesDao]
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase()

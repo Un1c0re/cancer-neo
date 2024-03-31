@@ -70,12 +70,12 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
       DateTime date =
           DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
       List<SymptomDetails> symptomDetails =
-          await _databaseService.database.symptomsDao.getSymptomsDetails(date);
+          await _databaseService.database.symptomsValuesDao.getSymptomsDetails(date);
 
       if (symptomDetails.isEmpty) {
-        await _databaseService.database.symptomsDao
-            .initializeSymptomsValues(date);
-        symptomDetails = await _databaseService.database.symptomsDao
+        await _databaseService.database.symptomsValuesDao
+            .initSymptomsValues(date);
+        symptomDetails = await _databaseService.database.symptomsValuesDao
             .getSymptomsDetails(date);
       }
 
@@ -150,6 +150,8 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                         final List<Widget> combinedSymptomsWidgets = [];
                         int gradeIndex = 0;
                         int boolIndex = 0;
+
+                        combinedSymptomsWidgets.add(SizedBox(height: 10));
 
                         while (gradeIndex < gradeSymptoms.length ||
                             boolIndex < boolSymptoms.length) {
@@ -237,11 +239,11 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                             cursorColor: AppColors.activeColor,
                             controller: _notesInputController,
                           ),
-                          SizedBox(height: 10),
                         ],
                       ),
                     ),
                   ),
+                  SizedBox(height: 10),
                 ],
               ),
             )));
