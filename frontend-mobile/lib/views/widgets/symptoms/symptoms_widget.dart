@@ -163,7 +163,6 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                                 label: gradeSymptoms[gradeIndex].symptomName,
                                 symptomCurrentValue:
                                     gradeSymptoms[gradeIndex].symptomValue,
-                                onUpdate: updateData,
                               ),
                             );
                             gradeIndex++;

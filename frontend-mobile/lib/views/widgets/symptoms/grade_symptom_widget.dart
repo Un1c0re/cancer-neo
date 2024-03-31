@@ -1,41 +1,30 @@
-import 'package:diplom/services/database_service.dart';
+import 'package:diplom/controllers/symptoms_controller.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class GradeSymptomWidget extends StatefulWidget {
+
+class GradeSymptomWidget extends StatelessWidget {
   final int symptomID;
   final String label;
   final int symptomCurrentValue;
-  final Function onUpdate;
 
-  const GradeSymptomWidget({
-    super.key,
-    required this.symptomID,
-    required this.symptomCurrentValue, 
-    required this.label, 
-    required this.onUpdate,
-  });
+  GradeSymptomWidget({super.key, required this.symptomID, required this.label, required this.symptomCurrentValue});
 
-  @override
-  State<GradeSymptomWidget> createState() => _GradeSymptomWidgetState();
-}
-
-class _GradeSymptomWidgetState extends State<GradeSymptomWidget> {
-  List<String> labels = ['нет', 'слабо', 'средне', 'сильно'];
+  final List<String> labels = ['нет', 'слабо', 'средне', 'сильно'];
 
   @override
   Widget build(BuildContext context) {
-    double currentSliderValue = widget.symptomCurrentValue.toDouble();
-    final DatabaseService databaseService = Get.find();
+    // double currentSliderValue = symptomCurrentValue.toDouble();
+    // final DatabaseService databaseService = Get.find();
     
-    Future<void> updateValue(int id, int value) async {
-      await databaseService.database.symptomsValuesDao.updateSymptomValue(
-        symptomValueId: id,
-        newValue: value,
-        );
-    }
+    // Future<void> updateValue(int id, int value) async {
+    //   await databaseService.database.symptomsValuesDao.updateSymptomValue(
+    //     symptomValueId: id,
+    //     newValue: value,
+    //     );
+    // }
 
     return ConstrainedBox(
       constraints: const BoxConstraints(
@@ -49,13 +38,13 @@ class _GradeSymptomWidgetState extends State<GradeSymptomWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
-                widget.label,
+                label,
                 style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               SliderTheme(
                 data: SliderThemeData(
                   trackHeight: 10,
-                  inactiveTrackColor: Color.fromARGB(40, 109, 109, 109),
+                  inactiveTrackColor: const Color.fromARGB(40, 109, 109, 109),
                   showValueIndicator: ShowValueIndicator.never,
                   thumbShape: const RoundSliderThumbShape(
                     enabledThumbRadius: 6,
@@ -65,7 +54,13 @@ class _GradeSymptomWidgetState extends State<GradeSymptomWidget> {
                   trackShape: const RoundedRectSliderTrackShape(),
                   tickMarkShape: CustomTickMarkShape(),
                 ),
-                child: Slider(
+                child: Obx(() {
+                  final GradeSymptomController controller = Get.put(
+                    GradeSymptomController(symptomCurrentValue.toDouble()),
+                    tag: '$symptomID', // Используем symptomID как уникальный тэг
+                  );
+                  final currentSliderValue = controller.currentSliderValue.toDouble();
+                  return  Slider(
                   label: labels[currentSliderValue.toInt()],
                   value: currentSliderValue,
                   max: 3,
@@ -75,13 +70,11 @@ class _GradeSymptomWidgetState extends State<GradeSymptomWidget> {
                     end: AppColors.barShadow,
                   ).evaluate(AlwaysStoppedAnimation(currentSliderValue / 4)),
                   onChanged: (double value) async {
-                    setState(() {
-                      currentSliderValue = value;
-                    });
-                    await updateValue(widget.symptomID, value.toInt());
-                    widget.onUpdate();
+                    controller.updateSliderValue(value);
+                    await controller.updateSymptomValueInDB(symptomID, value.toInt());
                   },
-                ),
+                );
+                })
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
