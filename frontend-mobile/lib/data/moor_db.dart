@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:diplom/models/doc_type_model.dart';
 import 'package:diplom/models/doc_list_model.dart';
+import 'package:diplom/models/symptom_type_model.dart';
 import 'package:diplom/models/user_model.dart';
 import 'package:diplom/models/docs_models.dart';
 import 'package:diplom/models/symptoms_models.dart';

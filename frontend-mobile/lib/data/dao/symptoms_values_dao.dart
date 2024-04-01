@@ -99,4 +99,14 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
 
     return symptomsList;
   }
+
+  Future<void>deleteSymptomValues(String symptomName) async {
+    final query = select(symptomsNames)
+      ..where((tbl) => tbl.name.equals(symptomName));
+    final nameData = await query.getSingleOrNull();
+
+    await (delete(symptomsValues)
+      ..where((tbl) => tbl.name_id.equals(nameData!.id)))
+      .go();
+  }
 }

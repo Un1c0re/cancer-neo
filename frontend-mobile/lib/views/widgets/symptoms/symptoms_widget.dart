@@ -1,3 +1,4 @@
+import 'package:diplom/views/widgets/symptoms/custom_symptom_widget.dart';
 import 'package:diplom/views/widgets/symptoms/num_symptom_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -140,21 +141,25 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                         final List<SymptomDetails> gradeSymptoms  = [];
                         final List<SymptomDetails> boolSymptoms   = [];
                         final List<SymptomDetails> numSymptoms    = [];
+                        final List<SymptomDetails> customSymptoms = [];
 
                         for (int i = 0; i < symptoms.length; i++) {
                           if (symptoms[i].symptomType == 'bool') {
                             boolSymptoms.add(symptoms[i]);
                           } else if (symptoms[i].symptomType == 'grade') {
                             gradeSymptoms.add(symptoms[i]);
-                          } else {
+                          } else if (symptoms[i].symptomType == 'numeric') {
                             numSymptoms.add(symptoms[i]);
+                          } else {
+                            customSymptoms.add(symptoms[i]);
                           }
                         }
 
                         final List<Widget> combinedSymptomsWidgets = [];
-                        int gradeIndex = 0;
-                        int boolIndex = 0;
-                        int numIndex = 0;
+                        int gradeIndex  = 0;
+                        int boolIndex   = 0;
+                        int numIndex    = 0;
+                        int customIndex = 0;
 
                         combinedSymptomsWidgets.add(SizedBox(height: 10));
 
@@ -207,7 +212,16 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                           numIndex++;
                           combinedSymptomsWidgets.add(SizedBox(height: 20));
                         }
-
+                        while(customIndex < customSymptoms.length) {
+                          combinedSymptomsWidgets.add(
+                            CustomSymptomWidget(
+                              symptomID: customSymptoms[customIndex].id,
+                              label: customSymptoms[customIndex].symptomName,
+                              value: customSymptoms[customIndex].symptomValue,
+                            ));
+                          customIndex++;
+                          combinedSymptomsWidgets.add(SizedBox(height: 20));
+                        }
                         return ConstrainedBox(
                           constraints: BoxConstraints(
                               maxWidth:

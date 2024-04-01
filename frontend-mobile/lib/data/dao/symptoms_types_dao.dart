@@ -20,4 +20,19 @@ class SymptomsTypesDao extends DatabaseAccessor<AppDatabase>
           .insert(SymptomsTypesCompanion.insert(name: symptomsTypesList[i]));
     }
   }
+
+  Future<List<SymptomTypeModel>> getSymptomTypes() async {
+    final query = customSelect(
+      'SELECT * FROM symptoms_types',
+      readsFrom: {symptomsTypes},
+    );
+
+    final results = await query.get();
+    List<SymptomTypeModel> symptomsTypesList = results.map((row)=>SymptomTypeModel(
+      id: row.read<int>('id'), 
+      name: row.read<String>('name'),
+      )).toList();
+
+    return symptomsTypesList;
+  }
 }

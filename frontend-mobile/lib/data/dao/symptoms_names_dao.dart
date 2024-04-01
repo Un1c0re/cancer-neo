@@ -5,8 +5,7 @@ class SymptomsNamesDao extends DatabaseAccessor<AppDatabase>
     with _$SymptomsNamesDaoMixin {
   final AppDatabase db;
 
-  SymptomsNamesDao
-(this.db) : super(db);
+  SymptomsNamesDao(this.db) : super(db);
 
   Future<void> initSymptomsNames() async {
     final query = select(symptomsNames)..limit(1);
@@ -44,5 +43,20 @@ class SymptomsNamesDao extends DatabaseAccessor<AppDatabase>
         )
       );
     }
+  }
+
+  Future<void> addSymptomName(String newName) async {
+    await into(symptomsNames).insert(
+      SymptomsNamesCompanion(
+        type_id: const Value(4),
+        name: Value(newName)
+      )
+    );
+  }
+
+  Future<void> deleteSymptomName(String symptomName) async {
+    await (delete(symptomsNames)
+      ..where((tbl) => tbl.name.equals(symptomName)))
+      .go();
   }
 }

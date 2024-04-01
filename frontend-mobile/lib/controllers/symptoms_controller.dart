@@ -60,3 +60,28 @@ class NumSymptomController extends GetxController {
     );
   }
 }
+
+class CustomSymptomController extends GetxController {
+  RxDouble currentValue = RxDouble(0);
+
+  CustomSymptomController(double initialValue) {
+    currentValue.value = initialValue;
+  }
+
+  void updateNumValue(double newValue) {
+    currentValue.value = newValue;
+  }
+
+  Future<void> updateSymptomValueInDB(int id, int value) async {
+    final DatabaseService databaseService = Get.find();
+    await databaseService.database.symptomsValuesDao.updateSymptomValue(
+      symptomValueId: id,
+      newValue: value,
+    );
+  }
+
+  Future<void> deleteSymptomValueFromDB(String name) async {
+    final DatabaseService databaseService = Get.find();
+    await databaseService.database.symptomsValuesDao.deleteSymptomValues(name);
+  }
+}

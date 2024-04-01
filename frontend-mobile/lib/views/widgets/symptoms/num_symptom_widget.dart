@@ -49,25 +49,28 @@ class NumSymptomWidget extends StatelessWidget {
       ),
       child: AppStyleCard(
         backgroundColor: Colors.white, 
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              label, 
-              style: const TextStyle(
-                fontSize: 18,
-              ),
-            ),
-            ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: 60,
-              ),
-              child: TextField(
-                  decoration: valueInputDecoration,
-                  controller: valueInputController,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                label, 
+                style: const TextStyle(
+                  fontSize: 18,
                 ),
-            ),
-          ],
+              ),
+              ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: 60,
+                ),
+                child: TextField(
+                    decoration: valueInputDecoration,
+                    controller: valueInputController,
+                  ),
+              ),
+            ],
+          ),
         )
       ),
     );

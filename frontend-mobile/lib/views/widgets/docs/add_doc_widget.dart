@@ -20,7 +20,6 @@ class AddDocWidget extends StatefulWidget {
 
 class _AddDocWidgetState extends State<AddDocWidget> {
   final _nameInputController = TextEditingController();
-  final _typeInputController = TextEditingController();
   final _placeInputController = TextEditingController();
   final _dateInputController = TextEditingController();
   final _notesInputController = TextEditingController();
@@ -77,10 +76,6 @@ class _AddDocWidgetState extends State<AddDocWidget> {
 
     final nameInputDecoration = AppStyleTextFields.sharedDecoration.copyWith(
       label: const Text('название документа'),
-    );
-
-    final typeInputDecoration = AppStyleTextFields.sharedDecoration.copyWith(
-      label: const Text('тип документа'),
     );
 
     final dateInputDecoration = AppStyleTextFields.sharedDecoration.copyWith(

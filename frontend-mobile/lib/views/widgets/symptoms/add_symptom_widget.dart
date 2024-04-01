@@ -1,3 +1,5 @@
+import 'package:diplom/models/symptom_type_model.dart';
+import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_style.dart';
 import 'package:diplom/utils/app_widgets.dart';
@@ -14,8 +16,6 @@ class AddSymptomWidget extends StatefulWidget {
 
 class _AddSymptomWidgetState extends State<AddSymptomWidget> {
   final _nameInputController = TextEditingController();
-
-  final _typeInputController = TextEditingController();
 
   void _cancel() => Get.back();
 
@@ -35,34 +35,27 @@ class _AddSymptomWidgetState extends State<AddSymptomWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final DatabaseService service = Get.find();
+
     final nameInputDecoration = AppStyleTextFields.sharedDecoration.copyWith(
       label: const Text('название симптома'),
     );
-
-    final typeInputDecoration = AppStyleTextFields.sharedDecoration.copyWith(
-      label: const Text('тип симптоматики'),
-    );
-
     return SingleChildScrollView(
       child: Column(
         children: [
+          SizedBox(height: DeviceScreenConstants.screenHeight*0.65,),
           ConstrainedBox(
             constraints: BoxConstraints(
-                maxHeight: DeviceScreenConstants.screenHeight * 0.5),
+                maxHeight: DeviceScreenConstants.screenHeight * 0.1),
             child: AppStyleCard(
                 backgroundColor: Colors.white,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextField(
                       decoration: nameInputDecoration,
                       cursorColor: AppColors.activeColor,
                       controller: _nameInputController,
-                    ),
-                    const SizedBox(height: 20),
-                    TextField(
-                      decoration: typeInputDecoration,
-                      cursorColor: AppColors.activeColor,
-                      controller: _typeInputController,
                     ),
                   ],
                 )),
@@ -84,7 +77,12 @@ class _AddSymptomWidgetState extends State<AddSymptomWidget> {
                   width: 150,
                   child: ElevatedButton(
                     style: AppButtonStyle.filledRoundedButton,
-                    onPressed: _submit,
+                    onPressed: () {
+                      service.database.symptomsNamesDao.addSymptomName(
+                        _nameInputController.text.trim()
+                      );
+                      _submit();
+                    },
                     child: const Text('Подтвердить'),
                   ),
                 ),
