@@ -15,8 +15,9 @@ class SymptomsNamesDao extends DatabaseAccessor<AppDatabase>
 
     if(doNamesExist) return;
 
-    List<String> boolSymptomsNames = dotenv.env['BOOL_SYMPTOMS_NAMES']!.split(',');
+    List<String> boolSymptomsNames  = dotenv.env['BOOL_SYMPTOMS_NAMES']!.split(',');
     List<String> gradeSymptomsNames = dotenv.env['GRADE_SYMPTOMS_NAMES']!.split(',');
+    List<String> numSymptomsNames   = dotenv.env['NUM_SYMPTOMS_NAMES']!.split(',');
 
     for(int i = 0; i < boolSymptomsNames.length; i++) {
       await into(symptomsNames).insert(
@@ -32,6 +33,14 @@ class SymptomsNamesDao extends DatabaseAccessor<AppDatabase>
         SymptomsNamesCompanion(
           type_id: const Value(2),
           name: Value(gradeSymptomsNames[i])
+        )
+      );
+    }
+    for(int i = 0; i < numSymptomsNames.length; i++) {
+      await into(symptomsNames).insert(
+        SymptomsNamesCompanion(
+          type_id: const Value(3),
+          name: Value(numSymptomsNames[i])
         )
       );
     }

@@ -1,3 +1,4 @@
+import 'package:diplom/views/widgets/symptoms/num_symptom_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -136,20 +137,24 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                         return Text('Error: ${snapshot.error}');
                       } else {
                         final List<SymptomDetails> symptoms = snapshot.data!;
-                        final List<SymptomDetails> gradeSymptoms = [];
-                        final List<SymptomDetails> boolSymptoms = [];
+                        final List<SymptomDetails> gradeSymptoms  = [];
+                        final List<SymptomDetails> boolSymptoms   = [];
+                        final List<SymptomDetails> numSymptoms    = [];
 
                         for (int i = 0; i < symptoms.length; i++) {
-                          if (symptoms[i].symptomType == 'grade') {
-                            gradeSymptoms.add(symptoms[i]);
-                          } else if (symptoms[i].symptomType == 'bool') {
+                          if (symptoms[i].symptomType == 'bool') {
                             boolSymptoms.add(symptoms[i]);
+                          } else if (symptoms[i].symptomType == 'grade') {
+                            gradeSymptoms.add(symptoms[i]);
+                          } else {
+                            numSymptoms.add(symptoms[i]);
                           }
                         }
 
                         final List<Widget> combinedSymptomsWidgets = [];
                         int gradeIndex = 0;
                         int boolIndex = 0;
+                        int numIndex = 0;
 
                         combinedSymptomsWidgets.add(SizedBox(height: 10));
 
@@ -191,6 +196,16 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                             }
                             combinedSymptomsWidgets.add(SizedBox(height: 20));
                           }
+                        }
+                        while(numIndex < numSymptoms.length) {
+                          combinedSymptomsWidgets.add(
+                            NumSymptomWidget(
+                              symptomID: numSymptoms[numIndex].id,
+                              label: numSymptoms[numIndex].symptomName,
+                              value: numSymptoms[numIndex].symptomValue,
+                            ));
+                          numIndex++;
+                          combinedSymptomsWidgets.add(SizedBox(height: 20));
                         }
 
                         return ConstrainedBox(

@@ -40,3 +40,23 @@ class BoolSymptomController extends GetxController {
     );
   }
 }
+
+class NumSymptomController extends GetxController {
+  RxDouble currentValue = RxDouble(0);
+
+  NumSymptomController(double initialValue) {
+    currentValue.value = initialValue;
+  }
+
+  void updateNumValue(double newValue) {
+    currentValue.value = newValue;
+  }
+
+  Future<void> updateSymptomValueInDB(int id, int value) async {
+    final DatabaseService databaseService = Get.find();
+    await databaseService.database.symptomsValuesDao.updateSymptomValue(
+      symptomValueId: id,
+      newValue: value,
+    );
+  }
+}

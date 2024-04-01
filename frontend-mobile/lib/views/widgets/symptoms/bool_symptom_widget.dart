@@ -1,5 +1,4 @@
 import 'package:diplom/controllers/symptoms_controller.dart';
-import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/utils/constants.dart';
@@ -11,20 +10,12 @@ class BoolSymptomWidget extends StatelessWidget {
   final String label;
   final int value;
 
-  BoolSymptomWidget({
+  const BoolSymptomWidget({
     super.key,
     required this.symptomID,
     required this.label,
     required this.value,
   });
-
-  final DatabaseService databaseService = Get.find();
-  Future<void> updateValue(int id, int value) async {
-    await databaseService.database.symptomsValuesDao.updateSymptomValue(
-      symptomValueId: id,
-      newValue: value,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {

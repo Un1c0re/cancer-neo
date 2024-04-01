@@ -1,25 +1,47 @@
+import 'package:diplom/controllers/symptoms_controller.dart';
 import 'package:diplom/utils/app_style.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class NumSymptoms extends StatefulWidget {
+class NumSymptomWidget extends StatelessWidget {
+  final int symptomID;
   final String label;
-  const NumSymptoms({
+  final int value;
+  
+  NumSymptomWidget({
     super.key, 
-    required this.label
+    required this.symptomID, 
+    required this.label, 
+    required this.value
   });
 
-  @override
-  State<NumSymptoms> createState() => _NumSymptomsState();
-}
 
-class _NumSymptomsState extends State<NumSymptoms> {
-  final valueInputController = TextEditingController();
-  
+  late final valueInputController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+        // Создаем контроллер если он еще не был создан
+    final controller = Get.put(
+      NumSymptomController(value.toDouble()),
+      tag: '$symptomID',
+      permanent: true,
+    );
+
+    // Создаем TextEditingController только один раз
+    final valueInputController = TextEditingController()
+      ..text = value.toString();
+
+    // Добавляем слушатель для обновления реактивного значения в контроллере
+    valueInputController.addListener(() {
+      int? newValue = int.tryParse(valueInputController.text);
+      if (newValue != null) {
+        controller.updateSymptomValueInDB(symptomID, newValue);
+      }
+    });
+
     final valueInputDecoration = AppStyleTextFields.sharedDecoration;
+
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxHeight: DeviceScreenConstants.screenHeight * 0.08,
@@ -31,19 +53,24 @@ class _NumSymptomsState extends State<NumSymptoms> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              widget.label, 
+              label, 
               style: const TextStyle(
                 fontSize: 18,
               ),
             ),
             ConstrainedBox(
-              constraints: BoxConstraints(
+              constraints: const BoxConstraints(
                 maxWidth: 60,
               ),
               child: TextField(
-                decoration: valueInputDecoration,
-                controller: valueInputController,
-              ),
+                  decoration: valueInputDecoration,
+                  controller: valueInputController,
+                  // onEditingComplete: () {
+                  //   final parsedValue = int.tryParse(valueInputController.text.trim()) ?? 0;
+                  //   controller.updateSymptomValueInDB(symptomID, parsedValue);
+                  //   controller.currentValue.value = parsedValue.toDouble();
+                  // },
+                ),
             ),
           ],
         )
