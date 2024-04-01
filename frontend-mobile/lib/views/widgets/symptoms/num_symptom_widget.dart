@@ -65,11 +65,6 @@ class NumSymptomWidget extends StatelessWidget {
               child: TextField(
                   decoration: valueInputDecoration,
                   controller: valueInputController,
-                  // onEditingComplete: () {
-                  //   final parsedValue = int.tryParse(valueInputController.text.trim()) ?? 0;
-                  //   controller.updateSymptomValueInDB(symptomID, parsedValue);
-                  //   controller.currentValue.value = parsedValue.toDouble();
-                  // },
                 ),
             ),
           ],
