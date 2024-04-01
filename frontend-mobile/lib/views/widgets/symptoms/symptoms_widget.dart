@@ -62,7 +62,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
     }
   }
 
-  void _addSymptom() => Get.to(() => AddSymptomScreen());
+  void _addSymptom() => Get.to(() => AddSymptomScreen(onUpdate: updateData,));
 
   @override
   Widget build(BuildContext context) {
@@ -218,6 +218,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                               symptomID: customSymptoms[customIndex].id,
                               label: customSymptoms[customIndex].symptomName,
                               value: customSymptoms[customIndex].symptomValue,
+                              onUpdate: updateData,
                             ));
                           customIndex++;
                           combinedSymptomsWidgets.add(SizedBox(height: 20));

@@ -2,7 +2,8 @@ import 'package:diplom/views/widgets/symptoms/add_symptom_widget.dart';
 import 'package:flutter/material.dart';
 
 class AddSymptomScreen extends StatefulWidget {
-  const AddSymptomScreen({super.key});
+  final Function onUpdate;
+  const AddSymptomScreen({super.key, required this.onUpdate});
 
   @override
   State<AddSymptomScreen> createState() => _AddSymptomScreenState();
@@ -22,9 +23,9 @@ class _AddSymptomScreenState extends State<AddSymptomScreen> {
           ),
         ),
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(10),
-        child: AddSymptomWidget(),
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: AddSymptomWidget(onUpdate: widget.onUpdate),
       ),
     );
   }

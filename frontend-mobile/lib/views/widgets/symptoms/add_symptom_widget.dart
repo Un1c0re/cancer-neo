@@ -1,4 +1,3 @@
-import 'package:diplom/models/symptom_type_model.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_style.dart';
@@ -8,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AddSymptomWidget extends StatefulWidget {
-  const AddSymptomWidget({super.key});
+  final Function onUpdate;
+  const AddSymptomWidget({super.key, required this.onUpdate});
 
   @override
   State<AddSymptomWidget> createState() => _AddSymptomWidgetState();
@@ -77,11 +77,17 @@ class _AddSymptomWidgetState extends State<AddSymptomWidget> {
                   width: 150,
                   child: ElevatedButton(
                     style: AppButtonStyle.filledRoundedButton,
-                    onPressed: () {
-                      service.database.symptomsNamesDao.addSymptomName(
+                    onPressed: () async {
+                      await service.database.symptomsNamesDao.addSymptomName(
                         _nameInputController.text.trim()
                       );
+                      await service.database.symptomsValuesDao.addSymptomValue(
+                        date: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
+                        symptomName: _nameInputController.text.trim(),
+                        value: 0
+                      );
                       _submit();
+                      widget.onUpdate();
                     },
                     child: const Text('Подтвердить'),
                   ),

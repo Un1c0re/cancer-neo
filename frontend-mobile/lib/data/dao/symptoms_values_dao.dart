@@ -30,7 +30,6 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<void> addSymptomValue({
-    required String symptomTypeName,
     required String symptomName,
     required int value,
     required DateTime date,
@@ -38,15 +37,10 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
     final userQuery = select(users)..where((u) => u.id.equals(0));
     final user = await userQuery.getSingle();
 
-    // Поиск типа симптома по названию
-    final symptomTypeQuery = select(symptomsTypes)
-      ..where((t) => t.name.equals(symptomTypeName));
-    final symptomType = await symptomTypeQuery.getSingle();
-
-    // Поиск имени симптома по типу и названию
+    // Поиск имени симптома по названию
     final symptomNameQuery = select(symptomsNames)
       ..where(
-          (n) => n.type_id.equals(symptomType.id) & n.name.equals(symptomName));
+          (n) => n.name.equals(symptomName));
     final symptomNameEntry = await symptomNameQuery.getSingle();
 
     // Добавление значения симптома

@@ -10,12 +10,15 @@ class CustomSymptomWidget extends StatelessWidget {
   final int symptomID;
   final String label;
   final int value;
+  final Function onUpdate;
 
-  CustomSymptomWidget(
-      {super.key,
-      required this.symptomID,
-      required this.label,
-      required this.value});
+  CustomSymptomWidget({
+    super.key,
+    required this.symptomID,
+    required this.label,
+    required this.value, 
+    required this.onUpdate,
+  });
 
   late final valueInputController = TextEditingController();
   @override
@@ -103,6 +106,7 @@ class CustomSymptomWidget extends StatelessWidget {
                             onTap: () async {
                               await controller.deleteSymptomValueFromDB(label);
                               Get.delete<CustomSymptomController>(tag: '$symptomID', force: true);
+                              onUpdate();
                             },
                             value: 'delete',
                             child: const Text(
