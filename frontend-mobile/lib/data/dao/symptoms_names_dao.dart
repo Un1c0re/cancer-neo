@@ -12,51 +12,46 @@ class SymptomsNamesDao extends DatabaseAccessor<AppDatabase>
     final List<SymptomsName> names = await query.get();
     final bool doNamesExist = names.isNotEmpty;
 
-    if(doNamesExist) return;
+    if (doNamesExist) return;
 
-    List<String> boolSymptomsNames  = dotenv.env['BOOL_SYMPTOMS_NAMES']!.split(',');
-    List<String> gradeSymptomsNames = dotenv.env['GRADE_SYMPTOMS_NAMES']!.split(',');
-    List<String> numSymptomsNames   = dotenv.env['NUM_SYMPTOMS_NAMES']!.split(',');
+    List<String> boolSymptomsNames =
+        dotenv.env['BOOL_SYMPTOMS_NAMES']!.split(',');
+    List<String> gradeSymptomsNames =
+        dotenv.env['GRADE_SYMPTOMS_NAMES']!.split(',');
+    List<String> numSymptomsNames =
+        dotenv.env['NUM_SYMPTOMS_NAMES']!.split(',');
 
-    for(int i = 0; i < boolSymptomsNames.length; i++) {
-      await into(symptomsNames).insert(
-        SymptomsNamesCompanion(
-          type_id: const Value(1),
-          name: Value(boolSymptomsNames[i])
-        )
-      );
+    for (int i = 0; i < boolSymptomsNames.length; i++) {
+      await into(symptomsNames).insert(SymptomsNamesCompanion(
+          type_id: const Value(1), name: Value(boolSymptomsNames[i])));
     }
 
-    for(int i = 0; i < gradeSymptomsNames.length; i++) {
-      await into(symptomsNames).insert(
-        SymptomsNamesCompanion(
-          type_id: const Value(2),
-          name: Value(gradeSymptomsNames[i])
-        )
-      );
+    for (int i = 0; i < gradeSymptomsNames.length; i++) {
+      await into(symptomsNames).insert(SymptomsNamesCompanion(
+          type_id: const Value(2), name: Value(gradeSymptomsNames[i])));
     }
-    for(int i = 0; i < numSymptomsNames.length; i++) {
-      await into(symptomsNames).insert(
-        SymptomsNamesCompanion(
-          type_id: const Value(3),
-          name: Value(numSymptomsNames[i])
-        )
-      );
+    for (int i = 0; i < numSymptomsNames.length; i++) {
+      await into(symptomsNames).insert(SymptomsNamesCompanion(
+          type_id: const Value(3), name: Value(numSymptomsNames[i])));
     }
   }
 
   Future<void> addSymptomName(String newName) async {
     await into(symptomsNames).insert(
-      SymptomsNamesCompanion(
-        type_id: const Value(4),
-        name: Value(newName)
-      )
-    );
+        SymptomsNamesCompanion(type_id: const Value(4), name: Value(newName)));
   }
 
   Future<void> deleteSymptomName(String symptomName) async {
-    await (delete(symptomsNames)
-      ..where((tbl) => tbl.name.equals(symptomName)))
-      .go();
+    await (delete(symptomsNames)..where((tbl) => tbl.name.equals(symptomName)))
+        .go();
+  }
+
+  Future<void> updateSymptomName(String oldName, String newName) async {
+    final symptomNameEntry = SymptomsNamesCompanion(
+      name: Value(newName),
+      type_id: const Value.absent(),
+    );
+    await (update(symptomsNames)..where((tbl) => tbl.name.equals(oldName)))
+        .write(symptomNameEntry);
   }
 }

@@ -3,6 +3,7 @@ import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_style.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/utils/constants.dart';
+import 'package:diplom/views/screens/symptoms/edit_symptom_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,6 +20,11 @@ class CustomSymptomWidget extends StatelessWidget {
     required this.value, 
     required this.onUpdate,
   });
+
+  void _editSymptom() => Get.to(() => EditSymptomScreen(
+        onUpdate: onUpdate,
+        oldName: label,
+  ));
 
   late final valueInputController = TextEditingController();
   @override
@@ -92,9 +98,10 @@ class CustomSymptomWidget extends StatelessWidget {
                         },
                         itemBuilder: (BuildContext context) =>
                             <PopupMenuEntry<String>>[
-                          const PopupMenuItem<String>(
+                          PopupMenuItem<String>(
+                            onTap: _editSymptom,
                             value: 'edit',
-                            child: Text(
+                            child: const Text(
                               'Изменить',
                               style: TextStyle(
                                 color: AppColors.activeColor,
