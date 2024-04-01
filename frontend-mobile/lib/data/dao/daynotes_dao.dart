@@ -7,12 +7,11 @@ class DayNotesDao extends DatabaseAccessor<AppDatabase> with _$DayNotesDaoMixin 
   DayNotesDao(this.db) : super(db);
 
   Future<void> addDayNote({
-    required int ownerId,
     required DateTime date,
     required String note,
   }) async {
     final dayNoteEntry = DayNotesCompanion.insert(
-      owner_id: ownerId,
+      owner_id: 0,
       date: date,
       note: note,
     );
@@ -20,16 +19,25 @@ class DayNotesDao extends DatabaseAccessor<AppDatabase> with _$DayNotesDaoMixin 
   }
 
   Future<void> updateDayNote({
-    required int id,
     String? note,
-    DateTime? date,
+    required DateTime? date,
   }) async {
     final dayNoteEntry = DayNotesCompanion(
-      id: Value(id),
       note: note != null ? Value(note) : const Value.absent(),
       date: date != null ? Value(date) : const Value.absent(),
     );
-    await (update(dayNotes)..where((tbl) => tbl.id.equals(id)))
+    await (update(dayNotes)..where((tbl) => tbl.date.equals(date)))
         .write(dayNoteEntry);
+  }
+
+  Future<bool>ifDayNoteExists(DateTime date) async {
+    final queryResults = await select(dayNotes).getSingleOrNull();
+    return queryResults != null;
+  }
+
+  Future<DayNote?> getDayNote(DateTime date) async {
+    final query = select(dayNotes)
+    ..where((tbl) => tbl.date.equals(date));
+    return query.getSingleOrNull();
   }
 }

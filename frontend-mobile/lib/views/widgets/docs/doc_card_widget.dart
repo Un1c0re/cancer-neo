@@ -2,7 +2,6 @@
 import 'package:diplom/models/doc_list_model.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_icons.dart';
-import 'package:diplom/utils/app_style_icons.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/views/screens/doc/doc_screen.dart';
 import 'package:flutter/material.dart';

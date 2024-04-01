@@ -23,14 +23,29 @@ class SymptomsWidget extends StatefulWidget {
 }
 
 class _SymptomsWidgetState extends State<SymptomsWidget> {
+  final DatabaseService _databaseService = Get.find();
   final _notesInputController = TextEditingController();
   final notesInputDecoration = AppStyleTextFields.sharedDecoration;
   DateTime selectedDate = DateTime.now();
+
+  void _loadNoteForSelectedDate() async {
+    final note = await _databaseService.database.dayNotesDao.getDayNote(
+        DateTime(selectedDate.year, selectedDate.month, selectedDate.day));
+    if (note != null) {
+      _notesInputController.text = note.note;
+    }
+  }
 
   void updateData() {
     setState(() {
       // Это заставит виджет перерисоваться
     });
+  }
+
+   @override
+  void initState() {
+    super.initState();
+    _loadNoteForSelectedDate();
   }
 
   // Calendar
@@ -62,17 +77,42 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
     }
   }
 
-  void _addSymptom() => Get.to(() => AddSymptomScreen(onUpdate: updateData,));
+  void _addSymptom() => Get.to(() => AddSymptomScreen(
+        onUpdate: updateData,
+      ));
+
+  void _handleNoteSubmission() async {
+    final date =
+        DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
+    final noteText = _notesInputController.text.trim();
+
+    final ifExists =
+        await _databaseService.database.dayNotesDao.ifDayNoteExists(date);
+
+    if (ifExists) {
+      await _databaseService.database.dayNotesDao.updateDayNote(
+        date: date,
+        note: noteText,
+      );
+    } else {
+      await _databaseService.database.dayNotesDao.addDayNote(
+        date: date,
+        note: noteText,
+      );
+    }
+
+    // Обновите состояние, чтобы отразить изменения
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
-    final DatabaseService _databaseService = Get.find();
-
     Future<List<SymptomDetails>> getSymptomData() async {
       DateTime date =
           DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
-      List<SymptomDetails> symptomDetails =
-          await _databaseService.database.symptomsValuesDao.getSymptomsDetails(date);
+      List<SymptomDetails> symptomDetails = await _databaseService
+          .database.symptomsValuesDao
+          .getSymptomsDetails(date);
 
       if (symptomDetails.isEmpty) {
         await _databaseService.database.symptomsValuesDao
@@ -138,9 +178,9 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                         return Text('Error: ${snapshot.error}');
                       } else {
                         final List<SymptomDetails> symptoms = snapshot.data!;
-                        final List<SymptomDetails> gradeSymptoms  = [];
-                        final List<SymptomDetails> boolSymptoms   = [];
-                        final List<SymptomDetails> numSymptoms    = [];
+                        final List<SymptomDetails> gradeSymptoms = [];
+                        final List<SymptomDetails> boolSymptoms = [];
+                        final List<SymptomDetails> numSymptoms = [];
                         final List<SymptomDetails> customSymptoms = [];
 
                         for (int i = 0; i < symptoms.length; i++) {
@@ -156,9 +196,9 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                         }
 
                         final List<Widget> combinedSymptomsWidgets = [];
-                        int gradeIndex  = 0;
-                        int boolIndex   = 0;
-                        int numIndex    = 0;
+                        int gradeIndex = 0;
+                        int boolIndex = 0;
+                        int numIndex = 0;
                         int customIndex = 0;
 
                         combinedSymptomsWidgets.add(SizedBox(height: 10));
@@ -202,24 +242,22 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                             combinedSymptomsWidgets.add(SizedBox(height: 20));
                           }
                         }
-                        while(numIndex < numSymptoms.length) {
-                          combinedSymptomsWidgets.add(
-                            NumSymptomWidget(
-                              symptomID: numSymptoms[numIndex].id,
-                              label: numSymptoms[numIndex].symptomName,
-                              value: numSymptoms[numIndex].symptomValue,
-                            ));
+                        while (numIndex < numSymptoms.length) {
+                          combinedSymptomsWidgets.add(NumSymptomWidget(
+                            symptomID: numSymptoms[numIndex].id,
+                            label: numSymptoms[numIndex].symptomName,
+                            value: numSymptoms[numIndex].symptomValue,
+                          ));
                           numIndex++;
                           combinedSymptomsWidgets.add(SizedBox(height: 20));
                         }
-                        while(customIndex < customSymptoms.length) {
-                          combinedSymptomsWidgets.add(
-                            CustomSymptomWidget(
-                              symptomID: customSymptoms[customIndex].id,
-                              label: customSymptoms[customIndex].symptomName,
-                              value: customSymptoms[customIndex].symptomValue,
-                              onUpdate: updateData,
-                            ));
+                        while (customIndex < customSymptoms.length) {
+                          combinedSymptomsWidgets.add(CustomSymptomWidget(
+                            symptomID: customSymptoms[customIndex].id,
+                            label: customSymptoms[customIndex].symptomName,
+                            value: customSymptoms[customIndex].symptomValue,
+                            onUpdate: updateData,
+                          ));
                           customIndex++;
                           combinedSymptomsWidgets.add(SizedBox(height: 20));
                         }
@@ -267,6 +305,21 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                             decoration: notesInputDecoration,
                             cursorColor: AppColors.activeColor,
                             controller: _notesInputController,
+                            textInputAction: TextInputAction.done,
+                            onSubmitted: (_) => _handleNoteSubmission(),
+                            // onEditingComplete:() async {
+                            //   final ifExists = await _databaseService.database.dayNotesDao.ifDayNoteExists(
+                            //     DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
+                            //   );
+                            //   if(ifExists) {
+                            //     await _databaseService.database.dayNotesDao.updateDayNote(
+                            //       date: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day));
+                            //   } else {
+                            //     await _databaseService.database.dayNotesDao.addDayNote(
+                            //       date: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
+                            //       note: _notesInputController.text.trim());
+                            //   }
+                            // },
                           ),
                         ],
                       ),
