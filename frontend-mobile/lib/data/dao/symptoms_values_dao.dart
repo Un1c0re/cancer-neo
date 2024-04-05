@@ -39,8 +39,7 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
 
     // Поиск имени симптома по названию
     final symptomNameQuery = select(symptomsNames)
-      ..where(
-          (n) => n.name.equals(symptomName));
+      ..where((n) => n.name.equals(symptomName));
     final symptomNameEntry = await symptomNameQuery.getSingle();
 
     // Добавление значения симптома
@@ -69,14 +68,13 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
 
   Future<List<SymptomDetails>> getSymptomsDetails(DateTime date) async {
     final query = customSelect(
-      'SELECT sv.id AS symptomID, sn.name AS symptomName, st.name AS symptomType, sv.value AS symptomValue '
-      'FROM symptoms_values AS sv '
-      'JOIN symptoms_names AS sn ON sv.name_id = sn.id '
-      'JOIN symptoms_types AS st ON sn.type_id = st.id '
-      'WHERE sv.date = ?',
-      readsFrom: {symptomsValues, symptomsNames, symptomsTypes},
-      variables: [Variable.withInt(date.millisecondsSinceEpoch ~/1000)]
-    );
+        'SELECT sv.id AS symptomID, sn.name AS symptomName, st.name AS symptomType, sv.value AS symptomValue '
+        'FROM symptoms_values AS sv '
+        'JOIN symptoms_names AS sn ON sv.name_id = sn.id '
+        'JOIN symptoms_types AS st ON sn.type_id = st.id '
+        'WHERE sv.date = ?',
+        readsFrom: {symptomsValues, symptomsNames, symptomsTypes},
+        variables: [Variable.withInt(date.millisecondsSinceEpoch ~/ 1000)]);
 
     final results = await query.get();
 
@@ -94,13 +92,52 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
     return symptomsList;
   }
 
-  Future<void>deleteSymptomValues(String symptomName) async {
+  Future<List<List<double>>> getSymptomsSortedByDayAndNameID(
+      int symptomTypeId, DateTime monthStart, DateTime monthEnd) async {
+    final query = customSelect(
+      'SELECT sv.date, sv.value, sv.name_id '
+      'FROM symptoms_values AS sv '
+      'JOIN symptoms_names AS sn ON sv.name_id = sn.id '
+      'WHERE sn.type_id = ? AND sv.date >= ? AND sv.date < ? '
+      'ORDER BY sv.date, sv.name_id',
+      readsFrom: {symptomsValues, symptomsNames},
+      variables: [
+        Variable.withInt(symptomTypeId),
+        Variable.withDateTime(monthStart),
+        Variable.withDateTime(monthEnd)
+      ],
+    );
+
+    final result = await query.get();
+
+    // Подготавливаем структуру для хранения результатов
+    Map<int, List<double>> symptomsByDay = {};
+    for (var row in result) {
+      final date = row.read<DateTime>('date');
+      final value = row.read<int>('value').toDouble();
+
+      symptomsByDay.putIfAbsent(date.day, () => []).add(value);
+    }
+
+    // Преобразуем карту в список списков для соблюдения порядка дней
+    List<List<double>> sortedSymptoms = [];
+    for (DateTime day = monthStart;
+        day.isBefore(monthEnd);
+        day = day.add(const Duration(days: 1))) {
+      int dayKey = day.day;
+      sortedSymptoms.add(symptomsByDay[dayKey] ?? []);
+    }
+
+    return sortedSymptoms;
+  }
+
+  Future<void> deleteSymptomValues(String symptomName) async {
     final query = select(symptomsNames)
       ..where((tbl) => tbl.name.equals(symptomName));
     final nameData = await query.getSingleOrNull();
 
     await (delete(symptomsValues)
-      ..where((tbl) => tbl.name_id.equals(nameData!.id)))
-      .go();
+          ..where((tbl) => tbl.name_id.equals(nameData!.id)))
+        .go();
   }
 }

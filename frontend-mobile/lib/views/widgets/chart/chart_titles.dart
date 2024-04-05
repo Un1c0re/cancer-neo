@@ -1,35 +1,31 @@
+import 'package:diplom/services/database_service.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 Widget gradeChartleftTitles(double value, TitleMeta meta) {
   const style = TextStyle(fontSize: 18);
-  String text;
-
-  switch (value) {
-    case 0:
-      text = 'Симптом';
-      break;
-    case 5:
-      text = 'Симптом';
-      break;
-    case 10:
-      text = 'Симптом';
-    case 15:
-      text = 'Симптом';
-      break;
-    default:
-      // text = '${value}';
-      text = '';
-      break;
-  }
-
   return SideTitleWidget(
     axisSide: meta.axisSide,
-    child: Text(
-      text,
-      style: style,
+    child: FutureBuilder(
+      future: Get.find<DatabaseService>().database.symptomsNamesDao.getSymptomsNamesByTypeID(2), 
+      builder: ((context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          final names = snapshot.data!;
+          for(int i = 0; i < names.length; i++) {
+            if(value == i * 5) {
+              return Text(names[i], style: style); 
+            }
+          }
+          return const Text(''); 
+        }
+      }
     ),
-  );
+  ));
 }
 
 Widget boolChartleftTitles(double value, TitleMeta meta) {
@@ -39,10 +35,10 @@ Widget boolChartleftTitles(double value, TitleMeta meta) {
 
   switch (value) {
     case 0:
-      text = 'Симптом';
+      text = 'Мигрень';
       break;
     case 4:
-      text = 'Симптом';
+      text = 'Кашель';
       break;
     default:
       text = ' ';

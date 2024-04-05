@@ -69,8 +69,8 @@ class _ChartWidgetState extends State<ChartWidget> {
   @override
   Widget build(BuildContext context) {
     String formattedDate = DateFormat.yMMMM().format(_selectedDate);
-    SymptomeBarData symptomeList = SymptomeBarData();
-    symptomeList.initializeData();
+    // SymptomeBarData symptomeList = SymptomeBarData();
+    // symptomeList.initializeData();
 
     return Scaffold(
       appBar: AppBar(
@@ -112,7 +112,7 @@ class _ChartWidgetState extends State<ChartWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 const SizedBox(height: 10),
-                GradeChart(),
+                GradeChart(selectedDate: _selectedDate),
                 const SizedBox(height: 30),
                 BoolChart(),
                 const SizedBox(height: 30),

@@ -36,6 +36,23 @@ class SymptomsNamesDao extends DatabaseAccessor<AppDatabase>
     }
   }
 
+  Future<List<String>> getSymptomsNamesByTypeID(int typeID) async {
+    final query = customSelect(
+      'SELECT name '
+      'FROM symptoms_names '
+      'WHERE type_id = ?',
+      readsFrom: {symptomsNames},
+      variables: [Variable.withInt(typeID)],
+    );
+
+    final results = await query.get();
+
+    // Преобразование результатов запроса в список строк (имен симптомов).
+    final namesList = results.map((row) => row.read<String>('name')).toList();
+
+    return namesList;
+  }
+
   Future<void> addSymptomName(String newName) async {
     await into(symptomsNames).insert(
         SymptomsNamesCompanion(type_id: const Value(4), name: Value(newName)));

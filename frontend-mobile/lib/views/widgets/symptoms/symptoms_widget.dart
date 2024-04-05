@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:diplom/services/database_service.dart';
-import 'package:diplom/models/symptoms_models.dart';
+import 'package:diplom/models/symptom_value_model.dart';
 
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_style.dart';

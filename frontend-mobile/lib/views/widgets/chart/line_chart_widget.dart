@@ -18,7 +18,7 @@ class MyLineChart extends StatelessWidget {
         backgroundColor: Colors.white,
         child: Column(
           children: [
-            Text('Симптом',
+            Text('Рецепторы соматостатина',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
