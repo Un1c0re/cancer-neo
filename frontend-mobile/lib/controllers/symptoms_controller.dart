@@ -36,7 +36,7 @@ class BoolSymptomController extends GetxController {
     final DatabaseService databaseService = Get.find();
     await databaseService.database.symptomsValuesDao.updateSymptomValue(
       symptomValueId: id,
-      newValue: value,
+      newValue: currentValue.value.toInt(),
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:diplom/utils/app_colors.dart';
-import 'package:diplom/views/widgets/chart/bar_data.dart';
 import 'package:diplom/views/widgets/chart/bool_chart_widget.dart';
 import 'package:diplom/views/widgets/chart/grade_chart_widget.dart';
 import 'package:diplom/views/widgets/chart/line_chart_widget.dart';
@@ -69,9 +68,7 @@ class _ChartWidgetState extends State<ChartWidget> {
   @override
   Widget build(BuildContext context) {
     String formattedDate = DateFormat.yMMMM().format(_selectedDate);
-    // SymptomeBarData symptomeList = SymptomeBarData();
-    // symptomeList.initializeData();
-
+    
     return Scaffold(
       appBar: AppBar(
         title: Container(
@@ -114,7 +111,7 @@ class _ChartWidgetState extends State<ChartWidget> {
                 const SizedBox(height: 10),
                 GradeChart(selectedDate: _selectedDate),
                 const SizedBox(height: 30),
-                BoolChart(),
+                BoolChart(selectedDate: _selectedDate),
                 const SizedBox(height: 30),
                 MyLineChart(),
                 const SizedBox(height: 25),

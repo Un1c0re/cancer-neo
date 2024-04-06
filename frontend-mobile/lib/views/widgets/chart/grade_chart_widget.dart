@@ -28,7 +28,7 @@ class GradeChart extends StatelessWidget {
 
       List<BarChartGroupData> groupDataList = [];
       for (int i = 0; i < rawDataList.length; i++) {
-        groupDataList.add(gradeChartGroupData1(i, rawDataList[i]));
+        groupDataList.add(gradeChartGroupData(i, rawDataList[i]));
       }
 
       return groupDataList;
