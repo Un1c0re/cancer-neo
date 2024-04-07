@@ -66,9 +66,5 @@ class DayNotesDao extends DatabaseAccessor<AppDatabase>
     } else {
       return null;
     }
-
-    // final query = select(dayNotes)
-    // ..where((tbl) => tbl.date.equals(date.millisecondsSinceEpoch ~/ 1000));
-    // return query.getSingleOrNull();
   }
 }

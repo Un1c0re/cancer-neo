@@ -113,7 +113,7 @@ class _ChartWidgetState extends State<ChartWidget> {
                 const SizedBox(height: 30),
                 BoolChart(selectedDate: _selectedDate),
                 const SizedBox(height: 30),
-                MyLineChart(),
+                LineChartWidget(selectedDate: _selectedDate),
                 const SizedBox(height: 25),
                 ElevatedButton(
                   style: AppButtonStyle.basicButton.copyWith(

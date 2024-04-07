@@ -1,200 +1,234 @@
-
-import 'dart:math';
-
+import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
+import 'package:diplom/utils/datetime_helpers.dart';
+import 'package:diplom/views/widgets/chart/chart_titles.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class MyLineChart extends StatelessWidget {
+class LineChartWidget extends StatefulWidget {
+  final DateTime selectedDate;
+  const LineChartWidget({super.key, required this.selectedDate});
+
+  @override
+  State<LineChartWidget> createState() => _LineChartWidgetState();
+}
+
+class _LineChartWidgetState extends State<LineChartWidget> {
+  late int totalPoints;
+  int currentPointIndex = 0;
+  List<String> symptomNames = [];
+
+  Future<void> loadSymptomNames() async {
+    final names = await Get.find<DatabaseService>()
+        .database
+        .symptomsNamesDao
+        .getSymptomsNamesByTypeID(3);
+    setState(() {
+      symptomNames = names;
+      totalPoints = names.length;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadSymptomNames();
+  }
+
+  List<Widget> _buildPoints() {
+    List<Widget> points = [];
+    for (int i = 0; i < totalPoints; i++) {
+      points.add(
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              currentPointIndex = i;
+              // Тут можно вызвать функцию, которая обновит данные
+            });
+          },
+          child: Container(
+            width: 100 / totalPoints, // Ширина точки
+            height: 5, // Высота точки
+            margin: const EdgeInsets.symmetric(
+                horizontal: 2), // Расстояние между точками
+            decoration: BoxDecoration(
+              color: i == currentPointIndex
+                  ? AppColors.activeColor
+                  : AppColors.backgroundColor,
+            ),
+          ),
+        ),
+      );
+    }
+    return points;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(
-        maxHeight: 300
-      ),
-      child: AppStyleCard(
-        backgroundColor: Colors.white,
-        child: Column(
-          children: [
-            Text('Рецепторы соматостатина',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-            ),
-            SizedBox(height: 5),
-            ConstrainedBox(
-              constraints: BoxConstraints(
-                maxHeight: 250,
-              ),
-              child: LineChart(
-                sampleData2,
-                duration: const Duration(milliseconds: 250),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+    final DatabaseService service = Get.find();
+    final pickedDate = DateTime(widget.selectedDate.year,
+        widget.selectedDate.month, widget.selectedDate.day);
 
-  LineChartData get sampleData2 => LineChartData(
-        lineTouchData: lineTouchData2,
-        gridData: gridData,
-        titlesData: titlesData2,
-        borderData: borderData,
-        lineBarsData: lineBarsData2,
-        minX: 0,
-        maxX: 30,
-        maxY: 6,
-        minY: 0,
-      );
+    Future<List<List<double>>> getLineData(DateTime date) async {
+      final monthStart = getFirstDayOfMonth(date);
+      final monthEnd = getFirstDayOfNextMonth(date);
 
-  FlTitlesData get titlesData1 => FlTitlesData(
-        bottomTitles: AxisTitles(
-          sideTitles: bottomTitles,
-        ),
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: leftTitles(),
-        ),
-      );
+      List<List<double>> rawDataList = await service.database.symptomsValuesDao
+          .getSymptomsSortedByDayAndNameID(3, monthStart, monthEnd);
 
-  LineTouchData get lineTouchData2 => const LineTouchData(
-        enabled: true,
-      );
-
-  FlTitlesData get titlesData2 => FlTitlesData(
-        bottomTitles: AxisTitles(
-          sideTitles: bottomTitles,
-        ),
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: leftTitles(),
-        ),
-      );
-
-  List<LineChartBarData> get lineBarsData2 => [
-        lineChartBarData2_1,
-      ];
-
-  Widget leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      fontSize: 14,
-    );
-    String text;
-    switch (value.toInt()) {
-      case 1:
-        text = '1';
-        break;
-      case 2:
-        text = '2';
-        break;
-      case 3:
-        text = '3';
-        break;
-      case 4:
-        text = '5';
-        break;
-      case 5:
-        text = '6';
-        break;
-      default:
-        return Container();
+      return rawDataList;
     }
 
-    return Text(text, style: style, textAlign: TextAlign.center);
-  }
+    List<LineChartBarData> groupData(List<List<double>> rawDataList) {
+      // Создаем список точек для графика, используя текущий индекс точки
+      List<FlSpot> spots = List.generate(rawDataList.length, (index) {
+        // Берем значение для текущего индекса точки, или 0 если оно отсутствует
+        double value = rawDataList[index].length > currentPointIndex
+            ? rawDataList[index][currentPointIndex]
+            : 0.0;
+        return FlSpot(index.toDouble(), value);
+      });
 
-  SideTitles leftTitles() => SideTitles(
-        getTitlesWidget: leftTitleWidgets,
-        showTitles: true,
-        reservedSize: 32,
-      );
-
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    Widget text;
-      switch (value.toInt()) {
-    case 0:
-      text = const Text('01');
-      break;
-    case 7:
-      text = const Text('08');
-      break;
-    case 15:
-      text = const Text('15');
-      break;
-    case 22:
-      text = const Text('22');
-      break;
-    case 29:
-      text = const Text('29');
-      break;
-    default:
-      text = const Text('');
-      break;
-  }
-
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      child: text,
-    );
-  }
-
-  SideTitles get bottomTitles => SideTitles(
-        showTitles: true,
-        reservedSize: 32,
-        interval: 1,
-        getTitlesWidget: bottomTitleWidgets,
-      );
-
-  FlGridData get gridData {
-    return const FlGridData(
-    show: true,
-    horizontalInterval: 1,
-  );
-  }
-
-  FlBorderData get borderData => FlBorderData(
-        show: false,
-      );
-
-  LineChartBarData get lineChartBarData2_1 => LineChartBarData(
+      // Создаем данные для графика из точек
+      LineChartBarData lineData = LineChartBarData(
         isCurved: true,
         color: AppColors.primaryColor,
         barWidth: 4,
         isStrokeCapRound: true,
         dotData: const FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
-        spots: List.generate(30, (index) {
-          return FlSpot(index.toDouble(), 0.5 + Random().nextDouble()*4);
-        })
+        spots: spots,
+        // другие настройки для LineChartBarData...
       );
-}
 
-class LineChartSample1 extends StatefulWidget {
-  const LineChartSample1({super.key});
+      // Возвращаем список с одной линией данных
+      return [lineData];
+    }
 
-  @override
-  State<StatefulWidget> createState() => LineChartSample1State();
-}
+    Future<int> getLineSymptomsNamesCount() async {
+      final List<String> tmp =
+          await service.database.symptomsNamesDao.getSymptomsNamesByTypeID(3);
+      return tmp.length;
+    }
 
-class LineChartSample1State extends State<LineChartSample1> {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxHeight: 450),
+      child: AppStyleCard(
+        backgroundColor: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text(
+             symptomNames.isNotEmpty ? symptomNames[currentPointIndex] : 'Загрузка...',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 5),
+            ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxHeight: 250,
+              ),
+              child: FutureBuilder(
+                future: getLineData(pickedDate),
+                builder: ((context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    final List<List<double>> rawData = snapshot.data!;
+                    final List<LineChartBarData> lineData = groupData(rawData);
+                    return LineChart(
+                      LineChartData(
+                        // show border around BarChart
+                        borderData: FlBorderData(show: false),
 
-  @override
-  Widget build(BuildContext context) {
-    return MyLineChart();
+                        // grid
+                        gridData: const FlGridData(
+                          drawHorizontalLine: true,
+                          horizontalInterval: 4,
+                          drawVerticalLine: true,
+                          verticalInterval: 5,
+                        ),
+                        titlesData: const FlTitlesData(
+                          topTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false)),
+                          rightTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false)),
+                          bottomTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              getTitlesWidget: bottomTitlesWidget,
+                              reservedSize: 25,
+                            ),
+                          ),
+                          leftTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              getTitlesWidget: lineChartleftTitles,
+                              reservedSize: 100,
+                            ),
+                          ),
+                        ),
+                        lineBarsData: lineData,
+                      ),
+                    );
+                  }
+                }),
+              ),
+            ),
+            ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxHeight: 45,
+              ),
+              child: FutureBuilder(
+                  future: getLineSymptomsNamesCount(),
+                  builder: ((context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      totalPoints = snapshot.data!;
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.arrow_left),
+                            onPressed: () {
+                              currentPointIndex > 0
+                                  ? currentPointIndex--
+                                  : currentPointIndex = totalPoints - 1;
+                              setState(() {});
+                            },
+                            iconSize: 40,
+                          ),
+                          Wrap(
+                            children: _buildPoints(),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.arrow_right),
+                            onPressed: () {
+                              currentPointIndex < totalPoints - 1
+                                  ? currentPointIndex++
+                                  : currentPointIndex = 0;
+                              setState(() {});
+                            },
+                            iconSize: 40,
+                          ),
+                        ],
+                      );
+                    }
+                  })),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

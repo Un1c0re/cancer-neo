@@ -2,7 +2,7 @@ import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/utils/datetime_helpers.dart';
-import 'package:diplom/views/widgets/chart/bar_data.dart';
+import 'package:diplom/views/widgets/chart/chart_data.dart';
 import 'package:diplom/views/widgets/chart/chart_titles.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -161,7 +161,7 @@ class _BoolChartState extends State<BoolChart> {
                           bottomTitles: const AxisTitles(
                             sideTitles: SideTitles(
                               showTitles: true,
-                              getTitlesWidget: bottomTitles,
+                              getTitlesWidget: bottomTitlesWidget,
                               reservedSize: 25,
                             ),
                           ),
