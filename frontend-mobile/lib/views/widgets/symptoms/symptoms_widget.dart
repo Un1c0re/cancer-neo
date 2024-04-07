@@ -37,12 +37,14 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
   }
 
   void updateData() {
+    _notesInputController.clear();
+    _loadNoteForSelectedDate();
     setState(() {
       // Это заставит виджет перерисоваться
     });
   }
 
-   @override
+  @override
   void initState() {
     super.initState();
     _loadNoteForSelectedDate();
@@ -71,9 +73,9 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
       },
     );
     if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
+      selectedDate = picked;
+      updateData();
+      // setState(() {});
     }
   }
 
@@ -307,19 +309,6 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                             controller: _notesInputController,
                             textInputAction: TextInputAction.done,
                             onSubmitted: (_) => _handleNoteSubmission(),
-                            // onEditingComplete:() async {
-                            //   final ifExists = await _databaseService.database.dayNotesDao.ifDayNoteExists(
-                            //     DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day)
-                            //   );
-                            //   if(ifExists) {
-                            //     await _databaseService.database.dayNotesDao.updateDayNote(
-                            //       date: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day));
-                            //   } else {
-                            //     await _databaseService.database.dayNotesDao.addDayNote(
-                            //       date: DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day),
-                            //       note: _notesInputController.text.trim());
-                            //   }
-                            // },
                           ),
                         ],
                       ),

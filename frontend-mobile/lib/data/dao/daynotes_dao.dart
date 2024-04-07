@@ -1,7 +1,8 @@
-part of 'package:diplom/data/moor_db.dart'; 
+part of 'package:diplom/data/moor_db.dart';
 
 @UseDao(tables: [Users, DayNotes])
-class DayNotesDao extends DatabaseAccessor<AppDatabase> with _$DayNotesDaoMixin {
+class DayNotesDao extends DatabaseAccessor<AppDatabase>
+    with _$DayNotesDaoMixin {
   final AppDatabase db;
 
   DayNotesDao(this.db) : super(db);
@@ -30,14 +31,44 @@ class DayNotesDao extends DatabaseAccessor<AppDatabase> with _$DayNotesDaoMixin 
         .write(dayNoteEntry);
   }
 
-  Future<bool>ifDayNoteExists(DateTime date) async {
-    final queryResults = await select(dayNotes).getSingleOrNull();
-    return queryResults != null;
+  Future<bool> ifDayNoteExists(DateTime date) async {
+  final query = customSelect(
+    'SELECT * FROM day_notes '
+    'WHERE date = ?',
+    readsFrom: {dayNotes},
+    variables: [Variable.withInt(date.millisecondsSinceEpoch ~/1000)]
+  );
+
+  final results = await query.getSingleOrNull();
+
+  return results != null;
   }
 
   Future<DayNote?> getDayNote(DateTime date) async {
-    final query = select(dayNotes)
-    ..where((tbl) => tbl.date.equals(date));
-    return query.getSingleOrNull();
+    final meme = customSelect('SELECT * FROM day_notes');
+    final check = await meme.get();
+    print(check);
+    final query = customSelect(
+        'SELECT * FROM day_notes '
+        'WHERE date = ?',
+        readsFrom: {dayNotes},
+        variables: [Variable.withInt(date.millisecondsSinceEpoch ~/ 1000)]);
+
+    final result = await query.getSingleOrNull();
+    // Если результат запроса не null, преобразуем его в объект DayNote
+    if (result != null) {
+      return DayNote(
+          id: result.read<int>('id'),
+          owner_id: result.read<int>('owner_id'),
+          date: DateTime.fromMillisecondsSinceEpoch(
+              result.read<int>('date') * 1000),
+          note: result.read<String>('note'));
+    } else {
+      return null;
+    }
+
+    // final query = select(dayNotes)
+    // ..where((tbl) => tbl.date.equals(date.millisecondsSinceEpoch ~/ 1000));
+    // return query.getSingleOrNull();
   }
 }

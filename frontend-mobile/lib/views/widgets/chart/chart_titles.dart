@@ -28,31 +28,6 @@ Widget gradeChartleftTitles(double value, TitleMeta meta) {
   ));
 }
 
-Widget boolChartleftTitles(double value, TitleMeta meta) {
-  const style = TextStyle(fontSize: 18);
-  return SideTitleWidget(
-    axisSide: meta.axisSide,
-    child: FutureBuilder(
-      future: Get.find<DatabaseService>().database.symptomsNamesDao.getSymptomsNamesByTypeID(1), 
-      builder: ((context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
-          final names = snapshot.data!;
-          for(int i = 0; i < names.length; i++) {
-            if(value == i * 5) {
-              return Text(names[i], style: style); 
-            }
-          }
-          return const Text(''); 
-        }
-      }
-    ),
-  ));
-}
-
 Widget bottomTitles(double value, TitleMeta meta) {
   const style = TextStyle(fontSize: 15);
   String date;
