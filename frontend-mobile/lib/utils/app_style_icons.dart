@@ -21,6 +21,8 @@
 ///         License:   SIL (https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt)
 ///         Homepage:  http://fortawesome.github.com/Font-Awesome/
 ///
+// ignore_for_file: dangling_library_doc_comments, constant_identifier_names
+
 import 'package:flutter/widgets.dart';
 
 class AppStyleIcons {

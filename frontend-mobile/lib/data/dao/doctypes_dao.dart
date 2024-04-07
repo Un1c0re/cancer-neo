@@ -19,24 +19,12 @@ class DoctypesDao extends DatabaseAccessor<AppDatabase> with _$DoctypesDaoMixin 
   }
 
   Future<void> initDocTypes() async {
-    // category 1
-    final String doctype1 = 'анализы';
-    final String doctype2 = 'КТ';
-    final String doctype3 = 'МРТ';
-    final String doctype4 = 'Исследования';
-
-    await into(doctypes).insert(DoctypesCompanion(
-        name: Value(doctype1),
-    ));
-    await into(doctypes).insert(DoctypesCompanion(
-        name: Value(doctype2),
-    ));
-    await into(doctypes).insert(DoctypesCompanion(
-        name: Value(doctype3),
-    ));
-    await into(doctypes).insert(DoctypesCompanion(
-        name: Value(doctype4),
-    ));
+    List<String> docTypesList = dotenv.env['DOC_TYPES']!.split(',');
+    for(int i = 0; i < docTypesList.length; i++) {
+      await into(doctypes).insert(DoctypesCompanion(
+          name: Value(docTypesList[i]),
+      ));
+    }
   }
 
   Future<DoctypeModel> getDocType(id) async {

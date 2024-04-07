@@ -49,9 +49,6 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
         docNotes: Value(docNotes),
         pdfFile: Value(pdfFile),
       ));
-    } else {
-      // Обработка случая, когда пользователь не найден
-      print("Пользователь не найден");
     }
   }
 
@@ -66,12 +63,12 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
   }) async {
     final docEntry = DocsCompanion(
       id: Value(docId),
-      docName: docName != null ? Value(docName) : Value.absent(),
-      docType: docType != null ? Value(docType) : Value.absent(),
-      docDate: docDate != null ? Value(docDate) : Value.absent(),
-      docPlace: docPlace != null ? Value(docPlace) : Value.absent(),
-      docNotes: docNotes != null ? Value(docNotes) : Value.absent(),
-      pdfFile: pdfFile != null ? Value(pdfFile) : Value.absent(),
+      docName: docName != null ? Value(docName) : const Value.absent(),
+      docType: docType != null ? Value(docType) : const Value.absent(),
+      docDate: docDate != null ? Value(docDate) : const Value.absent(),
+      docPlace: docPlace != null ? Value(docPlace) : const Value.absent(),
+      docNotes: docNotes != null ? Value(docNotes) : const Value.absent(),
+      pdfFile: pdfFile != null ? Value(pdfFile) : const Value.absent(),
     );
 
     await (update(docs)..where((tbl) => tbl.id.equals(docId))).write(docEntry);
@@ -91,13 +88,7 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
       final doc = await docQuery.getSingleOrNull();
       if (doc != null) {
         await delete(docs).delete(doc);
-      } else {
-        // Обработка случая, когда документ не найден
-        print("Документ не найден");
       }
-    } else {
-      // Обработка случая, когда пользователь не найден
-      print("Пользователь не найден");
     }
   }
 }

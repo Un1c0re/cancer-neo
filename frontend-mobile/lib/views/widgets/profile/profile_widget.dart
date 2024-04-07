@@ -40,8 +40,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              _ProfileCard(),
-              SizedBox(height: 25),
+              const _ProfileCard(),
+              const SizedBox(height: 25),
               _SettingsButtons(),
             ],
           ),
@@ -56,7 +56,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
 ///////////////////////////////////////////////////////////////////////////////
 
 class _ProfileCard extends StatefulWidget {
-  const _ProfileCard({super.key});
+  const _ProfileCard();
   @override
   State<_ProfileCard> createState() => _ProfileCardState();
 }

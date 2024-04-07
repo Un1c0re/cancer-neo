@@ -21,11 +21,11 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final DatabaseService _databaseService = Get.find();
+    final DatabaseService databaseService = Get.find();
 
     Future<void> updateUser(String newName, DateTime newBirthdate,
         String newDiseaseHistory, String newThreatmentHistory) async {
-      await _databaseService.database.usersDao.updateUser(
+      await databaseService.database.usersDao.updateUser(
         userId: 0,
         name: newName,
         birthdate: newBirthdate,
@@ -102,12 +102,12 @@ class _DocDataWidget extends StatefulWidget {
   final TextEditingController diseaseController;
   final TextEditingController threatmentController;
 
-  const _DocDataWidget(
-      {super.key,
-      required this.nameController,
-      required this.birthController,
-      required this.diseaseController,
-      required this.threatmentController});
+  const _DocDataWidget({
+    required this.nameController,
+    required this.birthController,
+    required this.diseaseController,
+    required this.threatmentController
+  });
 
   @override
   State<_DocDataWidget> createState() => _DocDataWidgetState();
@@ -204,16 +204,14 @@ class _DocDataWidgetState extends State<_DocDataWidget> {
 }
 
 class _AddPhotoWidget extends StatelessWidget {
-  const _AddPhotoWidget({
-    super.key,
-  });
+  const _AddPhotoWidget();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return const SizedBox(
       width: 200,
       height: 150,
-      child: const SizedBox(
+      child: SizedBox(
         child: Text('Пожалуйста, внесите ваши данные'),
       ),
     );

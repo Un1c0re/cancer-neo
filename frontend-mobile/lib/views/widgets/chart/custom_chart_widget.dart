@@ -7,15 +7,15 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LineChartWidget extends StatefulWidget {
+class CustomChartWidget extends StatefulWidget {
   final DateTime selectedDate;
-  const LineChartWidget({super.key, required this.selectedDate});
+  const CustomChartWidget({super.key, required this.selectedDate});
 
   @override
-  State<LineChartWidget> createState() => _LineChartWidgetState();
+  State<CustomChartWidget> createState() => _CustomChartWidgetState();
 }
 
-class _LineChartWidgetState extends State<LineChartWidget> {
+class _CustomChartWidgetState extends State<CustomChartWidget> {
   late int totalPoints;
   int currentPointIndex = 0;
   List<String> symptomNames = [];
@@ -24,7 +24,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
     final names = await Get.find<DatabaseService>()
         .database
         .symptomsNamesDao
-        .getSymptomsNamesByTypeID(3);
+        .getSymptomsNamesByTypeID(4);
     setState(() {
       symptomNames = names;
       totalPoints = names.length;
@@ -76,7 +76,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
       final monthEnd = getFirstDayOfNextMonth(date);
 
       List<List<double>> rawDataList = await service.database.symptomsValuesDao
-          .getSymptomsSortedByDayAndNameID(3, monthStart, monthEnd);
+          .getSymptomsSortedByDayAndNameID(4, monthStart, monthEnd);
 
       return rawDataList;
     }

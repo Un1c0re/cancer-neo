@@ -11,6 +11,7 @@ class DocCardWidget extends StatelessWidget {
   final DocSummaryModel data;
 
   const DocCardWidget({
+    super.key, 
     required this.data,
   });
 
@@ -19,15 +20,15 @@ class DocCardWidget extends StatelessWidget {
   Icon _getTypeIcon(typeID) {
     switch(typeID) {
       case 0:
-        return Icon(AppIcons.lightbulb);
+        return const Icon(AppIcons.lightbulb);
       case 1:
-        return Icon(AppIcons.capsules);
+        return const Icon(AppIcons.capsules);
       case 2:
-        return Icon(AppIcons.dna);
+        return const Icon(AppIcons.dna);
       case 3:
-        return Icon(AppIcons.clock);
+        return const Icon(AppIcons.clock);
       default:
-        return Icon(Icons.error, color: Colors.red);
+        return const Icon(Icons.error, color: Colors.red);
     }
   }
 

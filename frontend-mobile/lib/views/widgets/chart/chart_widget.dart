@@ -5,6 +5,7 @@ import 'package:diplom/views/widgets/chart/line_chart_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import '../../../utils/app_style.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 
@@ -51,19 +52,19 @@ class _ChartWidgetState extends State<ChartWidget> {
     });
   }
 
-  void _incrementMonth() {
-    setState(() {
-      _selectedDate = DateTime(
-          _selectedDate.year, _selectedDate.month + 1, _selectedDate.day);
-    });
-  }
+  // void _incrementMonth() {
+  //   setState(() {
+  //     _selectedDate = DateTime(
+  //         _selectedDate.year, _selectedDate.month + 1, _selectedDate.day);
+  //   });
+  // }
 
-  void _decrementMonth() {
-    setState(() {
-      _selectedDate = DateTime(
-          _selectedDate.year, _selectedDate.month - 1, _selectedDate.day);
-    });
-  }
+  // void _decrementMonth() {
+  //   setState(() {
+  //     _selectedDate = DateTime(
+  //         _selectedDate.year, _selectedDate.month - 1, _selectedDate.day);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

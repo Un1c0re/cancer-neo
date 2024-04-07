@@ -109,7 +109,7 @@ class _InfoWigetState extends State<InfoWiget> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: ListView.builder(
           itemCount: infoData.length,
           itemBuilder: (BuildContext conterxt, int index) {
@@ -194,7 +194,6 @@ class _InfoCardWidget extends StatelessWidget {
   final Color cardColor;
 
   const _InfoCardWidget({
-    super.key,
     required this.title,
     required this.textColor,
     required this.cardColor,

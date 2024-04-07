@@ -45,9 +45,6 @@ class DayNotesDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<DayNote?> getDayNote(DateTime date) async {
-    final meme = customSelect('SELECT * FROM day_notes');
-    final check = await meme.get();
-    print(check);
     final query = customSelect(
         'SELECT * FROM day_notes '
         'WHERE date = ?',

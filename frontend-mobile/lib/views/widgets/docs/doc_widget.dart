@@ -18,10 +18,10 @@ class DocWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final DatabaseService _databaseService = Get.find();
+    final DatabaseService databaseService = Get.find();
 
     Future<void> deleteDoc(docID) async {
-      await _databaseService.database.docsDao.deleteDoc(docID: docID);
+      await databaseService.database.docsDao.deleteDoc(docID: docID);
       Get.back();
       Get.snackbar(
         'Успешно!',
@@ -52,7 +52,7 @@ class DocWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               ConstrainedBox(
@@ -203,7 +203,7 @@ class DocDataWidget extends StatelessWidget {
 }
 
 class _DocMiniature extends StatelessWidget {
-  const _DocMiniature({super.key});
+  const _DocMiniature();
 
   @override
   Widget build(BuildContext context) {

@@ -72,7 +72,7 @@ class _AddDocWidgetState extends State<AddDocWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final DatabaseService _databaseService = Get.find();
+    final DatabaseService databaseService = Get.find();
 
     final nameInputDecoration = AppStyleTextFields.sharedDecoration.copyWith(
       label: const Text('название документа'),
@@ -96,7 +96,7 @@ class _AddDocWidgetState extends State<AddDocWidget> {
 
     Future<void> saveDoc(String docName, int docType, DateTime docDate,
         String docPlace, String docNotes) async {
-      await _databaseService.database.docsDao.insertDoc(
+      await databaseService.database.docsDao.insertDoc(
         userName: 'test testovich',
         docName: docName,
         docType: docType,
@@ -194,9 +194,7 @@ class _AddDocWidgetState extends State<AddDocWidget> {
 }
 
 class _AddPhotoWidget extends StatefulWidget {
-  const _AddPhotoWidget({
-    super.key,
-  });
+  const _AddPhotoWidget();
 
   @override
   State<_AddPhotoWidget> createState() => _AddPhotoWidgetState();
@@ -242,11 +240,11 @@ class _AddPhotoWidgetState extends State<_AddPhotoWidget> {
               ? Text(file!.path)
               : ElevatedButton(
                   onPressed: selectFile,
-                  child: Text(
+                  style: AppButtonStyle.textRoundedButton,
+                  child: const Text(
                     'Выберите файл',
                     style: TextStyle(fontSize: 18),
                   ),
-                  style: AppButtonStyle.textRoundedButton,
                 ),
         ],
       ),
@@ -260,6 +258,7 @@ class DocumentTypeSelector extends StatefulWidget {
   const DocumentTypeSelector({super.key, required this.onSelected});
 
   @override
+  // ignore: library_private_types_in_public_api
   _DocumentTypeSelectorState createState() => _DocumentTypeSelectorState();
 }
 

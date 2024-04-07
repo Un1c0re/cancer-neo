@@ -14,7 +14,7 @@ import 'package:diplom/utils/constants.dart';
 class ProfileCardWidget extends StatelessWidget {
   const ProfileCardWidget({super.key});
 
-  void _getEdit() => Get.to(() => EditProfileScreen());
+  void _getEdit() => Get.to(() => const EditProfileScreen());
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,7 @@ class ProfileCardWidget extends StatelessWidget {
           ElevatedButton(
             style: AppButtonStyle.filledRoundedButton,
             onPressed: _getEdit,
-            child: Text('Изменить данные'),
+            child: const Text('Изменить данные'),
           ),
         ],
       ),

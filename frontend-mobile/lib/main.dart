@@ -5,26 +5,38 @@ import 'package:diplom/views/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
   await Get.putAsync(() => DatabaseService().init());
-  
-  runApp(MyApp());
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     DeviceScreenConstants.init(context);
     return GetMaterialApp(
-       initialRoute: '/',
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('ru'),
+      ],
+      initialRoute: '/',
       getPages: [
         GetPage(
-          name: '/', 
-          page: () => HomeScreen(),
+          name: '/',
+          page: () => const HomeScreen(),
         ),
       ],
       title: 'Diplom demo',
@@ -33,11 +45,11 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.backgroundColor,
         appBarTheme: const AppBarTheme(
           backgroundColor: AppColors.primaryColor,
-          foregroundColor: Colors.white,  
+          foregroundColor: Colors.white,
         ),
         fontFamily: 'Jost',
       ),
-       home: HomeScreen(),
+      home: const HomeScreen(),
     );
   }
 }

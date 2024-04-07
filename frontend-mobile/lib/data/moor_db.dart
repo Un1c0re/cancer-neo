@@ -63,6 +63,7 @@ class SymptomsTypes extends Table {
 
 class SymptomsNames extends Table {
   IntColumn get id => integer().autoIncrement()();
+  // ignore: non_constant_identifier_names
   IntColumn get type_id =>
       integer().customConstraint('REFERENCES symptomsTypes(id)')();
   TextColumn get name => text()();
@@ -70,8 +71,10 @@ class SymptomsNames extends Table {
 
 class SymptomsValues extends Table {
   IntColumn get id => integer().autoIncrement()();
+  // ignore: non_constant_identifier_names
   IntColumn get owner_id => integer().customConstraint('REFERENCES users(id)')();
   DateTimeColumn get date => dateTime()();
+  // ignore: non_constant_identifier_names
   IntColumn get name_id =>
       integer().customConstraint('REFERENCES symptomsNames(id)')();
   IntColumn get value => integer().withDefault(const Constant(0))();
@@ -79,6 +82,7 @@ class SymptomsValues extends Table {
 
 class DayNotes extends Table {
   IntColumn get id => integer().autoIncrement()();
+  // ignore: non_constant_identifier_names
   IntColumn get owner_id => integer().customConstraint('REFERENCES users(id)')();
   DateTimeColumn get date => dateTime()();
   TextColumn get note => text()();

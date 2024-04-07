@@ -58,8 +58,8 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
   }) async {
     final symptomValueEntry = SymptomsValuesCompanion(
       id: Value(symptomValueId),
-      value: newValue != null ? Value(newValue) : Value.absent(),
-      date: Value.absent(),
+      value: newValue != null ? Value(newValue) : const Value.absent(),
+      date: const Value.absent(),
     );
     await (update(symptomsValues)
           ..where((tbl) => tbl.id.equals(symptomValueId)))
