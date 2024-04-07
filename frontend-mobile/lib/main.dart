@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
 
 void main() async {
@@ -27,11 +28,13 @@ class MyApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
+        SfGlobalLocalizations.delegate,
       ],
       supportedLocales: const [
         Locale('en'),
         Locale('ru'),
       ],
+      locale: const Locale('ru', 'RU'),
       initialRoute: '/',
       getPages: [
         GetPage(

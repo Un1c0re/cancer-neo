@@ -51,7 +51,7 @@ class _BoolChartState extends State<BoolChart> {
             });
           },
           child: Container(
-            width: 100 / totalPoints, // Ширина точки
+            width: 200 / totalPoints, // Ширина точки
             height: 5, // Высота точки
             margin:
                 const EdgeInsets.symmetric(horizontal: 2), // Расстояние между точками

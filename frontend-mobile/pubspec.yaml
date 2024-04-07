@@ -69,6 +69,7 @@ dependencies:
   url_launcher: ^6.2.2
   meta: ^1.10.0
   bloc: ^8.1.2
+  syncfusion_localizations: ^23.2.7
 
 dev_dependencies:
   flutter_test:

@@ -63,18 +63,35 @@ class _DocsListWidgetState extends State<DocsListWidget> {
         context: context,
         builder: (BuildContext context) {
           return Dialog(
-            backgroundColor: Colors.white,
-            surfaceTintColor: Colors.white,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            backgroundColor: Color.fromRGBO(238, 243, 249, 1),
+            surfaceTintColor: const Color.fromRGBO(238, 243, 249, 1),
             child: Container(
               padding: const EdgeInsets.all(10),
-              height: 400,
-              width: 400,
+              height: 500,
+              width: 350,
               child: Theme(
-                data: ThemeData(),
+                data: ThemeData.light().copyWith(
+                  primaryColor: AppColors.primaryColor, // Цвет выбранной даты
+                  colorScheme: const ColorScheme.light(
+                    primary: AppColors.primaryColor, // Цветовая схема
+                    onPrimary: Colors.white, // Цвет текста на выбранной дате
+                    surface: Colors.white, // Цвет фона элементов
+                    onSurface: Colors.black, // Цвет текста элементов
+                    
+                  ),
+                  textButtonTheme: TextButtonThemeData(
+                    style: TextButton.styleFrom(
+                      foregroundColor: AppColors.activeColor, // Цвет текста кнопок
+                    ),
+                  ),
+                  // dialogBackgroundColor: Colors.white, // Фон диалога
+                  // Другие настройки темы...
+                ),
                 child: SfDateRangePicker(
-                    selectionColor: AppColors.activeColor,
-                    startRangeSelectionColor: AppColors.activeColor,
-                    endRangeSelectionColor: AppColors.activeColor,
+                    selectionColor: AppColors.primaryColor,
+                    startRangeSelectionColor: AppColors.primaryColor,
+                    endRangeSelectionColor: AppColors.primaryColor,
                     confirmText: 'Подтвердить',
                     cancelText: 'Отменить',
                     view: DateRangePickerView.month,
@@ -168,13 +185,11 @@ class _DocsListWidgetState extends State<DocsListWidget> {
                               return Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 8.0),
-                                child:
-                                    DocCardWidget(data: docsList[index]),
+                                child: DocCardWidget(data: docsList[index]),
                               );
                             });
                       }
                     }))),
-
             Padding(
               padding: const EdgeInsets.only(bottom: 25),
               child: Align(
@@ -187,8 +202,7 @@ class _DocsListWidgetState extends State<DocsListWidget> {
                   child: Center(
                     child: ElevatedButton(
                       style: AppButtonStyle.basicButton.copyWith(
-                        elevation: const MaterialStatePropertyAll(5)
-                      ),
+                          elevation: const MaterialStatePropertyAll(5)),
                       onPressed: _addDocOrDiary,
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
