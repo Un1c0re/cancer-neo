@@ -41,6 +41,8 @@ dependencies:
   fl_chart: ^0.64.0
   month_picker_dialog: 2.2.1
   flutter_inappwebview: ^6.0.0
+  pdf: ^3.10.8
+  flutter_full_pdf_viewer_null_safe: ^1.0.0
   
   
   # Backend dependencies

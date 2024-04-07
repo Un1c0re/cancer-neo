@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
@@ -9,7 +10,6 @@ import 'package:get/get.dart';
 
 import '../../../utils/app_style.dart';
 import '../../../utils/constants.dart';
-import 'package:path_provider/path_provider.dart';
 
 class AddDocWidget extends StatefulWidget {
   const AddDocWidget({super.key});
@@ -23,9 +23,20 @@ class _AddDocWidgetState extends State<AddDocWidget> {
   final _placeInputController = TextEditingController();
   final _dateInputController = TextEditingController();
   final _notesInputController = TextEditingController();
-  
+
+  File? docFile;
+  Uint8List? docFileBytes;
   DateTime? _pickedDateTime;
   int? selectedCategoryIndex;
+
+  Future<void> selectFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      docFile = File(result.files.single.path!);
+      docFileBytes = await docFile!.readAsBytes();
+    }
+  }
 
   void _onCategorySelected(int? index) {
     setState(() {
@@ -95,15 +106,21 @@ class _AddDocWidgetState extends State<AddDocWidget> {
       label: const Text('примечания'),
     );
 
-    Future<void> saveDoc(String docName, int docType, DateTime docDate,
-        String docPlace, String docNotes) async {
+    Future<void> saveDoc(
+      String docName,
+      int docType, 
+      DateTime docDate,
+      String docPlace, 
+      String docNotes,
+      Uint8List? docFile
+    ) async {
       await databaseService.database.docsDao.insertDoc(
-        userName: 'test testovich',
         docName: docName,
         docType: docType,
         docDate: docDate,
         docPlace: docPlace,
         docNotes: docNotes,
+        pdfFile: docFile,
       );
     }
 
@@ -119,7 +136,32 @@ class _AddDocWidgetState extends State<AddDocWidget> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    const _AddPhotoWidget(),
+                    Container(
+                      width: 300,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1.5,
+                          color: Colors.grey,
+                        ),
+                        borderRadius: AppBorderRounds.cardRoundedBorder,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          docFile != null
+                              ? Text(docFile!.path)
+                              : ElevatedButton(
+                                  onPressed: selectFile,
+                                  style: AppButtonStyle.textRoundedButton,
+                                  child: const Text(
+                                    'Выберите файл',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                ),
+                        ],
+                      ),
+                    ),
                     TextField(
                       decoration: nameInputDecoration,
                       cursorColor: AppColors.activeColor,
@@ -170,7 +212,7 @@ class _AddDocWidgetState extends State<AddDocWidget> {
                             DateTime.parse(_dateInputController.text);
                         String docPlace = _placeInputController.text;
                         String docNote = _notesInputController.text;
-                        saveDoc(docName, docType, docDate, docPlace, docNote);
+                        saveDoc(docName, docType, docDate, docPlace, docNote, docFileBytes);
 
                         Get.back();
                         Get.snackbar(
@@ -190,65 +232,6 @@ class _AddDocWidgetState extends State<AddDocWidget> {
               ),
             ),
           ]),
-    );
-  }
-}
-
-class _AddPhotoWidget extends StatefulWidget {
-  const _AddPhotoWidget();
-
-  @override
-  State<_AddPhotoWidget> createState() => _AddPhotoWidgetState();
-}
-
-class _AddPhotoWidgetState extends State<_AddPhotoWidget> {
-  File? file;
-
-  Future<void> selectFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-    if (result != null) {
-      file = File(result.files.single.path!);
-    } else {
-      // User canceled the picker
-    }
-  }
-
-  Future<void> saveFileToLocalStorage() async {
-    if (file != null) {
-      var dir = await getApplicationDocumentsDirectory();
-      file = File('${dir.path}/${file!.path.split('/').last}');
-      await file!.writeAsBytes(await file!.readAsBytes());
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 300,
-      height: 150,
-      decoration: BoxDecoration(
-        border: Border.all(
-          width: 1.5,
-          color: Colors.grey,
-        ),
-        borderRadius: AppBorderRounds.cardRoundedBorder,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          file != null
-              ? Text(file!.path)
-              : ElevatedButton(
-                  onPressed: selectFile,
-                  style: AppButtonStyle.textRoundedButton,
-                  child: const Text(
-                    'Выберите файл',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                ),
-        ],
-      ),
     );
   }
 }
@@ -293,19 +276,22 @@ class _DocumentTypeSelectorState extends State<DocumentTypeSelector> {
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         ),
-        value: categories.firstWhere((category) => category['index'] == selectedIndex, orElse: () => categories[0]),
+        value: categories.firstWhere(
+            (category) => category['index'] == selectedIndex,
+            orElse: () => categories[0]),
         onChanged: (Map<String, dynamic>? newValue) {
-        setState(() {
-          selectedIndex = newValue?['index'];
-        });
-        widget.onSelected(newValue?['index']); // Вызов callback-функции с индексом
-      },
-      items: categories.map((Map<String, dynamic> category) {
-        return DropdownMenuItem<Map<String, dynamic>>(
-          value: category,
-          child: Text(category['name']),
-        );
-      }).toList(),
+          setState(() {
+            selectedIndex = newValue?['index'];
+          });
+          widget.onSelected(
+              newValue?['index']); // Вызов callback-функции с индексом
+        },
+        items: categories.map((Map<String, dynamic> category) {
+          return DropdownMenuItem<Map<String, dynamic>>(
+            value: category,
+            child: Text(category['name']),
+          );
+        }).toList(),
       ),
     );
   }

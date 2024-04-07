@@ -26,7 +26,6 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
   }
 
   Future<void> insertDoc({
-    required String   userName,
     required String   docName,
     required int      docType,
     required DateTime docDate,
@@ -35,7 +34,7 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
     Uint8List?        pdfFile,
   }) async {
     // Находим пользователя по имени
-    final userQuery = select(users)..where((tbl) => tbl.name.equals(userName));
+    final userQuery = select(users)..where((tbl) => tbl.id.equals(0));
     final User? user = await userQuery.getSingleOrNull();
 
     if (user != null) {

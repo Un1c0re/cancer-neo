@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:diplom/models/docs_models.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
@@ -6,8 +9,12 @@ import 'package:diplom/utils/app_style.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../../utils/constants.dart';
+
+import 'package:pdf/widgets.dart' as pw;
+import 'package:flutter_full_pdf_viewer_null_safe/flutter_full_pdf_viewer.dart';
 
 class DocWidget extends StatelessWidget {
   final int docID;
@@ -99,7 +106,7 @@ class DocWidget extends StatelessWidget {
   }
 }
 
-class DocDataWidget extends StatelessWidget {
+class DocDataWidget extends StatefulWidget {
   final int docID;
 
   const DocDataWidget({
@@ -107,6 +114,11 @@ class DocDataWidget extends StatelessWidget {
     required this.docID,
   });
 
+  @override
+  State<DocDataWidget> createState() => _DocDataWidgetState();
+}
+
+class _DocDataWidgetState extends State<DocDataWidget> {
   @override
   Widget build(BuildContext context) {
     final DatabaseService databaseService = Get.find();
@@ -116,94 +128,106 @@ class DocDataWidget extends StatelessWidget {
     }
 
     return FutureBuilder(
-        future: getDocument(docID),
-        builder: ((context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else {
-            final DocModel document = snapshot.data!;
-            return SizedBox(
-              height: DeviceScreenConstants.screenHeight * 0.5,
-              width: double.maxFinite,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    document.docName,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+      future: getDocument(widget.docID),
+      builder: ((context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          final DocModel document = snapshot.data!;
+          return SizedBox(
+            height: DeviceScreenConstants.screenHeight * 0.5,
+            width: double.maxFinite,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  document.docName,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
-
-                  const Text(
-                    'тип документа',
-                    style: TextStyle(fontSize: 18),
+                ),
+                const Text(
+                  'тип документа',
+                  style: TextStyle(fontSize: 18),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Дата оформления документа:',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-
-                  const SizedBox(height: 10),
-
-                  const Text(
-                    'Дата оформления документа:',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                ),
+                Text(
+                  document.docDate.toString().substring(0, 10),
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
                   ),
-
-                  Text(
-                    document.docDate.toString().substring(0, 10),
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w400,
-                    ),
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Учреждение:',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-                  const SizedBox(height: 10),
-
-                  const Text(
-                    'Учреждение:',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                ),
+                Text(
+                  document.docPlace,
+                  style: const TextStyle(fontSize: 18),
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  'Примечания:',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
-
-                  Text(
-                    document.docPlace,
-                    style: const TextStyle(fontSize: 18),
-                  ),
-
-                  const SizedBox(height: 12),
-                  const Text(
-                    'Примечания:',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-
-                  Text(
-                    document.docNotes,
-                    style: const TextStyle(fontSize: 18),
-                  ),
-                  const SizedBox(height: 20),
-                  const _DocMiniature(),
-                ],
-              ),
-            );
-          }
+                ),
+                Text(
+                  document.docNotes,
+                  style: const TextStyle(fontSize: 18),
+                ),
+                const SizedBox(height: 20),
+                _DocMiniature(document.pdfFile),
+              ],
+            ),
+          );
         }
-      ),
+      }),
     );
   }
 }
 
 class _DocMiniature extends StatelessWidget {
-  const _DocMiniature();
+  final Uint8List? pdfBytes;
+  const _DocMiniature(this.pdfBytes);
+
+  Future<void> _viewPdf(Uint8List? pdfFileBytes) async {
+    if (pdfFileBytes != null) {
+  // Путь для сохранения файла
+  final output = await getTemporaryDirectory();
+  final file = File('${output.path}/document.pdf');
+  // Пишем файл
+  await file.writeAsBytes(pdfFileBytes);
+  // Проверяем, существует ли файл
+  if (await file.exists()) {
+    // Открываем его
+    Get.to(() => PDFViewerScaffold(
+          appBar: AppBar(title: Text("Document")),
+          path: file.path,
+        ));
+  } else {
+    printError(info: 'Failed to save the document.');
+  }
+}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -225,7 +249,7 @@ class _DocMiniature extends StatelessWidget {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () {},
+              onTap: () => _viewPdf(pdfBytes),
               overlayColor:
                   const MaterialStatePropertyAll(AppColors.overlayColor),
               splashColor: AppColors.splashColor,
