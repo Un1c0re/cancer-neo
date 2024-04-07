@@ -134,6 +134,7 @@ class _DocDataWidgetState extends State<_DocDataWidget> {
 
   Future<void> _selectDate(BuildContext context) async {
     DateTime? picked = await showDatePicker(
+      locale: const Locale('ru', 'RU'),
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2000),

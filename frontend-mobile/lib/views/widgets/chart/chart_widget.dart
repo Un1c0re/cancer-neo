@@ -24,6 +24,7 @@ class _ChartWidgetState extends State<ChartWidget> {
   Future<void> _selectMonthYear(BuildContext context) async {
     return showMonthPicker(
       context: context,
+      locale: const Locale('ru', 'RU'),
       initialDate: _selectedDate,
       headerColor: AppColors.primaryColor,
       selectedMonthBackgroundColor: AppColors.activeColor,
@@ -68,7 +69,7 @@ class _ChartWidgetState extends State<ChartWidget> {
 
   @override
   Widget build(BuildContext context) {
-    String formattedDate = DateFormat.yMMMM().format(_selectedDate);
+    String formattedDate = DateFormat.yMMMM(const Locale('ru', 'RU').toString()).format(_selectedDate);
     
     return Scaffold(
       appBar: AppBar(

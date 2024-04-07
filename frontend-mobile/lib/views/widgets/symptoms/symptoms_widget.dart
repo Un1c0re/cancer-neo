@@ -53,6 +53,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
   // Calendar
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
+      locale: const Locale('ru', 'RU'),
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime(2020),
