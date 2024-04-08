@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:diplom/models/docs_models.dart';
@@ -7,14 +6,11 @@ import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_icons.dart';
 import 'package:diplom/utils/app_style.dart';
 import 'package:diplom/utils/app_widgets.dart';
+import 'package:diplom/views/screens/pdfview/pdfview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../../../utils/constants.dart';
-
-import 'package:pdf/widgets.dart' as pw;
-import 'package:flutter_full_pdf_viewer_null_safe/flutter_full_pdf_viewer.dart';
 
 class DocWidget extends StatelessWidget {
   final int docID;
@@ -195,7 +191,7 @@ class _DocDataWidgetState extends State<DocDataWidget> {
                   style: const TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: 20),
-                _DocMiniature(document.pdfFile),
+                if (document.pdfFile != null) _DocMiniature(document.pdfFile),
               ],
             ),
           );
@@ -209,24 +205,8 @@ class _DocMiniature extends StatelessWidget {
   final Uint8List? pdfBytes;
   const _DocMiniature(this.pdfBytes);
 
-  Future<void> _viewPdf(Uint8List? pdfFileBytes) async {
-    if (pdfFileBytes != null) {
-  // Путь для сохранения файла
-  final output = await getTemporaryDirectory();
-  final file = File('${output.path}/document.pdf');
-  // Пишем файл
-  await file.writeAsBytes(pdfFileBytes);
-  // Проверяем, существует ли файл
-  if (await file.exists()) {
-    // Открываем его
-    Get.to(() => PDFViewerScaffold(
-          appBar: AppBar(title: Text("Document")),
-          path: file.path,
-        ));
-  } else {
-    printError(info: 'Failed to save the document.');
-  }
-}
+  Future<void> _openPdf(Uint8List pdfBytes) async {
+    Get.to(() => PdfViewerScreen(pdfBytes: pdfBytes));
   }
 
   @override
@@ -249,7 +229,7 @@ class _DocMiniature extends StatelessWidget {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () => _viewPdf(pdfBytes),
+              onTap: () => pdfBytes != null ? _openPdf(pdfBytes!): {},
               overlayColor:
                   const MaterialStatePropertyAll(AppColors.overlayColor),
               splashColor: AppColors.splashColor,
