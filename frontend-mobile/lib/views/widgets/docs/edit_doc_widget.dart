@@ -2,9 +2,11 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:diplom/helpers/get_helpers.dart';
+import 'package:diplom/models/docs_models.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
+import 'package:diplom/views/screens/home/home_screen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,18 +14,20 @@ import 'package:get/get.dart';
 import '../../../utils/app_style.dart';
 import '../../../utils/constants.dart';
 
-class AddDocWidget extends StatefulWidget {
+class EditDocWidget extends StatefulWidget {
+  final docID;
   final Function onUpdate;
-  const AddDocWidget({
+  const EditDocWidget({
     super.key,
     required this.onUpdate,
+    this.docID,
   });
 
   @override
-  State<AddDocWidget> createState() => _AddDocWidgetState();
+  State<EditDocWidget> createState() => _EditDocWidgetState();
 }
 
-class _AddDocWidgetState extends State<AddDocWidget> {
+class _EditDocWidgetState extends State<EditDocWidget> {
   final _nameInputController = TextEditingController();
   final _placeInputController = TextEditingController();
   final _dateInputController = TextEditingController();
@@ -71,10 +75,10 @@ class _AddDocWidgetState extends State<AddDocWidget> {
         return Theme(
           data: ThemeData.light().copyWith(
             primaryColor: AppColors.primaryColor,
-            colorScheme: const ColorScheme.light(
-                primary: AppColors.primaryColor),
-            buttonTheme: const ButtonThemeData(
-                textTheme: ButtonTextTheme.primary),
+            colorScheme:
+                const ColorScheme.light(primary: AppColors.primaryColor),
+            buttonTheme:
+                const ButtonThemeData(textTheme: ButtonTextTheme.primary),
           ),
           child: child!,
         );
@@ -111,9 +115,10 @@ class _AddDocWidgetState extends State<AddDocWidget> {
       label: const Text('примечания'),
     );
 
-    Future<void> saveDoc(String docName, int docType, DateTime docDate,
+    Future<void> updateDoc(String docName, int docType, DateTime docDate,
         String docPlace, String docNotes, Uint8List? docFile) async {
-      await databaseService.database.docsDao.insertDoc(
+      await databaseService.database.docsDao.updateDoc(
+        docId: widget.docID,
         docName: docName,
         docType: docType,
         docDate: docDate,
@@ -121,6 +126,10 @@ class _AddDocWidgetState extends State<AddDocWidget> {
         docNotes: docNotes,
         pdfFile: docFile,
       );
+    }
+
+    Future<DocModel?> getDocument(id) async {
+      return await databaseService.database.docsDao.getDoc(id);
     }
 
     return SingleChildScrollView(
@@ -132,61 +141,81 @@ class _AddDocWidgetState extends State<AddDocWidget> {
             height: DeviceScreenConstants.screenHeight * 0.75,
             child: AppStyleCard(
               backgroundColor: Colors.white,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    width: 300,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1.5,
-                        color: Colors.grey,
-                      ),
-                      borderRadius: AppBorderRounds.cardRoundedBorder,
-                    ),
-                    child: Center(
-                      child: ElevatedButton(
-                        onPressed: selectFile,
-                        style: AppButtonStyle.textRoundedButton.copyWith(
-                          backgroundColor: MaterialStatePropertyAll(
-                              docFile == null
-                                  ? Colors.transparent
-                                  : Colors.tealAccent.withOpacity(0.4)),
-                        ),
-                        child: Text(
-                          docFile == null
-                              ? 'Выберите файл'
-                              : 'Документ заргужен',
-                          style: const TextStyle(fontSize: 18),
-                        ),
-                      ),
-                    ),
-                  ),
-                  TextField(
-                    decoration: nameInputDecoration,
-                    cursorColor: AppColors.activeColor,
-                    controller: _nameInputController,
-                  ),
-                  DocumentTypeSelector(onSelected: _onCategorySelected),
-                  TextField(
-                    decoration: dateInputDecoration,
-                    cursorColor: AppColors.activeColor,
-                    controller: _dateInputController,
-                  ),
-                  TextField(
-                    decoration: placeInputDecoration,
-                    cursorColor: AppColors.activeColor,
-                    controller: _placeInputController,
-                  ),
-                  TextField(
-                    maxLines: 3,
-                    decoration: notesInputDecoration,
-                    cursorColor: AppColors.activeColor,
-                    controller: _notesInputController,
-                  ),
-                ],
-              ),
+              child: FutureBuilder<DocModel?>(
+                  future: getDocument(widget.docID),
+                  builder: ((context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      final data = snapshot.data!;
+                      _nameInputController.text = data.docName;
+                      _placeInputController.text = data.docPlace;
+                      _dateInputController.text = data.docDate.toIso8601String().substring(0, 10);
+                      _notesInputController.text = data.docNotes;
+                      docFileBytes = data.pdfFile;
+
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            width: 300,
+                            height: 150,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1.5,
+                                color: Colors.grey,
+                              ),
+                              borderRadius: AppBorderRounds.cardRoundedBorder,
+                            ),
+                            child: Center(
+                              child: ElevatedButton(
+                                onPressed: selectFile,
+                                style:
+                                    AppButtonStyle.textRoundedButton.copyWith(
+                                  backgroundColor: MaterialStatePropertyAll(
+                                      docFile == null
+                                          ? Colors.transparent
+                                          : Colors.tealAccent.withOpacity(0.4)),
+                                ),
+                                child: Text(
+                                  docFileBytes == null
+                                      ? 'Выберите файл'
+                                      : 'Документ заргужен',
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                              ),
+                            ),
+                          ),
+                          TextField(
+                            decoration: nameInputDecoration,
+                            cursorColor: AppColors.activeColor,
+                            controller: _nameInputController,
+                          ),
+                          DocumentTypeSelector(onSelected: _onCategorySelected),
+                          TextField(
+                            decoration: dateInputDecoration,
+                            cursorColor: AppColors.activeColor,
+                            controller: _dateInputController,
+                          ),
+                          TextField(
+                            decoration: placeInputDecoration,
+                            cursorColor: AppColors.activeColor,
+                            controller: _placeInputController,
+                          ),
+                          TextField(
+                            maxLines: 3,
+                            decoration: notesInputDecoration,
+                            cursorColor: AppColors.activeColor,
+                            controller: _notesInputController,
+                          ),
+                        ],
+                      );
+                    }
+                  })),
             ),
           ),
           SizedBox(
@@ -208,15 +237,15 @@ class _AddDocWidgetState extends State<AddDocWidget> {
                     style: AppButtonStyle.filledRoundedButton,
                     onPressed: () async {
                       String docName = _nameInputController.text;
-                      int docType = selectedCategoryIndex!;
+                      int docType = selectedCategoryIndex?? 0;
                       DateTime docDate =
                           DateTime.parse(_dateInputController.text);
                       String docPlace = _placeInputController.text;
                       String docNote = _notesInputController.text;
 
-                      await saveDoc(docName, docType, docDate, docPlace,
+                      await updateDoc(docName, docType, docDate, docPlace,
                           docNote, docFileBytes);
-                      submitAction('Документ добавлен');
+                      editAction('Документ изменен');
                       widget.onUpdate();
                     },
                     child: const Text('Подтвердить'),

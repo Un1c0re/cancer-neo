@@ -1,3 +1,4 @@
+import 'package:diplom/helpers/get_helpers.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_style.dart';
@@ -16,22 +17,6 @@ class AddSymptomWidget extends StatefulWidget {
 
 class _AddSymptomWidgetState extends State<AddSymptomWidget> {
   final _nameInputController = TextEditingController();
-
-  void _cancel() => Get.back();
-
-  void _submit() {
-    Get.back();
-
-    Get.snackbar(
-      'Успешно!',
-      'Симптом добавлен',
-      backgroundColor: Colors.tealAccent.withOpacity(0.4),
-      colorText: Colors.teal.shade900,
-      snackPosition: SnackPosition.TOP,
-      duration: const Duration(milliseconds: 1500),
-      animationDuration: const Duration(milliseconds: 500),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +54,7 @@ class _AddSymptomWidgetState extends State<AddSymptomWidget> {
                   width: 150,
                   child: OutlinedButton(
                     style: AppButtonStyle.outlinedRedRoundedButton,
-                    onPressed: _cancel,
+                    onPressed: cancelAction,
                     child: const Text('Отменить'),
                   ),
                 ),
@@ -86,7 +71,7 @@ class _AddSymptomWidgetState extends State<AddSymptomWidget> {
                         symptomName: _nameInputController.text.trim(),
                         value: 0
                       );
-                      _submit();
+                      submitAction('Симптом добален');
                       widget.onUpdate();
                     },
                     child: const Text('Подтвердить'),

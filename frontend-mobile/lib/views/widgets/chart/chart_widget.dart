@@ -1,4 +1,5 @@
 import 'package:diplom/utils/app_colors.dart';
+import 'package:diplom/utils/constants.dart';
 import 'package:diplom/views/widgets/chart/bool_chart_widget.dart';
 import 'package:diplom/views/widgets/chart/grade_chart_widget.dart';
 import 'package:diplom/views/widgets/chart/line_chart_widget.dart';
@@ -9,8 +10,6 @@ import '../../../utils/app_style.dart';
 import 'package:intl/intl.dart';
 
 class ChartWidget extends StatefulWidget {
-  final Color leftBarColor = AppColors.activeColor;
-  final Color rightBarColor = AppColors.redColor;
 
   const ChartWidget({super.key});
   @override
@@ -20,56 +19,18 @@ class ChartWidget extends StatefulWidget {
 class _ChartWidgetState extends State<ChartWidget> {
   DateTime _selectedDate = DateTime.now();
 
-  // Future<void> _selectMonthYear(BuildContext context) async {
-  //   final DateTime? picked = await showDatePicker(
-  //     locale: const Locale('ru', 'RU'),
-  //     context: context,
-  //     initialDate: _selectedDate,
-  //     firstDate: DateTime(2020),
-  //     lastDate: DateTime(2025),
-  //     cancelText: 'Отменить',
-  //     confirmText: 'Подтвердить',
-  //     builder: (BuildContext context, Widget? child) {
-  //       return Theme(
-  //         data: ThemeData.light().copyWith(
-  //           primaryColor: AppColors.primaryColor, // Цвет выбранной даты
-  //           colorScheme: ColorScheme.light(
-  //             primary: AppColors.primaryColor, // Цветовая схема
-  //           ),
-  //           buttonTheme: ButtonThemeData(
-  //             textTheme: ButtonTextTheme.primary, // Тема кнопок
-  //           ),
-  //           // Другие параметры темы, если они вам нужны
-  //         ),
-  //         child: child!,
-  //       );
-  //     },
-  //     // Эти параметры уберут выбор дня:
-  //     selectableDayPredicate: (DateTime date) {
-  //       // Разрешить выбор только первого дня каждого месяца
-  //       return date.day == 1;
-  //     },
-  //   );
-  //   if (picked != null && picked != _selectedDate) {
-  //     // Обновите _selectedDate только с годом и месяцем
-  //     setState(() {
-  //       _selectedDate = DateTime(picked.year, picked.month);
-  //     });
-  //   }
-  // }
-
   Future<void> _selectMonthYear(BuildContext context) async {
     return showMonthPicker(
       context: context,
       locale: const Locale('ru', 'RU'),
       initialDate: _selectedDate,
       customHeight: 300,
-      customWidth: 330,
-      headerColor: Color.fromRGBO(238, 243, 249, 1),
+      customWidth: DeviceScreenConstants.screenWidth * 0.9,
+      headerColor: const Color.fromRGBO(238, 243, 249, 1),
       headerTextColor: Colors.black,
       unselectedMonthTextColor: Colors.black,
       selectedMonthBackgroundColor: AppColors.primaryColor,
-      backgroundColor: Color.fromRGBO(238, 243, 249, 1),
+      backgroundColor: const Color.fromRGBO(238, 243, 249, 1),
       roundedCornersRadius: 30,
       dismissible: true,
       animationMilliseconds: 300,
@@ -93,20 +54,6 @@ class _ChartWidgetState extends State<ChartWidget> {
       }
     });
   }
-
-  // void _incrementMonth() {
-  //   setState(() {
-  //     _selectedDate = DateTime(
-  //         _selectedDate.year, _selectedDate.month + 1, _selectedDate.day);
-  //   });
-  // }
-
-  // void _decrementMonth() {
-  //   setState(() {
-  //     _selectedDate = DateTime(
-  //         _selectedDate.year, _selectedDate.month - 1, _selectedDate.day);
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

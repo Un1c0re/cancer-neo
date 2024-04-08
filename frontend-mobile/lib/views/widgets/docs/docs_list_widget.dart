@@ -24,8 +24,12 @@ class _DocsListWidgetState extends State<DocsListWidget> {
       DateRangePickerController();
   PickerDateRange? _selectedRange;
 
+  void _updateData() {
+    setState(() {});
+  }
+
   void _addDocOrDiary() {
-    Get.to(() => const AddDocScreen());
+    Get.to(() => AddDocScreen(onUpdate: _updateData));
   }
 
   @override
@@ -63,13 +67,14 @@ class _DocsListWidgetState extends State<DocsListWidget> {
         context: context,
         builder: (BuildContext context) {
           return Dialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-            backgroundColor: Color.fromRGBO(238, 243, 249, 1),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            backgroundColor: const Color.fromRGBO(238, 243, 249, 1),
             surfaceTintColor: const Color.fromRGBO(238, 243, 249, 1),
             child: Container(
               padding: const EdgeInsets.all(10),
               height: 500,
-              width: 350,
+              width: 400,
               child: Theme(
                 data: ThemeData.light().copyWith(
                   primaryColor: AppColors.primaryColor, // Цвет выбранной даты
@@ -78,11 +83,11 @@ class _DocsListWidgetState extends State<DocsListWidget> {
                     onPrimary: Colors.white, // Цвет текста на выбранной дате
                     surface: Colors.white, // Цвет фона элементов
                     onSurface: Colors.black, // Цвет текста элементов
-                    
                   ),
                   textButtonTheme: TextButtonThemeData(
                     style: TextButton.styleFrom(
-                      foregroundColor: AppColors.activeColor, // Цвет текста кнопок
+                      foregroundColor:
+                          AppColors.activeColor, // Цвет текста кнопок
                     ),
                   ),
                   // dialogBackgroundColor: Colors.white, // Фон диалога
@@ -185,7 +190,9 @@ class _DocsListWidgetState extends State<DocsListWidget> {
                               return Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 8.0),
-                                child: DocCardWidget(data: docsList[index]),
+                                child: DocCardWidget(
+                                    data: docsList[index],
+                                    onUpdate: _updateData),
                               );
                             });
                       }

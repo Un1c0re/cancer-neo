@@ -4,9 +4,11 @@ import '../../widgets/docs/doc_widget.dart';
 
 class DocScreen extends StatefulWidget {
   final int docID;
+  final Function onUpdate;
   const DocScreen({
     super.key,
     required this.docID,
+    required this.onUpdate,
   });
 
   @override
@@ -14,6 +16,11 @@ class DocScreen extends StatefulWidget {
 }
 
 class _DocScreenState extends State<DocScreen> {
+
+  void _updateData() {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +36,7 @@ class _DocScreenState extends State<DocScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
-        child: DocWidget(docID: widget.docID),
+        child: DocWidget(docID: widget.docID, onUpdate: _updateData),
       ),
     );
   }

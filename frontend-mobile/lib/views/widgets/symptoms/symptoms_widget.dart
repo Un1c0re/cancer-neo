@@ -76,7 +76,6 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
     if (picked != null && picked != selectedDate) {
       selectedDate = picked;
       updateData();
-      // setState(() {});
     }
   }
 

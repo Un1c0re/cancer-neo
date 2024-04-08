@@ -1,11 +1,12 @@
 import 'dart:typed_data';
 
+import 'package:diplom/helpers/get_helpers.dart';
 import 'package:diplom/models/docs_models.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
-import 'package:diplom/utils/app_icons.dart';
 import 'package:diplom/utils/app_style.dart';
 import 'package:diplom/utils/app_widgets.dart';
+import 'package:diplom/views/screens/doc/edit_doc_screen.dart';
 import 'package:diplom/views/screens/pdfview/pdfview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,33 +15,22 @@ import '../../../utils/constants.dart';
 
 class DocWidget extends StatelessWidget {
   final int docID;
+  final Function onUpdate;
   const DocWidget({
     super.key,
     required this.docID,
+    required this.onUpdate,
   });
 
   @override
   Widget build(BuildContext context) {
     final DatabaseService databaseService = Get.find();
 
-    Future<void> deleteDoc(docID) async {
-      await databaseService.database.docsDao.deleteDoc(docID: docID);
-      Get.back();
-      Get.snackbar(
-        'Успешно!',
-        'Документ удален',
-        backgroundColor: Colors.tealAccent.withOpacity(0.4),
-        colorText: Colors.teal.shade900,
-        snackPosition: SnackPosition.TOP,
-        duration: const Duration(milliseconds: 1500),
-        animationDuration: const Duration(milliseconds: 500),
-      );
-    }
-
     return SingleChildScrollView(
       child: Column(
         children: [
           Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               SizedBox(
                 height: DeviceScreenConstants.screenHeight * 0.75,
@@ -55,44 +45,48 @@ class DocWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 40,
-              ),
-              ConstrainedBox(
-                constraints:
-                    const BoxConstraints(maxHeight: 100, maxWidth: 350),
-                child: Column(children: [
-                  ElevatedButton(
-                    style: AppButtonStyle.filledRoundedButton,
-                    onPressed: () {},
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(AppIcons.pen),
-                        SizedBox(width: 20),
-                        Text(
-                          'Изменить',
-                          style: TextStyle(fontSize: 18),
+              SizedBox(
+                height: 80,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      width: 150,
+                      child: OutlinedButton(
+                        style: AppButtonStyle.outlinedRedRoundedButton,
+                        onPressed: () async {
+                          await databaseService.database.docsDao
+                              .deleteDoc(docID: docID);
+                          deleteAction('Документ удален');
+                          onUpdate();
+                        },
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Удалить',
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                  OutlinedButton(
-                    style: AppButtonStyle.outlinedRedRoundedButton,
-                    onPressed: () => deleteDoc(docID),
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(Icons.error),
-                        SizedBox(width: 20),
-                        Text(
-                          'Удалить',
-                          style: TextStyle(fontSize: 18),
+                    SizedBox(
+                      width: 150,
+                      child: ElevatedButton(
+                        style: AppButtonStyle.filledRoundedButton,
+                        onPressed: () => Get.to(EditDocScreen(docID: docID, onUpdate: onUpdate)),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Изменить',
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ]),
+                  ],
+                ),
               ),
             ],
           ),
@@ -229,7 +223,7 @@ class _DocMiniature extends StatelessWidget {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () => pdfBytes != null ? _openPdf(pdfBytes!): {},
+              onTap: () => pdfBytes != null ? _openPdf(pdfBytes!) : {},
               overlayColor:
                   const MaterialStatePropertyAll(AppColors.overlayColor),
               splashColor: AppColors.splashColor,

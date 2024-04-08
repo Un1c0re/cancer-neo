@@ -1,4 +1,3 @@
-
 import 'package:diplom/models/doc_list_model.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_icons.dart';
@@ -9,16 +8,19 @@ import 'package:get/get.dart';
 
 class DocCardWidget extends StatelessWidget {
   final DocSummaryModel data;
+  final Function onUpdate;
 
   const DocCardWidget({
-    super.key, 
+    super.key,
     required this.data,
+    required this.onUpdate,
   });
 
-  void _getDocScreen(docId) => Get.to(() => DocScreen(docID: docId,));
-  
+  void _getDocScreen(docId) =>
+      Get.to(() => DocScreen(docID: docId, onUpdate: onUpdate));
+
   Icon _getTypeIcon(typeID) {
-    switch(typeID) {
+    switch (typeID) {
       case 0:
         return const Icon(AppIcons.lightbulb);
       case 1:
