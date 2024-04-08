@@ -90,8 +90,6 @@ class _DocsListWidgetState extends State<DocsListWidget> {
                           AppColors.activeColor, // Цвет текста кнопок
                     ),
                   ),
-                  // dialogBackgroundColor: Colors.white, // Фон диалога
-                  // Другие настройки темы...
                 ),
                 child: SfDateRangePicker(
                     selectionColor: AppColors.primaryColor,

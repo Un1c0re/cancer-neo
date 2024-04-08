@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+ import 'dart:typed_data';
 
 import 'package:diplom/helpers/get_helpers.dart';
 import 'package:diplom/models/docs_models.dart';
@@ -74,7 +74,8 @@ class DocWidget extends StatelessWidget {
                       width: 150,
                       child: ElevatedButton(
                         style: AppButtonStyle.filledRoundedButton,
-                        onPressed: () => Get.to(EditDocScreen(docID: docID, onUpdate: onUpdate)),
+                        onPressed: () => Get.to(
+                            EditDocScreen(docID: docID, onUpdate: onUpdate)),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -111,10 +112,18 @@ class DocDataWidget extends StatefulWidget {
 class _DocDataWidgetState extends State<DocDataWidget> {
   @override
   Widget build(BuildContext context) {
-    final DatabaseService databaseService = Get.find();
+    final DatabaseService service = Get.find();
+    late final String typeName;
 
     Future<DocModel?> getDocument(id) async {
-      return await databaseService.database.docsDao.getDoc(id);
+      
+      final DocModel? document = await service.database.docsDao.getDoc(id);
+      typeName = await service.database.doctypesDao.getDocType(document!.docType);
+      return document;
+    }
+
+    Future<String>getDocTypeName(typeID) async {
+      return await service.database.doctypesDao.getDocType(typeID);
     }
 
     return FutureBuilder(
@@ -137,14 +146,18 @@ class _DocDataWidgetState extends State<DocDataWidget> {
                 Text(
                   document.docName,
                   style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const Text(
                   'тип документа',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
+                Text(typeName),
                 const SizedBox(height: 10),
                 const Text(
                   'Дата оформления документа:',

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:diplom/helpers/get_helpers.dart';
+import 'package:diplom/models/doc_type_model.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
@@ -71,10 +72,10 @@ class _AddDocWidgetState extends State<AddDocWidget> {
         return Theme(
           data: ThemeData.light().copyWith(
             primaryColor: AppColors.primaryColor,
-            colorScheme: const ColorScheme.light(
-                primary: AppColors.primaryColor),
-            buttonTheme: const ButtonThemeData(
-                textTheme: ButtonTextTheme.primary),
+            colorScheme:
+                const ColorScheme.light(primary: AppColors.primaryColor),
+            buttonTheme:
+                const ButtonThemeData(textTheme: ButtonTextTheme.primary),
           ),
           child: child!,
         );
@@ -89,14 +90,14 @@ class _AddDocWidgetState extends State<AddDocWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final DatabaseService databaseService = Get.find();
+    final DatabaseService service = Get.find();
 
     final nameInputDecoration = AppStyleTextFields.sharedDecoration.copyWith(
       label: const Text('название документа'),
     );
 
     final dateInputDecoration = AppStyleTextFields.sharedDecoration.copyWith(
-      label: const Text('дд.мм.гггг'),
+      label: const Text('Дата оформления'),
       suffix: IconButton(
         onPressed: () => _selectDate(context),
         icon: const Icon(Icons.calendar_today),
@@ -113,7 +114,7 @@ class _AddDocWidgetState extends State<AddDocWidget> {
 
     Future<void> saveDoc(String docName, int docType, DateTime docDate,
         String docPlace, String docNotes, Uint8List? docFile) async {
-      await databaseService.database.docsDao.insertDoc(
+      await service.database.docsDao.insertDoc(
         docName: docName,
         docType: docType,
         docDate: docDate,
@@ -121,6 +122,10 @@ class _AddDocWidgetState extends State<AddDocWidget> {
         docNotes: docNotes,
         pdfFile: docFile,
       );
+    }
+
+    Future<List<DoctypeModel>> getDocTypes() async {
+      return await service.database.doctypesDao.getAllDocTypes();
     }
 
     return SingleChildScrollView(
@@ -168,7 +173,26 @@ class _AddDocWidgetState extends State<AddDocWidget> {
                     cursorColor: AppColors.activeColor,
                     controller: _nameInputController,
                   ),
-                  DocumentTypeSelector(onSelected: _onCategorySelected),
+                  FutureBuilder<List<DoctypeModel>>(
+                    future: getDocTypes(),
+                    builder: ((context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        final docTypesList = snapshot.data!;
+
+                        return DocumentTypeSelector(
+                          onSelected: _onCategorySelected,
+                          docTypes: docTypesList,
+                        );
+                      }
+                    }),
+                  ),
+                  // DocumentTypeSelector(onSelected: _onCategorySelected),
                   TextField(
                     decoration: dateInputDecoration,
                     cursorColor: AppColors.activeColor,
@@ -208,7 +232,7 @@ class _AddDocWidgetState extends State<AddDocWidget> {
                     style: AppButtonStyle.filledRoundedButton,
                     onPressed: () async {
                       String docName = _nameInputController.text;
-                      int docType = selectedCategoryIndex!;
+                      int docType = selectedCategoryIndex ?? 0;
                       DateTime docDate =
                           DateTime.parse(_dateInputController.text);
                       String docPlace = _placeInputController.text;
@@ -233,8 +257,13 @@ class _AddDocWidgetState extends State<AddDocWidget> {
 
 class DocumentTypeSelector extends StatefulWidget {
   final Function(int?) onSelected;
+  final List<DoctypeModel> docTypes;
 
-  const DocumentTypeSelector({super.key, required this.onSelected});
+  const DocumentTypeSelector({
+    super.key,
+    required this.onSelected,
+    required this.docTypes,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -243,17 +272,11 @@ class DocumentTypeSelector extends StatefulWidget {
 
 class _DocumentTypeSelectorState extends State<DocumentTypeSelector> {
   int? selectedIndex;
-  final List<Map<String, dynamic>> categories = [
-    {'name': 'Анализы', 'index': 0},
-    {'name': 'КТ', 'index': 1},
-    {'name': 'МРТ', 'index': 2},
-    {'name': 'Исследования', 'index': 3},
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: DropdownButtonFormField<Map<String, dynamic>>(
+      child: DropdownButtonFormField<DoctypeModel>(
         decoration: InputDecoration(
           labelText: 'Категория документа',
           labelStyle: const TextStyle(color: AppColors.activeColor),
@@ -271,20 +294,21 @@ class _DocumentTypeSelectorState extends State<DocumentTypeSelector> {
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         ),
-        value: categories.firstWhere(
-            (category) => category['index'] == selectedIndex,
-            orElse: () => categories[0]),
-        onChanged: (Map<String, dynamic>? newValue) {
+        value: selectedIndex != null
+            ? widget.docTypes.firstWhere(
+                (doctype) => doctype.id == selectedIndex,
+                orElse: () => widget.docTypes[0])
+            : widget.docTypes[0],
+        onChanged: (DoctypeModel? newValue) {
           setState(() {
-            selectedIndex = newValue?['index'];
+            selectedIndex = newValue?.id;
           });
-          widget.onSelected(
-              newValue?['index']); // Вызов callback-функции с индексом
+          widget.onSelected(newValue?.id);
         },
-        items: categories.map((Map<String, dynamic> category) {
-          return DropdownMenuItem<Map<String, dynamic>>(
-            value: category,
-            child: Text(category['name']),
+        items: widget.docTypes.map((DoctypeModel docType) {
+          return DropdownMenuItem<DoctypeModel>(
+            value: docType,
+            child: Text(docType.name),
           );
         }).toList(),
       ),

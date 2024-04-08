@@ -1,3 +1,4 @@
+import 'package:diplom/helpers/get_helpers.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/utils/app_colors.dart';
@@ -14,10 +15,10 @@ class EditProfileWidget extends StatefulWidget {
 }
 
 class _EditProfileWidgetState extends State<EditProfileWidget> {
-  final _fioInputController         = TextEditingController();
-  final _birthDateInputController   = TextEditingController();
-  final _diseaseInputController     = TextEditingController();
-  final _threatmentInputController  = TextEditingController();
+  final _fioInputController = TextEditingController();
+  final _birthDateInputController = TextEditingController();
+  final _diseaseInputController = TextEditingController();
+  final _threatmentInputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,62 +37,52 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
 
     return SingleChildScrollView(
       child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: DeviceScreenConstants.screenHeight * 0.75,
-              child: _DocDataWidget(
-                nameController: _fioInputController,
-                birthController: _birthDateInputController,
-                diseaseController: _diseaseInputController,
-                threatmentController: _threatmentInputController,
-              ),
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: DeviceScreenConstants.screenHeight * 0.75,
+            child: _DocDataWidget(
+              nameController: _fioInputController,
+              birthController: _birthDateInputController,
+              diseaseController: _diseaseInputController,
+              threatmentController: _threatmentInputController,
             ),
-            SizedBox(
-              height: 80,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(
-                    width: 150,
-                    child: OutlinedButton(
-                      style: AppButtonStyle.outlinedRedRoundedButton,
-                      onPressed: ()=> Get.back(),
-                      child: const Text('Отменить'),
-                    ),
+          ),
+          SizedBox(
+            height: 80,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SizedBox(
+                  width: 150,
+                  child: OutlinedButton(
+                    style: AppButtonStyle.outlinedRedRoundedButton,
+                    onPressed: () => cancelAction,
+                    child: const Text('Отменить'),
                   ),
-                  SizedBox(
-                    width: 150,
-                    child: ElevatedButton(
-                      style: AppButtonStyle.filledRoundedButton,
-                      onPressed: () {
-                        updateUser(
-                          _fioInputController.text, 
-                          DateTime.parse(_birthDateInputController.text), 
-                          _diseaseInputController.text, 
-                          _threatmentInputController.text,
-                        );
-
-                        Get.back();
-
-                        Get.snackbar(
-                          'Успешно!',
-                          'Документ добавлен',
-                          backgroundColor: Colors.tealAccent.withOpacity(0.4),
-                          colorText: Colors.teal.shade900,
-                          snackPosition: SnackPosition.TOP,
-                          duration: const Duration(milliseconds: 1500),
-                          animationDuration: const Duration(milliseconds: 500),
-                        );
-                      },
-                      child: const Text('Подтвердить'),
-                    ),
+                ),
+                SizedBox(
+                  width: 150,
+                  child: ElevatedButton(
+                    style: AppButtonStyle.filledRoundedButton,
+                    onPressed: () async {
+                      await updateUser(
+                        _fioInputController.text,
+                        DateTime.parse(_birthDateInputController.text),
+                        _diseaseInputController.text,
+                        _threatmentInputController.text,
+                      );
+                      editAction('Профиль изменен');
+                    },
+                    child: const Text('Подтвердить'),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ]),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -102,12 +93,11 @@ class _DocDataWidget extends StatefulWidget {
   final TextEditingController diseaseController;
   final TextEditingController threatmentController;
 
-  const _DocDataWidget({
-    required this.nameController,
-    required this.birthController,
-    required this.diseaseController,
-    required this.threatmentController
-  });
+  const _DocDataWidget(
+      {required this.nameController,
+      required this.birthController,
+      required this.diseaseController,
+      required this.threatmentController});
 
   @override
   State<_DocDataWidget> createState() => _DocDataWidgetState();
@@ -119,7 +109,7 @@ class _DocDataWidgetState extends State<_DocDataWidget> {
   late TextEditingController nameController;
   late TextEditingController birthController;
   late TextEditingController diseaseController;
-  late TextEditingController threatmentController;
+  late TextEditingController threatmentInputController;
 
   @override
   void initState() {
@@ -128,22 +118,35 @@ class _DocDataWidgetState extends State<_DocDataWidget> {
     nameController = widget.nameController;
     birthController = widget.birthController;
     diseaseController = widget.diseaseController;
-    threatmentController = widget.threatmentController;
+    threatmentInputController = widget.threatmentController;
     super.initState();
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    DateTime? picked = await showDatePicker(
+    final DateTime? picked = await showDatePicker(
       locale: const Locale('ru', 'RU'),
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2025),
+      cancelText: 'Отменить',
+      confirmText: 'Подтвердить',
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: AppColors.primaryColor,
+            colorScheme:
+                const ColorScheme.light(primary: AppColors.primaryColor),
+            buttonTheme:
+                const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child!,
+        );
+      },
     );
     if (picked != null && picked != _pickedDateTime) {
       setState(() {
         _pickedDateTime = picked;
-        birthController.text = _pickedDateTime.toString().substring(0, 10);
       });
     }
   }
@@ -156,7 +159,7 @@ class _DocDataWidgetState extends State<_DocDataWidget> {
 
     final birthDateInputDecoration =
         AppStyleTextFields.sharedDecoration.copyWith(
-      label: const Text('Дата рождения'),
+      label: const Text('Дата рожднния'),
       suffix: IconButton(
         onPressed: () => _selectDate(context),
         icon: const Icon(Icons.calendar_today),
@@ -167,7 +170,8 @@ class _DocDataWidgetState extends State<_DocDataWidget> {
       label: const Text('Заболевание'),
     );
 
-    final phoneInputDecoration = AppStyleTextFields.sharedDecoration.copyWith(
+    final threatmentInputDecoration =
+        AppStyleTextFields.sharedDecoration.copyWith(
       label: const Text('Лечение'),
     );
 
@@ -176,7 +180,6 @@ class _DocDataWidgetState extends State<_DocDataWidget> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          const _AddPhotoWidget(),
           TextField(
             decoration: nameInputDecoration,
             cursorColor: AppColors.activeColor,
@@ -191,29 +194,15 @@ class _DocDataWidgetState extends State<_DocDataWidget> {
             decoration: diseaseInputDecoration,
             cursorColor: AppColors.activeColor,
             controller: diseaseController,
+            maxLines: 5,
           ),
           TextField(
-            decoration: phoneInputDecoration,
+            decoration: threatmentInputDecoration,
             cursorColor: AppColors.activeColor,
-            controller: threatmentController,
-            keyboardType: TextInputType.phone,
+            controller: threatmentInputController,
+            maxLines: 5,
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _AddPhotoWidget extends StatelessWidget {
-  const _AddPhotoWidget();
-
-  @override
-  Widget build(BuildContext context) {
-    return const SizedBox(
-      width: 200,
-      height: 150,
-      child: SizedBox(
-        child: Text('Пожалуйста, внесите ваши данные'),
       ),
     );
   }

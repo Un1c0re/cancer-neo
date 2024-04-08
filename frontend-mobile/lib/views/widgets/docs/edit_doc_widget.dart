@@ -6,7 +6,6 @@ import 'package:diplom/models/docs_models.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
-import 'package:diplom/views/screens/home/home_screen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,12 +14,12 @@ import '../../../utils/app_style.dart';
 import '../../../utils/constants.dart';
 
 class EditDocWidget extends StatefulWidget {
-  final docID;
+  final int docID;
   final Function onUpdate;
   const EditDocWidget({
     super.key,
     required this.onUpdate,
-    this.docID,
+    required this.docID,
   });
 
   @override

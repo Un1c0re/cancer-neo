@@ -1,3 +1,4 @@
+import 'package:diplom/helpers/get_helpers.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_style.dart';
@@ -26,22 +27,6 @@ class _EditSymptomWidgetState extends State<EditSymptomWidget> {
   void initState() {
     _nameInputController.text = widget.oldName;
     super.initState();
-  }
-
-  void _cancel() => Get.back();
-
-  void _submit() {
-    Get.back();
-
-    Get.snackbar(
-      'Успешно!',
-      'Симптом изменен',
-      backgroundColor: Colors.tealAccent.withOpacity(0.4),
-      colorText: Colors.teal.shade900,
-      snackPosition: SnackPosition.TOP,
-      duration: const Duration(milliseconds: 1500),
-      animationDuration: const Duration(milliseconds: 500),
-    );
   }
 
   @override
@@ -82,7 +67,7 @@ class _EditSymptomWidgetState extends State<EditSymptomWidget> {
                   width: 150,
                   child: OutlinedButton(
                     style: AppButtonStyle.outlinedRedRoundedButton,
-                    onPressed: _cancel,
+                    onPressed: cancelAction,
                     child: const Text('Отменить'),
                   ),
                 ),
@@ -93,7 +78,7 @@ class _EditSymptomWidgetState extends State<EditSymptomWidget> {
                     onPressed: () async {
                       await service.database.symptomsNamesDao.updateSymptomName(
                           widget.oldName, _nameInputController.text.trim());
-                      _submit();
+                      editAction('Симптом изменен');
                       widget.onUpdate();
                     },
                     child: const Text('Подтвердить'),

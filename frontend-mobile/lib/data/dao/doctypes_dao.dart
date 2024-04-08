@@ -19,6 +19,12 @@ class DoctypesDao extends DatabaseAccessor<AppDatabase> with _$DoctypesDaoMixin 
   }
 
   Future<void> initDocTypes() async {
+    final query = select(doctypes)..limit(1);
+    final List<Doctype> types = await query.get();
+    final bool doTypesExist = types.isNotEmpty;
+
+    if(doTypesExist) return;
+
     List<String> docTypesList = dotenv.env['DOC_TYPES']!.split(',');
     for(int i = 0; i < docTypesList.length; i++) {
       await into(doctypes).insert(DoctypesCompanion(
@@ -27,8 +33,8 @@ class DoctypesDao extends DatabaseAccessor<AppDatabase> with _$DoctypesDaoMixin 
     }
   }
 
-  Future<DoctypeModel> getDocType(id) async {
+  Future<String> getDocType(id) async {
     final doctype = await (select(doctypes)..where((doctype) => doctype.id.equals(id))).getSingleOrNull();
-    return DoctypeModel.fromMap(doctype!.toJson()); 
+    return doctype!.name; 
   }
 }
