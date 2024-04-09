@@ -1,6 +1,7 @@
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/constants.dart';
 import 'package:diplom/views/widgets/chart/bool_chart_widget.dart';
+import 'package:diplom/views/widgets/chart/custom_chart_widget.dart';
 import 'package:diplom/views/widgets/chart/grade_chart_widget.dart';
 import 'package:diplom/views/widgets/chart/line_chart_widget.dart';
 import 'package:flutter/material.dart';
@@ -106,6 +107,7 @@ class _ChartWidgetState extends State<ChartWidget> {
                 const SizedBox(height: 30),
                 LineChartWidget(selectedDate: _selectedDate),
                 const SizedBox(height: 25),
+                CustomChartWidget(selectedDate: _selectedDate),
                 ElevatedButton(
                   style: AppButtonStyle.basicButton.copyWith(
                     padding: const MaterialStatePropertyAll(

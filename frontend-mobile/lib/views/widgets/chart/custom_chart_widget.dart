@@ -1,3 +1,4 @@
+import 'package:csv/csv.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
@@ -67,6 +68,7 @@ class _CustomChartWidgetState extends State<CustomChartWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if(symptomNames.isEmpty) return const SizedBox(height: 1);
     final DatabaseService service = Get.find();
     final pickedDate = DateTime(widget.selectedDate.year,
         widget.selectedDate.month, widget.selectedDate.day);
@@ -109,7 +111,7 @@ class _CustomChartWidgetState extends State<CustomChartWidget> {
 
     Future<int> getLineSymptomsNamesCount() async {
       final List<String> tmp =
-          await service.database.symptomsNamesDao.getSymptomsNamesByTypeID(3);
+          await service.database.symptomsNamesDao.getSymptomsNamesByTypeID(4);
       return tmp.length;
     }
 

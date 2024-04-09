@@ -83,5 +83,6 @@ class CustomSymptomController extends GetxController {
   Future<void> deleteSymptomValueFromDB(String name) async {
     final DatabaseService databaseService = Get.find();
     await databaseService.database.symptomsValuesDao.deleteSymptomValues(name);
+    await databaseService.database.symptomsNamesDao.deleteSymptomName(name);
   }
 }
