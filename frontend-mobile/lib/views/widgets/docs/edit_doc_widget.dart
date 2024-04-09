@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:diplom/helpers/get_helpers.dart';
+import 'package:diplom/helpers/validate_helpers.dart';
+import 'package:diplom/models/doc_type_model.dart';
 import 'package:diplom/models/docs_models.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
@@ -31,6 +33,7 @@ class _EditDocWidgetState extends State<EditDocWidget> {
   final _placeInputController = TextEditingController();
   final _dateInputController = TextEditingController();
   final _notesInputController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   File? docFile;
   Uint8List? docFileBytes;
@@ -92,7 +95,7 @@ class _EditDocWidgetState extends State<EditDocWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final DatabaseService databaseService = Get.find();
+    final DatabaseService service = Get.find();
 
     final nameInputDecoration = AppStyleTextFields.sharedDecoration.copyWith(
       label: const Text('название документа'),
@@ -116,7 +119,7 @@ class _EditDocWidgetState extends State<EditDocWidget> {
 
     Future<void> updateDoc(String docName, int docType, DateTime docDate,
         String docPlace, String docNotes, Uint8List? docFile) async {
-      await databaseService.database.docsDao.updateDoc(
+      await service.database.docsDao.updateDoc(
         docId: widget.docID,
         docName: docName,
         docType: docType,
@@ -128,7 +131,11 @@ class _EditDocWidgetState extends State<EditDocWidget> {
     }
 
     Future<DocModel?> getDocument(id) async {
-      return await databaseService.database.docsDao.getDoc(id);
+      return await service.database.docsDao.getDoc(id);
+    }
+
+    Future<List<DoctypeModel>> getDocTypes() async {
+      return await service.database.doctypesDao.getAllDocTypes();
     }
 
     return SingleChildScrollView(
@@ -153,65 +160,98 @@ class _EditDocWidgetState extends State<EditDocWidget> {
                       final data = snapshot.data!;
                       _nameInputController.text = data.docName;
                       _placeInputController.text = data.docPlace;
-                      _dateInputController.text = data.docDate.toIso8601String().substring(0, 10);
+                      _dateInputController.text =
+                          data.docDate.toIso8601String().substring(0, 10);
                       _notesInputController.text = data.docNotes;
                       docFileBytes = data.pdfFile;
 
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Container(
-                            width: 300,
-                            height: 150,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 1.5,
-                                color: Colors.grey,
-                              ),
-                              borderRadius: AppBorderRounds.cardRoundedBorder,
-                            ),
-                            child: Center(
-                              child: ElevatedButton(
-                                onPressed: selectFile,
-                                style:
-                                    AppButtonStyle.textRoundedButton.copyWith(
-                                  backgroundColor: MaterialStatePropertyAll(
-                                      docFile == null
-                                          ? Colors.transparent
-                                          : Colors.tealAccent.withOpacity(0.4)),
+                      return Form(
+                        key: _formKey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Container(
+                              width: 300,
+                              height: 150,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 1.5,
+                                  color: Colors.grey,
                                 ),
-                                child: Text(
-                                  docFileBytes == null
-                                      ? 'Выберите файл'
-                                      : 'Документ заргужен',
-                                  style: const TextStyle(fontSize: 18),
+                                borderRadius: AppBorderRounds.cardRoundedBorder,
+                              ),
+                              child: Center(
+                                child: ElevatedButton(
+                                  onPressed: selectFile,
+                                  style:
+                                      AppButtonStyle.textRoundedButton.copyWith(
+                                    backgroundColor: MaterialStatePropertyAll(
+                                        docFile == null
+                                            ? Colors.transparent
+                                            : Colors.tealAccent
+                                                .withOpacity(0.4)),
+                                  ),
+                                  child: Text(
+                                    docFileBytes == null
+                                        ? 'Выберите файл'
+                                        : 'Документ заргужен',
+                                    style: const TextStyle(fontSize: 18),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          TextField(
-                            decoration: nameInputDecoration,
-                            cursorColor: AppColors.activeColor,
-                            controller: _nameInputController,
-                          ),
-                          DocumentTypeSelector(onSelected: _onCategorySelected),
-                          TextField(
-                            decoration: dateInputDecoration,
-                            cursorColor: AppColors.activeColor,
-                            controller: _dateInputController,
-                          ),
-                          TextField(
-                            decoration: placeInputDecoration,
-                            cursorColor: AppColors.activeColor,
-                            controller: _placeInputController,
-                          ),
-                          TextField(
-                            maxLines: 3,
-                            decoration: notesInputDecoration,
-                            cursorColor: AppColors.activeColor,
-                            controller: _notesInputController,
-                          ),
-                        ],
+                            TextFormField(
+                              decoration: nameInputDecoration,
+                              cursorColor: AppColors.activeColor,
+                              controller: _nameInputController,
+                              validator: validateString,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                            ),
+                            FutureBuilder<List<DoctypeModel>>(
+                              future: getDocTypes(),
+                              builder: ((context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                } else {
+                                  final docTypesList = snapshot.data!;
+
+                                  return DocumentTypeSelector(
+                                    onSelected: _onCategorySelected,
+                                    docTypes: docTypesList,
+                                    currentSelectedIndex: selectedCategoryIndex,
+                                  );
+                                }
+                              }),
+                            ),
+                            TextFormField(
+                                decoration: dateInputDecoration,
+                                cursorColor: AppColors.activeColor,
+                                controller: _dateInputController,
+                                validator: validateDate,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction),
+                            TextFormField(
+                              decoration: placeInputDecoration,
+                              cursorColor: AppColors.activeColor,
+                              controller: _placeInputController,
+                              validator: validateString,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                            ),
+                            TextField(
+                              maxLines: 3,
+                              decoration: notesInputDecoration,
+                              cursorColor: AppColors.activeColor,
+                              controller: _notesInputController,
+                            ),
+                          ],
+                        ),
                       );
                     }
                   })),
@@ -235,17 +275,19 @@ class _EditDocWidgetState extends State<EditDocWidget> {
                   child: ElevatedButton(
                     style: AppButtonStyle.filledRoundedButton,
                     onPressed: () async {
-                      String docName = _nameInputController.text;
-                      int docType = selectedCategoryIndex?? 0;
-                      DateTime docDate =
-                          DateTime.parse(_dateInputController.text);
-                      String docPlace = _placeInputController.text;
-                      String docNote = _notesInputController.text;
+                      if (_formKey.currentState!.validate()) {
+                        String docName = _nameInputController.text;
+                        int docType = selectedCategoryIndex ?? 1;
+                        DateTime docDate =
+                            DateTime.parse(_dateInputController.text);
+                        String docPlace = _placeInputController.text;
+                        String docNote = _notesInputController.text;
 
-                      await updateDoc(docName, docType, docDate, docPlace,
-                          docNote, docFileBytes);
-                      editAction('Документ изменен');
-                      widget.onUpdate();
+                        await updateDoc(docName, docType, docDate, docPlace,
+                            docNote, docFileBytes);
+                        editAction('Документ изменен');
+                        widget.onUpdate();
+                      }
                     },
                     child: const Text('Подтвердить'),
                   ),
@@ -260,9 +302,16 @@ class _EditDocWidgetState extends State<EditDocWidget> {
 }
 
 class DocumentTypeSelector extends StatefulWidget {
+  final int? currentSelectedIndex;
+  final List<DoctypeModel> docTypes;
   final Function(int?) onSelected;
 
-  const DocumentTypeSelector({super.key, required this.onSelected});
+  const DocumentTypeSelector({
+    super.key,
+    this.currentSelectedIndex,
+    required this.onSelected,
+    required this.docTypes,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -271,17 +320,17 @@ class DocumentTypeSelector extends StatefulWidget {
 
 class _DocumentTypeSelectorState extends State<DocumentTypeSelector> {
   int? selectedIndex;
-  final List<Map<String, dynamic>> categories = [
-    {'name': 'Анализы', 'index': 0},
-    {'name': 'КТ', 'index': 1},
-    {'name': 'МРТ', 'index': 2},
-    {'name': 'Исследования', 'index': 3},
-  ];
+
+  @override
+  void initState() {
+    super.initState();
+    selectedIndex = widget.currentSelectedIndex;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: DropdownButtonFormField<Map<String, dynamic>>(
+      child: DropdownButtonFormField<DoctypeModel>(
         decoration: InputDecoration(
           labelText: 'Категория документа',
           labelStyle: const TextStyle(color: AppColors.activeColor),
@@ -299,20 +348,21 @@ class _DocumentTypeSelectorState extends State<DocumentTypeSelector> {
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         ),
-        value: categories.firstWhere(
-            (category) => category['index'] == selectedIndex,
-            orElse: () => categories[0]),
-        onChanged: (Map<String, dynamic>? newValue) {
+        value: selectedIndex != null
+            ? widget.docTypes.firstWhere(
+                (doctype) => doctype.id == selectedIndex,
+                orElse: () => widget.docTypes[0])
+            : widget.docTypes[0],
+        onChanged: (DoctypeModel? newValue) {
           setState(() {
-            selectedIndex = newValue?['index'];
+            selectedIndex = newValue?.id;
           });
-          widget.onSelected(
-              newValue?['index']); // Вызов callback-функции с индексом
+          widget.onSelected(newValue?.id);
         },
-        items: categories.map((Map<String, dynamic> category) {
-          return DropdownMenuItem<Map<String, dynamic>>(
-            value: category,
-            child: Text(category['name']),
+        items: widget.docTypes.map((DoctypeModel docType) {
+          return DropdownMenuItem<DoctypeModel>(
+            value: docType,
+            child: Text(docType.name),
           );
         }).toList(),
       ),

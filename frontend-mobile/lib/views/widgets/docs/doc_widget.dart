@@ -13,7 +13,7 @@ import 'package:get/get.dart';
 
 import '../../../utils/constants.dart';
 
-class DocWidget extends StatelessWidget {
+class DocWidget extends StatefulWidget {
   final int docID;
   final Function onUpdate;
   const DocWidget({
@@ -22,6 +22,11 @@ class DocWidget extends StatelessWidget {
     required this.onUpdate,
   });
 
+  @override
+  State<DocWidget> createState() => _DocWidgetState();
+}
+
+class _DocWidgetState extends State<DocWidget> {
   @override
   Widget build(BuildContext context) {
     final DatabaseService databaseService = Get.find();
@@ -40,7 +45,7 @@ class DocWidget extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10, vertical: 10),
                     child: DocDataWidget(
-                      docID: docID,
+                      docID: widget.docID,
                     ),
                   ),
                 ),
@@ -56,9 +61,9 @@ class DocWidget extends StatelessWidget {
                         style: AppButtonStyle.outlinedRedRoundedButton,
                         onPressed: () async {
                           await databaseService.database.docsDao
-                              .deleteDoc(docID: docID);
+                              .deleteDoc(docID: widget.docID);
                           deleteAction('Документ удален');
-                          onUpdate();
+                          widget.onUpdate();
                         },
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -75,7 +80,7 @@ class DocWidget extends StatelessWidget {
                       child: ElevatedButton(
                         style: AppButtonStyle.filledRoundedButton,
                         onPressed: () => Get.to(
-                            EditDocScreen(docID: docID, onUpdate: onUpdate)),
+                            EditDocScreen(docID: widget.docID, onUpdate: widget.onUpdate)),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

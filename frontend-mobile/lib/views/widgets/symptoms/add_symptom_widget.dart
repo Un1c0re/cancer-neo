@@ -1,4 +1,5 @@
 import 'package:diplom/helpers/get_helpers.dart';
+import 'package:diplom/helpers/validate_helpers.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_style.dart';
@@ -17,6 +18,7 @@ class AddSymptomWidget extends StatefulWidget {
 
 class _AddSymptomWidgetState extends State<AddSymptomWidget> {
   final _nameInputController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,15 +36,20 @@ class _AddSymptomWidgetState extends State<AddSymptomWidget> {
                 maxHeight: DeviceScreenConstants.screenHeight * 0.1),
             child: AppStyleCard(
                 backgroundColor: Colors.white,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextField(
-                      decoration: nameInputDecoration,
-                      cursorColor: AppColors.activeColor,
-                      controller: _nameInputController,
-                    ),
-                  ],
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextFormField(
+                        decoration: nameInputDecoration,
+                        cursorColor: AppColors.activeColor,
+                        controller: _nameInputController,
+                        validator: validateString,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                      ),
+                    ],
+                  ),
                 )),
           ),
           SizedBox(
@@ -63,7 +70,8 @@ class _AddSymptomWidgetState extends State<AddSymptomWidget> {
                   child: ElevatedButton(
                     style: AppButtonStyle.filledRoundedButton,
                     onPressed: () async {
-                      await service.database.symptomsNamesDao.addSymptomName(
+                      if(_formKey.currentState!.validate()) {
+                        await service.database.symptomsNamesDao.addSymptomName(
                         _nameInputController.text.trim()
                       );
                       await service.database.symptomsValuesDao.addSymptomValue(
@@ -73,6 +81,7 @@ class _AddSymptomWidgetState extends State<AddSymptomWidget> {
                       );
                       submitAction('Симптом добален');
                       widget.onUpdate();
+                      }
                     },
                     child: const Text('Подтвердить'),
                   ),

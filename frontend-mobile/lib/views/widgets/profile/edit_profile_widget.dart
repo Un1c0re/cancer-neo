@@ -1,4 +1,6 @@
 import 'package:diplom/helpers/get_helpers.dart';
+import 'package:diplom/helpers/validate_helpers.dart';
+import 'package:diplom/models/user_model.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/utils/app_colors.dart';
@@ -15,110 +17,17 @@ class EditProfileWidget extends StatefulWidget {
 }
 
 class _EditProfileWidgetState extends State<EditProfileWidget> {
-  final _fioInputController = TextEditingController();
+  final _nameInputController = TextEditingController();
   final _birthDateInputController = TextEditingController();
   final _diseaseInputController = TextEditingController();
   final _threatmentInputController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
-  @override
-  Widget build(BuildContext context) {
-    final DatabaseService databaseService = Get.find();
-
-    Future<void> updateUser(String newName, DateTime newBirthdate,
-        String newDiseaseHistory, String newThreatmentHistory) async {
-      await databaseService.database.usersDao.updateUser(
-        userId: 0,
-        name: newName,
-        birthdate: newBirthdate,
-        diseaseHistory: newDiseaseHistory,
-        threatmentHistory: newThreatmentHistory,
-      );
-    }
-
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: DeviceScreenConstants.screenHeight * 0.75,
-            child: _DocDataWidget(
-              nameController: _fioInputController,
-              birthController: _birthDateInputController,
-              diseaseController: _diseaseInputController,
-              threatmentController: _threatmentInputController,
-            ),
-          ),
-          SizedBox(
-            height: 80,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                SizedBox(
-                  width: 150,
-                  child: OutlinedButton(
-                    style: AppButtonStyle.outlinedRedRoundedButton,
-                    onPressed: () => cancelAction,
-                    child: const Text('Отменить'),
-                  ),
-                ),
-                SizedBox(
-                  width: 150,
-                  child: ElevatedButton(
-                    style: AppButtonStyle.filledRoundedButton,
-                    onPressed: () async {
-                      await updateUser(
-                        _fioInputController.text,
-                        DateTime.parse(_birthDateInputController.text),
-                        _diseaseInputController.text,
-                        _threatmentInputController.text,
-                      );
-                      editAction('Профиль изменен');
-                    },
-                    child: const Text('Подтвердить'),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _DocDataWidget extends StatefulWidget {
-  final TextEditingController nameController;
-  final TextEditingController birthController;
-  final TextEditingController diseaseController;
-  final TextEditingController threatmentController;
-
-  const _DocDataWidget(
-      {required this.nameController,
-      required this.birthController,
-      required this.diseaseController,
-      required this.threatmentController});
-
-  @override
-  State<_DocDataWidget> createState() => _DocDataWidgetState();
-}
-
-class _DocDataWidgetState extends State<_DocDataWidget> {
   DateTime? _pickedDateTime;
-
-  late TextEditingController nameController;
-  late TextEditingController birthController;
-  late TextEditingController diseaseController;
-  late TextEditingController threatmentInputController;
 
   @override
   void initState() {
     _pickedDateTime = DateTime.now();
-
-    nameController = widget.nameController;
-    birthController = widget.birthController;
-    diseaseController = widget.diseaseController;
-    threatmentInputController = widget.threatmentController;
     super.initState();
   }
 
@@ -153,6 +62,19 @@ class _DocDataWidgetState extends State<_DocDataWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final DatabaseService service = Get.find();
+
+    Future<void> updateUser(String newName, DateTime newBirthdate,
+        String newDiseaseHistory, String newThreatmentHistory) async {
+      await service.database.usersDao.updateUser(
+        userId: 0,
+        name: newName,
+        birthdate: newBirthdate,
+        diseaseHistory: newDiseaseHistory,
+        threatmentHistory: newThreatmentHistory,
+      );
+    }
+
     final nameInputDecoration = AppStyleTextFields.sharedDecoration.copyWith(
       label: const Text('Имя'),
     );
@@ -175,32 +97,111 @@ class _DocDataWidgetState extends State<_DocDataWidget> {
       label: const Text('Лечение'),
     );
 
-    return AppStyleCard(
-      backgroundColor: Colors.white,
+    Future<UserModel?> getUser() async {
+      return await service.database.usersDao.getUserdata();
+    }
+
+    return SingleChildScrollView(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          TextField(
-            decoration: nameInputDecoration,
-            cursorColor: AppColors.activeColor,
-            controller: nameController,
+          SizedBox(
+            height: DeviceScreenConstants.screenHeight * 0.75,
+            child: AppStyleCard(
+              backgroundColor: Colors.white,
+              child: FutureBuilder(
+                future: getUser(),
+                builder: ((context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    final UserModel userdata = snapshot.data!;
+
+                    _nameInputController.text = userdata.username;
+                    _birthDateInputController.text =
+                        userdata.birthdate.toIso8601String().substring(0, 10);
+                    _diseaseInputController.text = userdata.deseaseHistory;
+                    _threatmentInputController.text = userdata.threatmentHistory;
+
+                    return Form(
+                      key: _formKey,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          TextFormField(
+                            decoration: nameInputDecoration,
+                            cursorColor: AppColors.activeColor,
+                            controller: _nameInputController,
+                            validator: validateName,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                          ),
+                          TextFormField(
+                            decoration: birthDateInputDecoration,
+                            cursorColor: AppColors.activeColor,
+                            controller: _birthDateInputController,
+                            validator: validateDate,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                          ),
+                          TextFormField(
+                            decoration: diseaseInputDecoration,
+                            cursorColor: AppColors.activeColor,
+                            controller: _diseaseInputController,
+                            maxLines: 5,
+                          ),
+                          TextFormField(
+                            decoration: threatmentInputDecoration,
+                            cursorColor: AppColors.activeColor,
+                            controller: _threatmentInputController,
+                            maxLines: 5,
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                }),
+              ),
+            ),
           ),
-          TextField(
-            decoration: birthDateInputDecoration,
-            cursorColor: AppColors.activeColor,
-            controller: birthController,
-          ),
-          TextField(
-            decoration: diseaseInputDecoration,
-            cursorColor: AppColors.activeColor,
-            controller: diseaseController,
-            maxLines: 5,
-          ),
-          TextField(
-            decoration: threatmentInputDecoration,
-            cursorColor: AppColors.activeColor,
-            controller: threatmentInputController,
-            maxLines: 5,
+          SizedBox(
+            height: 80,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SizedBox(
+                  width: 150,
+                  child: OutlinedButton(
+                    style: AppButtonStyle.outlinedRedRoundedButton,
+                    onPressed: cancelAction,
+                    child: const Text('Отменить'),
+                  ),
+                ),
+                SizedBox(
+                  width: 150,
+                  child: ElevatedButton(
+                    style: AppButtonStyle.filledRoundedButton,
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        await updateUser(
+                          _nameInputController.text,
+                          DateTime.parse(_birthDateInputController.text),
+                          _diseaseInputController.text,
+                          _threatmentInputController.text,
+                        );
+                        editAction('Профиль изменен');
+                      }
+                    },
+                    child: const Text('Подтвердить'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

@@ -18,6 +18,7 @@ class DocScreen extends StatefulWidget {
 class _DocScreenState extends State<DocScreen> {
 
   void _updateData() {
+    widget.onUpdate();
     setState(() {});
   }
 

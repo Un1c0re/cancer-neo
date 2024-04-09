@@ -28,7 +28,7 @@ class _DocsListWidgetState extends State<DocsListWidget> {
     setState(() {});
   }
 
-  void _addDocOrDiary() {
+  void _addDoc() {
     Get.to(() => AddDocScreen(onUpdate: _updateData));
   }
 
@@ -42,6 +42,12 @@ class _DocsListWidgetState extends State<DocsListWidget> {
     _pickerController.addPropertyChangedListener(handlePropertyChange);
     _filteredData = [];
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _updateData();
   }
 
   void handlePropertyChange(String propertyName) {
@@ -208,7 +214,7 @@ class _DocsListWidgetState extends State<DocsListWidget> {
                     child: ElevatedButton(
                       style: AppButtonStyle.basicButton.copyWith(
                           elevation: const MaterialStatePropertyAll(5)),
-                      onPressed: _addDocOrDiary,
+                      onPressed: _addDoc,
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

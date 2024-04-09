@@ -6,7 +6,7 @@ import 'package:diplom/views/screens/doc/doc_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class DocCardWidget extends StatelessWidget {
+class DocCardWidget extends StatefulWidget {
   final DocSummaryModel data;
   final Function onUpdate;
 
@@ -16,8 +16,13 @@ class DocCardWidget extends StatelessWidget {
     required this.onUpdate,
   });
 
+  @override
+  State<DocCardWidget> createState() => _DocCardWidgetState();
+}
+
+class _DocCardWidgetState extends State<DocCardWidget> {
   void _getDocScreen(docId) =>
-      Get.to(() => DocScreen(docID: docId, onUpdate: onUpdate));
+      Get.to(() => DocScreen(docID: docId, onUpdate: widget.onUpdate));
 
   Icon _getTypeIcon(typeID) {
     switch (typeID) {
@@ -42,11 +47,11 @@ class DocCardWidget extends StatelessWidget {
           backgroundColor: Colors.white,
           child: Row(
             children: [
-              _getTypeIcon(data.docType),
+              _getTypeIcon(widget.data.docType),
               const SizedBox(width: 15),
               Expanded(
                 child: Text(
-                  data.docName,
+                  widget.data.docName,
                   maxLines: 1,
                   style: const TextStyle(
                     fontSize: 18,
@@ -57,7 +62,7 @@ class DocCardWidget extends StatelessWidget {
               Align(
                 alignment: Alignment.bottomRight,
                 child: Text(
-                  data.docDate.toString().substring(0, 10),
+                  widget.data.docDate.toString().substring(0, 10),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.blueGrey.shade300,
@@ -70,7 +75,7 @@ class DocCardWidget extends StatelessWidget {
         Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: () => _getDocScreen(data.id),
+            onTap: () => _getDocScreen(widget.data.id),
             borderRadius: const BorderRadius.all(
               Radius.circular(10),
             ),

@@ -5,7 +5,6 @@ void cancelAction() => Get.back();
 
 void submitAction(title) {
   Get.back();
-
   Get.snackbar(
     'Успешно!',
     title,
@@ -35,9 +34,8 @@ void deleteAction(title) {
   Get.snackbar(
     'Успешно!',
     title,
-    // backgroundColor: Colors.redAccent.withOpacity(0.4),
     backgroundColor: const Color.fromARGB(255, 255, 82, 111).withOpacity(0.4),
-    colorText: const Color.fromARGB(255, 83, 26, 36),
+    colorText: const Color.fromARGB(255, 99, 31, 43),
     snackPosition: SnackPosition.TOP,
     duration: const Duration(milliseconds: 1500),
     animationDuration: const Duration(milliseconds: 500),
