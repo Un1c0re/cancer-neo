@@ -126,11 +126,7 @@ class _DocDataWidgetState extends State<DocDataWidget> {
       typeName = await service.database.doctypesDao.getDocType(document!.docType);
       return document;
     }
-
-    Future<String>getDocTypeName(typeID) async {
-      return await service.database.doctypesDao.getDocType(typeID);
-    }
-
+    
     return FutureBuilder(
       future: getDocument(widget.docID),
       builder: ((context, snapshot) {

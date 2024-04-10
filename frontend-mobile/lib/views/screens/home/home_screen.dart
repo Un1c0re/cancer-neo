@@ -1,10 +1,10 @@
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_icons.dart';
+import 'package:diplom/views/widgets/info/info_widget.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/app_style_icons.dart';
 import '../../widgets/chart/chart_widget.dart';
 import '../../widgets/docs/docs_list_widget.dart';
-import '../../widgets/info/info_widget.dart';
 import '../../widgets/profile/profile_widget.dart';
 import '../../widgets/symptoms/symptoms_widget.dart';
 
@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
 		const ChartWidget(),
     const SymptomsWidget(),
 		const DocsListWidget(),
-		const InfoWiget(),
+		const WebInfoWidget(),
 		const SettingsWidget(),
 	];
 
