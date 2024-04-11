@@ -98,6 +98,7 @@ class _DocsListWidgetState extends State<DocsListWidget> {
                   ),
                 ),
                 child: SfDateRangePicker(
+                    maxDate: DateTime.now(),
                     selectionColor: AppColors.primaryColor,
                     startRangeSelectionColor: AppColors.primaryColor,
                     endRangeSelectionColor: AppColors.primaryColor,

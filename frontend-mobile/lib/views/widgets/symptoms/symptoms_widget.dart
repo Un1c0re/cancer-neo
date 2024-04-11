@@ -57,7 +57,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
       context: context,
       initialDate: selectedDate,
       firstDate: DateTime(2020),
-      lastDate: DateTime(2025),
+      lastDate: DateTime.now(),
       cancelText: 'Отменить',
       confirmText: 'Подтвердить',
       builder: (BuildContext context, Widget? child) {

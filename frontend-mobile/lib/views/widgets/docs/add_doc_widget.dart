@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:diplom/helpers/datetime_helpers.dart';
 import 'package:diplom/helpers/get_helpers.dart';
 import 'package:diplom/helpers/validate_helpers.dart';
 import 'package:diplom/models/doc_type_model.dart';
@@ -34,7 +35,7 @@ class _AddDocWidgetState extends State<AddDocWidget> {
 
   File? docFile;
   Uint8List? docFileBytes;
-  DateTime? _pickedDateTime;
+  late DateTime _pickedDate;
   int? selectedCategoryIndex;
 
   Future<void> selectFile() async {
@@ -56,38 +57,9 @@ class _AddDocWidgetState extends State<AddDocWidget> {
 
   @override
   void initState() {
-    _pickedDateTime = DateTime.now();
-    _dateInputController.text = DateTime.now().toString().substring(0, 10);
     super.initState();
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      locale: const Locale('ru', 'RU'),
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2025),
-      cancelText: 'Отменить',
-      confirmText: 'Подтвердить',
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: AppColors.primaryColor,
-            colorScheme:
-                const ColorScheme.light(primary: AppColors.primaryColor),
-            buttonTheme:
-                const ButtonThemeData(textTheme: ButtonTextTheme.primary),
-          ),
-          child: child!,
-        );
-      },
-    );
-    if (picked != null && picked != _pickedDateTime) {
-      setState(() {
-        _pickedDateTime = picked;
-      });
-    }
+    _pickedDate = DateTime.now();
+    _dateInputController.text = _pickedDate.toString().substring(0, 10);
   }
 
   @override
@@ -101,7 +73,16 @@ class _AddDocWidgetState extends State<AddDocWidget> {
     final dateInputDecoration = AppStyleTextFields.sharedDecoration.copyWith(
       label: const Text('Дата оформления'),
       suffix: IconButton(
-        onPressed: () => _selectDate(context),
+        onPressed: () async {
+          DateTime? newDate = await selectDate(context, _pickedDate);
+          if (newDate != null) {
+            setState(() {
+              _pickedDate = newDate;
+              _dateInputController.text =
+                  _pickedDate.toIso8601String().substring(0, 10);
+            });
+          }
+        },
         icon: const Icon(Icons.calendar_today),
       ),
     );

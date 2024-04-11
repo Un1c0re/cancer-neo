@@ -1,3 +1,4 @@
+import 'package:diplom/helpers/datetime_helpers.dart';
 import 'package:diplom/helpers/get_helpers.dart';
 import 'package:diplom/helpers/validate_helpers.dart';
 import 'package:diplom/models/user_model.dart';
@@ -23,42 +24,8 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
   final _threatmentInputController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  DateTime? _pickedDateTime;
-
-  @override
-  void initState() {
-    _pickedDateTime = DateTime.now();
-    super.initState();
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      locale: const Locale('ru', 'RU'),
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2025),
-      cancelText: 'Отменить',
-      confirmText: 'Подтвердить',
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: AppColors.primaryColor,
-            colorScheme:
-                const ColorScheme.light(primary: AppColors.primaryColor),
-            buttonTheme:
-                const ButtonThemeData(textTheme: ButtonTextTheme.primary),
-          ),
-          child: child!,
-        );
-      },
-    );
-    if (picked != null && picked != _pickedDateTime) {
-      setState(() {
-        _pickedDateTime = picked;
-      });
-    }
-  }
+  late DateTime _pickedDate;
+  bool _isDateInitialized = false;
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +50,16 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
         AppStyleTextFields.sharedDecoration.copyWith(
       label: const Text('Дата рожднния'),
       suffix: IconButton(
-        onPressed: () => _selectDate(context),
+        onPressed: () async {
+          DateTime? newDate = await selectDate(context, _pickedDate);
+          if (newDate != null) {
+            setState(() {
+              _pickedDate = newDate;
+              _birthDateInputController.text =
+                  _pickedDate.toIso8601String().substring(0, 10);
+            });
+          }
+        },
         icon: const Icon(Icons.calendar_today),
       ),
     );
@@ -123,10 +99,15 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                     final UserModel userdata = snapshot.data!;
 
                     _nameInputController.text = userdata.username;
+                    if (!_isDateInitialized) {
+                      _pickedDate = userdata.birthdate;
+                      _isDateInitialized = true;
+                    }
                     _birthDateInputController.text =
-                        userdata.birthdate.toIso8601String().substring(0, 10);
+                        _pickedDate.toIso8601String().substring(0, 10);
                     _diseaseInputController.text = userdata.deseaseHistory;
-                    _threatmentInputController.text = userdata.threatmentHistory;
+                    _threatmentInputController.text =
+                        userdata.threatmentHistory;
 
                     return Form(
                       key: _formKey,

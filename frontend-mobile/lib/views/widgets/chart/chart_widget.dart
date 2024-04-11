@@ -24,6 +24,7 @@ class _ChartWidgetState extends State<ChartWidget> {
     return showMonthPicker(
       context: context,
       locale: const Locale('ru', 'RU'),
+      lastDate: DateTime.now(),
       initialDate: _selectedDate,
       customHeight: 300,
       customWidth: DeviceScreenConstants.screenWidth * 0.9,

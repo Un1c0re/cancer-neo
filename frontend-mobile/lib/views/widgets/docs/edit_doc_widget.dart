@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:diplom/helpers/datetime_helpers.dart';
 import 'package:diplom/helpers/get_helpers.dart';
 import 'package:diplom/helpers/validate_helpers.dart';
 import 'package:diplom/models/doc_type_model.dart';
@@ -34,10 +35,11 @@ class _EditDocWidgetState extends State<EditDocWidget> {
   final _dateInputController = TextEditingController();
   final _notesInputController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool _isateInitialized = false;
 
   File? docFile;
   Uint8List? docFileBytes;
-  DateTime? _pickedDateTime;
+  late DateTime _pickedDate;
   int? selectedCategoryIndex;
 
   Future<void> selectFile() async {
@@ -57,41 +59,6 @@ class _EditDocWidgetState extends State<EditDocWidget> {
     });
   }
 
-  @override
-  void initState() {
-    _pickedDateTime = DateTime.now();
-    _dateInputController.text = DateTime.now().toString().substring(0, 10);
-    super.initState();
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      locale: const Locale('ru', 'RU'),
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2025),
-      cancelText: 'Отменить',
-      confirmText: 'Подтвердить',
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: AppColors.primaryColor,
-            colorScheme:
-                const ColorScheme.light(primary: AppColors.primaryColor),
-            buttonTheme:
-                const ButtonThemeData(textTheme: ButtonTextTheme.primary),
-          ),
-          child: child!,
-        );
-      },
-    );
-    if (picked != null && picked != _pickedDateTime) {
-      setState(() {
-        _pickedDateTime = picked;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +71,16 @@ class _EditDocWidgetState extends State<EditDocWidget> {
     final dateInputDecoration = AppStyleTextFields.sharedDecoration.copyWith(
       label: const Text('дд.мм.гггг'),
       suffix: IconButton(
-        onPressed: () => _selectDate(context),
+        onPressed: () async {
+          DateTime? newDate = await selectDate(context, _pickedDate);
+          if (newDate != null) {
+            setState(() {
+              _pickedDate = newDate;
+              _dateInputController.text =
+                  _pickedDate.toIso8601String().substring(0, 10);
+            });
+          }
+        },
         icon: const Icon(Icons.calendar_today),
       ),
     );
@@ -160,8 +136,11 @@ class _EditDocWidgetState extends State<EditDocWidget> {
                       final data = snapshot.data!;
                       _nameInputController.text = data.docName;
                       _placeInputController.text = data.docPlace;
-                      _dateInputController.text =
-                          data.docDate.toIso8601String().substring(0, 10);
+                      if(!_isateInitialized) {
+                        _pickedDate = data.docDate;
+                        _isateInitialized = true;
+                      }
+                      _dateInputController.text = _pickedDate.toIso8601String().substring(0, 10);
                       _notesInputController.text = data.docNotes;
                       docFileBytes = data.pdfFile;
 
@@ -186,7 +165,7 @@ class _EditDocWidgetState extends State<EditDocWidget> {
                                   style:
                                       AppButtonStyle.textRoundedButton.copyWith(
                                     backgroundColor: MaterialStatePropertyAll(
-                                        docFile == null
+                                        docFileBytes == null
                                             ? Colors.transparent
                                             : Colors.tealAccent
                                                 .withOpacity(0.4)),
