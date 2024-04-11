@@ -44,7 +44,7 @@ class NumSymptomWidget extends StatelessWidget {
 
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxHeight: DeviceScreenConstants.screenHeight * 0.08,
+        maxHeight: 70,
         maxWidth: DeviceScreenConstants.screenWidth * 0.9,
       ),
       child: AppStyleCard(
