@@ -55,6 +55,7 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Jost',
       ),
+      debugShowCheckedModeBanner: false,
       home: const HomeScreen(),
     );
   }

@@ -2,6 +2,7 @@ import 'package:diplom/helpers/datetime_helpers.dart';
 import 'package:diplom/views/widgets/symptoms/custom_symptom_widget.dart';
 import 'package:diplom/views/widgets/symptoms/num_symptom_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import 'package:diplom/services/database_service.dart';
@@ -111,6 +112,21 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
     setState(() {});
   }
 
+  void _incrementDate() {
+  if (selectedDate.isBefore(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
+    setState(() {
+      selectedDate = selectedDate.add(const Duration(days: 1));
+    });
+  }
+}
+
+
+  void _decrementDate() {
+    setState(() {
+      selectedDate = selectedDate.add(const Duration(days: -1));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Future<List<SymptomDetails>> getSymptomData() async {
@@ -143,19 +159,34 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                   widget.appBarTitle,
                   style: const TextStyle(fontSize: 28),
                 ),
-                TextButton(
-                  style: const ButtonStyle(
-                    padding: MaterialStatePropertyAll(EdgeInsets.zero),
-                    foregroundColor: MaterialStatePropertyAll(
-                        Color.fromARGB(255, 255, 255, 255)),
-                  ),
-                  onPressed: () => _selectDate(context),
-                  child: Text(
-                    customFormat
-                        .format(selectedDate)
-                        .toString()
-                        .substring(0, 10),
-                    style: const TextStyle(fontSize: 20),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 200),
+                  child: Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.keyboard_arrow_left),
+                        onPressed: _decrementDate,
+                      ),
+                      TextButton(
+                        style: const ButtonStyle(
+                          padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                          foregroundColor: MaterialStatePropertyAll(
+                              Color.fromARGB(255, 255, 255, 255)),
+                        ),
+                        onPressed: () => _selectDate(context),
+                        child: Text(
+                          customFormat
+                              .format(selectedDate)
+                              .toString()
+                              .substring(0, 10),
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.keyboard_arrow_right),
+                        onPressed: _incrementDate,
+                      ),
+                    ],
                   ),
                 ),
               ],
