@@ -1,5 +1,6 @@
  import 'dart:typed_data';
 
+import 'package:diplom/helpers/datetime_helpers.dart';
 import 'package:diplom/helpers/get_helpers.dart';
 import 'package:diplom/models/docs_models.dart';
 import 'package:diplom/services/database_service.dart';
@@ -7,7 +8,7 @@ import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_style.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/views/screens/doc/edit_doc_screen.dart';
-import 'package:diplom/views/screens/pdfview/pdfview_screen.dart';
+import 'package:diplom/views/screens/docview/docview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -168,7 +169,7 @@ class _DocDataWidgetState extends State<DocDataWidget> {
                   ),
                 ),
                 Text(
-                  document.docDate.toString().substring(0, 10),
+                  customFormat.format(document.docDate).toString().substring(0, 10),
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w400,
@@ -199,7 +200,7 @@ class _DocDataWidgetState extends State<DocDataWidget> {
                   style: const TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: 20),
-                if (document.pdfFile != null) _DocMiniature(document.pdfFile),
+                if (document.docFile != null) _DocMiniature(document.docFile),
               ],
             ),
           );
@@ -214,7 +215,7 @@ class _DocMiniature extends StatelessWidget {
   const _DocMiniature(this.pdfBytes);
 
   Future<void> _openPdf(Uint8List pdfBytes) async {
-    Get.to(() => PdfViewerScreen(pdfBytes: pdfBytes));
+    Get.to(() => PdfViewerScreen(bytes: pdfBytes));
   }
 
   @override

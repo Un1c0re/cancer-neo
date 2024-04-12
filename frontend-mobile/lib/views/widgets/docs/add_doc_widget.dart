@@ -27,16 +27,21 @@ class AddDocWidget extends StatefulWidget {
 }
 
 class _AddDocWidgetState extends State<AddDocWidget> {
-  final _nameInputController = TextEditingController();
+
+  // TextField Controllers
+  final _nameInputController  = TextEditingController();
   final _placeInputController = TextEditingController();
-  final _dateInputController = TextEditingController();
+  final _dateInputController  = TextEditingController();
   final _notesInputController = TextEditingController();
+  
+  // Form Key to check if validate was success
   final _formKey = GlobalKey<FormState>();
 
-  File? docFile;
-  Uint8List? docFileBytes;
-  late DateTime _pickedDate;
-  int? selectedCategoryIndex;
+  
+  File? docFile;                // file by itself
+  Uint8List? docFileBytes;      // bytes to store in db
+  late DateTime _pickedDate;    // date pick
+  int? selectedTypeIndex;       // type 
 
   Future<void> selectFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -49,9 +54,9 @@ class _AddDocWidgetState extends State<AddDocWidget> {
     }
   }
 
-  void _onCategorySelected(int? index) {
+  void _onTypeSelected(int? index) {
     setState(() {
-      selectedCategoryIndex = index;
+      selectedTypeIndex = index;
     });
   }
 
@@ -62,6 +67,7 @@ class _AddDocWidgetState extends State<AddDocWidget> {
     _dateInputController.text =
         customFormat.format(_pickedDate).toString().substring(0, 10);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +110,7 @@ class _AddDocWidgetState extends State<AddDocWidget> {
         docDate: docDate,
         docPlace: docPlace,
         docNotes: docNotes,
-        pdfFile: docFile,
+        docFile: docFile,
       );
     }
 
@@ -175,9 +181,9 @@ class _AddDocWidgetState extends State<AddDocWidget> {
                           final docTypesList = snapshot.data!;
 
                           return DocumentTypeSelector(
-                            onSelected: _onCategorySelected,
+                            onSelected: _onTypeSelected,
                             docTypes: docTypesList,
-                            currentSelectedIndex: selectedCategoryIndex,
+                            currentSelectedIndex: selectedTypeIndex,
                           );
                         }
                       }),
@@ -227,7 +233,7 @@ class _AddDocWidgetState extends State<AddDocWidget> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         String docName = _nameInputController.text;
-                        int docType = selectedCategoryIndex ?? 1;
+                        int docType = selectedTypeIndex ?? 1;
                         DateTime docDate =
                             customFormat.parse(_dateInputController.text);
                         String docPlace = _placeInputController.text;

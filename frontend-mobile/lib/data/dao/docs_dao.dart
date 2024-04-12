@@ -31,7 +31,7 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
     required DateTime docDate,
     required String   docPlace,
     required String   docNotes,
-    Uint8List?        pdfFile,
+    Uint8List?        docFile,
   }) async {
     // Находим пользователя по имени
     final userQuery = select(users)..where((tbl) => tbl.id.equals(0));
@@ -46,7 +46,7 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
         docDate: Value(docDate),
         docPlace: Value(docPlace),
         docNotes: Value(docNotes),
-        pdfFile: Value(pdfFile),
+        docFile: Value(docFile),
       ));
     }
   }
@@ -58,7 +58,7 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
     DateTime? docDate,
     String? docPlace,
     String? docNotes,
-    Uint8List? pdfFile,
+    Uint8List? docFile,
   }) async {
     final docEntry = DocsCompanion(
       id: Value(docId),
@@ -67,7 +67,7 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
       docDate: docDate != null ? Value(docDate) : const Value.absent(),
       docPlace: docPlace != null ? Value(docPlace) : const Value.absent(),
       docNotes: docNotes != null ? Value(docNotes) : const Value.absent(),
-      pdfFile: pdfFile != null ? Value(pdfFile) : const Value.absent(),
+      docFile: docFile != null ? Value(docFile) : const Value.absent(),
     );
 
     await (update(docs)..where((tbl) => tbl.id.equals(docId))).write(docEntry);

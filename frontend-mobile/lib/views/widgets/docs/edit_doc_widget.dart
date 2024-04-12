@@ -103,7 +103,7 @@ class _EditDocWidgetState extends State<EditDocWidget> {
         docDate: docDate,
         docPlace: docPlace,
         docNotes: docNotes,
-        pdfFile: docFile,
+        docFile: docFile,
       );
     }
 
@@ -143,8 +143,8 @@ class _EditDocWidgetState extends State<EditDocWidget> {
                       }
                       _dateInputController.text = customFormat.format(_pickedDate).toString().substring(0, 10);
                       _notesInputController.text = data.docNotes;
-                      if (data.pdfFile != null && !_isFileLoaded) {
-                        docFileBytes = data.pdfFile;
+                      if (data.docFile != null && !_isFileLoaded) {
+                        docFileBytes = data.docFile;
                         _isFileLoaded = true;
                       }
 

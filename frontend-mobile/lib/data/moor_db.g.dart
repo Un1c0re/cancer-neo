@@ -480,7 +480,7 @@ class Doc extends DataClass implements Insertable<Doc> {
   final DateTime? docDate;
   final String docPlace;
   final String docNotes;
-  final Uint8List? pdfFile;
+  final Uint8List? docFile;
   Doc(
       {required this.id,
       required this.ownerId,
@@ -489,7 +489,7 @@ class Doc extends DataClass implements Insertable<Doc> {
       this.docDate,
       required this.docPlace,
       required this.docNotes,
-      this.pdfFile});
+      this.docFile});
   factory Doc.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -508,8 +508,8 @@ class Doc extends DataClass implements Insertable<Doc> {
           .mapFromDatabaseResponse(data['${effectivePrefix}doc_place'])!,
       docNotes: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}doc_notes'])!,
-      pdfFile: const BlobType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}pdf_file']),
+      docFile: const BlobType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}doc_file']),
     );
   }
   @override
@@ -524,8 +524,8 @@ class Doc extends DataClass implements Insertable<Doc> {
     }
     map['doc_place'] = Variable<String>(docPlace);
     map['doc_notes'] = Variable<String>(docNotes);
-    if (!nullToAbsent || pdfFile != null) {
-      map['pdf_file'] = Variable<Uint8List?>(pdfFile);
+    if (!nullToAbsent || docFile != null) {
+      map['doc_file'] = Variable<Uint8List?>(docFile);
     }
     return map;
   }
@@ -541,9 +541,9 @@ class Doc extends DataClass implements Insertable<Doc> {
           : Value(docDate),
       docPlace: Value(docPlace),
       docNotes: Value(docNotes),
-      pdfFile: pdfFile == null && nullToAbsent
+      docFile: docFile == null && nullToAbsent
           ? const Value.absent()
-          : Value(pdfFile),
+          : Value(docFile),
     );
   }
 
@@ -558,7 +558,7 @@ class Doc extends DataClass implements Insertable<Doc> {
       docDate: serializer.fromJson<DateTime?>(json['docDate']),
       docPlace: serializer.fromJson<String>(json['docPlace']),
       docNotes: serializer.fromJson<String>(json['docNotes']),
-      pdfFile: serializer.fromJson<Uint8List?>(json['pdfFile']),
+      docFile: serializer.fromJson<Uint8List?>(json['docFile']),
     );
   }
   @override
@@ -572,7 +572,7 @@ class Doc extends DataClass implements Insertable<Doc> {
       'docDate': serializer.toJson<DateTime?>(docDate),
       'docPlace': serializer.toJson<String>(docPlace),
       'docNotes': serializer.toJson<String>(docNotes),
-      'pdfFile': serializer.toJson<Uint8List?>(pdfFile),
+      'docFile': serializer.toJson<Uint8List?>(docFile),
     };
   }
 
@@ -584,7 +584,7 @@ class Doc extends DataClass implements Insertable<Doc> {
           DateTime? docDate,
           String? docPlace,
           String? docNotes,
-          Uint8List? pdfFile}) =>
+          Uint8List? docFile}) =>
       Doc(
         id: id ?? this.id,
         ownerId: ownerId ?? this.ownerId,
@@ -593,7 +593,7 @@ class Doc extends DataClass implements Insertable<Doc> {
         docDate: docDate ?? this.docDate,
         docPlace: docPlace ?? this.docPlace,
         docNotes: docNotes ?? this.docNotes,
-        pdfFile: pdfFile ?? this.pdfFile,
+        docFile: docFile ?? this.docFile,
       );
   @override
   String toString() {
@@ -605,14 +605,14 @@ class Doc extends DataClass implements Insertable<Doc> {
           ..write('docDate: $docDate, ')
           ..write('docPlace: $docPlace, ')
           ..write('docNotes: $docNotes, ')
-          ..write('pdfFile: $pdfFile')
+          ..write('docFile: $docFile')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode => Object.hash(
-      id, ownerId, docName, docType, docDate, docPlace, docNotes, pdfFile);
+      id, ownerId, docName, docType, docDate, docPlace, docNotes, docFile);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -624,7 +624,7 @@ class Doc extends DataClass implements Insertable<Doc> {
           other.docDate == this.docDate &&
           other.docPlace == this.docPlace &&
           other.docNotes == this.docNotes &&
-          other.pdfFile == this.pdfFile);
+          other.docFile == this.docFile);
 }
 
 class DocsCompanion extends UpdateCompanion<Doc> {
@@ -635,7 +635,7 @@ class DocsCompanion extends UpdateCompanion<Doc> {
   final Value<DateTime?> docDate;
   final Value<String> docPlace;
   final Value<String> docNotes;
-  final Value<Uint8List?> pdfFile;
+  final Value<Uint8List?> docFile;
   const DocsCompanion({
     this.id = const Value.absent(),
     this.ownerId = const Value.absent(),
@@ -644,7 +644,7 @@ class DocsCompanion extends UpdateCompanion<Doc> {
     this.docDate = const Value.absent(),
     this.docPlace = const Value.absent(),
     this.docNotes = const Value.absent(),
-    this.pdfFile = const Value.absent(),
+    this.docFile = const Value.absent(),
   });
   DocsCompanion.insert({
     this.id = const Value.absent(),
@@ -654,7 +654,7 @@ class DocsCompanion extends UpdateCompanion<Doc> {
     this.docDate = const Value.absent(),
     required String docPlace,
     required String docNotes,
-    this.pdfFile = const Value.absent(),
+    this.docFile = const Value.absent(),
   })  : ownerId = Value(ownerId),
         docName = Value(docName),
         docType = Value(docType),
@@ -668,7 +668,7 @@ class DocsCompanion extends UpdateCompanion<Doc> {
     Expression<DateTime?>? docDate,
     Expression<String>? docPlace,
     Expression<String>? docNotes,
-    Expression<Uint8List?>? pdfFile,
+    Expression<Uint8List?>? docFile,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -678,7 +678,7 @@ class DocsCompanion extends UpdateCompanion<Doc> {
       if (docDate != null) 'doc_date': docDate,
       if (docPlace != null) 'doc_place': docPlace,
       if (docNotes != null) 'doc_notes': docNotes,
-      if (pdfFile != null) 'pdf_file': pdfFile,
+      if (docFile != null) 'doc_file': docFile,
     });
   }
 
@@ -690,7 +690,7 @@ class DocsCompanion extends UpdateCompanion<Doc> {
       Value<DateTime?>? docDate,
       Value<String>? docPlace,
       Value<String>? docNotes,
-      Value<Uint8List?>? pdfFile}) {
+      Value<Uint8List?>? docFile}) {
     return DocsCompanion(
       id: id ?? this.id,
       ownerId: ownerId ?? this.ownerId,
@@ -699,7 +699,7 @@ class DocsCompanion extends UpdateCompanion<Doc> {
       docDate: docDate ?? this.docDate,
       docPlace: docPlace ?? this.docPlace,
       docNotes: docNotes ?? this.docNotes,
-      pdfFile: pdfFile ?? this.pdfFile,
+      docFile: docFile ?? this.docFile,
     );
   }
 
@@ -727,8 +727,8 @@ class DocsCompanion extends UpdateCompanion<Doc> {
     if (docNotes.present) {
       map['doc_notes'] = Variable<String>(docNotes.value);
     }
-    if (pdfFile.present) {
-      map['pdf_file'] = Variable<Uint8List?>(pdfFile.value);
+    if (docFile.present) {
+      map['doc_file'] = Variable<Uint8List?>(docFile.value);
     }
     return map;
   }
@@ -743,7 +743,7 @@ class DocsCompanion extends UpdateCompanion<Doc> {
           ..write('docDate: $docDate, ')
           ..write('docPlace: $docPlace, ')
           ..write('docNotes: $docNotes, ')
-          ..write('pdfFile: $pdfFile')
+          ..write('docFile: $docFile')
           ..write(')'))
         .toString();
   }
@@ -795,14 +795,14 @@ class $DocsTable extends Docs with TableInfo<$DocsTable, Doc> {
   late final GeneratedColumn<String?> docNotes = GeneratedColumn<String?>(
       'doc_notes', aliasedName, false,
       type: const StringType(), requiredDuringInsert: true);
-  final VerificationMeta _pdfFileMeta = const VerificationMeta('pdfFile');
+  final VerificationMeta _docFileMeta = const VerificationMeta('docFile');
   @override
-  late final GeneratedColumn<Uint8List?> pdfFile = GeneratedColumn<Uint8List?>(
-      'pdf_file', aliasedName, true,
+  late final GeneratedColumn<Uint8List?> docFile = GeneratedColumn<Uint8List?>(
+      'doc_file', aliasedName, true,
       type: const BlobType(), requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, ownerId, docName, docType, docDate, docPlace, docNotes, pdfFile];
+      [id, ownerId, docName, docType, docDate, docPlace, docNotes, docFile];
   @override
   String get aliasedName => _alias ?? 'docs';
   @override
@@ -849,9 +849,9 @@ class $DocsTable extends Docs with TableInfo<$DocsTable, Doc> {
     } else if (isInserting) {
       context.missing(_docNotesMeta);
     }
-    if (data.containsKey('pdf_file')) {
-      context.handle(_pdfFileMeta,
-          pdfFile.isAcceptableOrUnknown(data['pdf_file']!, _pdfFileMeta));
+    if (data.containsKey('doc_file')) {
+      context.handle(_docFileMeta,
+          docFile.isAcceptableOrUnknown(data['doc_file']!, _docFileMeta));
     }
     return context;
   }

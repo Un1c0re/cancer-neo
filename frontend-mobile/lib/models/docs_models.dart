@@ -7,7 +7,7 @@ class DocModel {
   final DateTime docDate;
   final String docPlace;
   final String docNotes;
-  final Uint8List? pdfFile;
+  final Uint8List? docFile;
 
   DocModel({
     required this.id, 
@@ -16,7 +16,7 @@ class DocModel {
     required this.docDate, 
     required this.docPlace, 
     required this.docNotes,
-    required this.pdfFile,
+    required this.docFile,
   });
 
   factory DocModel.fromMap(Map<String, dynamic> map) {
@@ -27,7 +27,7 @@ class DocModel {
       docDate:  DateTime.fromMillisecondsSinceEpoch(map['docDate'] as int),
       docPlace: map['docPlace'] as String,
       docNotes: map['docNotes'] as String,
-      pdfFile: map['pdfFile'] as Uint8List?,
+      docFile: map['docFile'] as Uint8List?,
     );
   }
 
@@ -39,7 +39,7 @@ class DocModel {
       'docDate': docDate,
       'docPlace': docPlace,
       'docNotes': docNotes,
-      'pdfFile': pdfFile,
+      'docFile': docFile,
     };
   }
 }

@@ -46,6 +46,7 @@ dependencies:
   pdf: ^3.10.8
   flutter_full_pdf_viewer_null_safe: ^1.0.0
   intl: ^0.18.1
+  image: ^4.1.7
   
   
   # Backend dependencies
@@ -75,6 +76,8 @@ dependencies:
   meta: ^1.10.0
   bloc: ^8.1.2
   syncfusion_localizations: ^23.2.7
+  pdf_viewer_plugin: ^2.0.1
+  mime: ^1.0.5
 
 dev_dependencies:
   flutter_test:

@@ -51,7 +51,7 @@ class Docs extends Table {
   DateTimeColumn get docDate => dateTime().nullable()();
   TextColumn get docPlace => text()();
   TextColumn get docNotes => text()();
-  BlobColumn get pdfFile => blob().nullable()();
+  BlobColumn get docFile => blob().nullable()();
 }
 
 ////////////////////////////////// SYMPTOMS ///////////////////////////////////
