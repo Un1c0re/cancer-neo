@@ -5,8 +5,8 @@ class EditSymptomScreen extends StatefulWidget {
   final Function onUpdate;
   final String oldName;
   const EditSymptomScreen({
-    super.key, 
-    required this.onUpdate, 
+    super.key,
+    required this.onUpdate,
     required this.oldName,
   });
 
@@ -19,7 +19,12 @@ class _EditSymptomScreenState extends State<EditSymptomScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Изменить симптом'),
+        title: const Text(
+          'Изменить симптом',
+          style: TextStyle(
+            fontSize: 26,
+          ),
+        ),
         centerTitle: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -30,7 +35,8 @@ class _EditSymptomScreenState extends State<EditSymptomScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
-        child: EditSymptomWidget(onUpdate: widget.onUpdate, oldName: widget.oldName),
+        child: EditSymptomWidget(
+            onUpdate: widget.onUpdate, oldName: widget.oldName),
       ),
     );
   }

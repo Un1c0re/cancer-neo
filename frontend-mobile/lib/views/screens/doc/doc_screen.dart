@@ -16,7 +16,6 @@ class DocScreen extends StatefulWidget {
 }
 
 class _DocScreenState extends State<DocScreen> {
-
   void _updateData() {
     widget.onUpdate();
     setState(() {});
@@ -26,7 +25,12 @@ class _DocScreenState extends State<DocScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Просмотр документа'),
+        title: const Text(
+          'Просмотр документа',
+          style: TextStyle(
+            fontSize: 26,
+          ),
+        ),
         centerTitle: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

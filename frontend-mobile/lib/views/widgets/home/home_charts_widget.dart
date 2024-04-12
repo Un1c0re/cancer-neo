@@ -76,7 +76,7 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
             children: [
               Text(
                 widget.appBarTitle,
-                style: const TextStyle(fontSize: 28),
+                style: const TextStyle(fontSize: 26),
               ),
               TextButton(
                 style: const ButtonStyle(

@@ -31,7 +31,7 @@ class _HomeProfileWidgetState extends State<HomeProfileWidget> {
       appBar: AppBar(
         title: Text(
           widget.appBarTitle,
-          style: const TextStyle(fontSize: 28),
+          style: const TextStyle(fontSize: 26),
         ),
         centerTitle: true,
         shape: const RoundedRectangleBorder(

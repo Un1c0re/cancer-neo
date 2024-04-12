@@ -28,25 +28,25 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedTab = 1;
   static const List<String> titles = [
+    'Документы',
     'Динамика',
     'Контроль',
-    'Документы',
     'все о НЭО',
     'Профиль',
   ];
 
   static final List<Widget> _widgetTabs = <Widget>[
-    HomeChartsWidget(appBarTitle: titles[0]),
-    SymptomsWidget(appBarTitle: titles[1]),
-    HomeDocsWidget(appBarTitle: titles[2]),
+    HomeDocsWidget(appBarTitle: titles[0]),
+    HomeChartsWidget(appBarTitle: titles[1]),
+    SymptomsWidget(appBarTitle: titles[2]),
     const HomeNeoWidget(),
     HomeProfileWidget(appBarTitle: titles[4]),
   ];
 
   static final List<NavContent> content = [
-    NavContent(titles[0], AppStyleIcons.leaderboard),
-    NavContent(titles[1], AppIcons.heart),
-    NavContent(titles[2], AppIcons.file),
+    NavContent(titles[0], AppIcons.file),
+    NavContent(titles[1], AppStyleIcons.leaderboard),
+    NavContent(titles[2], AppIcons.heart),
     NavContent(titles[3], AppIcons.lightbulb),
     NavContent(titles[4], AppStyleIcons.user_alt),
   ];

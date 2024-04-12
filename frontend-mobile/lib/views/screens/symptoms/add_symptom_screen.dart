@@ -14,7 +14,12 @@ class _AddSymptomScreenState extends State<AddSymptomScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Добавить симптом'),
+        title: const Text(
+          'Добавить симптом',
+          style: TextStyle(
+            fontSize: 26,
+          ),
+        ),
         centerTitle: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

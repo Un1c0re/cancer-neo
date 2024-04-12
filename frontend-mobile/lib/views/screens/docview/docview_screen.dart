@@ -30,7 +30,12 @@ class PdfViewerScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.activeColor,
-        title: const Text('Просмотр документа'),
+        title: const Text(
+          'Просмотр документа',
+          style: TextStyle(
+            fontSize: 26,
+          ),
+        ),
         centerTitle: true,
       ),
       body: docView,

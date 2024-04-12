@@ -1,7 +1,6 @@
 import 'package:diplom/views/widgets/profile/community_widget.dart';
 import 'package:flutter/material.dart';
 
-
 class CommunityScreen extends StatefulWidget {
   const CommunityScreen({super.key});
 
@@ -14,7 +13,12 @@ class _CommunityScreenState extends State<CommunityScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Сообщества'),
+        title: const Text(
+          'Сообщества',
+          style: TextStyle(
+            fontSize: 26,
+          ),
+        ),
         centerTitle: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

@@ -4,7 +4,7 @@ import '../../widgets/docs/add_doc_widget.dart';
 class AddDocScreen extends StatefulWidget {
   final Function onUpdate;
   const AddDocScreen({
-    super.key, 
+    super.key,
     required this.onUpdate,
   });
 
@@ -17,7 +17,12 @@ class _AddDocScreenState extends State<AddDocScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Добавить документ'),
+        title: const Text(
+          'Добавить документ',
+          style: TextStyle(
+            fontSize: 26,
+          ),
+        ),
         centerTitle: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

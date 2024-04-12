@@ -1,7 +1,6 @@
 import 'package:diplom/views/widgets/profile/help_widget.dart';
 import 'package:flutter/material.dart';
 
-
 class HelpScreen extends StatefulWidget {
   const HelpScreen({super.key});
 
@@ -14,7 +13,12 @@ class _HelpScreenState extends State<HelpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Руководство'),
+        title: const Text(
+          'Руководство',
+          style: TextStyle(
+            fontSize: 26,
+          ),
+        ),
         centerTitle: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

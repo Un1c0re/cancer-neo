@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class ProfileCardScreen extends StatefulWidget {
   final Function onUpdate;
   const ProfileCardScreen({
-    super.key, 
+    super.key,
     required this.onUpdate,
   });
 
@@ -17,7 +17,12 @@ class _ProfileScreenState extends State<ProfileCardScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Карточка пациента', style:TextStyle(fontSize: 28)),
+        title: const Text(
+          'Карточка пациента',
+          style: TextStyle(
+            fontSize: 26,
+          ),
+        ),
         centerTitle: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

@@ -6,7 +6,7 @@ class EditProfileScreen extends StatefulWidget {
   final Function onUpdate;
 
   const EditProfileScreen({
-    super.key, 
+    super.key,
     required this.onUpdate,
   });
 
@@ -19,7 +19,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Редактирование профиля'),
+        title: const Text(
+          'Изменить профиль',
+          style: TextStyle(
+            fontSize: 26,
+          ),
+        ),
         centerTitle: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

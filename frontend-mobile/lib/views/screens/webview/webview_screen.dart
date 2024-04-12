@@ -4,16 +4,13 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class WebViewScreen extends StatefulWidget {
   final String url;
-  const WebViewScreen({
-    super.key, 
-    required this.url});
+  const WebViewScreen({super.key, required this.url});
 
   @override
   State<WebViewScreen> createState() => _WebViewScreenState();
 }
 
 class _WebViewScreenState extends State<WebViewScreen> {
-  
   double _progress = 0;
   late InAppWebViewController inAppWebViewController;
 
@@ -22,33 +19,40 @@ class _WebViewScreenState extends State<WebViewScreen> {
     final url = widget.url;
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppColors.activeColor,
-        title: const Text('Внешние ресурсы'),
-        centerTitle: true,
-      ),
-        body: Stack(
-          children: [
-            InAppWebView(
-              initialUrlRequest: URLRequest(
-                url: WebUri.uri(Uri.parse(url)),
+          appBar: AppBar(
+            backgroundColor: AppColors.activeColor,
+            title: const Text(
+              'Внешние ресурсы',
+              style: TextStyle(
+                fontSize: 26,
               ),
-              onWebViewCreated: (InAppWebViewController controller) {
-                inAppWebViewController = controller;
-              },
-              onProgressChanged: (InAppWebViewController contorller, int progress) {
-                setState(() {
-                  _progress = progress / 100;
-                });
-              },
             ),
-            _progress < 1 ? LinearProgressIndicator(
-              color: AppColors.primaryColor,
-              value: _progress,
-            ): const SizedBox(),
-          ],
-        )
-      ),
+            centerTitle: true,
+          ),
+          body: Stack(
+            children: [
+              InAppWebView(
+                initialUrlRequest: URLRequest(
+                  url: WebUri.uri(Uri.parse(url)),
+                ),
+                onWebViewCreated: (InAppWebViewController controller) {
+                  inAppWebViewController = controller;
+                },
+                onProgressChanged:
+                    (InAppWebViewController contorller, int progress) {
+                  setState(() {
+                    _progress = progress / 100;
+                  });
+                },
+              ),
+              _progress < 1
+                  ? LinearProgressIndicator(
+                      color: AppColors.primaryColor,
+                      value: _progress,
+                    )
+                  : const SizedBox(),
+            ],
+          )),
     );
   }
 }

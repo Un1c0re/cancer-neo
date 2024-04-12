@@ -157,7 +157,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
               children: [
                 Text(
                   widget.appBarTitle,
-                  style: const TextStyle(fontSize: 28),
+                  style: const TextStyle(fontSize: 26),
                 ),
                 ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 200),

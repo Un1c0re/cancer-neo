@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 class EditDocScreen extends StatefulWidget {
   final int docID;
   final Function onUpdate;
-  
+
   const EditDocScreen({
-    super.key, 
+    super.key,
     required this.docID,
     required this.onUpdate,
   });
@@ -20,7 +20,12 @@ class _EditDocScreenState extends State<EditDocScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Изменить документ'),
+        title: const Text(
+          'Изменить документ',
+          style: TextStyle(
+            fontSize: 26,
+          ),
+        ),
         centerTitle: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
