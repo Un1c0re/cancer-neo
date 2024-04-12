@@ -12,10 +12,24 @@ import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/utils/constants.dart';
 
 
-class ProfileCardWidget extends StatelessWidget {
-  const ProfileCardWidget({super.key});
+class ProfileCardWidget extends StatefulWidget {
+  final Function onUpdate;
+  const ProfileCardWidget({
+    super.key, 
+    required this.onUpdate,
+  });
 
-  void _getEdit() => Get.to(() => const EditProfileScreen());
+  @override
+  State<ProfileCardWidget> createState() => _ProfileCardWidgetState();
+}
+
+class _ProfileCardWidgetState extends State<ProfileCardWidget> {
+  void _getEdit() => Get.to(() => EditProfileScreen(onUpdate: _updateData));
+
+  void _updateData() {
+    widget.onUpdate();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 import '../../widgets/profile/edit_profile_widget.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({super.key});
+  final Function onUpdate;
+
+  const EditProfileScreen({
+    super.key, 
+    required this.onUpdate,
+  });
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
@@ -23,9 +28,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           ),
         ),
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(10),
-        child: EditProfileWidget(),
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: EditProfileWidget(onUpdate: widget.onUpdate),
       ),
     );
   }

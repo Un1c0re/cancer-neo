@@ -11,7 +11,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class EditProfileWidget extends StatefulWidget {
-  const EditProfileWidget({super.key});
+  final Function onUpdate;
+  const EditProfileWidget({
+    super.key, 
+    required this.onUpdate,
+  });
 
   @override
   State<EditProfileWidget> createState() => _EditProfileWidgetState();
@@ -176,6 +180,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                           _threatmentInputController.text,
                         );
                         editAction('Профиль изменен');
+                        widget.onUpdate();
                       }
                     },
                     child: const Text('Подтвердить'),

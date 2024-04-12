@@ -70,7 +70,11 @@ class _ProfileCard extends StatefulWidget {
 class _ProfileCardState extends State<_ProfileCard> {
   bool isDataFetched = false;
 
-  void _checkProfileCard() => Get.to(() => const ProfileCardScreen());
+  void _updateData() {
+    setState(() {});
+  }
+
+  void _checkProfileCard() => Get.to(() => ProfileCardScreen(onUpdate: _updateData));
 
   @override
   Widget build(BuildContext context) {

@@ -61,7 +61,6 @@ class _EditDocWidgetState extends State<EditDocWidget> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     final DatabaseService service = Get.find();
