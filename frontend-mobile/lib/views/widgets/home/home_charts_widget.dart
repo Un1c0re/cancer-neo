@@ -10,14 +10,15 @@ import '../../../utils/app_style.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
-class ChartWidget extends StatefulWidget {
+class HomeChartsWidget extends StatefulWidget {
+  final String appBarTitle;
 
-  const ChartWidget({super.key});
+  const HomeChartsWidget({super.key, required this.appBarTitle});
   @override
-  State<ChartWidget> createState() => _ChartWidgetState();
+  State<HomeChartsWidget> createState() => _HomeChartsWidgetState();
 }
 
-class _ChartWidgetState extends State<ChartWidget> {
+class _HomeChartsWidgetState extends State<HomeChartsWidget> {
   DateTime _selectedDate = DateTime.now();
 
   Future<void> _selectMonthYear(BuildContext context) async {
@@ -69,14 +70,17 @@ class _ChartWidgetState extends State<ChartWidget> {
             maxWidth: 400,
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Динамика', style: TextStyle(fontSize: 28),),
+              Text(
+                widget.appBarTitle,
+                style: const TextStyle(fontSize: 28),
+              ),
               TextButton(
                 style: const ButtonStyle(
                   padding: MaterialStatePropertyAll(EdgeInsets.zero),
-                  foregroundColor:
-                      MaterialStatePropertyAll(Color.fromARGB(255, 255, 255, 255)),
+                  foregroundColor: MaterialStatePropertyAll(
+                      Color.fromARGB(255, 255, 255, 255)),
                 ),
                 onPressed: () => _selectMonthYear(context),
                 child: Text(

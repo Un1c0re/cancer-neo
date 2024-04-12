@@ -17,7 +17,11 @@ import 'package:diplom/views/widgets/symptoms/bool_symptom_widget.dart';
 import 'package:diplom/views/widgets/symptoms/grade_symptom_widget.dart';
 
 class SymptomsWidget extends StatefulWidget {
-  const SymptomsWidget({super.key});
+  final String appBarTitle;
+  const SymptomsWidget({
+    super.key,
+    required this.appBarTitle,
+  });
 
   @override
   State<SymptomsWidget> createState() => _SymptomsWidgetState();
@@ -133,21 +137,25 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
               maxWidth: 400,
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Наблюдения', style: TextStyle(fontSize: 28),),
-                Expanded(
-                  child: TextButton(
-                    style: const ButtonStyle(
-                      padding: MaterialStatePropertyAll(EdgeInsets.zero),
-                      foregroundColor: MaterialStatePropertyAll(
-                          Color.fromARGB(255, 255, 255, 255)),
-                    ),
-                    onPressed: () => _selectDate(context),
-                    child: Text(
-                      customFormat.format(selectedDate).toString().substring(0, 10),
-                      style: const TextStyle(fontSize: 20),
-                    ),
+                Text(
+                  widget.appBarTitle,
+                  style: const TextStyle(fontSize: 28),
+                ),
+                TextButton(
+                  style: const ButtonStyle(
+                    padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                    foregroundColor: MaterialStatePropertyAll(
+                        Color.fromARGB(255, 255, 255, 255)),
+                  ),
+                  onPressed: () => _selectDate(context),
+                  child: Text(
+                    customFormat
+                        .format(selectedDate)
+                        .toString()
+                        .substring(0, 10),
+                    style: const TextStyle(fontSize: 20),
                   ),
                 ),
               ],
@@ -214,7 +222,8 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                             );
                             gradeIndex++;
                           }
-                          combinedSymptomsWidgets.add(const SizedBox(height: 20));
+                          combinedSymptomsWidgets
+                              .add(const SizedBox(height: 20));
                           // Добавляем две строки с BoolSymptomWidget, если они доступны
                           List<Widget> rowWidgets = [];
                           for (int i = 0;
@@ -236,7 +245,8 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                                   children: List.from(rowWidgets)));
                               rowWidgets.clear();
                             }
-                            combinedSymptomsWidgets.add(const SizedBox(height: 20));
+                            combinedSymptomsWidgets
+                                .add(const SizedBox(height: 20));
                           }
                         }
                         while (numIndex < numSymptoms.length) {
@@ -246,7 +256,8 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                             value: numSymptoms[numIndex].symptomValue,
                           ));
                           numIndex++;
-                          combinedSymptomsWidgets.add(const SizedBox(height: 20));
+                          combinedSymptomsWidgets
+                              .add(const SizedBox(height: 20));
                         }
                         while (customIndex < customSymptoms.length) {
                           combinedSymptomsWidgets.add(CustomSymptomWidget(
@@ -256,7 +267,8 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                             onUpdate: updateData,
                           ));
                           customIndex++;
-                          combinedSymptomsWidgets.add(const SizedBox(height: 20));
+                          combinedSymptomsWidgets
+                              .add(const SizedBox(height: 20));
                         }
                         return ConstrainedBox(
                           constraints: BoxConstraints(

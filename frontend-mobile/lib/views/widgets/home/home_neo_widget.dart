@@ -4,16 +4,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-class WebInfoWidget extends StatefulWidget {
-  const WebInfoWidget({
+class HomeNeoWidget extends StatefulWidget {
+  const HomeNeoWidget({
     super.key,
   });
 
   @override
-  State<WebInfoWidget> createState() => _WebInfoWidgetState();
+  State<HomeNeoWidget> createState() => _HomeNeoWidgetState();
 }
 
-class _WebInfoWidgetState extends State<WebInfoWidget> {
+class _HomeNeoWidgetState extends State<HomeNeoWidget> {
   double _progress = 0;
   late InAppWebViewController inAppWebViewController;
 

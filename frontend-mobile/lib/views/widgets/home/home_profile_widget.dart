@@ -13,19 +13,26 @@ import 'package:diplom/utils/app_style.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/utils/app_colors.dart';
 
-class SettingsWidget extends StatefulWidget {
-  const SettingsWidget({super.key});
+class HomeProfileWidget extends StatefulWidget {
+  final String appBarTitle;
+  const HomeProfileWidget({
+    super.key,
+    required this.appBarTitle,
+  });
 
   @override
-  State<SettingsWidget> createState() => _SettingsWidgetState();
+  State<HomeProfileWidget> createState() => _HomeProfileWidgetState();
 }
 
-class _SettingsWidgetState extends State<SettingsWidget> {
+class _HomeProfileWidgetState extends State<HomeProfileWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Профиль'),
+        title: Text(
+          widget.appBarTitle,
+          style: const TextStyle(fontSize: 28),
+        ),
         centerTitle: true,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

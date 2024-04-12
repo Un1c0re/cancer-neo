@@ -9,14 +9,15 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../utils/constants.dart';
 import '../../screens/doc/add_doc_screen.dart';
 
-class DocsListWidget extends StatefulWidget {
-  const DocsListWidget({super.key});
+class HomeDocsWidget extends StatefulWidget {
+  final String appBarTitle;
+  const HomeDocsWidget({super.key, required this.appBarTitle});
 
   @override
-  State<DocsListWidget> createState() => _DocsListWidgetState();
+  State<HomeDocsWidget> createState() => _HomeDocsWidgetState();
 }
 
-class _DocsListWidgetState extends State<DocsListWidget> {
+class _HomeDocsWidgetState extends State<HomeDocsWidget> {
   var _filteredData = <DocSummaryModel>[];
 
   final DateRangePickerController _pickerController =
@@ -122,11 +123,11 @@ class _DocsListWidgetState extends State<DocsListWidget> {
             children: [
               Expanded(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      'Документы',
-                      style: TextStyle(fontSize: 28),
+                    Text(
+                      widget.appBarTitle,
+                      style: const TextStyle(fontSize: 28),
                     ),
                     ConstrainedBox(
                       constraints: const BoxConstraints(maxWidth: 100),
