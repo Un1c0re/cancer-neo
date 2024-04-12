@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedTab = 1;
   static const List<String> titles = [
     'Динамика',
-    'Наблюдения',
+    'Контроль',
     'Документы',
     'все о НЭО',
     'Профиль',

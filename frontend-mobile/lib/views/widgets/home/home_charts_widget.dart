@@ -62,7 +62,8 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
   Widget build(BuildContext context) {
     String formattedDate = DateFormat.yMMMM(const Locale('ru', 'RU').toString())
         .format(_selectedDate);
-
+    formattedDate = formattedDate.substring(0, formattedDate.length - 2);
+    
     return Scaffold(
       appBar: AppBar(
         title: Container(

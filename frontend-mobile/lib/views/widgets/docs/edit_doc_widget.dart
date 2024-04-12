@@ -36,6 +36,7 @@ class _EditDocWidgetState extends State<EditDocWidget> {
   final _notesInputController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isateInitialized = false;
+  bool _isFileLoaded = false;
 
   File? docFile;
   Uint8List? docFileBytes;
@@ -48,6 +49,7 @@ class _EditDocWidgetState extends State<EditDocWidget> {
     if (result != null) {
       docFile = File(result.files.single.path!);
       docFileBytes = await docFile!.readAsBytes();
+      _isFileLoaded = true;
 
       setState(() {});
     }
@@ -77,7 +79,7 @@ class _EditDocWidgetState extends State<EditDocWidget> {
             setState(() {
               _pickedDate = newDate;
               _dateInputController.text =
-                  _pickedDate.toIso8601String().substring(0, 10);
+                  customFormat.format(_pickedDate).toString().substring(0, 10);
             });
           }
         },
@@ -140,9 +142,12 @@ class _EditDocWidgetState extends State<EditDocWidget> {
                         _pickedDate = data.docDate;
                         _isateInitialized = true;
                       }
-                      _dateInputController.text = _pickedDate.toIso8601String().substring(0, 10);
+                      _dateInputController.text = customFormat.format(_pickedDate).toString().substring(0, 10);
                       _notesInputController.text = data.docNotes;
-                      docFileBytes = data.pdfFile;
+                      if (data.pdfFile != null && !_isFileLoaded) {
+                        docFileBytes = data.pdfFile;
+                        _isFileLoaded = true;
+                      }
 
                       return Form(
                         key: _formKey,
@@ -258,7 +263,7 @@ class _EditDocWidgetState extends State<EditDocWidget> {
                         String docName = _nameInputController.text;
                         int docType = selectedCategoryIndex ?? 1;
                         DateTime docDate =
-                            DateTime.parse(_dateInputController.text);
+                            customFormat.parse(_dateInputController.text);
                         String docPlace = _placeInputController.text;
                         String docNote = _notesInputController.text;
 
