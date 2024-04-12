@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-import '../../../utils/app_style.dart';
 import '../../../utils/constants.dart';
 import '../../screens/doc/add_doc_screen.dart';
 
@@ -49,7 +48,6 @@ class _DocsListWidgetState extends State<DocsListWidget> {
       _selectedRange = _pickerController.selectedRange;
     }
   }
-
 
   Future _showCalendar(BuildContext context) {
     return showDialog<DateRangePickerController>(
@@ -118,26 +116,45 @@ class _DocsListWidgetState extends State<DocsListWidget> {
       appBar: AppBar(
         title: ConstrainedBox(
           constraints: const BoxConstraints(
-            maxWidth: 250,
+            maxWidth: 400,
           ),
           child: Row(
             children: [
               Expanded(
-                child: TextButton(
-                  style: const ButtonStyle(
-                    foregroundColor: MaterialStatePropertyAll(Colors.white),
-                  ),
-                  onPressed: () => _showCalendar(context),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Icon(Icons.calendar_today_outlined),
-                      Text(
-                        'Отфильтровать по дате',
-                        style: TextStyle(fontSize: 18),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Text(
+                      'Документы',
+                      style: TextStyle(fontSize: 28),
+                    ),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 100),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            style: const ButtonStyle(
+                              foregroundColor:
+                                  MaterialStatePropertyAll(Colors.white),
+                            ),
+                            onPressed: () => _showCalendar(context),
+                            icon: const Icon(Icons.calendar_today_outlined),
+                          ),
+                          IconButton(
+                            style: const ButtonStyle(
+                              foregroundColor:
+                                  MaterialStatePropertyAll(Colors.white),
+                            ),
+                            onPressed: () => _addDoc(),
+                            icon: const Icon(
+                              Icons.add,
+                              size: 30,
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -153,82 +170,43 @@ class _DocsListWidgetState extends State<DocsListWidget> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Stack(
-          children: [
-            SizedBox(
-                height: DeviceScreenConstants.screenHeight,
-                child: FutureBuilder<List<DocSummaryModel>>(
-                    future: getDocs(),
-                    builder: ((context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text('Error: ${snapshot.error}');
-                      } else {
-                        List<DocSummaryModel> docListData = snapshot.data!;
-                        if (_selectedRange?.startDate != null &&
-                            _selectedRange?.endDate != null) {
-                          _filteredData =
-                              docListData.where((DocSummaryModel data) {
-                            return (!data.docDate
-                                    .isBefore((_selectedRange!.startDate!)) &&
-                                !data.docDate
-                                    .isAfter(_selectedRange!.endDate!));
-                          }).toList();
-                        } else {
-                          _filteredData = docListData;
-                        }
-                        return ListView.builder(
-                            itemCount: _filteredData.length,
-                            itemExtent: 80,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: DocCardWidget(
-                                  data: _filteredData[index],
-                                  onUpdate: _updateData,
-                                ),
-                              );
-                            });
-                      }
-                    }))),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 25),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxHeight: 65,
-                    maxWidth: 300,
-                  ),
-                  child: Center(
-                    child: ElevatedButton(
-                      style: AppButtonStyle.basicButton.copyWith(
-                          elevation: const MaterialStatePropertyAll(5)),
-                      onPressed: _addDoc,
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.add_outlined),
-                          SizedBox(width: 5),
-                          Text(
-                            'Добавить',
-                            style: TextStyle(
-                              fontSize: 22,
+        child: SizedBox(
+            height: DeviceScreenConstants.screenHeight,
+            child: FutureBuilder<List<DocSummaryModel>>(
+                future: getDocs(),
+                builder: ((context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    List<DocSummaryModel> docListData = snapshot.data!;
+                    if (_selectedRange?.startDate != null &&
+                        _selectedRange?.endDate != null) {
+                      _filteredData = docListData.where((DocSummaryModel data) {
+                        return (!data.docDate
+                                .isBefore((_selectedRange!.startDate!)) &&
+                            !data.docDate.isAfter(_selectedRange!.endDate!));
+                      }).toList();
+                    } else {
+                      _filteredData = docListData;
+                    }
+                    return ListView.builder(
+                        itemCount: _filteredData.length,
+                        itemExtent: 80,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: DocCardWidget(
+                              data: _filteredData[index],
+                              onUpdate: _updateData,
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+                          );
+                        });
+                  }
+                }))),
       ),
     );
   }
