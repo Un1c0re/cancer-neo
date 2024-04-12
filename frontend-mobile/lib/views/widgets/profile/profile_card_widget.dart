@@ -1,3 +1,4 @@
+import 'package:diplom/helpers/datetime_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -52,7 +53,7 @@ class ProfileCardWidget extends StatelessWidget {
                             fontSize: 20,
                           ),
                         ),
-                        Text(userdata.birthdate.toIso8601String().substring(0, 10)),
+                        Text(customFormat.format(userdata.birthdate).toString().substring(0, 10)),
                         Text(userdata.deseaseHistory),
                         Text(userdata.threatmentHistory),
                       ],

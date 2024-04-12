@@ -37,7 +37,7 @@ class _ChartWidgetState extends State<ChartWidget> {
       dismissible: true,
       animationMilliseconds: 300,
       cancelWidget: const Text(
-        'Отмена',
+        'Сбросить',
         style: TextStyle(
           color: AppColors.primaryColor,
         ),

@@ -1,3 +1,5 @@
+import 'package:diplom/helpers/datetime_helpers.dart';
+
 String? validateName(String? value) {
   if (value == null || value.isEmpty) {
     return 'Имя не может быть пустым';
@@ -27,16 +29,16 @@ String? validateDate(String? value) {
   }
 
   // Проверка формата даты
-  final RegExp dateRegExp = RegExp(r'^\d{4}-\d{2}-\d{2}$');
+  final RegExp dateRegExp = RegExp(r'^\d{2}-\d{2}-\d{4}$');
   if (!dateRegExp.hasMatch(value)) {
     return 'Дата должна быть в формате ГГГГ-ММ-ДД';
   }
 
   // Преобразование строки в дату
-  DateTime? inputDate = DateTime.tryParse(value);
-  if (inputDate == null) {
-    return 'Неверный формат даты';
-  }
+  DateTime? inputDate = customFormat.parse(value);
+  // if (inputDate != null) {
+  //   return 'Неверный формат даты';
+  // }
 
   // Проверка, что дата не позднее текущей даты
   if (inputDate.isAfter(DateTime.now())) {

@@ -44,29 +44,12 @@ class _DocsListWidgetState extends State<DocsListWidget> {
     super.initState();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _updateData();
-  }
-
   void handlePropertyChange(String propertyName) {
     if (propertyName == 'selectedRange') {
       _selectedRange = _pickerController.selectedRange;
     }
   }
 
-  void _setList() {
-    if (_selectedRange?.startDate != null) {
-      var dateStart = _selectedRange!.startDate;
-      var dateEnd = _selectedRange!.endDate;
-      _filteredData = _filteredData.where((DocSummaryModel data) {
-        return (!data.docDate.isBefore(dateStart!) &&
-            !data.docDate.isAfter(dateEnd!));
-      }).toList();
-    }
-    setState(() {});
-  }
 
   Future _showCalendar(BuildContext context) {
     return showDialog<DateRangePickerController>(
@@ -103,18 +86,17 @@ class _DocsListWidgetState extends State<DocsListWidget> {
                     startRangeSelectionColor: AppColors.primaryColor,
                     endRangeSelectionColor: AppColors.primaryColor,
                     confirmText: 'Подтвердить',
-                    cancelText: 'Отменить',
+                    cancelText: 'Сбросить',
                     view: DateRangePickerView.month,
                     controller: _pickerController,
                     selectionMode: DateRangePickerSelectionMode.range,
                     showActionButtons: true,
                     onCancel: () => {
                           _selectedRange = null,
-                          _setList(),
+                          setState(() {}),
                           Navigator.of(context).pop()
                         },
                     onSubmit: (dates) => {
-                          _setList(),
                           setState(() {}),
                           Navigator.of(context).pop(),
                         }),
@@ -185,19 +167,30 @@ class _DocsListWidgetState extends State<DocsListWidget> {
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
                       } else {
-                        final List<DocSummaryModel> docsList = snapshot.data!;
-                        _filteredData = docsList;
-
+                        List<DocSummaryModel> docListData = snapshot.data!;
+                        if (_selectedRange?.startDate != null &&
+                            _selectedRange?.endDate != null) {
+                          _filteredData =
+                              docListData.where((DocSummaryModel data) {
+                            return (!data.docDate
+                                    .isBefore((_selectedRange!.startDate!)) &&
+                                !data.docDate
+                                    .isAfter(_selectedRange!.endDate!));
+                          }).toList();
+                        } else {
+                          _filteredData = docListData;
+                        }
                         return ListView.builder(
-                            itemCount: docsList.length,
+                            itemCount: _filteredData.length,
                             itemExtent: 80,
                             itemBuilder: (BuildContext context, int index) {
                               return Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 8.0),
                                 child: DocCardWidget(
-                                    data: docsList[index],
-                                    onUpdate: _updateData),
+                                  data: _filteredData[index],
+                                  onUpdate: _updateData,
+                                ),
                               );
                             });
                       }

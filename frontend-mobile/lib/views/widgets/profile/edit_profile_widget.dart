@@ -56,7 +56,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
             setState(() {
               _pickedDate = newDate;
               _birthDateInputController.text =
-                  _pickedDate.toIso8601String().substring(0, 10);
+                  customFormat.format(_pickedDate).toString().substring(0, 10);
             });
           }
         },
@@ -104,7 +104,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                       _isDateInitialized = true;
                     }
                     _birthDateInputController.text =
-                        _pickedDate.toIso8601String().substring(0, 10);
+                        customFormat.format(_pickedDate).toString().substring(0, 10);
                     _diseaseInputController.text = userdata.deseaseHistory;
                     _threatmentInputController.text =
                         userdata.threatmentHistory;
@@ -171,7 +171,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                       if (_formKey.currentState!.validate()) {
                         await updateUser(
                           _nameInputController.text,
-                          DateTime.parse(_birthDateInputController.text),
+                          customFormat.parse(_birthDateInputController.text),
                           _diseaseInputController.text,
                           _threatmentInputController.text,
                         );

@@ -1,3 +1,4 @@
+import 'package:diplom/helpers/datetime_helpers.dart';
 import 'package:diplom/views/widgets/symptoms/custom_symptom_widget.dart';
 import 'package:diplom/views/widgets/symptoms/num_symptom_widget.dart';
 import 'package:flutter/material.dart';
@@ -148,7 +149,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                       children: [
                         const Icon(Icons.calendar_today_outlined),
                         Text(
-                          selectedDate.toIso8601String().substring(0, 10),
+                          customFormat.format(selectedDate).toString().substring(0, 10),
                           style: const TextStyle(fontSize: 18),
                         ),
                       ],

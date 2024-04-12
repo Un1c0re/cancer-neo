@@ -59,7 +59,8 @@ class _AddDocWidgetState extends State<AddDocWidget> {
   void initState() {
     super.initState();
     _pickedDate = DateTime.now();
-    _dateInputController.text = _pickedDate.toString().substring(0, 10);
+    _dateInputController.text =
+        customFormat.format(_pickedDate).toString().substring(0, 10);
   }
 
   @override
@@ -79,7 +80,7 @@ class _AddDocWidgetState extends State<AddDocWidget> {
             setState(() {
               _pickedDate = newDate;
               _dateInputController.text =
-                  _pickedDate.toIso8601String().substring(0, 10);
+                  customFormat.format(_pickedDate).toString().substring(0, 10);
             });
           }
         },
@@ -228,7 +229,7 @@ class _AddDocWidgetState extends State<AddDocWidget> {
                         String docName = _nameInputController.text;
                         int docType = selectedCategoryIndex ?? 1;
                         DateTime docDate =
-                            DateTime.parse(_dateInputController.text);
+                            customFormat.parse(_dateInputController.text);
                         String docPlace = _placeInputController.text;
                         String docNote = _notesInputController.text;
 

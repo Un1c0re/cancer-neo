@@ -45,6 +45,7 @@ dependencies:
   flutter_inappwebview: ^6.0.0
   pdf: ^3.10.8
   flutter_full_pdf_viewer_null_safe: ^1.0.0
+  intl: ^0.18.1
   
   
   # Backend dependencies
@@ -83,7 +84,7 @@ dev_dependencies:
   build_runner:
 
   flutter_gen: ^5.4.0
-  intl: ^0.18.1
+  # intl: ^0.18.1
   
 
   # The "flutter_lints" packa ge below contains a set of recommended lints to

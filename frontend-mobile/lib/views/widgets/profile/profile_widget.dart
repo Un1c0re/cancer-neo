@@ -1,3 +1,4 @@
+import 'package:diplom/helpers/datetime_helpers.dart';
 import 'package:diplom/views/screens/profile/help_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -100,8 +101,9 @@ class _ProfileCardState extends State<_ProfileCard> {
                             fontSize: 20,
                           ),
                         ),
-                        Text(userdata.birthdate
-                            .toIso8601String()
+                        Text(customFormat
+                            .format(userdata.birthdate)
+                            .toString()
                             .substring(0, 10)),
                       ],
                     );

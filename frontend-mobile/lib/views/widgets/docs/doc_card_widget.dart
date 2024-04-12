@@ -1,3 +1,4 @@
+import 'package:diplom/helpers/datetime_helpers.dart';
 import 'package:diplom/models/doc_list_model.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_icons.dart';
@@ -62,7 +63,7 @@ class _DocCardWidgetState extends State<DocCardWidget> {
               Align(
                 alignment: Alignment.bottomRight,
                 child: Text(
-                  widget.data.docDate.toString().substring(0, 10),
+                  customFormat.format(widget.data.docDate).toString().substring(0, 10),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.blueGrey.shade300,
