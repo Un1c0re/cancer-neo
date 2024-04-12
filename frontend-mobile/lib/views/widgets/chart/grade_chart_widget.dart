@@ -1,4 +1,5 @@
 import 'package:diplom/services/database_service.dart';
+import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/helpers/datetime_helpers.dart';
 import 'package:diplom/views/widgets/chart/chart_data.dart';
@@ -10,18 +11,19 @@ import 'package:get/get.dart';
 class GradeChart extends StatelessWidget {
   final DateTime selectedDate;
   const GradeChart({
-    super.key, 
+    super.key,
     required this.selectedDate,
   });
 
   @override
   Widget build(BuildContext context) {
     final DatabaseService service = Get.find();
-    final pickedDate = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
+    final pickedDate =
+        DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
 
     Future<List<BarChartGroupData>> getGradeData(DateTime date) async {
-      final monthStart  = getFirstDayOfMonth(date);
-      final monthEnd    = getFirstDayOfNextMonth(date);
+      final monthStart = getFirstDayOfMonth(date);
+      final monthEnd = getFirstDayOfNextMonth(date);
 
       List<List<double>> rawDataList = await service.database.symptomsValuesDao
           .getSymptomsSortedByDayAndNameID(2, monthStart, monthEnd);
@@ -44,7 +46,10 @@ class GradeChart extends StatelessWidget {
             future: getGradeData(pickedDate),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
+                return const Center(
+                    child: CircularProgressIndicator(
+                  color: AppColors.activeColor,
+                ));
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
@@ -87,7 +92,7 @@ class GradeChart extends StatelessWidget {
                       ),
                     ),
                   ),
-                  
+
                   // bars values
                   barGroups: barData,
                 ));

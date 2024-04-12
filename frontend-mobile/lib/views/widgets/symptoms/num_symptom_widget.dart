@@ -1,4 +1,5 @@
 import 'package:diplom/controllers/symptoms_controller.dart';
+import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_style.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/utils/constants.dart';
@@ -49,28 +50,26 @@ class NumSymptomWidget extends StatelessWidget {
       ),
       child: AppStyleCard(
         backgroundColor: Colors.white, 
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                label, 
-                style: const TextStyle(
-                  fontSize: 18,
-                ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              label, 
+              style: const TextStyle(
+                fontSize: 18,
               ),
-              ConstrainedBox(
-                constraints: const BoxConstraints(
-                  maxWidth: 60,
-                ),
-                child: TextField(
-                    decoration: valueInputDecoration,
-                    controller: valueInputController,
-                  ),
+            ),
+            ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: 90,
               ),
-            ],
-          ),
+              child: TextField(
+                  decoration: valueInputDecoration,
+                  controller: valueInputController,
+                  cursorColor: AppColors.activeColor,
+                ),
+            ),
+          ],
         )
       ),
     );

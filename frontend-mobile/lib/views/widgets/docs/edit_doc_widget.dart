@@ -129,7 +129,9 @@ class _EditDocWidgetState extends State<EditDocWidget> {
                   builder: ((context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
-                        child: CircularProgressIndicator(),
+                        child: CircularProgressIndicator(
+                          color: AppColors.activeColor,
+                        ),
                       );
                     } else if (snapshot.hasError) {
                       return Text('Error: ${snapshot.error}');
@@ -137,11 +139,14 @@ class _EditDocWidgetState extends State<EditDocWidget> {
                       final data = snapshot.data!;
                       _nameInputController.text = data.docName;
                       _placeInputController.text = data.docPlace;
-                      if(!_isateInitialized) {
+                      if (!_isateInitialized) {
                         _pickedDate = data.docDate;
                         _isateInitialized = true;
                       }
-                      _dateInputController.text = customFormat.format(_pickedDate).toString().substring(0, 10);
+                      _dateInputController.text = customFormat
+                          .format(_pickedDate)
+                          .toString()
+                          .substring(0, 10);
                       _notesInputController.text = data.docNotes;
                       if (data.docFile != null && !_isFileLoaded) {
                         docFileBytes = data.docFile;
@@ -197,7 +202,9 @@ class _EditDocWidgetState extends State<EditDocWidget> {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
                                   return const Center(
-                                    child: CircularProgressIndicator(),
+                                    child: CircularProgressIndicator(
+                                      color: AppColors.activeColor,
+                                    ),
                                   );
                                 } else if (snapshot.hasError) {
                                   return Text('Error: ${snapshot.error}');

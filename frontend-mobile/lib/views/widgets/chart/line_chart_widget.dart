@@ -95,7 +95,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
       LineChartBarData lineData = LineChartBarData(
         isCurved: true,
         color: AppColors.primaryColor,
-        barWidth: 4,
+        barWidth: 3,
         isStrokeCapRound: true,
         dotData: const FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
@@ -114,7 +114,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
     }
 
     return ConstrainedBox(
-      constraints: const BoxConstraints(maxHeight: 350),
+      constraints: const BoxConstraints(maxHeight: 360),
       child: AppStyleCard(
         backgroundColor: Colors.white,
         child: Column(
@@ -125,10 +125,10 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                   ? symptomNames[currentPointIndex]
                   : 'Загрузка...',
               style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontSize: 18,
               ),
             ),
+            const SizedBox(height: 15,),
             ConstrainedBox(
               constraints: const BoxConstraints(
                 maxHeight: 250,
@@ -137,7 +137,10 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                 future: getLineData(pickedDate),
                 builder: ((context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
+                    return const Center(
+                        child: CircularProgressIndicator(
+                      color: AppColors.activeColor,
+                    ));
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {

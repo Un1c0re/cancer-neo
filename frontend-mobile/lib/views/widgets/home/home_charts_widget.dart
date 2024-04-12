@@ -115,6 +115,7 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
                 LineChartWidget(selectedDate: _selectedDate),
                 const SizedBox(height: 25),
                 CustomChartWidget(selectedDate: _selectedDate),
+                const SizedBox(height: 30),
                 ElevatedButton(
                   style: AppButtonStyle.basicButton.copyWith(
                     padding: const MaterialStatePropertyAll(

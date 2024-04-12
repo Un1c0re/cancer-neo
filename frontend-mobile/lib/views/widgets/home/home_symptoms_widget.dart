@@ -113,13 +113,13 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
   }
 
   void _incrementDate() {
-  if (selectedDate.isBefore(DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
-    setState(() {
-      selectedDate = selectedDate.add(const Duration(days: 1));
-    });
+    if (selectedDate.isBefore(DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
+      setState(() {
+        selectedDate = selectedDate.add(const Duration(days: 1));
+      });
+    }
   }
-}
-
 
   void _decrementDate() {
     setState(() {
@@ -209,7 +209,10 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                     future: getSymptomData(),
                     builder: ((context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const CircularProgressIndicator();
+                        return const Center(
+                            child: CircularProgressIndicator(
+                          color: AppColors.activeColor,
+                        ));
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
                       } else {

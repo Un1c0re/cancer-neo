@@ -14,14 +14,14 @@ Widget gradeChartleftTitles(double value, TitleMeta meta) {
             .getSymptomsNamesByTypeID(2),
         builder: ((context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
+            return const Text('Загрузка...');
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {
             final names = snapshot.data!;
             for (int i = 0; i < names.length; i++) {
               if (value == i * 5) {
-                return Text(names[i], style: style);
+                return Text(names[i], textAlign: TextAlign.start, style: style);
               }
             }
             return const Text('');

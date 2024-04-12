@@ -67,7 +67,7 @@ class _CustomChartWidgetState extends State<CustomChartWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if(symptomNames.isEmpty) return const SizedBox(height: 1);
+    if (symptomNames.isEmpty) return const SizedBox(height: 1);
     final DatabaseService service = Get.find();
     final pickedDate = DateTime(widget.selectedDate.year,
         widget.selectedDate.month, widget.selectedDate.day);
@@ -115,7 +115,7 @@ class _CustomChartWidgetState extends State<CustomChartWidget> {
     }
 
     return ConstrainedBox(
-      constraints: const BoxConstraints(maxHeight: 350),
+      constraints: const BoxConstraints(maxHeight: 360),
       child: AppStyleCard(
         backgroundColor: Colors.white,
         child: Column(
@@ -126,10 +126,10 @@ class _CustomChartWidgetState extends State<CustomChartWidget> {
                   ? symptomNames[currentPointIndex]
                   : 'Загрузка...',
               style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontSize: 18,
               ),
             ),
+            const SizedBox(height: 15),
             ConstrainedBox(
               constraints: const BoxConstraints(
                 maxHeight: 250,

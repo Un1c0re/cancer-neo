@@ -1,4 +1,4 @@
- import 'dart:typed_data';
+import 'dart:typed_data';
 
 import 'package:diplom/helpers/datetime_helpers.dart';
 import 'package:diplom/helpers/get_helpers.dart';
@@ -80,8 +80,8 @@ class _DocWidgetState extends State<DocWidget> {
                       width: 150,
                       child: ElevatedButton(
                         style: AppButtonStyle.filledRoundedButton,
-                        onPressed: () => Get.to(
-                            EditDocScreen(docID: widget.docID, onUpdate: widget.onUpdate)),
+                        onPressed: () => Get.to(EditDocScreen(
+                            docID: widget.docID, onUpdate: widget.onUpdate)),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -122,18 +122,20 @@ class _DocDataWidgetState extends State<DocDataWidget> {
     late final String typeName;
 
     Future<DocModel?> getDocument(id) async {
-      
       final DocModel? document = await service.database.docsDao.getDoc(id);
-      typeName = await service.database.doctypesDao.getDocType(document!.docType);
+      typeName =
+          await service.database.doctypesDao.getDocType(document!.docType);
       return document;
     }
-    
+
     return FutureBuilder(
       future: getDocument(widget.docID),
       builder: ((context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: AppColors.activeColor,
+            ),
           );
         } else if (snapshot.hasError) {
           return Text('Error: ${snapshot.error}');
@@ -169,7 +171,10 @@ class _DocDataWidgetState extends State<DocDataWidget> {
                   ),
                 ),
                 Text(
-                  customFormat.format(document.docDate).toString().substring(0, 10),
+                  customFormat
+                      .format(document.docDate)
+                      .toString()
+                      .substring(0, 10),
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w400,

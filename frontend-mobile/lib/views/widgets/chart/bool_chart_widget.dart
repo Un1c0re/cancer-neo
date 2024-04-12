@@ -53,8 +53,8 @@ class _BoolChartState extends State<BoolChart> {
           child: Container(
             width: 200 / totalPoints, // Ширина точки
             height: 5, // Высота точки
-            margin:
-                const EdgeInsets.symmetric(horizontal: 2), // Расстояние между точками
+            margin: const EdgeInsets.symmetric(
+                horizontal: 2), // Расстояние между точками
             decoration: BoxDecoration(
               color: i == currentPointIndex
                   ? AppColors.activeColor
@@ -204,7 +204,10 @@ class _BoolChartState extends State<BoolChart> {
                   future: getBoolSymptomsNamesCount(),
                   builder: ((context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
+                      return const Center(
+                          child: CircularProgressIndicator(
+                        color: AppColors.activeColor,
+                      ));
                     } else if (snapshot.hasError) {
                       return Text('Error: ${snapshot.error}');
                     } else {
@@ -218,7 +221,7 @@ class _BoolChartState extends State<BoolChart> {
                             onPressed: () {
                               currentPointIndex > 0
                                   ? currentPointIndex--
-                                  : currentPointIndex = totalPoints-1;
+                                  : currentPointIndex = totalPoints - 1;
                               setState(() {});
                             },
                             iconSize: 40,

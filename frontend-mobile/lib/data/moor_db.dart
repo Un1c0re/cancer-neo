@@ -7,7 +7,6 @@ import 'package:diplom/models/user_model.dart';
 import 'package:diplom/models/docs_models.dart';
 import 'package:diplom/models/symptom_value_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:intl/intl.dart';
 import 'package:moor_flutter/moor_flutter.dart';
 
 

@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
     'Документы',
     'Динамика',
     'Контроль',
-    'все о НЭО',
+    'Все о НЭО',
     'Профиль',
   ];
 
