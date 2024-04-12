@@ -104,7 +104,6 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
       );
     }
 
-    // Обновите состояние, чтобы отразить изменения
     setState(() {});
   }
 
@@ -131,10 +130,12 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
         appBar: AppBar(
           title: Container(
             constraints: const BoxConstraints(
-              maxWidth: 150,
+              maxWidth: 400,
             ),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
+                const Text('Наблюдения', style: TextStyle(fontSize: 28),),
                 Expanded(
                   child: TextButton(
                     style: const ButtonStyle(
@@ -143,16 +144,9 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                           Color.fromARGB(255, 255, 255, 255)),
                     ),
                     onPressed: () => _selectDate(context),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.calendar_today_outlined),
-                        Text(
-                          customFormat.format(selectedDate).toString().substring(0, 10),
-                          style: const TextStyle(fontSize: 18),
-                        ),
-                      ],
+                    child: Text(
+                      customFormat.format(selectedDate).toString().substring(0, 10),
+                      style: const TextStyle(fontSize: 20),
                     ),
                   ),
                 ),

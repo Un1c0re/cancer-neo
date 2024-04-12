@@ -38,8 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
 	];
 
   static final List<NavContent> content = [
-    NavContent('Трекинг', AppStyleIcons.leaderboard),
-    NavContent('Мониторинг', AppIcons.heart),
+    NavContent('Динамика', AppStyleIcons.leaderboard),
+    NavContent('Наблюдения', AppIcons.heart),
     NavContent('Документы', AppIcons.file),
     NavContent('Библиотека', AppIcons.lightbulb),
     NavContent('Профиль', AppStyleIcons.user_alt),

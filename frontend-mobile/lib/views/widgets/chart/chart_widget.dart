@@ -66,25 +66,25 @@ class _ChartWidgetState extends State<ChartWidget> {
       appBar: AppBar(
         title: Container(
           constraints: const BoxConstraints(
-            maxWidth: 150,
+            maxWidth: 400,
           ),
-          child: TextButton(
-            style: const ButtonStyle(
-              padding: MaterialStatePropertyAll(EdgeInsets.zero),
-              foregroundColor:
-                  MaterialStatePropertyAll(Color.fromARGB(255, 255, 255, 255)),
-            ),
-            onPressed: () => _selectMonthYear(context),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                const Icon(Icons.calendar_today_outlined),
-                Text(
-                  formattedDate,
-                  style: const TextStyle(fontSize: 18),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              const Text('Динамика', style: TextStyle(fontSize: 28),),
+              TextButton(
+                style: const ButtonStyle(
+                  padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                  foregroundColor:
+                      MaterialStatePropertyAll(Color.fromARGB(255, 255, 255, 255)),
                 ),
-              ],
-            ),
+                onPressed: () => _selectMonthYear(context),
+                child: Text(
+                  formattedDate,
+                  style: const TextStyle(fontSize: 20),
+                ),
+              ),
+            ],
           ),
         ),
         centerTitle: true,
