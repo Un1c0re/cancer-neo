@@ -10,5 +10,6 @@
 
 ### [Руководство](docs/manual.md)
 ### [Зависимости](docs/dependencies.md)
-### [Прототип UI](https://www.figma.com/file/Zor74WefZ93M8iQWmcXvFj/CancerNEO?type=design&node-id=0-1&mode=design&t=eS9AqFl1lmxnXkuX-0)
+### [Информационный раздел](https://github.com/Un1c0re/neo-docs.git)
+### [Прототип UI](https://www.figma.com/file/Zor74WefZ93M8iQWmcXvFj/CancerNEO?type=design&node-id=6%3A14579&mode=design&t=eS9AqFl1lmxnXkuX-1)
 
