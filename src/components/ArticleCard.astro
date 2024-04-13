@@ -51,7 +51,7 @@ const { article, cardColor, textColor } = props;
 		articleCards.forEach((card) => {
 			const slug = card.getAttribute('data-slug');
 			card.addEventListener('click', () => {
-				window.location.href = `/neo-docs/articles/${slug}`;
+				window.location.href = `/cancer-neo/articles/${slug}`;
 			})
 		})
 	});
