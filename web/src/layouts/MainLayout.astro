@@ -1,0 +1,24 @@
+---
+// MainLayout.astro
+// Здесь можно добавить скрипты или стили, которые будут применяться на всех страницах
+---
+
+<html>
+  <head>
+    <title>Все о НЭО</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/global.css">
+  </head>
+  <body class=" bg-cyan-100 flex flex-col items-center justify-between gap-10">
+    <header class=" text-sky-800 h-16 flex self-start justify-between px-10 py-4">
+      <h1 class=" font-bold text-4xl">Все о НЭО</h1>
+    </header>
+    <main class="flex flex-col items-center justify-between gap-10">
+      <slot />
+    </main>
+    <footer class="h-16 flex flex-col items-center">
+      <p>© 2024 СурГУ</p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+---
+import ArticleList from "./ArticlesList.astro";
+import type { ArticleProps } from "../utils/types";
+
+function chunkArray<T>(array: T[], chunkSize: number): T[][] {
+  const result: T[][] = [];
+  for (let i = 0; i < array.length; i += chunkSize) {
+    result.push(array.slice(i, i + chunkSize));
+  }
+  return result;
+}
+
+const { allArticles } = Astro.props;
+
+const articlesChunks: ArticleProps[][] = chunkArray(allArticles, 5);
+---
+<div class="flex flex-col items-center justify-between">
+  <h2
+    style="font-weight: 500; color: rgb(3, 63, 53);"
+    class="self-start px-10 text-2xl font-semibold"
+  >
+    Что такое НЭО
+  </h2>
+  <ArticleList articles={articlesChunks[0]} />
+  <h2
+    style="font-weight: 500; color: rgb(3, 63, 53);"
+    class="self-start px-10 text-2xl font-semibold mt-10"
+  >
+    Синдромы, сопровождающие НЭО
+  </h2>
+  <ArticleList articles={articlesChunks[1]} />
+  <h2
+    style="font-weight: 500; color: rgb(3, 63, 53);"
+    class="self-start px-10 text-2xl font-semibold mt-10"
+  >
+    Поддержка пациентов
+  </h2>
+  <ArticleList articles={articlesChunks[3]} />
+  <h2
+    style="font-weight: 500; color: rgb(3, 63, 53);"
+    class="self-start px-10 text-2xl font-semibold mt-10"
+  >
+    Питание пациента с НЭО
+  </h2>
+  <ArticleList articles={articlesChunks[2]} />
+</div>
+
+<style>
+  .section-header {
+    color: rgb(3, 63, 53);
+    font-weight: 500;
+  }
+</style>
