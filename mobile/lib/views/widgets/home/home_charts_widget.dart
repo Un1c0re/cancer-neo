@@ -59,6 +59,23 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
     });
   }
 
+  void _incrementDate() {
+    if (_selectedDate
+        .isBefore(DateTime(DateTime.now().year, DateTime.now().month, 1))) {
+      setState(() {
+        _selectedDate = DateTime(
+            _selectedDate.year, _selectedDate.month + 1, _selectedDate.day);
+      });
+    }
+  }
+
+  void _decrementDate() {
+    setState(() {
+      _selectedDate = DateTime(
+          _selectedDate.year, _selectedDate.month - 1, _selectedDate.day);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     String formattedDate = DateFormat.yMMMM(const Locale('ru', 'RU').toString())
@@ -78,16 +95,32 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
                 widget.appBarTitle,
                 style: const TextStyle(fontSize: 26),
               ),
-              TextButton(
-                style: const ButtonStyle(
-                  padding: MaterialStatePropertyAll(EdgeInsets.zero),
-                  foregroundColor: MaterialStatePropertyAll(
-                      Color.fromARGB(255, 255, 255, 255)),
-                ),
-                onPressed: () => _selectMonthYear(context),
-                child: Text(
-                  formattedDate,
-                  style: const TextStyle(fontSize: 20),
+              SizedBox(
+                width: 250,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      onPressed: _decrementDate,
+                      icon: const Icon(Icons.keyboard_arrow_left),
+                    ),
+                    TextButton(
+                      style: const ButtonStyle(
+                        padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                        foregroundColor: MaterialStatePropertyAll(
+                            Color.fromARGB(255, 255, 255, 255)),
+                      ),
+                      onPressed: () => _selectMonthYear(context),
+                      child: Text(
+                        formattedDate,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: _incrementDate,
+                      icon: const Icon(Icons.keyboard_arrow_right),
+                    ),
+                  ],
                 ),
               ),
             ],
