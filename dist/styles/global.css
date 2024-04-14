@@ -2,33 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap");
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Jost", sans-serif;
-    font-optical-sizing: auto;
-    font-style: normal;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Jost", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 
 /* Стилизация полосы прокрутки в целом */
 ::-webkit-scrollbar {
-    width: 0px; /* ширина полосы прокрутки */
-  }
-  
-  /* Стилизация фона полосы прокрутки */
-  ::-webkit-scrollbar-track {
-    background: transparent; /* цвет фона */
-  }
-  
-  /* Стилизация самого элемента прокрутки (ползунка) */
-  ::-webkit-scrollbar-thumb {
-    background: transparent; /* цвет ползунка */
-  }
-  
-  /* Стилизация ползунка при наведении */
-  ::-webkit-scrollbar-thumb:hover {
-    background: transparent; /* цвет ползунка при наведении */
-  }
+  width: 0px; /* ширина полосы прокрутки */
+}
+
+/* Стилизация фона полосы прокрутки */
+::-webkit-scrollbar-track {
+  background: transparent; /* цвет фона */
+}
+
+/* Стилизация самого элемента прокрутки (ползунка) */
+::-webkit-scrollbar-thumb {
+  background: transparent; /* цвет ползунка */
+}
+
+/* Стилизация ползунка при наведении */
+::-webkit-scrollbar-thumb:hover {
+  background: transparent; /* цвет ползунка при наведении */
+}
+
+::-webkit-scrollbar {
+  display: none; /* скрывает полосы прокрутки, но позволяет прокрутку */
+}
