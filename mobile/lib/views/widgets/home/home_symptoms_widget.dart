@@ -149,8 +149,8 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
     return Scaffold(
         appBar: AppBar(
           title: Container(
-            constraints: const BoxConstraints(
-              maxWidth: 400,
+            constraints: BoxConstraints(
+              maxWidth: DeviceScreenConstants.screenWidth * 0.9,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -179,7 +179,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                               .format(selectedDate)
                               .toString()
                               .substring(0, 10),
-                          style: const TextStyle(fontSize: 20),
+                          style: const TextStyle(fontSize: 18),
                         ),
                       ),
                       IconButton(

@@ -128,7 +128,9 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                 fontSize: 18,
               ),
             ),
-            const SizedBox(height: 15,),
+            const SizedBox(
+              height: 15,
+            ),
             ConstrainedBox(
               constraints: const BoxConstraints(
                 maxHeight: 250,
@@ -151,6 +153,23 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                         // show border around BarChart
                         borderData: FlBorderData(show: false),
 
+                        lineTouchData: LineTouchData(
+                          enabled: true,
+                          touchTooltipData: LineTouchTooltipData(
+                            tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
+                            getTooltipItems: (List<LineBarSpot> touchedSpots) {
+                              return touchedSpots
+                                  .map((LineBarSpot touchedSpot) {
+                                return LineTooltipItem(
+                                  '${touchedSpot.y}',
+                                  const TextStyle(
+                                      color:
+                                          Colors.white), // Set text color here
+                                );
+                              }).toList();
+                            },
+                          ),
+                        ),
                         // grid
                         gridData: const FlGridData(
                           drawHorizontalLine: true,

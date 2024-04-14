@@ -21,7 +21,7 @@ Widget gradeChartleftTitles(double value, TitleMeta meta) {
             final names = snapshot.data!;
             for (int i = 0; i < names.length; i++) {
               if (value == i * 5) {
-                return Text(names[i], textAlign: TextAlign.start, style: style);
+                return Text(names[i] + ' '*(100-names.length), textAlign: TextAlign.left, style: style);
               }
             }
             return const Text('');
@@ -55,7 +55,7 @@ Widget lineChartleftTitles(double value, TitleMeta meta) {
       return Container();
   }
 
-  return Text(text, style: style, textAlign: TextAlign.center);
+  return Text(text, style: style, textAlign: TextAlign.start);
 }
 
 Widget bottomTitlesWidget(double value, TitleMeta meta) {

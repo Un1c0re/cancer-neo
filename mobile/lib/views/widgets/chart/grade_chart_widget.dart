@@ -68,7 +68,7 @@ class GradeChart extends StatelessWidget {
                   // grid
                   gridData: const FlGridData(
                     horizontalInterval: 5,
-                    verticalInterval: 0.2356,
+                    verticalInterval: 0.23,
                   ),
 
                   // Titles

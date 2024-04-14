@@ -10,8 +10,8 @@ BarChartGroupData gradeChartGroupData(int x, List<double> values) {
       final index = entry.key;
       final value = entry.value;
       return BarChartRodData(
-        fromY: index * 4,
-        toY: index * 4 + value,
+        fromY: index * 5,
+        toY: index * 5 + value,
         color: ColorTween(
           begin: AppColors.barColor,
           end: AppColors.barShadow,
