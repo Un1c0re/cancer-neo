@@ -116,8 +116,8 @@ class _HomeDocsWidgetState extends State<HomeDocsWidget> {
     return Scaffold(
       appBar: AppBar(
         title: ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: 400,
+          constraints: BoxConstraints(
+            maxWidth: DeviceScreenConstants.screenWidth * 0.9,
           ),
           child: Row(
             children: [
@@ -193,6 +193,18 @@ class _HomeDocsWidgetState extends State<HomeDocsWidget> {
                       }).toList();
                     } else {
                       _filteredData = docListData;
+                    }
+                    if (_filteredData.isEmpty) {
+                      return const Center(
+                        child: Text(
+                          'Вы еще не добавили ни одного документа',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 26,
+                            color: AppColors.activeColor,
+                          ),
+                        ),
+                      );
                     }
                     return ListView.builder(
                         itemCount: _filteredData.length,
