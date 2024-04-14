@@ -38,7 +38,7 @@ class GradeChart extends StatelessWidget {
 
     return ConstrainedBox(
       constraints: const BoxConstraints(
-        maxHeight: 250,
+        maxHeight: 1450,
       ),
       child: AppStyleCard(
         backgroundColor: Colors.white,
@@ -57,7 +57,7 @@ class GradeChart extends StatelessWidget {
 
                 return BarChart(BarChartData(
                   alignment: BarChartAlignment.spaceAround,
-                  maxY: 16,
+                  maxY: 95,
 
                   // showing value while touching bar
                   barTouchData: BarTouchData(enabled: false),
@@ -67,7 +67,7 @@ class GradeChart extends StatelessWidget {
 
                   // grid
                   gridData: const FlGridData(
-                    horizontalInterval: 4,
+                    horizontalInterval: 5,
                     verticalInterval: 0.2356,
                   ),
 

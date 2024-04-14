@@ -51,7 +51,7 @@ class _BoolChartState extends State<BoolChart> {
             });
           },
           child: Container(
-            width: 200 / totalPoints, // Ширина точки
+            width: 150 / totalPoints, // Ширина точки
             height: 5, // Высота точки
             margin: const EdgeInsets.symmetric(
                 horizontal: 2), // Расстояние между точками
@@ -148,7 +148,7 @@ class _BoolChartState extends State<BoolChart> {
 
                         // grid
                         gridData: const FlGridData(
-                          horizontalInterval: 4,
+                          horizontalInterval: 5,
                           verticalInterval: 0.2356,
                         ),
 
@@ -169,7 +169,7 @@ class _BoolChartState extends State<BoolChart> {
                             sideTitles: SideTitles(
                               showTitles: true,
                               getTitlesWidget: (double value, TitleMeta meta) {
-                                const style = TextStyle(fontSize: 18);
+                                const style = TextStyle(fontSize: 14);
                                 int startIndex = currentPointIndex * 2;
                                 int endIndex = currentPointIndex * 2 + 2;
                                 endIndex = endIndex < symptomNames.length

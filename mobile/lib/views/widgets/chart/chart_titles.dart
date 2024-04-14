@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 Widget gradeChartleftTitles(double value, TitleMeta meta) {
-  const style = TextStyle(fontSize: 18);
+  const style = TextStyle(fontSize: 14);
   return SideTitleWidget(
       axisSide: meta.axisSide,
       child: FutureBuilder(

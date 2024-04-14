@@ -78,15 +78,16 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: change date visual to "мес. гггг"
     String formattedDate = DateFormat.yMMMM(const Locale('ru', 'RU').toString())
         .format(_selectedDate);
     formattedDate = formattedDate.substring(0, formattedDate.length - 2);
 
     return Scaffold(
       appBar: AppBar(
-        title: Container(
-          constraints: const BoxConstraints(
-            maxWidth: 400,
+        title: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: DeviceScreenConstants.screenWidth * 0.9
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,7 +97,7 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
                 style: const TextStyle(fontSize: 26),
               ),
               SizedBox(
-                width: 250,
+                width: 200,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -113,7 +114,7 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
                       onPressed: () => _selectMonthYear(context),
                       child: Text(
                         formattedDate,
-                        style: const TextStyle(fontSize: 20),
+                        style: const TextStyle(fontSize: 16),
                       ),
                     ),
                     IconButton(
