@@ -1,5 +1,6 @@
 import 'package:diplom/helpers/datetime_helpers.dart';
 import 'package:diplom/views/widgets/symptoms/custom_symptom_widget.dart';
+import 'package:diplom/views/widgets/symptoms/marker_symptom_widget.dart';
 import 'package:diplom/views/widgets/symptoms/num_symptom_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -220,6 +221,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                         final List<SymptomDetails> gradeSymptoms = [];
                         final List<SymptomDetails> boolSymptoms = [];
                         final List<SymptomDetails> numSymptoms = [];
+                        final List<SymptomDetails> markerSymptoms = [];
                         final List<SymptomDetails> customSymptoms = [];
 
                         for (int i = 0; i < symptoms.length; i++) {
@@ -229,6 +231,8 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                             gradeSymptoms.add(symptoms[i]);
                           } else if (symptoms[i].symptomType == 'numeric') {
                             numSymptoms.add(symptoms[i]);
+                          } else if (symptoms[i].symptomType == 'marker') {
+                            markerSymptoms.add(symptoms[i]);
                           } else {
                             customSymptoms.add(symptoms[i]);
                           }
@@ -238,6 +242,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                         int gradeIndex = 0;
                         int boolIndex = 0;
                         int numIndex = 0;
+                        int markerIndex = 0;
                         int customIndex = 0;
 
                         combinedSymptomsWidgets.add(const SizedBox(height: 10));
@@ -290,6 +295,16 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                             value: numSymptoms[numIndex].symptomValue,
                           ));
                           numIndex++;
+                          combinedSymptomsWidgets
+                              .add(const SizedBox(height: 20));
+                        }
+                        while (markerIndex < markerSymptoms.length) {
+                          combinedSymptomsWidgets.add(MarkerSymptomWidget(
+                            symptomID: markerSymptoms[markerIndex].id,
+                            label: markerSymptoms[markerIndex].symptomName,
+                            value: markerSymptoms[markerIndex].symptomValue,
+                          ));
+                          markerIndex++;
                           combinedSymptomsWidgets
                               .add(const SizedBox(height: 20));
                         }

@@ -2,39 +2,55 @@ import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/helpers/datetime_helpers.dart';
-import 'package:diplom/views/widgets/chart/chart_titles.dart';
+import 'package:diplom/views/widgets/charts/chart_titles.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LineChartWidget extends StatefulWidget {
+class CustomChartWidget extends StatefulWidget {
   final DateTime selectedDate;
-  const LineChartWidget({super.key, required this.selectedDate});
+  const CustomChartWidget({super.key, required this.selectedDate});
 
   @override
-  State<LineChartWidget> createState() => _LineChartWidgetState();
+  State<CustomChartWidget> createState() => _CustomChartWidgetState();
 }
 
-class _LineChartWidgetState extends State<LineChartWidget> {
+class _CustomChartWidgetState extends State<CustomChartWidget> {
   late int totalPoints;
   int currentPointIndex = 0;
-  List<String> symptomNames = [];
+  List<String> symptomsNames = [];
+  List<double> symptomsMaxValues = [0];
 
-  Future<void> loadSymptomNames() async {
+  Future<void> loadSymptomsNames() async {
     final names = await Get.find<DatabaseService>()
         .database
         .symptomsNamesDao
-        .getSymptomsNamesByTypeID(3);
+        .getSymptomsNamesByTypeID(5);
     setState(() {
-      symptomNames = names;
+      symptomsNames = names;
       totalPoints = names.length;
+    });
+  }
+
+  Future<void> loadSymptomsMaxVlues() async {
+    final List<double> maxValues = [];
+    for (int i = 0; i < symptomsNames.length; i++) {
+      maxValues.add(await Get.find<DatabaseService>()
+          .database
+          .symptomsValuesDao
+          .getMaxValueByName(symptomsNames[i]));
+    }
+    setState(() {
+      symptomsMaxValues = maxValues;
     });
   }
 
   @override
   void initState() {
     super.initState();
-    loadSymptomNames();
+    loadSymptomsNames().then((_) {
+      loadSymptomsMaxVlues();
+    });
   }
 
   List<Widget> _buildPoints() {
@@ -67,6 +83,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (symptomsNames.isEmpty) return const SizedBox(height: 1);
     final DatabaseService service = Get.find();
     final pickedDate = DateTime(widget.selectedDate.year,
         widget.selectedDate.month, widget.selectedDate.day);
@@ -76,7 +93,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
       final monthEnd = getFirstDayOfNextMonth(date);
 
       List<List<double>> rawDataList = await service.database.symptomsValuesDao
-          .getSymptomsSortedByDayAndNameID(3, monthStart, monthEnd);
+          .getSymptomsSortedByDayAndNameID(5, monthStart, monthEnd);
 
       return rawDataList;
     }
@@ -93,9 +110,10 @@ class _LineChartWidgetState extends State<LineChartWidget> {
 
       // Создаем данные для графика из точек
       LineChartBarData lineData = LineChartBarData(
-        isCurved: false,
-        isStrokeCapRound: true,
+        isCurved: true,
         color: AppColors.primaryColor,
+        barWidth: 4,
+        isStrokeCapRound: true,
         dotData: const FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
         spots: spots,
@@ -108,7 +126,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
 
     Future<int> getLineSymptomsNamesCount() async {
       final List<String> tmp =
-          await service.database.symptomsNamesDao.getSymptomsNamesByTypeID(3);
+          await service.database.symptomsNamesDao.getSymptomsNamesByTypeID(5);
       return tmp.length;
     }
 
@@ -120,28 +138,21 @@ class _LineChartWidgetState extends State<LineChartWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
-              symptomNames.isNotEmpty
-                  ? symptomNames[currentPointIndex]
+              symptomsNames.isNotEmpty
+                  ? symptomsNames[currentPointIndex]
                   : 'Загрузка...',
               style: const TextStyle(
                 fontSize: 18,
               ),
             ),
-            const SizedBox(
-              height: 15,
-            ),
+            const SizedBox(height: 15),
             ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxHeight: 250,
-              ),
+              constraints: const BoxConstraints(maxHeight: 250, maxWidth: 360),
               child: FutureBuilder(
                 future: getLineData(pickedDate),
                 builder: ((context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                        child: CircularProgressIndicator(
-                      color: AppColors.activeColor,
-                    ));
+                    return const CircularProgressIndicator();
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
@@ -152,23 +163,6 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                         // show border around BarChart
                         borderData: FlBorderData(show: false),
 
-                        lineTouchData: LineTouchData(
-                          enabled: true,
-                          touchTooltipData: LineTouchTooltipData(
-                            tooltipBgColor: Colors.blueGrey.withOpacity(0.8),
-                            getTooltipItems: (List<LineBarSpot> touchedSpots) {
-                              return touchedSpots
-                                  .map((LineBarSpot touchedSpot) {
-                                return LineTooltipItem(
-                                  '${touchedSpot.y}',
-                                  const TextStyle(
-                                      color:
-                                          Colors.white), // Set text color here
-                                );
-                              }).toList();
-                            },
-                          ),
-                        ),
                         // grid
                         gridData: const FlGridData(
                           drawHorizontalLine: true,
@@ -176,22 +170,34 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                           drawVerticalLine: true,
                           verticalInterval: 5,
                         ),
-                        titlesData: const FlTitlesData(
-                          topTitles: AxisTitles(
+                        titlesData: FlTitlesData(
+                          topTitles: const AxisTitles(
                               sideTitles: SideTitles(showTitles: false)),
-                          rightTitles: AxisTitles(
+                          rightTitles: const AxisTitles(
                               sideTitles: SideTitles(showTitles: false)),
-                          bottomTitles: AxisTitles(
+                          bottomTitles: const AxisTitles(
                             sideTitles: SideTitles(
                               showTitles: true,
                               getTitlesWidget: bottomTitlesWidget,
-                              reservedSize: 25,
+                              reservedSize: 50,
                             ),
                           ),
                           leftTitles: AxisTitles(
                             sideTitles: SideTitles(
                               showTitles: true,
-                              getTitlesWidget: lineChartleftTitles,
+                              getTitlesWidget: (double value, TitleMeta meta) {
+                                for (int i = 0;
+                                    i < symptomsMaxValues[currentPointIndex];
+                                    i++) {
+                                  if (value == i * 5) {
+                                    return Text(
+                                      '${value.toInt()}',
+                                      style: const TextStyle(fontSize: 14),
+                                    );
+                                  }
+                                }
+                                return const Text('');
+                              },
                               reservedSize: 25,
                             ),
                           ),

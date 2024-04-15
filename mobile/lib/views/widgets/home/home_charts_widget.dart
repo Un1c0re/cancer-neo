@@ -1,9 +1,10 @@
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/constants.dart';
-import 'package:diplom/views/widgets/chart/bool_chart_widget.dart';
-import 'package:diplom/views/widgets/chart/custom_chart_widget.dart';
-import 'package:diplom/views/widgets/chart/grade_chart_widget.dart';
-import 'package:diplom/views/widgets/chart/line_chart_widget.dart';
+import 'package:diplom/views/widgets/charts/bool_chart_widget.dart';
+import 'package:diplom/views/widgets/charts/custom_chart_widget.dart';
+import 'package:diplom/views/widgets/charts/grade_chart_widget.dart';
+import 'package:diplom/views/widgets/charts/line_chart_widget.dart';
+import 'package:diplom/views/widgets/charts/marker_chart_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import '../../../utils/app_style.dart';
@@ -139,12 +140,39 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 const SizedBox(height: 10),
+                const Text(
+                  'Условные параметры',
+                  style: TextStyle(fontSize: 22, color: AppColors.activeColor),
+                ),
+                const SizedBox(height: 5),
                 GradeChart(selectedDate: _selectedDate),
                 const SizedBox(height: 30),
+                const Text(
+                  'Двухуровневые параметры',
+                  style: TextStyle(fontSize: 22, color: AppColors.activeColor),
+                ),
+                const SizedBox(height: 5),
                 BoolChart(selectedDate: _selectedDate),
                 const SizedBox(height: 30),
+                const Text(
+                  'Численные параметры',
+                  style: TextStyle(fontSize: 22, color: AppColors.activeColor),
+                ),
+                const SizedBox(height: 5),
                 LineChartWidget(selectedDate: _selectedDate),
-                const SizedBox(height: 25),
+                const SizedBox(height: 30),
+                const Text(
+                  'Маркеры',
+                  style: TextStyle(fontSize: 22, color: AppColors.activeColor),
+                ),
+                const SizedBox(height: 5),
+                MarkerChartWidget(selectedDate: _selectedDate),
+                const SizedBox(height: 30),
+                const Text(
+                  'Пользовательские параметры',
+                  style: TextStyle(fontSize: 22, color: AppColors.activeColor),
+                ),
+                const SizedBox(height: 5),
                 CustomChartWidget(selectedDate: _selectedDate),
                 const SizedBox(height: 30),
                 ElevatedButton(
@@ -165,6 +193,3 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
     );
   }
 }
-
-
-//TODO: Подписи карточек и вертикальная прокрутка карточек

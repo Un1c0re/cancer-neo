@@ -5,7 +5,6 @@ import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/utils/constants.dart';
 import 'package:diplom/views/screens/symptoms/edit_symptom_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class CustomSymptomWidget extends StatelessWidget {

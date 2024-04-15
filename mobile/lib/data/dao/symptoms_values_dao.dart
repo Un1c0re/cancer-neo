@@ -140,4 +140,20 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
           ..where((tbl) => tbl.name_id.equals(nameData!.id)))
         .go();
   }
+
+  Future<double> getMaxValueByName(String name) async {
+    final query = customSelect(
+      'SELECT MAX(sv.value) AS max_value '
+      'FROM symptoms_values sv '
+      'JOIN symptoms_names sn ON sv.name_id = sn.id '
+      'WHERE sn.name = ?',
+      readsFrom: {symptomsValues, symptomsNames},
+      variables: [Variable.withString(name)],
+    );
+
+    final double? maxValue = await query
+        .map((row) => row.read<double?>('max_value'))
+        .getSingleOrNull();
+    return maxValue ?? 0;
+  }
 }

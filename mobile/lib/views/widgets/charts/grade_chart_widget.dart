@@ -2,30 +2,36 @@ import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/helpers/datetime_helpers.dart';
-import 'package:diplom/views/widgets/chart/chart_data.dart';
-import 'package:diplom/views/widgets/chart/chart_titles.dart';
+import 'package:diplom/views/widgets/charts/chart_data.dart';
+import 'package:diplom/views/widgets/charts/chart_titles.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-class BoolChart extends StatefulWidget {
+class GradeChart extends StatefulWidget {
   final DateTime selectedDate;
-  const BoolChart({super.key, required this.selectedDate});
+  const GradeChart({
+    super.key,
+    required this.selectedDate,
+  });
 
   @override
-  State<BoolChart> createState() => _BoolChartState();
+  State<GradeChart> createState() => _GradeChartState();
 }
 
-class _BoolChartState extends State<BoolChart> {
+class _GradeChartState extends State<GradeChart> {
   late int totalPoints;
+
   int currentPointIndex = 0;
+
   List<String> symptomNames = [];
 
   Future<void> loadSymptomNames() async {
     final names = await Get.find<DatabaseService>()
         .database
         .symptomsNamesDao
-        .getSymptomsNamesByTypeID(1);
+        .getSymptomsNamesByTypeID(2);
     setState(() {
       symptomNames = names;
       totalPoints =
@@ -51,15 +57,15 @@ class _BoolChartState extends State<BoolChart> {
             });
           },
           child: Container(
-            width: 150 / totalPoints, // Ширина точки
-            height: 5, // Высота точки
-            margin: const EdgeInsets.symmetric(
-                horizontal: 2), // Расстояние между точками
+            width:  10, // Ширина точки
+            height: 10, // Высота точки
+            margin: EdgeInsets.symmetric(
+                vertical: 55 / totalPoints), // Расстояние между точками
             decoration: BoxDecoration(
               color: i == currentPointIndex
                   ? AppColors.activeColor
                   : AppColors.backgroundColor,
-              // shape: BoxShape.circle,
+              shape: BoxShape.circle,
             ),
           ),
         ),
@@ -74,28 +80,28 @@ class _BoolChartState extends State<BoolChart> {
     final pickedDate = DateTime(widget.selectedDate.year,
         widget.selectedDate.month, widget.selectedDate.day);
 
-    Future<int> getBoolSymptomsNamesCount() async {
+    Future<int> getGradeSymptomsNamesCount() async {
       final List<String> tmp =
-          await service.database.symptomsNamesDao.getSymptomsNamesByTypeID(1);
+          await service.database.symptomsNamesDao.getSymptomsNamesByTypeID(2);
       return tmp.length;
     }
 
-    Future<List<List<double>>> getBoolData(DateTime date) async {
+    Future<List<List<double>>> getGradeData(DateTime date) async {
       final monthStart = getFirstDayOfMonth(date);
       final monthEnd = getFirstDayOfNextMonth(date);
 
       List<List<double>> rawDataList = await service.database.symptomsValuesDao
-          .getSymptomsSortedByDayAndNameID(1, monthStart, monthEnd);
+          .getSymptomsSortedByDayAndNameID(2, monthStart, monthEnd);
 
       return rawDataList;
     }
 
     List<BarChartGroupData> groupData(List<List<double>> rawDataList) {
       // Убедимся, что endIndex не выходит за пределы списка
-      int startIndex = currentPointIndex * 2;
+      int startIndex = currentPointIndex * 4;
 
       List<List<double>> filteredDataList = rawDataList.map((dayList) {
-        int endIndex = startIndex + 2;
+        int endIndex = startIndex + 4;
         if (dayList.isNotEmpty) {
           endIndex = endIndex < dayList.length ? endIndex : dayList.length;
           return dayList.sublist(startIndex, endIndex);
@@ -105,7 +111,7 @@ class _BoolChartState extends State<BoolChart> {
 
       List<BarChartGroupData> groupDataList = [];
       for (int i = 0; i < filteredDataList.length; i++) {
-        groupDataList.add(boolChartGroupData(i, filteredDataList[i]));
+        groupDataList.add(gradeChartGroupData(i, filteredDataList[i]));
       }
 
       return groupDataList;
@@ -113,43 +119,91 @@ class _BoolChartState extends State<BoolChart> {
 
     return ConstrainedBox(
       constraints: const BoxConstraints(
-        maxHeight: 250,
+        maxHeight: 300,
       ),
       child: AppStyleCard(
         backgroundColor: Colors.white,
-        child: Column(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxHeight: 150,
-              ),
+              constraints: const BoxConstraints(maxHeight: 250, maxWidth: 45),
+              child: FutureBuilder(
+                  future: getGradeSymptomsNamesCount(),
+                  builder: ((context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                          child: CircularProgressIndicator(
+                        color: AppColors.activeColor,
+                      ));
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      totalPoints = snapshot.data! ~/ 4;
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.keyboard_arrow_up),
+                            onPressed: () {
+                              currentPointIndex > 0
+                                  ? currentPointIndex--
+                                  : currentPointIndex = totalPoints - 1;
+                              setState(() {});
+                            },
+                            iconSize: 30,
+                          ),
+                          Wrap(
+                            direction: Axis.vertical,
+                            children: _buildPoints(),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.keyboard_arrow_down),
+                            onPressed: () {
+                              currentPointIndex < totalPoints - 1
+                                  ? currentPointIndex++
+                                  : currentPointIndex = 0;
+                              setState(() {});
+                            },
+                            iconSize: 30,
+                          ),
+                        ],
+                      );
+                    }
+                  })),
+            ),
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxHeight: 250, maxWidth: 365),
               child: FutureBuilder<List<List<double>>>(
-                future: getBoolData(pickedDate),
-                builder: ((context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    final List<List<double>> rawData = snapshot.data!;
+                  future: getGradeData(pickedDate),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                          child: CircularProgressIndicator(
+                        color: AppColors.activeColor,
+                      ));
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      final List<List<double>> rawData = snapshot.data!;
+                      final List<BarChartGroupData> barData =
+                          groupData(rawData);
 
-                    final List<BarChartGroupData> barData = groupData(rawData);
-
-                    return BarChart(
-                      BarChartData(
+                      return BarChart(BarChartData(
                         alignment: BarChartAlignment.spaceAround,
-                        maxY: 10,
+                        maxY: 20,
 
                         // showing value while touching bar
                         barTouchData: BarTouchData(enabled: false),
+
                         // show border around BarChart
                         borderData: FlBorderData(show: false),
 
                         // grid
                         gridData: const FlGridData(
                           horizontalInterval: 5,
-                          verticalInterval: 0.2356,
+                          verticalInterval: 0.23,
                         ),
 
                         // Titles
@@ -170,8 +224,8 @@ class _BoolChartState extends State<BoolChart> {
                               showTitles: true,
                               getTitlesWidget: (double value, TitleMeta meta) {
                                 const style = TextStyle(fontSize: 14);
-                                int startIndex = currentPointIndex * 2;
-                                int endIndex = currentPointIndex * 2 + 2;
+                                int startIndex = currentPointIndex * 4;
+                                int endIndex = currentPointIndex * 4 + 4;
                                 endIndex = endIndex < symptomNames.length
                                     ? endIndex
                                     : symptomNames.length;
@@ -190,59 +244,9 @@ class _BoolChartState extends State<BoolChart> {
                         ),
                         // bars values
                         barGroups: barData,
-                      ),
-                    );
-                  }
-                }),
-              ),
-            ),
-            ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxHeight: 45,
-              ),
-              child: FutureBuilder(
-                  future: getBoolSymptomsNamesCount(),
-                  builder: ((context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                          child: CircularProgressIndicator(
-                        color: AppColors.activeColor,
                       ));
-                    } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      totalPoints = snapshot.data! ~/ 2;
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.arrow_left),
-                            onPressed: () {
-                              currentPointIndex > 0
-                                  ? currentPointIndex--
-                                  : currentPointIndex = totalPoints - 1;
-                              setState(() {});
-                            },
-                            iconSize: 40,
-                          ),
-                          Wrap(
-                            children: _buildPoints(),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.arrow_right),
-                            onPressed: () {
-                              currentPointIndex < totalPoints - 1
-                                  ? currentPointIndex++
-                                  : currentPointIndex = 0;
-                              setState(() {});
-                            },
-                            iconSize: 40,
-                          ),
-                        ],
-                      );
                     }
-                  })),
+                  }),
             ),
           ],
         ),

@@ -20,6 +20,8 @@ class SymptomsNamesDao extends DatabaseAccessor<AppDatabase>
         dotenv.env['GRADE_SYMPTOMS_NAMES']!.split(',');
     List<String> numSymptomsNames =
         dotenv.env['NUM_SYMPTOMS_NAMES']!.split(',');
+    List<String> markerSymptomsNames =
+        dotenv.env['MARKER_SYMPTOMS_NAMES']!.split(',');
 
     for (int i = 0; i < boolSymptomsNames.length; i++) {
       await into(symptomsNames).insert(SymptomsNamesCompanion(
@@ -30,9 +32,15 @@ class SymptomsNamesDao extends DatabaseAccessor<AppDatabase>
       await into(symptomsNames).insert(SymptomsNamesCompanion(
           type_id: const Value(2), name: Value(gradeSymptomsNames[i])));
     }
+
     for (int i = 0; i < numSymptomsNames.length; i++) {
       await into(symptomsNames).insert(SymptomsNamesCompanion(
           type_id: const Value(3), name: Value(numSymptomsNames[i])));
+    }
+
+    for (int i = 0; i < markerSymptomsNames.length; i++) {
+      await into(symptomsNames).insert(SymptomsNamesCompanion(
+          type_id: const Value(4), name: Value(markerSymptomsNames[i])));
     }
   }
 
