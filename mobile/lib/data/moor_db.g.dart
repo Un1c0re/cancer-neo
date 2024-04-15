@@ -1256,7 +1256,7 @@ class SymptomsValue extends DataClass implements Insertable<SymptomsValue> {
   final int owner_id;
   final DateTime date;
   final int name_id;
-  final int value;
+  final double value;
   SymptomsValue(
       {required this.id,
       required this.owner_id,
@@ -1276,7 +1276,7 @@ class SymptomsValue extends DataClass implements Insertable<SymptomsValue> {
           .mapFromDatabaseResponse(data['${effectivePrefix}date'])!,
       name_id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}name_id'])!,
-      value: const IntType()
+      value: const RealType()
           .mapFromDatabaseResponse(data['${effectivePrefix}value'])!,
     );
   }
@@ -1287,7 +1287,7 @@ class SymptomsValue extends DataClass implements Insertable<SymptomsValue> {
     map['owner_id'] = Variable<int>(owner_id);
     map['date'] = Variable<DateTime>(date);
     map['name_id'] = Variable<int>(name_id);
-    map['value'] = Variable<int>(value);
+    map['value'] = Variable<double>(value);
     return map;
   }
 
@@ -1309,7 +1309,7 @@ class SymptomsValue extends DataClass implements Insertable<SymptomsValue> {
       owner_id: serializer.fromJson<int>(json['owner_id']),
       date: serializer.fromJson<DateTime>(json['date']),
       name_id: serializer.fromJson<int>(json['name_id']),
-      value: serializer.fromJson<int>(json['value']),
+      value: serializer.fromJson<double>(json['value']),
     );
   }
   @override
@@ -1320,12 +1320,16 @@ class SymptomsValue extends DataClass implements Insertable<SymptomsValue> {
       'owner_id': serializer.toJson<int>(owner_id),
       'date': serializer.toJson<DateTime>(date),
       'name_id': serializer.toJson<int>(name_id),
-      'value': serializer.toJson<int>(value),
+      'value': serializer.toJson<double>(value),
     };
   }
 
   SymptomsValue copyWith(
-          {int? id, int? owner_id, DateTime? date, int? name_id, int? value}) =>
+          {int? id,
+          int? owner_id,
+          DateTime? date,
+          int? name_id,
+          double? value}) =>
       SymptomsValue(
         id: id ?? this.id,
         owner_id: owner_id ?? this.owner_id,
@@ -1363,7 +1367,7 @@ class SymptomsValuesCompanion extends UpdateCompanion<SymptomsValue> {
   final Value<int> owner_id;
   final Value<DateTime> date;
   final Value<int> name_id;
-  final Value<int> value;
+  final Value<double> value;
   const SymptomsValuesCompanion({
     this.id = const Value.absent(),
     this.owner_id = const Value.absent(),
@@ -1385,7 +1389,7 @@ class SymptomsValuesCompanion extends UpdateCompanion<SymptomsValue> {
     Expression<int>? owner_id,
     Expression<DateTime>? date,
     Expression<int>? name_id,
-    Expression<int>? value,
+    Expression<double>? value,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1401,7 +1405,7 @@ class SymptomsValuesCompanion extends UpdateCompanion<SymptomsValue> {
       Value<int>? owner_id,
       Value<DateTime>? date,
       Value<int>? name_id,
-      Value<int>? value}) {
+      Value<double>? value}) {
     return SymptomsValuesCompanion(
       id: id ?? this.id,
       owner_id: owner_id ?? this.owner_id,
@@ -1427,7 +1431,7 @@ class SymptomsValuesCompanion extends UpdateCompanion<SymptomsValue> {
       map['name_id'] = Variable<int>(name_id.value);
     }
     if (value.present) {
-      map['value'] = Variable<int>(value.value);
+      map['value'] = Variable<double>(value.value);
     }
     return map;
   }
@@ -1479,11 +1483,11 @@ class $SymptomsValuesTable extends SymptomsValues
       $customConstraints: 'REFERENCES symptomsNames(id)');
   final VerificationMeta _valueMeta = const VerificationMeta('value');
   @override
-  late final GeneratedColumn<int?> value = GeneratedColumn<int?>(
+  late final GeneratedColumn<double?> value = GeneratedColumn<double?>(
       'value', aliasedName, false,
-      type: const IntType(),
+      type: const RealType(),
       requiredDuringInsert: false,
-      defaultValue: const Constant(0));
+      defaultValue: const Constant(0.0));
   @override
   List<GeneratedColumn> get $columns => [id, owner_id, date, name_id, value];
   @override

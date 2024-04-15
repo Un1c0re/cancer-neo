@@ -76,7 +76,7 @@ class SymptomsValues extends Table {
   // ignore: non_constant_identifier_names
   IntColumn get name_id =>
       integer().customConstraint('REFERENCES symptomsNames(id)')();
-  IntColumn get value => integer().withDefault(const Constant(0))();
+  RealColumn get value => real().withDefault(const Constant(0.0))();
 }
 
 class DayNotes extends Table {

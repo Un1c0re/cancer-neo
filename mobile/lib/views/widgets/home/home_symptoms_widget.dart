@@ -251,7 +251,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                                 symptomID: gradeSymptoms[gradeIndex].id,
                                 label: gradeSymptoms[gradeIndex].symptomName,
                                 symptomCurrentValue:
-                                    gradeSymptoms[gradeIndex].symptomValue,
+                                    gradeSymptoms[gradeIndex].symptomValue.toInt(),
                               ),
                             );
                             gradeIndex++;
@@ -267,7 +267,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                               BoolSymptomWidget(
                                 symptomID: boolSymptoms[boolIndex].id,
                                 label: boolSymptoms[boolIndex].symptomName,
-                                value: boolSymptoms[boolIndex].symptomValue,
+                                value: boolSymptoms[boolIndex].symptomValue.toInt(),
                               ),
                             );
                             if ((i + 1) % 2 == 0 ||

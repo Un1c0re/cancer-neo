@@ -61,7 +61,7 @@ class GradeSymptomWidget extends StatelessWidget {
                   ).evaluate(AlwaysStoppedAnimation(currentSliderValue / 4)),
                   onChanged: (double value) async {
                     controller.updateSliderValue(value);
-                    await controller.updateSymptomValueInDB(symptomID, value.toInt());
+                    await controller.updateSymptomValueInDB(symptomID, value);
                   },
                 );
                 })

@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 class NumSymptomWidget extends StatelessWidget {
   final int symptomID;
   final String label;
-  final int value;
+  final double value;
   
   NumSymptomWidget({
     super.key, 
@@ -35,7 +35,7 @@ class NumSymptomWidget extends StatelessWidget {
 
     // Добавляем слушатель для обновления реактивного значения в контроллере
     valueInputController.addListener(() {
-      int? newValue = int.tryParse(valueInputController.text);
+      double? newValue =  double.tryParse(valueInputController.text);
       if (newValue != null) {
         controller.updateSymptomValueInDB(symptomID, newValue);
       }

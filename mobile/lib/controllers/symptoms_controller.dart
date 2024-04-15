@@ -12,7 +12,7 @@ class GradeSymptomController extends GetxController {
     currentSliderValue.value = newValue;
   }
 
-  Future<void> updateSymptomValueInDB(int id, int value) async {
+  Future<void> updateSymptomValueInDB(int id, double value) async {
     final DatabaseService databaseService = Get.find();
     await databaseService.database.symptomsValuesDao.updateSymptomValue(
       symptomValueId: id,
@@ -36,7 +36,7 @@ class BoolSymptomController extends GetxController {
     final DatabaseService databaseService = Get.find();
     await databaseService.database.symptomsValuesDao.updateSymptomValue(
       symptomValueId: id,
-      newValue: currentValue.value.toInt(),
+      newValue: currentValue.value,
     );
   }
 }
@@ -52,7 +52,7 @@ class NumSymptomController extends GetxController {
     currentValue.value = newValue;
   }
 
-  Future<void> updateSymptomValueInDB(int id, int value) async {
+  Future<void> updateSymptomValueInDB(int id, double value) async {
     final DatabaseService databaseService = Get.find();
     await databaseService.database.symptomsValuesDao.updateSymptomValue(
       symptomValueId: id,
@@ -72,7 +72,7 @@ class CustomSymptomController extends GetxController {
     currentValue.value = newValue;
   }
 
-  Future<void> updateSymptomValueInDB(int id, int value) async {
+  Future<void> updateSymptomValueInDB(int id, double value) async {
     final DatabaseService databaseService = Get.find();
     await databaseService.database.symptomsValuesDao.updateSymptomValue(
       symptomValueId: id,

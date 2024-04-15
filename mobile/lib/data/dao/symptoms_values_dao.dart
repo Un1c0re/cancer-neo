@@ -31,7 +31,7 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> addSymptomValue({
     required String symptomName,
-    required int value,
+    required double value,
     required DateTime date,
   }) async {
     final userQuery = select(users)..where((u) => u.id.equals(0));
@@ -53,7 +53,7 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> updateSymptomValue({
     required int symptomValueId,
-    int? newValue,
+    double? newValue,
     DateTime? newDate,
   }) async {
     final symptomValueEntry = SymptomsValuesCompanion(
@@ -84,7 +84,7 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
             id: row.read<int>('symptomID'),
             symptomName: row.read<String>('symptomName'),
             symptomType: row.read<String>('symptomType'),
-            symptomValue: row.read<int>('symptomValue'),
+            symptomValue: row.read<double>('symptomValue'),
           ),
         )
         .toList();
@@ -114,7 +114,7 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
     Map<int, List<double>> symptomsByDay = {};
     for (var row in result) {
       final date = row.read<DateTime>('date');
-      final value = row.read<int>('value').toDouble();
+      final value = row.read<double>('value');
 
       symptomsByDay.putIfAbsent(date.day, () => []).add(value);
     }

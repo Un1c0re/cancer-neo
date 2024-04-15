@@ -93,10 +93,9 @@ class _LineChartWidgetState extends State<LineChartWidget> {
 
       // Создаем данные для графика из точек
       LineChartBarData lineData = LineChartBarData(
-        isCurved: true,
-        color: AppColors.primaryColor,
-        barWidth: 3,
+        isCurved: false,
         isStrokeCapRound: true,
+        color: AppColors.primaryColor,
         dotData: const FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
         spots: spots,

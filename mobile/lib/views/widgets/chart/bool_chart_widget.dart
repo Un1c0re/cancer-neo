@@ -184,7 +184,7 @@ class _BoolChartState extends State<BoolChart> {
                                 }
                                 return const Text('');
                               },
-                              reservedSize: 100,
+                              reservedSize: 85,
                             ),
                           ),
                         ),

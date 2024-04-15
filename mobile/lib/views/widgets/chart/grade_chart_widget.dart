@@ -88,7 +88,7 @@ class GradeChart extends StatelessWidget {
                       sideTitles: SideTitles(
                         showTitles: true,
                         getTitlesWidget: gradeChartleftTitles,
-                        reservedSize: 100,
+                        reservedSize: 85,
                       ),
                     ),
                   ),
