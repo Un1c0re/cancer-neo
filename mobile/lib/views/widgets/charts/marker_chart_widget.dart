@@ -109,10 +109,22 @@ class _MarkerChartWidgetState extends State<MarkerChartWidget> {
 
       // Создаем данные для графика из точек
       LineChartBarData lineData = LineChartBarData(
-        isCurved: false,
+         isCurved: false,
+        barWidth: 0.0,
         isStrokeCapRound: true,
-        color: AppColors.redColor,
-        dotData: const FlDotData(show: false),
+        dotData: FlDotData(
+          checkToShowDot: (spot, barData) => spot.y != 0.0,
+          show: true,
+          getDotPainter: (FlSpot spot, double percent, LineChartBarData barData,
+              int index) {
+            return FlDotCirclePainter(
+              radius: 3.5,
+              color: AppColors.redColor,
+              strokeColor: Colors.transparent,
+              strokeWidth: 0,
+            );
+          },
+        ),
         belowBarData: BarAreaData(show: false),
         spots: spots,
         // другие настройки для LineChartBarData...
@@ -132,13 +144,12 @@ class _MarkerChartWidgetState extends State<MarkerChartWidget> {
       constraints: const BoxConstraints(maxHeight: 360),
       child: AppStyleCard(
         backgroundColor: Colors.white,
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ConstrainedBox(
               constraints: const BoxConstraints(
-                maxHeight: 300,
-                maxWidth: 45,
+                maxHeight: 45,
               ),
               child: FutureBuilder(
                 future: getLineSymptomsNamesCount(),
@@ -149,8 +160,8 @@ class _MarkerChartWidgetState extends State<MarkerChartWidget> {
                     return Text('Error: ${snapshot.error}');
                   } else {
                     totalPoints = snapshot.data!;
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         IconButton(
@@ -161,11 +172,11 @@ class _MarkerChartWidgetState extends State<MarkerChartWidget> {
                                 : currentPointIndex = totalPoints - 1;
                             setState(() {});
                           },
-                          iconSize: 30,
+                          iconSize: 28,
                         ),
-                        Wrap(
-                          direction: Axis.vertical,
-                          children: _buildPoints(),
+                        Text(
+                          '${currentPointIndex + 1}/$totalPoints',
+                          style: const TextStyle(fontSize: 14),
                         ),
                         IconButton(
                           icon: const Icon(Icons.keyboard_arrow_down),
@@ -175,7 +186,7 @@ class _MarkerChartWidgetState extends State<MarkerChartWidget> {
                                 : currentPointIndex = 0;
                             setState(() {});
                           },
-                          iconSize: 30,
+                          iconSize: 28,
                         ),
                       ],
                     );

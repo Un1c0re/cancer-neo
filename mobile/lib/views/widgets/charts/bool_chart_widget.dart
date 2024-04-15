@@ -113,17 +113,16 @@ class _BoolChartState extends State<BoolChart> {
 
     return ConstrainedBox(
       constraints: const BoxConstraints(
-        maxHeight: 250,
+        maxHeight: 215,
       ),
       child: AppStyleCard(
         backgroundColor: Colors.white,
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ConstrainedBox(
               constraints: const BoxConstraints(
-                maxHeight: 200,
-                maxWidth: 45,
+                maxHeight: 45,
               ),
               child: FutureBuilder(
                   future: getBoolSymptomsNamesCount(),
@@ -137,8 +136,8 @@ class _BoolChartState extends State<BoolChart> {
                       return Text('Error: ${snapshot.error}');
                     } else {
                       totalPoints = snapshot.data! ~/ 2;
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           IconButton(
@@ -149,11 +148,11 @@ class _BoolChartState extends State<BoolChart> {
                                   : currentPointIndex = totalPoints - 1;
                               setState(() {});
                             },
-                            iconSize: 30,
+                            iconSize: 28,
                           ),
-                          Wrap(
-                            direction: Axis.vertical,
-                            children: _buildPoints(),
+                          Text(
+                            '${currentPointIndex + 1}/$totalPoints',
+                            style: const TextStyle(fontSize: 14),
                           ),
                           IconButton(
                             icon: const Icon(Icons.keyboard_arrow_down),
@@ -163,7 +162,7 @@ class _BoolChartState extends State<BoolChart> {
                                   : currentPointIndex = 0;
                               setState(() {});
                             },
-                            iconSize: 30,
+                            iconSize: 28,
                           ),
                         ],
                       );
@@ -173,7 +172,6 @@ class _BoolChartState extends State<BoolChart> {
             ConstrainedBox(
               constraints: const BoxConstraints(
                 maxHeight: 150,
-                maxWidth: 360,
               ),
               child: FutureBuilder<List<List<double>>>(
                 future: getBoolData(pickedDate),

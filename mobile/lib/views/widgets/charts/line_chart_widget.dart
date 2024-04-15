@@ -1,3 +1,4 @@
+import 'package:diplom/data/moor_db.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
@@ -110,9 +111,22 @@ class _LineChartWidgetState extends State<LineChartWidget> {
       // Создаем данные для графика из точек
       LineChartBarData lineData = LineChartBarData(
         isCurved: false,
+        barWidth: 0.0,
         isStrokeCapRound: true,
         color: AppColors.primaryColor,
-        dotData: const FlDotData(show: false),
+        dotData: FlDotData(
+          checkToShowDot: (spot, barData) => spot.y != 0.0,
+          show: true,
+          getDotPainter: (FlSpot spot, double percent, LineChartBarData barData,
+              int index) {
+            return FlDotCirclePainter(
+              radius: 3.5,
+              color: AppColors.primaryColor,
+              strokeColor: Colors.transparent,
+              strokeWidth: 0,
+            );
+          },
+        ),
         belowBarData: BarAreaData(show: false),
         spots: spots,
         // другие настройки для LineChartBarData...
@@ -132,13 +146,12 @@ class _LineChartWidgetState extends State<LineChartWidget> {
       constraints: const BoxConstraints(maxHeight: 360),
       child: AppStyleCard(
         backgroundColor: Colors.white,
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ConstrainedBox(
               constraints: const BoxConstraints(
-                maxHeight: 300,
-                maxWidth: 45,
+                maxHeight: 45,
               ),
               child: FutureBuilder(
                 future: getLineSymptomsNamesCount(),
@@ -149,8 +162,8 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                     return Text('Error: ${snapshot.error}');
                   } else {
                     totalPoints = snapshot.data!;
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         IconButton(
@@ -161,11 +174,11 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                                 : currentPointIndex = totalPoints - 1;
                             setState(() {});
                           },
-                          iconSize: 30,
+                          iconSize: 28,
                         ),
-                        Wrap(
-                          direction: Axis.vertical,
-                          children: _buildPoints(),
+                        Text(
+                          '${currentPointIndex + 1}/$totalPoints',
+                          style: const TextStyle(fontSize: 14),
                         ),
                         IconButton(
                           icon: const Icon(Icons.keyboard_arrow_down),
@@ -175,7 +188,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                                 : currentPointIndex = 0;
                             setState(() {});
                           },
-                          iconSize: 30,
+                          iconSize: 28,
                         ),
                       ],
                     );
@@ -220,7 +233,6 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                           LineChartData(
                             // show border around BarChart
                             borderData: FlBorderData(show: false),
-
                             lineTouchData: LineTouchData(
                               enabled: true,
                               touchTooltipData: LineTouchTooltipData(
@@ -252,10 +264,25 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                                   sideTitles: SideTitles(showTitles: false)),
                               rightTitles: const AxisTitles(
                                   sideTitles: SideTitles(showTitles: false)),
-                              bottomTitles: const AxisTitles(
+                              bottomTitles: AxisTitles(
                                 sideTitles: SideTitles(
                                   showTitles: true,
-                                  getTitlesWidget: bottomTitlesWidget,
+                                  // getTitlesWidget: bottomTitlesWidget,
+                                  getTitlesWidget:
+                                      (double value, TitleMeta meta) {
+                                    for (int i = 0; i < 31; i++) {
+                                      if (value == i * 5) {
+                                        return Text(
+                                          '${value.toInt() + 1}',
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
+                                        );
+                                      }
+                                    }
+                                    return SizedBox();
+                                  },
                                   reservedSize: 25,
                                 ),
                               ),

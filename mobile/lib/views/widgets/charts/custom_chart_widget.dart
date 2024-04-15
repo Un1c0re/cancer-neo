@@ -1,8 +1,8 @@
+
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/helpers/datetime_helpers.dart';
-import 'package:diplom/views/widgets/charts/chart_titles.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +21,7 @@ class _CustomChartWidgetState extends State<CustomChartWidget> {
   List<String> symptomsNames = [];
   List<double> symptomsMaxValues = [0];
 
-  Future<void> loadSymptomsNames() async {
+  Future<void> loadSymptomNames() async {
     final names = await Get.find<DatabaseService>()
         .database
         .symptomsNamesDao
@@ -48,7 +48,7 @@ class _CustomChartWidgetState extends State<CustomChartWidget> {
   @override
   void initState() {
     super.initState();
-    loadSymptomsNames().then((_) {
+    loadSymptomNames().then((_) {
       loadSymptomsMaxVlues();
     });
   }
@@ -65,15 +65,15 @@ class _CustomChartWidgetState extends State<CustomChartWidget> {
             });
           },
           child: Container(
-            width: 150 / totalPoints, // Ширина точки
-            height: 5, // Высота точки
+            width: 10, // Ширина точки
+            height: 10, // Высота точки
             margin: const EdgeInsets.symmetric(
-                horizontal: 2), // Расстояние между точками
+                vertical: 8), // Расстояние между точками
             decoration: BoxDecoration(
-              color: i == currentPointIndex
-                  ? AppColors.activeColor
-                  : AppColors.backgroundColor,
-            ),
+                color: i == currentPointIndex
+                    ? AppColors.activeColor
+                    : AppColors.backgroundColor,
+                shape: BoxShape.circle),
           ),
         ),
       );
@@ -83,7 +83,6 @@ class _CustomChartWidgetState extends State<CustomChartWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (symptomsNames.isEmpty) return const SizedBox(height: 1);
     final DatabaseService service = Get.find();
     final pickedDate = DateTime(widget.selectedDate.year,
         widget.selectedDate.month, widget.selectedDate.day);
@@ -110,11 +109,23 @@ class _CustomChartWidgetState extends State<CustomChartWidget> {
 
       // Создаем данные для графика из точек
       LineChartBarData lineData = LineChartBarData(
-        isCurved: true,
-        color: AppColors.primaryColor,
-        barWidth: 4,
+        isCurved: false,
+        barWidth: 0.0,
         isStrokeCapRound: true,
-        dotData: const FlDotData(show: false),
+        color: AppColors.primaryColor,
+        dotData: FlDotData(
+          checkToShowDot: (spot, barData) => spot.y != 0.0,
+          show: true,
+          getDotPainter: (FlSpot spot, double percent, LineChartBarData barData,
+              int index) {
+            return FlDotCirclePainter(
+              radius: 3.5,
+              color: AppColors.primaryColor,
+              strokeColor: Colors.transparent,
+              strokeWidth: 0,
+            );
+          },
+        ),
         belowBarData: BarAreaData(show: false),
         spots: spots,
         // другие настройки для LineChartBarData...
@@ -126,7 +137,7 @@ class _CustomChartWidgetState extends State<CustomChartWidget> {
 
     Future<int> getLineSymptomsNamesCount() async {
       final List<String> tmp =
-          await service.database.symptomsNamesDao.getSymptomsNamesByTypeID(5);
+          await service.database.symptomsNamesDao.getSymptomsNamesByTypeID(3);
       return tmp.length;
     }
 
@@ -137,78 +148,6 @@ class _CustomChartWidgetState extends State<CustomChartWidget> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text(
-              symptomsNames.isNotEmpty
-                  ? symptomsNames[currentPointIndex]
-                  : 'Загрузка...',
-              style: const TextStyle(
-                fontSize: 18,
-              ),
-            ),
-            const SizedBox(height: 15),
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 250, maxWidth: 360),
-              child: FutureBuilder(
-                future: getLineData(pickedDate),
-                builder: ((context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    final List<List<double>> rawData = snapshot.data!;
-                    final List<LineChartBarData> lineData = groupData(rawData);
-                    return LineChart(
-                      LineChartData(
-                        // show border around BarChart
-                        borderData: FlBorderData(show: false),
-
-                        // grid
-                        gridData: const FlGridData(
-                          drawHorizontalLine: true,
-                          horizontalInterval: 3,
-                          drawVerticalLine: true,
-                          verticalInterval: 5,
-                        ),
-                        titlesData: FlTitlesData(
-                          topTitles: const AxisTitles(
-                              sideTitles: SideTitles(showTitles: false)),
-                          rightTitles: const AxisTitles(
-                              sideTitles: SideTitles(showTitles: false)),
-                          bottomTitles: const AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              getTitlesWidget: bottomTitlesWidget,
-                              reservedSize: 50,
-                            ),
-                          ),
-                          leftTitles: AxisTitles(
-                            sideTitles: SideTitles(
-                              showTitles: true,
-                              getTitlesWidget: (double value, TitleMeta meta) {
-                                for (int i = 0;
-                                    i < symptomsMaxValues[currentPointIndex];
-                                    i++) {
-                                  if (value == i * 5) {
-                                    return Text(
-                                      '${value.toInt()}',
-                                      style: const TextStyle(fontSize: 14),
-                                    );
-                                  }
-                                }
-                                return const Text('');
-                              },
-                              reservedSize: 25,
-                            ),
-                          ),
-                        ),
-                        lineBarsData: lineData,
-                      ),
-                    );
-                  }
-                }),
-              ),
-            ),
             ConstrainedBox(
               constraints: const BoxConstraints(
                 maxHeight: 45,
@@ -223,37 +162,160 @@ class _CustomChartWidgetState extends State<CustomChartWidget> {
                   } else {
                     totalPoints = snapshot.data!;
                     return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.arrow_left),
+                          icon: const Icon(Icons.keyboard_arrow_up),
                           onPressed: () {
                             currentPointIndex > 0
                                 ? currentPointIndex--
                                 : currentPointIndex = totalPoints - 1;
                             setState(() {});
                           },
-                          iconSize: 40,
+                          iconSize: 28,
                         ),
-                        Wrap(
-                          children: _buildPoints(),
+                        Text(
+                          '${currentPointIndex + 1}/$totalPoints',
+                          style: const TextStyle(fontSize: 14),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.arrow_right),
+                          icon: const Icon(Icons.keyboard_arrow_down),
                           onPressed: () {
                             currentPointIndex < totalPoints - 1
                                 ? currentPointIndex++
                                 : currentPointIndex = 0;
                             setState(() {});
                           },
-                          iconSize: 40,
+                          iconSize: 28,
                         ),
                       ],
                     );
                   }
                 }),
               ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  symptomsNames.isNotEmpty
+                      ? symptomsNames[currentPointIndex]
+                      : 'Загрузка...',
+                  style: const TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxHeight: 250,
+                    maxWidth: 360,
+                  ),
+                  child: FutureBuilder(
+                    future: getLineData(pickedDate),
+                    builder: ((context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                            child: CircularProgressIndicator(
+                          color: AppColors.activeColor,
+                        ));
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        final List<List<double>> rawData = snapshot.data!;
+                        final List<LineChartBarData> lineData =
+                            groupData(rawData);
+                        return LineChart(
+                          LineChartData(
+                            // show border around BarChart
+                            borderData: FlBorderData(show: false),
+                            lineTouchData: LineTouchData(
+                              enabled: true,
+                              touchTooltipData: LineTouchTooltipData(
+                                tooltipBgColor:
+                                    Colors.blueGrey.withOpacity(0.8),
+                                getTooltipItems:
+                                    (List<LineBarSpot> touchedSpots) {
+                                  return touchedSpots
+                                      .map((LineBarSpot touchedSpot) {
+                                    return LineTooltipItem(
+                                      '${touchedSpot.y}',
+                                      const TextStyle(
+                                          color: Colors
+                                              .white), // Set text color here
+                                    );
+                                  }).toList();
+                                },
+                              ),
+                            ),
+                            // grid
+                            gridData: const FlGridData(
+                              drawHorizontalLine: true,
+                              horizontalInterval: 3,
+                              drawVerticalLine: true,
+                              verticalInterval: 5,
+                            ),
+                            titlesData: FlTitlesData(
+                              topTitles: const AxisTitles(
+                                  sideTitles: SideTitles(showTitles: false)),
+                              rightTitles: const AxisTitles(
+                                  sideTitles: SideTitles(showTitles: false)),
+                              bottomTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  // getTitlesWidget: bottomTitlesWidget,
+                                  getTitlesWidget:
+                                      (double value, TitleMeta meta) {
+                                    for (int i = 0; i < 31; i++) {
+                                      if (value == i * 5) {
+                                        return Text(
+                                          '${value.toInt() + 1}',
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                          ),
+                                        );
+                                      }
+                                    }
+                                    return SizedBox();
+                                  },
+                                  reservedSize: 25,
+                                ),
+                              ),
+                              leftTitles: AxisTitles(
+                                sideTitles: SideTitles(
+                                  showTitles: true,
+                                  getTitlesWidget:
+                                      (double value, TitleMeta meta) {
+                                    for (int i = 0;
+                                        i <
+                                            symptomsMaxValues[
+                                                currentPointIndex];
+                                        i++) {
+                                      if (value == i * 5) {
+                                        return Text(
+                                          '${value.toInt()}',
+                                          style: const TextStyle(fontSize: 14),
+                                        );
+                                      }
+                                    }
+                                    return const Text('');
+                                  },
+                                  reservedSize: 25,
+                                ),
+                              ),
+                            ),
+                            lineBarsData: lineData,
+                          ),
+                        );
+                      }
+                    }),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

@@ -63,7 +63,7 @@ class SymptomsNamesDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> addSymptomName(String newName) async {
     await into(symptomsNames).insert(
-        SymptomsNamesCompanion(type_id: const Value(4), name: Value(newName)));
+        SymptomsNamesCompanion(type_id: const Value(5), name: Value(newName)));
   }
 
   Future<void> deleteSymptomName(String symptomName) async {

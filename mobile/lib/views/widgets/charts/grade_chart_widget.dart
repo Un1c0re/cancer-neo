@@ -45,35 +45,6 @@ class _GradeChartState extends State<GradeChart> {
     loadSymptomNames(); // Загружаем имена симптомов при инициализации
   }
 
-  List<Widget> _buildPoints() {
-    List<Widget> points = [];
-    for (int i = 0; i < totalPoints; i++) {
-      points.add(
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              currentPointIndex = i;
-              // Тут можно вызвать функцию, которая обновит данные
-            });
-          },
-          child: Container(
-            width:  10, // Ширина точки
-            height: 10, // Высота точки
-            margin: EdgeInsets.symmetric(
-                vertical: 55 / totalPoints), // Расстояние между точками
-            decoration: BoxDecoration(
-              color: i == currentPointIndex
-                  ? AppColors.activeColor
-                  : AppColors.backgroundColor,
-              shape: BoxShape.circle,
-            ),
-          ),
-        ),
-      );
-    }
-    return points;
-  }
-
   @override
   Widget build(BuildContext context) {
     final DatabaseService service = Get.find();
@@ -119,15 +90,15 @@ class _GradeChartState extends State<GradeChart> {
 
     return ConstrainedBox(
       constraints: const BoxConstraints(
-        maxHeight: 300,
+        maxHeight: 315,
       ),
       child: AppStyleCard(
         backgroundColor: Colors.white,
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 250, maxWidth: 45),
+              constraints: const BoxConstraints(maxHeight: 45),
               child: FutureBuilder(
                   future: getGradeSymptomsNamesCount(),
                   builder: ((context, snapshot) {
@@ -140,11 +111,12 @@ class _GradeChartState extends State<GradeChart> {
                       return Text('Error: ${snapshot.error}');
                     } else {
                       totalPoints = snapshot.data! ~/ 4;
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           IconButton(
+                            padding: EdgeInsets.zero,
                             icon: const Icon(Icons.keyboard_arrow_up),
                             onPressed: () {
                               currentPointIndex > 0
@@ -152,11 +124,11 @@ class _GradeChartState extends State<GradeChart> {
                                   : currentPointIndex = totalPoints - 1;
                               setState(() {});
                             },
-                            iconSize: 30,
+                            iconSize: 28,
                           ),
-                          Wrap(
-                            direction: Axis.vertical,
-                            children: _buildPoints(),
+                          Text(
+                            '${currentPointIndex + 1}/$totalPoints',
+                            style: const TextStyle(fontSize: 14),
                           ),
                           IconButton(
                             icon: const Icon(Icons.keyboard_arrow_down),
@@ -166,7 +138,7 @@ class _GradeChartState extends State<GradeChart> {
                                   : currentPointIndex = 0;
                               setState(() {});
                             },
-                            iconSize: 30,
+                            iconSize: 28,
                           ),
                         ],
                       );
@@ -174,7 +146,7 @@ class _GradeChartState extends State<GradeChart> {
                   })),
             ),
             ConstrainedBox(
-              constraints: const BoxConstraints(maxHeight: 250, maxWidth: 365),
+              constraints: const BoxConstraints(maxHeight: 250),
               child: FutureBuilder<List<List<double>>>(
                   future: getGradeData(pickedDate),
                   builder: (context, snapshot) {
