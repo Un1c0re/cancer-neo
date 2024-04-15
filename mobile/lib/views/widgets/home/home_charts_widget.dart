@@ -168,11 +168,7 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
                 const SizedBox(height: 5),
                 MarkerChartWidget(selectedDate: _selectedDate),
                 const SizedBox(height: 30),
-                const Text(
-                  'Пользовательские параметры',
-                  style: TextStyle(fontSize: 22, color: AppColors.activeColor),
-                ),
-                const SizedBox(height: 5),
+                
                 CustomChartWidget(selectedDate: _selectedDate),
                 const SizedBox(height: 30),
                 ElevatedButton(

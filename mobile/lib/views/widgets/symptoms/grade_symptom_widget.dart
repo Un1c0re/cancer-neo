@@ -4,13 +4,16 @@ import 'package:diplom/utils/app_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class GradeSymptomWidget extends StatelessWidget {
   final int symptomID;
   final String label;
   final int symptomCurrentValue;
 
-  GradeSymptomWidget({super.key, required this.symptomID, required this.label, required this.symptomCurrentValue});
+  GradeSymptomWidget(
+      {super.key,
+      required this.symptomID,
+      required this.label,
+      required this.symptomCurrentValue});
 
   final List<String> labels = ['нет', 'слабо', 'средне', 'сильно'];
 
@@ -29,43 +32,47 @@ class GradeSymptomWidget extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               SliderTheme(
-                data: SliderThemeData(
-                  trackHeight: 10,
-                  inactiveTrackColor: const Color.fromARGB(40, 109, 109, 109),
-                  showValueIndicator: ShowValueIndicator.never,
-                  thumbShape: const RoundSliderThumbShape(
-                    enabledThumbRadius: 6,
-                    elevation: 0,
+                  data: SliderThemeData(
+                    trackHeight: 10,
+                    inactiveTrackColor: const Color.fromARGB(40, 109, 109, 109),
+                    showValueIndicator: ShowValueIndicator.never,
+                    thumbShape: const RoundSliderThumbShape(
+                      enabledThumbRadius: 6,
+                      elevation: 0,
+                    ),
+                    overlayShape: SliderComponentShape.noOverlay,
+                    trackShape: const RoundedRectSliderTrackShape(),
+                    tickMarkShape: CustomTickMarkShape(),
                   ),
-                  overlayShape: SliderComponentShape.noOverlay,
-                  trackShape: const RoundedRectSliderTrackShape(),
-                  tickMarkShape: CustomTickMarkShape(),
-                ),
-                child: Obx(() {
-                  final GradeSymptomController controller = Get.put(
-                    GradeSymptomController(symptomCurrentValue.toDouble()),
-                    tag: '$symptomID', // Используем symptomID как уникальный тэг
-                  );
-                  final currentSliderValue = controller.currentSliderValue.toDouble();
-                  return  Slider(
-                  label: labels[currentSliderValue.toInt()],
-                  value: currentSliderValue,
-                  max: 3,
-                  divisions: 3,
-                  activeColor: ColorTween(
-                    begin: AppColors.barColor,
-                    end: AppColors.barShadow,
-                  ).evaluate(AlwaysStoppedAnimation(currentSliderValue / 4)),
-                  onChanged: (double value) async {
-                    controller.updateSliderValue(value);
-                    await controller.updateSymptomValueInDB(symptomID, value);
-                  },
-                );
-                })
-              ),
+                  child: Obx(() {
+                    final GradeSymptomController controller = Get.put(
+                      GradeSymptomController(symptomCurrentValue.toDouble()),
+                      tag:
+                          '$symptomID', // Используем symptomID как уникальный тэг
+                    );
+                    final currentSliderValue =
+                        controller.currentSliderValue.toDouble();
+                    return Slider(
+                      label: labels[currentSliderValue.toInt()],
+                      value: currentSliderValue,
+                      max: 3,
+                      divisions: 3,
+                      activeColor: ColorTween(
+                        begin: AppColors.barColor,
+                        end: AppColors.barShadow,
+                      ).evaluate(
+                          AlwaysStoppedAnimation(currentSliderValue / 4)),
+                      onChanged: (double value) async {
+                        controller.updateSliderValue(value);
+                        await controller.updateSymptomValueInDB(
+                            symptomID, value);
+                      },
+                    );
+                  })),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: labels.map((text) {

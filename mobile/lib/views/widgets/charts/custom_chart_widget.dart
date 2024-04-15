@@ -1,4 +1,3 @@
-
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
@@ -141,185 +140,203 @@ class _CustomChartWidgetState extends State<CustomChartWidget> {
       return tmp.length;
     }
 
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxHeight: 360),
-      child: AppStyleCard(
-        backgroundColor: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxHeight: 45,
-              ),
-              child: FutureBuilder(
-                future: getLineSymptomsNamesCount(),
-                builder: ((context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    totalPoints = snapshot.data!;
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.keyboard_arrow_up),
-                          onPressed: () {
-                            currentPointIndex > 0
-                                ? currentPointIndex--
-                                : currentPointIndex = totalPoints - 1;
-                            setState(() {});
-                          },
-                          iconSize: 28,
-                        ),
-                        Text(
-                          '${currentPointIndex + 1}/$totalPoints',
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.keyboard_arrow_down),
-                          onPressed: () {
-                            currentPointIndex < totalPoints - 1
-                                ? currentPointIndex++
-                                : currentPointIndex = 0;
-                            setState(() {});
-                          },
-                          iconSize: 28,
-                        ),
-                      ],
-                    );
-                  }
-                }),
-              ),
-            ),
-            Column(
+    if (symptomsNames.isEmpty) {
+      return const SizedBox();
+    }
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text(
+          'Пользовательские параметры',
+          style: TextStyle(fontSize: 22, color: AppColors.activeColor),
+        ),
+        const SizedBox(height: 5),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxHeight: 360),
+          child: AppStyleCard(
+            backgroundColor: Colors.white,
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text(
-                  symptomsNames.isNotEmpty
-                      ? symptomsNames[currentPointIndex]
-                      : 'Загрузка...',
-                  style: const TextStyle(
-                    fontSize: 18,
-                  ),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
                 ConstrainedBox(
                   constraints: const BoxConstraints(
-                    maxHeight: 250,
-                    maxWidth: 360,
+                    maxHeight: 45,
                   ),
                   child: FutureBuilder(
-                    future: getLineData(pickedDate),
+                    future: getLineSymptomsNamesCount(),
                     builder: ((context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                            child: CircularProgressIndicator(
-                          color: AppColors.activeColor,
-                        ));
+                        return const CircularProgressIndicator();
                       } else if (snapshot.hasError) {
                         return Text('Error: ${snapshot.error}');
                       } else {
-                        final List<List<double>> rawData = snapshot.data!;
-                        final List<LineChartBarData> lineData =
-                            groupData(rawData);
-                        return LineChart(
-                          LineChartData(
-                            // show border around BarChart
-                            borderData: FlBorderData(show: false),
-                            lineTouchData: LineTouchData(
-                              enabled: true,
-                              touchTooltipData: LineTouchTooltipData(
-                                tooltipBgColor:
-                                    Colors.blueGrey.withOpacity(0.8),
-                                getTooltipItems:
-                                    (List<LineBarSpot> touchedSpots) {
-                                  return touchedSpots
-                                      .map((LineBarSpot touchedSpot) {
-                                    return LineTooltipItem(
-                                      '${touchedSpot.y}',
-                                      const TextStyle(
-                                          color: Colors
-                                              .white), // Set text color here
-                                    );
-                                  }).toList();
-                                },
-                              ),
+                        totalPoints = snapshot.data!;
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              icon: const Icon(Icons.keyboard_arrow_up),
+                              onPressed: () {
+                                currentPointIndex > 0
+                                    ? currentPointIndex--
+                                    : currentPointIndex = totalPoints - 1;
+                                setState(() {});
+                              },
+                              iconSize: 28,
                             ),
-                            // grid
-                            gridData: const FlGridData(
-                              drawHorizontalLine: true,
-                              horizontalInterval: 3,
-                              drawVerticalLine: true,
-                              verticalInterval: 5,
+                            Text(
+                              '${currentPointIndex + 1}/$totalPoints',
+                              style: const TextStyle(fontSize: 14),
                             ),
-                            titlesData: FlTitlesData(
-                              topTitles: const AxisTitles(
-                                  sideTitles: SideTitles(showTitles: false)),
-                              rightTitles: const AxisTitles(
-                                  sideTitles: SideTitles(showTitles: false)),
-                              bottomTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                                  showTitles: true,
-                                  // getTitlesWidget: bottomTitlesWidget,
-                                  getTitlesWidget:
-                                      (double value, TitleMeta meta) {
-                                    for (int i = 0; i < 31; i++) {
-                                      if (value == i * 5) {
-                                        return Text(
-                                          '${value.toInt() + 1}',
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                          ),
-                                        );
-                                      }
-                                    }
-                                    return SizedBox();
-                                  },
-                                  reservedSize: 25,
-                                ),
-                              ),
-                              leftTitles: AxisTitles(
-                                sideTitles: SideTitles(
-                                  showTitles: true,
-                                  getTitlesWidget:
-                                      (double value, TitleMeta meta) {
-                                    for (int i = 0;
-                                        i <
-                                            symptomsMaxValues[
-                                                currentPointIndex];
-                                        i++) {
-                                      if (value == i * 5) {
-                                        return Text(
-                                          '${value.toInt()}',
-                                          style: const TextStyle(fontSize: 14),
-                                        );
-                                      }
-                                    }
-                                    return const Text('');
-                                  },
-                                  reservedSize: 25,
-                                ),
-                              ),
+                            IconButton(
+                              icon: const Icon(Icons.keyboard_arrow_down),
+                              onPressed: () {
+                                currentPointIndex < totalPoints - 1
+                                    ? currentPointIndex++
+                                    : currentPointIndex = 0;
+                                setState(() {});
+                              },
+                              iconSize: 28,
                             ),
-                            lineBarsData: lineData,
-                          ),
+                          ],
                         );
                       }
                     }),
                   ),
                 ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      symptomsNames.isNotEmpty
+                          ? symptomsNames[currentPointIndex]
+                          : 'Загрузка...',
+                      style: const TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxHeight: 250,
+                        maxWidth: 360,
+                      ),
+                      child: FutureBuilder(
+                        future: getLineData(pickedDate),
+                        builder: ((context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                                child: CircularProgressIndicator(
+                              color: AppColors.activeColor,
+                            ));
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            final List<List<double>> rawData = snapshot.data!;
+                            final List<LineChartBarData> lineData =
+                                groupData(rawData);
+                            return LineChart(
+                              LineChartData(
+                                // show border around BarChart
+                                borderData: FlBorderData(show: false),
+                                lineTouchData: LineTouchData(
+                                  enabled: true,
+                                  touchTooltipData: LineTouchTooltipData(
+                                    tooltipBgColor:
+                                        Colors.blueGrey.withOpacity(0.8),
+                                    getTooltipItems:
+                                        (List<LineBarSpot> touchedSpots) {
+                                      return touchedSpots
+                                          .map((LineBarSpot touchedSpot) {
+                                        return LineTooltipItem(
+                                          '${touchedSpot.y}',
+                                          const TextStyle(
+                                              color: Colors
+                                                  .white), // Set text color here
+                                        );
+                                      }).toList();
+                                    },
+                                  ),
+                                ),
+                                // grid
+                                gridData: const FlGridData(
+                                  drawHorizontalLine: true,
+                                  horizontalInterval: 3,
+                                  drawVerticalLine: true,
+                                  verticalInterval: 5,
+                                ),
+                                titlesData: FlTitlesData(
+                                  topTitles: const AxisTitles(
+                                      sideTitles:
+                                          SideTitles(showTitles: false)),
+                                  rightTitles: const AxisTitles(
+                                      sideTitles:
+                                          SideTitles(showTitles: false)),
+                                  bottomTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      showTitles: true,
+                                      // getTitlesWidget: bottomTitlesWidget,
+                                      getTitlesWidget:
+                                          (double value, TitleMeta meta) {
+                                        for (int i = 0; i < 31; i++) {
+                                          if (value == i * 5) {
+                                            return Text(
+                                              '${value.toInt() + 1}',
+                                              textAlign: TextAlign.start,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                              ),
+                                            );
+                                          }
+                                        }
+                                        return SizedBox();
+                                      },
+                                      reservedSize: 25,
+                                    ),
+                                  ),
+                                  leftTitles: AxisTitles(
+                                    sideTitles: SideTitles(
+                                      showTitles: true,
+                                      getTitlesWidget:
+                                          (double value, TitleMeta meta) {
+                                        for (int i = 0;
+                                            i <
+                                                symptomsMaxValues[
+                                                    currentPointIndex];
+                                            i++) {
+                                          if (value == i * 5) {
+                                            return Text(
+                                              '${value.toInt()}',
+                                              style:
+                                                  const TextStyle(fontSize: 14),
+                                            );
+                                          }
+                                        }
+                                        return const Text('');
+                                      },
+                                      reservedSize: 25,
+                                    ),
+                                  ),
+                                ),
+                                lineBarsData: lineData,
+                              ),
+                            );
+                          }
+                        }),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

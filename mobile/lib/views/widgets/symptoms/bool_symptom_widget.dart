@@ -19,7 +19,6 @@ class BoolSymptomWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: DeviceScreenConstants.screenWidth * 0.4,
@@ -36,7 +35,8 @@ class BoolSymptomWidget extends StatelessWidget {
         return Stack(
           children: [
             AppStyleCard(
-              backgroundColor: isSelected ? AppColors.activeColor : Colors.white,
+              backgroundColor:
+                  isSelected ? AppColors.activeColor : Colors.white,
               child: Center(
                 child: Text(
                   label,
@@ -53,7 +53,7 @@ class BoolSymptomWidget extends StatelessWidget {
                 color: Colors.transparent,
                 child: InkWell(
                   onTap: () async {
-                    if(symptomValue == 0) {
+                    if (symptomValue == 0) {
                       controller.updateBoolValue(1);
                     } else {
                       controller.updateBoolValue(0);
@@ -69,8 +69,7 @@ class BoolSymptomWidget extends StatelessWidget {
             ),
           ],
         );
-      }
-      ),
+      }),
     );
   }
 }

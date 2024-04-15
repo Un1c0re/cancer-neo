@@ -1,9 +1,7 @@
-import 'package:diplom/data/moor_db.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/helpers/datetime_helpers.dart';
-import 'package:diplom/views/widgets/charts/chart_titles.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
