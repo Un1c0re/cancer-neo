@@ -165,3 +165,6 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
     );
   }
 }
+
+
+//TODO: Подписи карточек и вертикальная прокрутка карточек
