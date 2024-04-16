@@ -97,13 +97,13 @@ class _EditDocWidgetState extends State<EditDocWidget> {
     Future<void> updateDoc(String docName, int docType, DateTime docDate,
         String docPlace, String docNotes, Uint8List? docFile) async {
       await service.database.docsDao.updateDoc(
-        docId: widget.docID,
-        docName: docName,
-        docType: docType,
-        docDate: docDate,
-        docPlace: docPlace,
-        docNotes: docNotes,
-        docFile: docFile,
+        id: widget.docID,
+        name: docName,
+        type_id: docType,
+        date: docDate,
+        place: docPlace,
+        notes: docNotes,
+        file: docFile,
       );
     }
 
@@ -137,19 +137,19 @@ class _EditDocWidgetState extends State<EditDocWidget> {
                       return Text('Error: ${snapshot.error}');
                     } else {
                       final data = snapshot.data!;
-                      _nameInputController.text = data.docName;
-                      _placeInputController.text = data.docPlace;
+                      _nameInputController.text = data.name;
+                      _placeInputController.text = data.place;
                       if (!_isateInitialized) {
-                        _pickedDate = data.docDate;
+                        _pickedDate = data.date;
                         _isateInitialized = true;
                       }
                       _dateInputController.text = customFormat
                           .format(_pickedDate)
                           .toString()
                           .substring(0, 10);
-                      _notesInputController.text = data.docNotes;
-                      if (data.docFile != null && !_isFileLoaded) {
-                        docFileBytes = data.docFile;
+                      _notesInputController.text = data.notes;
+                      if (data.file != null && !_isFileLoaded) {
+                        docFileBytes = data.file;
                         _isFileLoaded = true;
                       }
 

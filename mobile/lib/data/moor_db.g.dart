@@ -474,58 +474,58 @@ class $DoctypesTable extends Doctypes with TableInfo<$DoctypesTable, Doctype> {
 
 class Doc extends DataClass implements Insertable<Doc> {
   final int id;
-  final int ownerId;
-  final String docName;
-  final int docType;
-  final DateTime? docDate;
-  final String docPlace;
-  final String docNotes;
-  final Uint8List? docFile;
+  final int owner_id;
+  final String name;
+  final int type_id;
+  final DateTime? date;
+  final String place;
+  final String notes;
+  final Uint8List? file;
   Doc(
       {required this.id,
-      required this.ownerId,
-      required this.docName,
-      required this.docType,
-      this.docDate,
-      required this.docPlace,
-      required this.docNotes,
-      this.docFile});
+      required this.owner_id,
+      required this.name,
+      required this.type_id,
+      this.date,
+      required this.place,
+      required this.notes,
+      this.file});
   factory Doc.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
     return Doc(
       id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}id'])!,
-      ownerId: const IntType()
+      owner_id: const IntType()
           .mapFromDatabaseResponse(data['${effectivePrefix}owner_id'])!,
-      docName: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}doc_name'])!,
-      docType: const IntType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}doc_type'])!,
-      docDate: const DateTimeType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}doc_date']),
-      docPlace: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}doc_place'])!,
-      docNotes: const StringType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}doc_notes'])!,
-      docFile: const BlobType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}doc_file']),
+      name: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}name'])!,
+      type_id: const IntType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}type_id'])!,
+      date: const DateTimeType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}date']),
+      place: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}place'])!,
+      notes: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}notes'])!,
+      file: const BlobType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}file']),
     );
   }
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['owner_id'] = Variable<int>(ownerId);
-    map['doc_name'] = Variable<String>(docName);
-    map['doc_type'] = Variable<int>(docType);
-    if (!nullToAbsent || docDate != null) {
-      map['doc_date'] = Variable<DateTime?>(docDate);
+    map['owner_id'] = Variable<int>(owner_id);
+    map['name'] = Variable<String>(name);
+    map['type_id'] = Variable<int>(type_id);
+    if (!nullToAbsent || date != null) {
+      map['date'] = Variable<DateTime?>(date);
     }
-    map['doc_place'] = Variable<String>(docPlace);
-    map['doc_notes'] = Variable<String>(docNotes);
-    if (!nullToAbsent || docFile != null) {
-      map['doc_file'] = Variable<Uint8List?>(docFile);
+    map['place'] = Variable<String>(place);
+    map['notes'] = Variable<String>(notes);
+    if (!nullToAbsent || file != null) {
+      map['file'] = Variable<Uint8List?>(file);
     }
     return map;
   }
@@ -533,17 +533,13 @@ class Doc extends DataClass implements Insertable<Doc> {
   DocsCompanion toCompanion(bool nullToAbsent) {
     return DocsCompanion(
       id: Value(id),
-      ownerId: Value(ownerId),
-      docName: Value(docName),
-      docType: Value(docType),
-      docDate: docDate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(docDate),
-      docPlace: Value(docPlace),
-      docNotes: Value(docNotes),
-      docFile: docFile == null && nullToAbsent
-          ? const Value.absent()
-          : Value(docFile),
+      owner_id: Value(owner_id),
+      name: Value(name),
+      type_id: Value(type_id),
+      date: date == null && nullToAbsent ? const Value.absent() : Value(date),
+      place: Value(place),
+      notes: Value(notes),
+      file: file == null && nullToAbsent ? const Value.absent() : Value(file),
     );
   }
 
@@ -552,13 +548,13 @@ class Doc extends DataClass implements Insertable<Doc> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return Doc(
       id: serializer.fromJson<int>(json['id']),
-      ownerId: serializer.fromJson<int>(json['ownerId']),
-      docName: serializer.fromJson<String>(json['docName']),
-      docType: serializer.fromJson<int>(json['docType']),
-      docDate: serializer.fromJson<DateTime?>(json['docDate']),
-      docPlace: serializer.fromJson<String>(json['docPlace']),
-      docNotes: serializer.fromJson<String>(json['docNotes']),
-      docFile: serializer.fromJson<Uint8List?>(json['docFile']),
+      owner_id: serializer.fromJson<int>(json['owner_id']),
+      name: serializer.fromJson<String>(json['name']),
+      type_id: serializer.fromJson<int>(json['type_id']),
+      date: serializer.fromJson<DateTime?>(json['date']),
+      place: serializer.fromJson<String>(json['place']),
+      notes: serializer.fromJson<String>(json['notes']),
+      file: serializer.fromJson<Uint8List?>(json['file']),
     );
   }
   @override
@@ -566,140 +562,140 @@ class Doc extends DataClass implements Insertable<Doc> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'ownerId': serializer.toJson<int>(ownerId),
-      'docName': serializer.toJson<String>(docName),
-      'docType': serializer.toJson<int>(docType),
-      'docDate': serializer.toJson<DateTime?>(docDate),
-      'docPlace': serializer.toJson<String>(docPlace),
-      'docNotes': serializer.toJson<String>(docNotes),
-      'docFile': serializer.toJson<Uint8List?>(docFile),
+      'owner_id': serializer.toJson<int>(owner_id),
+      'name': serializer.toJson<String>(name),
+      'type_id': serializer.toJson<int>(type_id),
+      'date': serializer.toJson<DateTime?>(date),
+      'place': serializer.toJson<String>(place),
+      'notes': serializer.toJson<String>(notes),
+      'file': serializer.toJson<Uint8List?>(file),
     };
   }
 
   Doc copyWith(
           {int? id,
-          int? ownerId,
-          String? docName,
-          int? docType,
-          DateTime? docDate,
-          String? docPlace,
-          String? docNotes,
-          Uint8List? docFile}) =>
+          int? owner_id,
+          String? name,
+          int? type_id,
+          DateTime? date,
+          String? place,
+          String? notes,
+          Uint8List? file}) =>
       Doc(
         id: id ?? this.id,
-        ownerId: ownerId ?? this.ownerId,
-        docName: docName ?? this.docName,
-        docType: docType ?? this.docType,
-        docDate: docDate ?? this.docDate,
-        docPlace: docPlace ?? this.docPlace,
-        docNotes: docNotes ?? this.docNotes,
-        docFile: docFile ?? this.docFile,
+        owner_id: owner_id ?? this.owner_id,
+        name: name ?? this.name,
+        type_id: type_id ?? this.type_id,
+        date: date ?? this.date,
+        place: place ?? this.place,
+        notes: notes ?? this.notes,
+        file: file ?? this.file,
       );
   @override
   String toString() {
     return (StringBuffer('Doc(')
           ..write('id: $id, ')
-          ..write('ownerId: $ownerId, ')
-          ..write('docName: $docName, ')
-          ..write('docType: $docType, ')
-          ..write('docDate: $docDate, ')
-          ..write('docPlace: $docPlace, ')
-          ..write('docNotes: $docNotes, ')
-          ..write('docFile: $docFile')
+          ..write('owner_id: $owner_id, ')
+          ..write('name: $name, ')
+          ..write('type_id: $type_id, ')
+          ..write('date: $date, ')
+          ..write('place: $place, ')
+          ..write('notes: $notes, ')
+          ..write('file: $file')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(
-      id, ownerId, docName, docType, docDate, docPlace, docNotes, docFile);
+  int get hashCode =>
+      Object.hash(id, owner_id, name, type_id, date, place, notes, file);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is Doc &&
           other.id == this.id &&
-          other.ownerId == this.ownerId &&
-          other.docName == this.docName &&
-          other.docType == this.docType &&
-          other.docDate == this.docDate &&
-          other.docPlace == this.docPlace &&
-          other.docNotes == this.docNotes &&
-          other.docFile == this.docFile);
+          other.owner_id == this.owner_id &&
+          other.name == this.name &&
+          other.type_id == this.type_id &&
+          other.date == this.date &&
+          other.place == this.place &&
+          other.notes == this.notes &&
+          other.file == this.file);
 }
 
 class DocsCompanion extends UpdateCompanion<Doc> {
   final Value<int> id;
-  final Value<int> ownerId;
-  final Value<String> docName;
-  final Value<int> docType;
-  final Value<DateTime?> docDate;
-  final Value<String> docPlace;
-  final Value<String> docNotes;
-  final Value<Uint8List?> docFile;
+  final Value<int> owner_id;
+  final Value<String> name;
+  final Value<int> type_id;
+  final Value<DateTime?> date;
+  final Value<String> place;
+  final Value<String> notes;
+  final Value<Uint8List?> file;
   const DocsCompanion({
     this.id = const Value.absent(),
-    this.ownerId = const Value.absent(),
-    this.docName = const Value.absent(),
-    this.docType = const Value.absent(),
-    this.docDate = const Value.absent(),
-    this.docPlace = const Value.absent(),
-    this.docNotes = const Value.absent(),
-    this.docFile = const Value.absent(),
+    this.owner_id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.type_id = const Value.absent(),
+    this.date = const Value.absent(),
+    this.place = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.file = const Value.absent(),
   });
   DocsCompanion.insert({
     this.id = const Value.absent(),
-    required int ownerId,
-    required String docName,
-    required int docType,
-    this.docDate = const Value.absent(),
-    required String docPlace,
-    required String docNotes,
-    this.docFile = const Value.absent(),
-  })  : ownerId = Value(ownerId),
-        docName = Value(docName),
-        docType = Value(docType),
-        docPlace = Value(docPlace),
-        docNotes = Value(docNotes);
+    required int owner_id,
+    required String name,
+    required int type_id,
+    this.date = const Value.absent(),
+    required String place,
+    required String notes,
+    this.file = const Value.absent(),
+  })  : owner_id = Value(owner_id),
+        name = Value(name),
+        type_id = Value(type_id),
+        place = Value(place),
+        notes = Value(notes);
   static Insertable<Doc> custom({
     Expression<int>? id,
-    Expression<int>? ownerId,
-    Expression<String>? docName,
-    Expression<int>? docType,
-    Expression<DateTime?>? docDate,
-    Expression<String>? docPlace,
-    Expression<String>? docNotes,
-    Expression<Uint8List?>? docFile,
+    Expression<int>? owner_id,
+    Expression<String>? name,
+    Expression<int>? type_id,
+    Expression<DateTime?>? date,
+    Expression<String>? place,
+    Expression<String>? notes,
+    Expression<Uint8List?>? file,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (ownerId != null) 'owner_id': ownerId,
-      if (docName != null) 'doc_name': docName,
-      if (docType != null) 'doc_type': docType,
-      if (docDate != null) 'doc_date': docDate,
-      if (docPlace != null) 'doc_place': docPlace,
-      if (docNotes != null) 'doc_notes': docNotes,
-      if (docFile != null) 'doc_file': docFile,
+      if (owner_id != null) 'owner_id': owner_id,
+      if (name != null) 'name': name,
+      if (type_id != null) 'type_id': type_id,
+      if (date != null) 'date': date,
+      if (place != null) 'place': place,
+      if (notes != null) 'notes': notes,
+      if (file != null) 'file': file,
     });
   }
 
   DocsCompanion copyWith(
       {Value<int>? id,
-      Value<int>? ownerId,
-      Value<String>? docName,
-      Value<int>? docType,
-      Value<DateTime?>? docDate,
-      Value<String>? docPlace,
-      Value<String>? docNotes,
-      Value<Uint8List?>? docFile}) {
+      Value<int>? owner_id,
+      Value<String>? name,
+      Value<int>? type_id,
+      Value<DateTime?>? date,
+      Value<String>? place,
+      Value<String>? notes,
+      Value<Uint8List?>? file}) {
     return DocsCompanion(
       id: id ?? this.id,
-      ownerId: ownerId ?? this.ownerId,
-      docName: docName ?? this.docName,
-      docType: docType ?? this.docType,
-      docDate: docDate ?? this.docDate,
-      docPlace: docPlace ?? this.docPlace,
-      docNotes: docNotes ?? this.docNotes,
-      docFile: docFile ?? this.docFile,
+      owner_id: owner_id ?? this.owner_id,
+      name: name ?? this.name,
+      type_id: type_id ?? this.type_id,
+      date: date ?? this.date,
+      place: place ?? this.place,
+      notes: notes ?? this.notes,
+      file: file ?? this.file,
     );
   }
 
@@ -709,26 +705,26 @@ class DocsCompanion extends UpdateCompanion<Doc> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (ownerId.present) {
-      map['owner_id'] = Variable<int>(ownerId.value);
+    if (owner_id.present) {
+      map['owner_id'] = Variable<int>(owner_id.value);
     }
-    if (docName.present) {
-      map['doc_name'] = Variable<String>(docName.value);
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
     }
-    if (docType.present) {
-      map['doc_type'] = Variable<int>(docType.value);
+    if (type_id.present) {
+      map['type_id'] = Variable<int>(type_id.value);
     }
-    if (docDate.present) {
-      map['doc_date'] = Variable<DateTime?>(docDate.value);
+    if (date.present) {
+      map['date'] = Variable<DateTime?>(date.value);
     }
-    if (docPlace.present) {
-      map['doc_place'] = Variable<String>(docPlace.value);
+    if (place.present) {
+      map['place'] = Variable<String>(place.value);
     }
-    if (docNotes.present) {
-      map['doc_notes'] = Variable<String>(docNotes.value);
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
     }
-    if (docFile.present) {
-      map['doc_file'] = Variable<Uint8List?>(docFile.value);
+    if (file.present) {
+      map['file'] = Variable<Uint8List?>(file.value);
     }
     return map;
   }
@@ -737,13 +733,13 @@ class DocsCompanion extends UpdateCompanion<Doc> {
   String toString() {
     return (StringBuffer('DocsCompanion(')
           ..write('id: $id, ')
-          ..write('ownerId: $ownerId, ')
-          ..write('docName: $docName, ')
-          ..write('docType: $docType, ')
-          ..write('docDate: $docDate, ')
-          ..write('docPlace: $docPlace, ')
-          ..write('docNotes: $docNotes, ')
-          ..write('docFile: $docFile')
+          ..write('owner_id: $owner_id, ')
+          ..write('name: $name, ')
+          ..write('type_id: $type_id, ')
+          ..write('date: $date, ')
+          ..write('place: $place, ')
+          ..write('notes: $notes, ')
+          ..write('file: $file')
           ..write(')'))
         .toString();
   }
@@ -761,48 +757,48 @@ class $DocsTable extends Docs with TableInfo<$DocsTable, Doc> {
       type: const IntType(),
       requiredDuringInsert: false,
       defaultConstraints: 'PRIMARY KEY AUTOINCREMENT');
-  final VerificationMeta _ownerIdMeta = const VerificationMeta('ownerId');
+  final VerificationMeta _owner_idMeta = const VerificationMeta('owner_id');
   @override
-  late final GeneratedColumn<int?> ownerId = GeneratedColumn<int?>(
+  late final GeneratedColumn<int?> owner_id = GeneratedColumn<int?>(
       'owner_id', aliasedName, false,
       type: const IntType(),
       requiredDuringInsert: true,
       $customConstraints: 'REFERENCES users(id)');
-  final VerificationMeta _docNameMeta = const VerificationMeta('docName');
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
-  late final GeneratedColumn<String?> docName = GeneratedColumn<String?>(
-      'doc_name', aliasedName, false,
+  late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
+      'name', aliasedName, false,
       type: const StringType(), requiredDuringInsert: true);
-  final VerificationMeta _docTypeMeta = const VerificationMeta('docType');
+  final VerificationMeta _type_idMeta = const VerificationMeta('type_id');
   @override
-  late final GeneratedColumn<int?> docType = GeneratedColumn<int?>(
-      'doc_type', aliasedName, false,
+  late final GeneratedColumn<int?> type_id = GeneratedColumn<int?>(
+      'type_id', aliasedName, false,
       type: const IntType(),
       requiredDuringInsert: true,
       $customConstraints: 'REFERENCES doctypes(id)');
-  final VerificationMeta _docDateMeta = const VerificationMeta('docDate');
+  final VerificationMeta _dateMeta = const VerificationMeta('date');
   @override
-  late final GeneratedColumn<DateTime?> docDate = GeneratedColumn<DateTime?>(
-      'doc_date', aliasedName, true,
+  late final GeneratedColumn<DateTime?> date = GeneratedColumn<DateTime?>(
+      'date', aliasedName, true,
       type: const IntType(), requiredDuringInsert: false);
-  final VerificationMeta _docPlaceMeta = const VerificationMeta('docPlace');
+  final VerificationMeta _placeMeta = const VerificationMeta('place');
   @override
-  late final GeneratedColumn<String?> docPlace = GeneratedColumn<String?>(
-      'doc_place', aliasedName, false,
+  late final GeneratedColumn<String?> place = GeneratedColumn<String?>(
+      'place', aliasedName, false,
       type: const StringType(), requiredDuringInsert: true);
-  final VerificationMeta _docNotesMeta = const VerificationMeta('docNotes');
+  final VerificationMeta _notesMeta = const VerificationMeta('notes');
   @override
-  late final GeneratedColumn<String?> docNotes = GeneratedColumn<String?>(
-      'doc_notes', aliasedName, false,
+  late final GeneratedColumn<String?> notes = GeneratedColumn<String?>(
+      'notes', aliasedName, false,
       type: const StringType(), requiredDuringInsert: true);
-  final VerificationMeta _docFileMeta = const VerificationMeta('docFile');
+  final VerificationMeta _fileMeta = const VerificationMeta('file');
   @override
-  late final GeneratedColumn<Uint8List?> docFile = GeneratedColumn<Uint8List?>(
-      'doc_file', aliasedName, true,
+  late final GeneratedColumn<Uint8List?> file = GeneratedColumn<Uint8List?>(
+      'file', aliasedName, true,
       type: const BlobType(), requiredDuringInsert: false);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, ownerId, docName, docType, docDate, docPlace, docNotes, docFile];
+      [id, owner_id, name, type_id, date, place, notes, file];
   @override
   String get aliasedName => _alias ?? 'docs';
   @override
@@ -816,42 +812,42 @@ class $DocsTable extends Docs with TableInfo<$DocsTable, Doc> {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('owner_id')) {
-      context.handle(_ownerIdMeta,
-          ownerId.isAcceptableOrUnknown(data['owner_id']!, _ownerIdMeta));
+      context.handle(_owner_idMeta,
+          owner_id.isAcceptableOrUnknown(data['owner_id']!, _owner_idMeta));
     } else if (isInserting) {
-      context.missing(_ownerIdMeta);
+      context.missing(_owner_idMeta);
     }
-    if (data.containsKey('doc_name')) {
-      context.handle(_docNameMeta,
-          docName.isAcceptableOrUnknown(data['doc_name']!, _docNameMeta));
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
     } else if (isInserting) {
-      context.missing(_docNameMeta);
+      context.missing(_nameMeta);
     }
-    if (data.containsKey('doc_type')) {
-      context.handle(_docTypeMeta,
-          docType.isAcceptableOrUnknown(data['doc_type']!, _docTypeMeta));
+    if (data.containsKey('type_id')) {
+      context.handle(_type_idMeta,
+          type_id.isAcceptableOrUnknown(data['type_id']!, _type_idMeta));
     } else if (isInserting) {
-      context.missing(_docTypeMeta);
+      context.missing(_type_idMeta);
     }
-    if (data.containsKey('doc_date')) {
-      context.handle(_docDateMeta,
-          docDate.isAcceptableOrUnknown(data['doc_date']!, _docDateMeta));
+    if (data.containsKey('date')) {
+      context.handle(
+          _dateMeta, date.isAcceptableOrUnknown(data['date']!, _dateMeta));
     }
-    if (data.containsKey('doc_place')) {
-      context.handle(_docPlaceMeta,
-          docPlace.isAcceptableOrUnknown(data['doc_place']!, _docPlaceMeta));
+    if (data.containsKey('place')) {
+      context.handle(
+          _placeMeta, place.isAcceptableOrUnknown(data['place']!, _placeMeta));
     } else if (isInserting) {
-      context.missing(_docPlaceMeta);
+      context.missing(_placeMeta);
     }
-    if (data.containsKey('doc_notes')) {
-      context.handle(_docNotesMeta,
-          docNotes.isAcceptableOrUnknown(data['doc_notes']!, _docNotesMeta));
+    if (data.containsKey('notes')) {
+      context.handle(
+          _notesMeta, notes.isAcceptableOrUnknown(data['notes']!, _notesMeta));
     } else if (isInserting) {
-      context.missing(_docNotesMeta);
+      context.missing(_notesMeta);
     }
-    if (data.containsKey('doc_file')) {
-      context.handle(_docFileMeta,
-          docFile.isAcceptableOrUnknown(data['doc_file']!, _docFileMeta));
+    if (data.containsKey('file')) {
+      context.handle(
+          _fileMeta, file.isAcceptableOrUnknown(data['file']!, _fileMeta));
     }
     return context;
   }

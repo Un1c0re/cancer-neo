@@ -2,44 +2,44 @@ import 'dart:typed_data';
 
 class DocModel {
   final int id;
-  final String docName;
-  final int docType;
-  final DateTime docDate;
-  final String docPlace;
-  final String docNotes;
-  final Uint8List? docFile;
+  final String name;
+  final int type_id;
+  final DateTime date;
+  final String place;
+  final String notes;
+  final Uint8List? file;
 
   DocModel({
     required this.id, 
-    required this.docName, 
-    required this.docType, 
-    required this.docDate, 
-    required this.docPlace, 
-    required this.docNotes,
-    required this.docFile,
+    required this.name, 
+    required this.type_id, 
+    required this.date, 
+    required this.place, 
+    required this.notes,
+    required this.file,
   });
 
   factory DocModel.fromMap(Map<String, dynamic> map) {
     return DocModel(
       id:       map['id'] as int,
-      docName:  map['docName'] as String,
-      docType:  map['docType'] as int,
-      docDate:  DateTime.fromMillisecondsSinceEpoch(map['docDate'] as int),
-      docPlace: map['docPlace'] as String,
-      docNotes: map['docNotes'] as String,
-      docFile: map['docFile'] as Uint8List?,
+      name:  map['name'] as String,
+      type_id:  map['type_id'] as int,
+      date:  DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
+      place: map['place'] as String,
+      notes: map['notes'] as String,
+      file: map['file'] as Uint8List?,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'docName': docName,
-      'docType': docType,
-      'docDate': docDate,
-      'docPlace': docPlace,
-      'docNotes': docNotes,
-      'docFile': docFile,
+      'name': name,
+      'type_id': type_id,
+      'date': date,
+      'place': place,
+      'notes': notes,
+      'file': file,
     };
   }
 }

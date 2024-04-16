@@ -134,6 +134,17 @@ abstract class AppStyleTextFields {
 
   static final enabledBorder = textFieldBorder;
 
+  static final disabledBorder = textFieldBorder.copyWith(
+    borderSide: const BorderSide(
+      color: Colors.grey,
+      width: 1.5,
+    ),
+
+    borderRadius: const BorderRadius.all(
+      Radius.circular(10.0),
+    ),
+  );
+
   static final focusedBorder = textFieldBorder.copyWith(
     borderSide: const BorderSide(
       color: AppColors.activeColor,
@@ -159,6 +170,7 @@ abstract class AppStyleTextFields {
     filled: true,
     fillColor: AppColors.fillColor,
     enabledBorder: AppStyleTextFields.enabledBorder,
+    disabledBorder: AppStyleTextFields.disabledBorder,
     focusedBorder: AppStyleTextFields.focusedBorder,
     errorBorder: AppStyleTextFields.errorBorder,
   );

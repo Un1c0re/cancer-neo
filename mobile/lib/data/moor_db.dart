@@ -44,13 +44,13 @@ class Doctypes extends Table {
 
 class Docs extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get ownerId => integer().customConstraint('REFERENCES users(id)')();
-  TextColumn get docName => text()();
-  IntColumn get docType => integer().customConstraint('REFERENCES doctypes(id)')();
-  DateTimeColumn get docDate => dateTime().nullable()();
-  TextColumn get docPlace => text()();
-  TextColumn get docNotes => text()();
-  BlobColumn get docFile => blob().nullable()();
+  IntColumn get owner_id => integer().customConstraint('REFERENCES users(id)')();
+  TextColumn get name => text()();
+  IntColumn get type_id => integer().customConstraint('REFERENCES doctypes(id)')();
+  DateTimeColumn get date => dateTime().nullable()();
+  TextColumn get place => text()();
+  TextColumn get notes => text()();
+  BlobColumn get file => blob().nullable()();
 }
 
 ////////////////////////////////// SYMPTOMS ///////////////////////////////////
@@ -104,6 +104,5 @@ class AppDatabase extends _$AppDatabase {
   @override
   int get schemaVersion => 1;
 }
-//  flutter packages pub run build_runner watch
+
 //  dart run build_runner build
-// dart --disable-analytics

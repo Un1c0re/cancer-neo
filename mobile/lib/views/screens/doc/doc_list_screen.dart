@@ -1,23 +1,29 @@
 import 'package:diplom/models/doc_list_model.dart';
+import 'package:diplom/models/doc_type_model.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
+import 'package:diplom/views/screens/doc/doc_screen.dart';
 import 'package:diplom/views/widgets/docs/doc_card_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../utils/constants.dart';
 import '../../screens/doc/add_doc_screen.dart';
 
-class HomeDocsWidget extends StatefulWidget {
-  final String appBarTitle;
-  const HomeDocsWidget({super.key, required this.appBarTitle});
+class DocsListScreen extends StatefulWidget {
+  final DoctypeModel doctype;
+  const DocsListScreen({
+    super.key,
+    required this.doctype,
+  });
 
   @override
-  State<HomeDocsWidget> createState() => _HomeDocsWidgetState();
+  State<DocsListScreen> createState() => _DocsListScreenState();
 }
 
-class _HomeDocsWidgetState extends State<HomeDocsWidget> {
+class _DocsListScreenState extends State<DocsListScreen> {
   var _filteredData = <DocSummaryModel>[];
 
   final DateRangePickerController _pickerController =
@@ -29,7 +35,7 @@ class _HomeDocsWidgetState extends State<HomeDocsWidget> {
   }
 
   void _addDoc() {
-    Get.to(() => AddDocScreen(onUpdate: _updateData));
+    Get.to(() => AddDocScreen(onUpdate: _updateData, doctype: widget.doctype));
   }
 
   @override
@@ -109,8 +115,9 @@ class _HomeDocsWidgetState extends State<HomeDocsWidget> {
   Widget build(BuildContext context) {
     final DatabaseService databaseService = Get.find();
 
-    Future<List<DocSummaryModel>> getDocs() async {
-      return await databaseService.database.docsDao.getAllDocSummaries();
+    Future<List<DocSummaryModel>> getDocs(typeID) async {
+      return await databaseService.database.docsDao
+          .getDocSummariesByTypeID(typeID);
     }
 
     return Scaffold(
@@ -120,39 +127,41 @@ class _HomeDocsWidgetState extends State<HomeDocsWidget> {
             maxWidth: DeviceScreenConstants.screenWidth * 0.9,
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
+              ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: 170,
+                ),
+                child: Text(
+                  widget.doctype.name,
+                  softWrap: true,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 22),
+                ),
+              ),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 100),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      widget.appBarTitle,
-                      style: const TextStyle(fontSize: 26),
+                    IconButton(
+                      style: const ButtonStyle(
+                        foregroundColor:
+                            MaterialStatePropertyAll(Colors.white),
+                      ),
+                      onPressed: () => _showCalendar(context),
+                      icon: const Icon(Icons.calendar_today_outlined),
                     ),
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 100),
-                      child: Row(
-                        children: [
-                          IconButton(
-                            style: const ButtonStyle(
-                              foregroundColor:
-                                  MaterialStatePropertyAll(Colors.white),
-                            ),
-                            onPressed: () => _showCalendar(context),
-                            icon: const Icon(Icons.calendar_today_outlined),
-                          ),
-                          IconButton(
-                            style: const ButtonStyle(
-                              foregroundColor:
-                                  MaterialStatePropertyAll(Colors.white),
-                            ),
-                            onPressed: () => _addDoc(),
-                            icon: const Icon(
-                              Icons.add,
-                              size: 30,
-                            ),
-                          ),
-                        ],
+                    IconButton(
+                      style: const ButtonStyle(
+                        foregroundColor:
+                            MaterialStatePropertyAll(Colors.white),
+                      ),
+                      onPressed: () => _addDoc(),
+                      icon: const Icon(
+                        Icons.add,
+                        size: 30,
                       ),
                     ),
                   ],
@@ -174,7 +183,7 @@ class _HomeDocsWidgetState extends State<HomeDocsWidget> {
         child: SizedBox(
             height: DeviceScreenConstants.screenHeight,
             child: FutureBuilder<List<DocSummaryModel>>(
-                future: getDocs(),
+                future: getDocs(widget.doctype.id),
                 builder: ((context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
@@ -187,9 +196,9 @@ class _HomeDocsWidgetState extends State<HomeDocsWidget> {
                     if (_selectedRange?.startDate != null &&
                         _selectedRange?.endDate != null) {
                       _filteredData = docListData.where((DocSummaryModel data) {
-                        return (!data.docDate
+                        return (!data.date
                                 .isBefore((_selectedRange!.startDate!)) &&
-                            !data.docDate.isAfter(_selectedRange!.endDate!));
+                            !data.date.isAfter(_selectedRange!.endDate!));
                       }).toList();
                     } else {
                       _filteredData = docListData;
@@ -215,6 +224,11 @@ class _HomeDocsWidgetState extends State<HomeDocsWidget> {
                             child: DocCardWidget(
                               data: _filteredData[index],
                               onUpdate: _updateData,
+                              onWidgetTap: () => Get.to(
+                                () => DocScreen(
+                                    docID: _filteredData[index].id,
+                                    onUpdate: _updateData),
+                              ),
                             ),
                           );
                         });

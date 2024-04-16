@@ -13,9 +13,20 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
     return result
         .map((row) => DocSummaryModel(
           id: row.id,
-          docName: row.docName,
-          docType: row.docType,
-          docDate: row.docDate!,
+          name: row.name,
+          date: row.date!,
+        ))
+        .toList();
+  }
+  
+  Future<List<DocSummaryModel>> getDocSummariesByTypeID(typeID) async {
+    final query = select(docs)..where((tbl) => tbl.type_id.equals(typeID));
+    final result = await query.get();
+    return result
+        .map((row) => DocSummaryModel(
+          id: row.id,
+          name: row.name,
+          date: row.date!,
         ))
         .toList();
   }
@@ -26,12 +37,12 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
   }
 
   Future<void> insertDoc({
-    required String   docName,
-    required int      docType,
-    required DateTime docDate,
-    required String   docPlace,
-    required String   docNotes,
-    Uint8List?        docFile,
+    required String   name,
+    required int      type_id,
+    required DateTime date,
+    required String   place,
+    required String   notes,
+    Uint8List?        file,
   }) async {
     // Находим пользователя по имени
     final userQuery = select(users)..where((tbl) => tbl.id.equals(0));
@@ -40,41 +51,41 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
     if (user != null) {
       // Если пользователь найден, добавляем документ
       await into(docs).insert(DocsCompanion(
-        ownerId: Value(user.id),
-        docName: Value(docName),
-        docType: Value(docType),
-        docDate: Value(docDate),
-        docPlace: Value(docPlace),
-        docNotes: Value(docNotes),
-        docFile: Value(docFile),
+        owner_id: Value(user.id),
+        name: Value(name),
+        type_id: Value(type_id),
+        date: Value(date),
+        place: Value(place),
+        notes: Value(notes),
+        file: Value(file),
       ));
     }
   }
 
   Future<void> updateDoc({
-    required int docId,
-    String? docName,
-    int? docType,
-    DateTime? docDate,
-    String? docPlace,
-    String? docNotes,
-    Uint8List? docFile,
+    required int id,
+    String? name,
+    int? type_id,
+    DateTime? date,
+    String? place,
+    String? notes,
+    Uint8List? file,
   }) async {
     final docEntry = DocsCompanion(
-      id: Value(docId),
-      docName: docName != null ? Value(docName) : const Value.absent(),
-      docType: docType != null ? Value(docType) : const Value.absent(),
-      docDate: docDate != null ? Value(docDate) : const Value.absent(),
-      docPlace: docPlace != null ? Value(docPlace) : const Value.absent(),
-      docNotes: docNotes != null ? Value(docNotes) : const Value.absent(),
-      docFile: docFile != null ? Value(docFile) : const Value.absent(),
+      id: Value(id),
+      name: name != null ? Value(name) : const Value.absent(),
+      type_id: type_id != null ? Value(type_id) : const Value.absent(),
+      date: date != null ? Value(date) : const Value.absent(),
+      place: place != null ? Value(place) : const Value.absent(),
+      notes: notes != null ? Value(notes) : const Value.absent(),
+      file: file != null ? Value(file) : const Value.absent(),
     );
 
-    await (update(docs)..where((tbl) => tbl.id.equals(docId))).write(docEntry);
+    await (update(docs)..where((tbl) => tbl.id.equals(id))).write(docEntry);
   }
 
   Future<void> deleteDoc(
-      {required int docID}) async {
+      {required int id}) async {
     // Находим пользователя по имени
     final userQuery = select(users)..where((tbl) => tbl.id.equals(0));
     final User? user = await userQuery.getSingleOrNull();
@@ -83,7 +94,7 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
       // Если пользователь найден, находим и удаляем документ
       final docQuery = select(docs)
         ..where(
-            (tbl) => tbl.ownerId.equals(user.id) & tbl.id.equals(docID));
+            (tbl) => tbl.owner_id.equals(user.id) & tbl.id.equals(id));
       final doc = await docQuery.getSingleOrNull();
       if (doc != null) {
         await delete(docs).delete(doc);

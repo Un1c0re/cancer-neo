@@ -62,7 +62,7 @@ class _DocWidgetState extends State<DocWidget> {
                         style: AppButtonStyle.outlinedRedRoundedButton,
                         onPressed: () async {
                           await databaseService.database.docsDao
-                              .deleteDoc(docID: widget.docID);
+                              .deleteDoc(id: widget.docID);
                           deleteAction('Документ удален');
                           widget.onUpdate();
                         },
@@ -124,7 +124,7 @@ class _DocDataWidgetState extends State<DocDataWidget> {
     Future<DocModel?> getDocument(id) async {
       final DocModel? document = await service.database.docsDao.getDoc(id);
       typeName =
-          await service.database.doctypesDao.getDocType(document!.docType);
+          await service.database.doctypesDao.getDocType(document!.type_id);
       return document;
     }
 
@@ -148,7 +148,7 @@ class _DocDataWidgetState extends State<DocDataWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  document.docName,
+                  document.name,
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -172,7 +172,7 @@ class _DocDataWidgetState extends State<DocDataWidget> {
                 ),
                 Text(
                   customFormat
-                      .format(document.docDate)
+                      .format(document.date)
                       .toString()
                       .substring(0, 10),
                   style: const TextStyle(
@@ -189,7 +189,7 @@ class _DocDataWidgetState extends State<DocDataWidget> {
                   ),
                 ),
                 Text(
-                  document.docPlace,
+                  document.place,
                   style: const TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: 12),
@@ -201,11 +201,11 @@ class _DocDataWidgetState extends State<DocDataWidget> {
                   ),
                 ),
                 Text(
-                  document.docNotes,
+                  document.notes,
                   style: const TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: 20),
-                if (document.docFile != null) _DocMiniature(document.docFile),
+                if (document.file != null) _DocMiniature(document.file),
               ],
             ),
           );
