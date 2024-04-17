@@ -7,9 +7,10 @@
 - Возможность поделиться данными с поомщью QR-кода (в разработке);
 - Хранилище документов.
 
-
+### [Аннтоация](docs/annotation.md)
 ### [Руководство](docs/manual.md)
 ### [Зависимости](docs/dependencies.md)
-### [Use Case](docs/usecase.png)
+### [Use Case](docs/usecase.drawio.png)
+### [Модели данных](docs/models.drawio.png)
 ### [Прототип UI](https://www.figma.com/file/Zor74WefZ93M8iQWmcXvFj/CancerNEO?type=design&node-id=6%3A14579&mode=design&t=eS9AqFl1lmxnXkuX-1)
 
