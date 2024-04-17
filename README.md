@@ -10,6 +10,6 @@
 
 ### [Руководство](docs/manual.md)
 ### [Зависимости](docs/dependencies.md)
-### [Информационный раздел](https://github.com/Un1c0re/neo-docs.git)
+### [Use Case](docs/usecase.png)
 ### [Прототип UI](https://www.figma.com/file/Zor74WefZ93M8iQWmcXvFj/CancerNEO?type=design&node-id=6%3A14579&mode=design&t=eS9AqFl1lmxnXkuX-1)
 
