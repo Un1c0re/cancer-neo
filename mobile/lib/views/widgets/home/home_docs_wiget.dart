@@ -51,31 +51,36 @@ class _HomeDocsWidgetState extends State<HomeDocsWidget> {
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: SingleChildScrollView(
           child: ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: DeviceScreenConstants.screenHeight),
-            child: FutureBuilder<List<DoctypeModel>>(
-              future: getDocTypes(),
-              builder: ((context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(color: AppColors.activeColor),
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                } else {
-                  final List<DoctypeModel> doctypes = snapshot.data!;
-                  return ListView.builder(
-                      itemCount: doctypes.length,
-                      itemExtent: 80,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: DocTypeCardWidget(
-                            data: doctypes[index],
-                          ),
-                        );
-                      });
-                }
-              }),
+            constraints: BoxConstraints(maxHeight: DeviceScreenConstants.screenHeight * 0.95),
+            child: Column(
+              children: [
+                FutureBuilder<List<DoctypeModel>>(
+                  future: getDocTypes(),
+                  builder: ((context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(color: AppColors.activeColor),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      final List<DoctypeModel> doctypes = snapshot.data!;
+                      return ListView.builder(
+                          itemCount: doctypes.length,
+                          itemExtent: 80,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: DocTypeCardWidget(
+                                data: doctypes[index],
+                              ),
+                            );
+                          });
+                    }
+                  }),
+                ),
+                const SizedBox(height: 10),
+              ],
             ),
           ),
         ),

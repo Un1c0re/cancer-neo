@@ -5,9 +5,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
         android:enableOnBackInvokedCallback="true"
-        android:label="diplom"
+        android:label="cancerNEO"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_cancerneo">
         <activity
             android:name=".MainActivity"
             android:exported="true"

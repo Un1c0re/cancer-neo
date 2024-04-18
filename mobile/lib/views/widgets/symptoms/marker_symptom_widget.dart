@@ -75,6 +75,7 @@ class MarkerSymptomWidget extends StatelessWidget {
                   decoration: valueInputDecoration,
                   controller: valueInputController,
                   cursorColor: AppColors.redColor,
+                  keyboardType: TextInputType.number,
                 ),
               ),
             ],

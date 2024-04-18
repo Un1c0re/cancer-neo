@@ -9,7 +9,6 @@ import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_style.dart';
 import 'package:diplom/utils/app_widgets.dart';
-import 'package:diplom/utils/constants.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -139,7 +138,7 @@ class _AddDocScreenState extends State<AddDocScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
-                height: DeviceScreenConstants.screenHeight * 0.75,
+                height: 700,
                 child: AppStyleCard(
                   backgroundColor: Colors.white,
                   child: Form(
@@ -175,6 +174,7 @@ class _AddDocScreenState extends State<AddDocScreen> {
                             ),
                           ),
                         ),
+                        const SizedBox(height: 25),
                         TextFormField(
                           decoration: nameInputDecoration,
                           cursorColor: AppColors.activeColor,
@@ -182,10 +182,12 @@ class _AddDocScreenState extends State<AddDocScreen> {
                           validator: validateString,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                         ),
+                        const SizedBox(height: 25),
                         TextFormField(
                           decoration: typeInputDecoration,
                           controller: _typeInputController,
                         ),
+                        const SizedBox(height: 25),
                         TextFormField(
                           decoration: dateInputDecoration,
                           cursorColor: AppColors.activeColor,
@@ -193,6 +195,7 @@ class _AddDocScreenState extends State<AddDocScreen> {
                           validator: validateDate,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                         ),
+                        const SizedBox(height: 25),
                         TextFormField(
                           decoration: placeInputDecoration,
                           cursorColor: AppColors.activeColor,
@@ -200,6 +203,7 @@ class _AddDocScreenState extends State<AddDocScreen> {
                           validator: validateString,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                         ),
+                        const SizedBox(height: 25),
                         TextFormField(
                           maxLines: 3,
                           decoration: notesInputDecoration,

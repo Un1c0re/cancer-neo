@@ -2,18 +2,20 @@ import 'package:diplom/helpers/datetime_helpers.dart';
 import 'package:diplom/models/doc_list_model.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
+import 'package:diplom/views/screens/doc/doc_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DocCardWidget extends StatefulWidget {
   final DocSummaryModel data;
   final Function onUpdate;
-  final Function onWidgetTap;
+  final int docID;
 
   const DocCardWidget({
     super.key,
     required this.data,
-    required this.onUpdate, 
-    required this.onWidgetTap,
+    required this.onUpdate,
+    required this.docID,
   });
 
   @override
@@ -21,7 +23,6 @@ class DocCardWidget extends StatefulWidget {
 }
 
 class _DocCardWidgetState extends State<DocCardWidget> {
-    
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -43,7 +44,10 @@ class _DocCardWidgetState extends State<DocCardWidget> {
               Align(
                 alignment: Alignment.bottomRight,
                 child: Text(
-                  customFormat.format(widget.data.date).toString().substring(0, 10),
+                  customFormat
+                      .format(widget.data.date)
+                      .toString()
+                      .substring(0, 10),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.blueGrey.shade300,
@@ -56,7 +60,10 @@ class _DocCardWidgetState extends State<DocCardWidget> {
         Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: () => widget.onWidgetTap,
+            onTap: () => Get.to(() => DocScreen(
+                  docID: widget.docID,
+                  onUpdate: widget.onUpdate,
+                )),
             borderRadius: const BorderRadius.all(
               Radius.circular(10),
             ),

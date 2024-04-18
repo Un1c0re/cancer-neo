@@ -5,7 +5,6 @@ import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/views/screens/doc/doc_screen.dart';
 import 'package:diplom/views/widgets/docs/doc_card_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -147,16 +146,14 @@ class _DocsListScreenState extends State<DocsListScreen> {
                   children: [
                     IconButton(
                       style: const ButtonStyle(
-                        foregroundColor:
-                            MaterialStatePropertyAll(Colors.white),
+                        foregroundColor: MaterialStatePropertyAll(Colors.white),
                       ),
                       onPressed: () => _showCalendar(context),
                       icon: const Icon(Icons.calendar_today_outlined),
                     ),
                     IconButton(
                       style: const ButtonStyle(
-                        foregroundColor:
-                            MaterialStatePropertyAll(Colors.white),
+                        foregroundColor: MaterialStatePropertyAll(Colors.white),
                       ),
                       onPressed: () => _addDoc(),
                       icon: const Icon(
@@ -181,59 +178,56 @@ class _DocsListScreenState extends State<DocsListScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: SizedBox(
-            height: DeviceScreenConstants.screenHeight,
-            child: FutureBuilder<List<DocSummaryModel>>(
-                future: getDocs(widget.doctype.id),
-                builder: ((context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    List<DocSummaryModel> docListData = snapshot.data!;
-                    if (_selectedRange?.startDate != null &&
-                        _selectedRange?.endDate != null) {
-                      _filteredData = docListData.where((DocSummaryModel data) {
-                        return (!data.date
-                                .isBefore((_selectedRange!.startDate!)) &&
-                            !data.date.isAfter(_selectedRange!.endDate!));
-                      }).toList();
-                    } else {
-                      _filteredData = docListData;
-                    }
-                    if (_filteredData.isEmpty) {
-                      return const Center(
-                        child: Text(
-                          'Вы еще не добавили ни одного документа',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 26,
-                            color: AppColors.activeColor,
-                          ),
+          height: DeviceScreenConstants.screenHeight,
+          child: FutureBuilder<List<DocSummaryModel>>(
+            future: getDocs(widget.doctype.id),
+            builder: ((context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                List<DocSummaryModel> docListData = snapshot.data!;
+                if (_selectedRange?.startDate != null &&
+                    _selectedRange?.endDate != null) {
+                  _filteredData = docListData.where((DocSummaryModel data) {
+                    return (!data.date.isBefore((_selectedRange!.startDate!)) &&
+                        !data.date.isAfter(_selectedRange!.endDate!));
+                  }).toList();
+                } else {
+                  _filteredData = docListData;
+                }
+                if (_filteredData.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      'Вы еще не добавили ни одного документа',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 26,
+                        color: AppColors.activeColor,
+                      ),
+                    ),
+                  );
+                }
+                return ListView.builder(
+                    itemCount: _filteredData.length,
+                    itemExtent: 80,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: DocCardWidget(
+                          data: _filteredData[index],
+                          onUpdate: _updateData,
+                          docID: _filteredData[index].id,
                         ),
                       );
-                    }
-                    return ListView.builder(
-                        itemCount: _filteredData.length,
-                        itemExtent: 80,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: DocCardWidget(
-                              data: _filteredData[index],
-                              onUpdate: _updateData,
-                              onWidgetTap: () => Get.to(
-                                () => DocScreen(
-                                    docID: _filteredData[index].id,
-                                    onUpdate: _updateData),
-                              ),
-                            ),
-                          );
-                        });
-                  }
-                }))),
+                    });
+              }
+            }),
+          ),
+        ),
       ),
     );
   }

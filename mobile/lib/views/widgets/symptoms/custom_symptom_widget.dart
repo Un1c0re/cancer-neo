@@ -84,6 +84,7 @@ class CustomSymptomWidget extends StatelessWidget {
                         decoration: valueInputDecoration,
                         controller: valueInputController,
                         cursorColor: AppColors.activeColor,
+                        keyboardType: TextInputType.number,
                       ),
                     ),
                     PopupMenuButton<String>(

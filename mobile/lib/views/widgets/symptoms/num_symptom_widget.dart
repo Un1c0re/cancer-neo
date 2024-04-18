@@ -67,6 +67,7 @@ class NumSymptomWidget extends StatelessWidget {
                   decoration: valueInputDecoration,
                   controller: valueInputController,
                   cursorColor: AppColors.activeColor,
+                  keyboardType: TextInputType.number,
                 ),
             ),
           ],
