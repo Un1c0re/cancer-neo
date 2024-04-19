@@ -118,6 +118,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
         DateTime.now().year, DateTime.now().month, DateTime.now().day))) {
       setState(() {
         selectedDate = selectedDate.add(const Duration(days: 1));
+        updateData();
       });
     }
   }
@@ -125,6 +126,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
   void _decrementDate() {
     setState(() {
       selectedDate = selectedDate.add(const Duration(days: -1));
+      updateData();
     });
   }
 
@@ -373,6 +375,6 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                   const SizedBox(height: 10),
                 ],
               ),
-            )));
+            ),),);
   }
 }
