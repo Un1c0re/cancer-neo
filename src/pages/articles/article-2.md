@@ -5,7 +5,7 @@ excerpt: 'Места локализации опухолей'
 slug: 'article-2'
 ---
 
-![alt местап локализации НЭО](../../../public/images/neo_localization.png)
+![alt места локализации НЭО](../../../public/images//article-2/neo_localization.png)
 
 <br />
 <br />
@@ -31,6 +31,9 @@ slug: 'article-2'
 </p>
 
 <br />
+
+![alt Множественное эндокринное новообразование](../../../public/images//article-2/MAN.png)
+
 <br />
 
 <h1 style="font-size: 20px; font-weight: bold"> НЭО щитовидной железы </h1>
@@ -49,6 +52,9 @@ slug: 'article-2'
 </p>
 
 <br />
+
+![alt НЭО щитовидной железы](../../../public/images//article-2/thyroid.png)
+
 <br />
 
 <h1 style="font-size: 20px; font-weight: bold"> НЭО легких </h1>
@@ -76,6 +82,9 @@ slug: 'article-2'
 </p>
 
 <br />
+
+![alt НЭО легких](../../../public/images//article-2/lungs.png)
+
 <br />
 
 <h1 style="font-size: 20px; font-weight: bold"> НЭО кожи </h1>
@@ -88,6 +97,9 @@ slug: 'article-2'
 </p>
 
 <br />
+
+![alt НЭО кожи](../../../public/images//article-2/derma.png)
+
 <br />
 
 <h1 style="font-size: 20px; font-weight: bold"> НЭО молочной железы </h1>
@@ -97,6 +109,9 @@ slug: 'article-2'
 </p>
 
 <br />
+
+![alt НЭО молочной железы](../../../public/images//article-2/mammary.png)
+
 <br />
 
 <h1 style="font-size: 20px; font-weight: bold"> НЭО надпочечников </h1>
@@ -121,6 +136,9 @@ slug: 'article-2'
 </p>
 
 <br />
+
+![alt НЭО надпочечников](../../../public/images//article-2/adrenal.png)
+
 <br />
 
 <h1 style="font-size: 20px; font-weight: bold"> НЭО печени </h1>
@@ -141,6 +159,9 @@ slug: 'article-2'
 </p>
 
 <br />
+
+![alt НЭО печени](../../../public/images//article-2/liver.png)
+
 <br />
 
 <h1 style="font-size: 20px; font-weight: bold"> НЭО желудка </h1>
@@ -165,6 +186,9 @@ slug: 'article-2'
 </p>
 
 <br />
+
+![alt НЭО желудка](../../../public/images//article-2/stomach.png)
+
 <br />
 
 <h1 style="font-size: 20px; font-weight: bold"> НЭО поджелудочной железы </h1>
@@ -191,6 +215,9 @@ slug: 'article-2'
 </p>
 
 <br />
+
+![alt НЭО поджелудочной железы](../../../public/images//article-2/pancreas.png)
+
 <br />
 
 <h1 style="font-size: 20px; font-weight: bold"> НЭО двенадцатиперстной кишки </h1>
@@ -207,6 +234,9 @@ slug: 'article-2'
 
 
 <br />
+
+![alt НЭО двенадцатиперстной кишки](../../../public/images//article-2/duodenum.png)
+
 <br />
 
 <h1 style="font-size: 20px; font-weight: bold"> НЭО тонкого кишечника </h1>
@@ -227,6 +257,9 @@ slug: 'article-2'
 </p>
 
 <br />
+
+![alt НЭО тонкого кишечника](../../../public/images//article-2/small_intestine.png)
+
 <br />
 
 <h1 style="font-size: 20px; font-weight: bold"> НЭО аппендикса </h1>
@@ -254,6 +287,9 @@ slug: 'article-2'
 </p>
 
 <br />
+
+![alt НЭО аппендикса](../../../public/images//article-2/appendix.png)
+
 <br />
 
 <h1 style="font-size: 20px; font-weight: bold"> НЭО яичников </h1>
@@ -286,6 +322,9 @@ slug: 'article-2'
 </p>
 
 <br />
+
+![alt НЭО яичников](../../../public/images//article-2/ovaries.png)
+
 <br />
 
 <h1 style="font-size: 20px; font-weight: bold"> НЭО шейки и тела матки </h1>
@@ -304,6 +343,9 @@ slug: 'article-2'
 </p>
 
 <br />
+
+![alt НЭО шейки матки](../../../public/images//article-2/cervix.png)
+
 <br />
 
 <h1 style="font-size: 20px; font-weight: bold"> НЭО влагалища и вульвы </h1>
@@ -340,3 +382,60 @@ slug: 'article-2'
     аналогичное тому, что проводится
     при раке предстательной железы. 
 </p>
+
+<br />
+
+![alt НЭО предстательной железы](../../../public/images//article-2/prostate.png)
+
+<br />
+
+<h1 style="font-size: 20px; font-weight: bold"> НЭО толстого кишечника </h1>
+<p>
+    НЭо толстого кишечника встречаются достаточно редко и могут
+    вызывать симптомы, общие для
+    наиболее распространенных онкологических заболеваний кишечника, такие как: нарушение режима
+    дефекации (например, диарея и / или запор), 
+    боль в желудке или животе, потеря веса и кровотечение.
+</p>
+<p>
+    НЭо толстого кишечника могут быть агрессивными и часто метастазируют.
+</p>
+
+<br />
+
+![alt НЭО толстого кишечника](../../../public/images//article-2/large_intestine.png)
+
+<br />
+
+<h1 style="font-size: 20px; font-weight: bold"> НЭО прямой кишки </h1>
+<p>
+    НЭо прямой кишки, составляющие около 14% от всех НЭо
+    кишечника и являющиеся самым
+    распространенным их типом, в то
+    же время, являются наименее распространенным колоректальным
+    раком, составляя менее 1% от всех
+    его случаев. НЭо прямой кишки
+    могут проявляться такими симптомами, как кровотечение, запор
+    или боль при дефекации, однако
+    также могут длительно развиваться бессимптомно, что приводит к
+    поздней диагностике. Примерно
+    половина случаев НЭо прямой
+    кишки диагностируется во время
+    обследования и лечения по поводу
+    других заболеваний.
+</p>
+
+<br />
+
+![alt НЭО прямой кишки](../../../public/images//article-2/rectum.png)
+
+<br />
+
+<p style="font-size: 17px">
+    Источник: 
+    <a 
+        style="color: blue" 
+        href="https://vk.com/doc492172941_490970814?hash=9299bb54a36af80b02&dl=f915fcd8df0ebfa410"
+        > брошюра пациента c НЭО
+    </a>
+<p>
