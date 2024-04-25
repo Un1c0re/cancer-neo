@@ -229,6 +229,8 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                             groupData(rawData);
                         return LineChart(
                           LineChartData(
+                            minX: 0,
+                            maxX: 30,
                             // show border around BarChart
                             borderData: FlBorderData(show: false),
                             lineTouchData: LineTouchData(
@@ -273,13 +275,13 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                                         return Text(
                                           '${value.toInt() + 1}',
                                           textAlign: TextAlign.start,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 16,
                                           ),
                                         );
                                       }
                                     }
-                                    return SizedBox();
+                                    return const SizedBox();
                                   },
                                   reservedSize: 25,
                                 ),
@@ -294,7 +296,8 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                                             symptomsMaxValues[
                                                 currentPointIndex];
                                         i++) {
-                                      if (value == i * 5) {
+                                      if (value % 2 == 0 ||
+                                          (value * 10).toInt() % 10 == 5) {
                                         return Text(
                                           '${value.toInt()}',
                                           style: const TextStyle(fontSize: 14),

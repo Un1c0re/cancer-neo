@@ -32,10 +32,10 @@ BarChartGroupData boolChartGroupData(int x, List<double> values) {
       return BarChartRodData(
         fromY: index * 5,
         toY: index * 5 + 0.5,
-        // borderSide: const BorderSide(
-        //   color: AppColors.activeColor,
-        //   style: BorderStyle.solid,
-        // ),
+        borderSide: const BorderSide(
+          color: AppColors.activeColor,
+          style: BorderStyle.solid,
+        ),
         color: value > 0 ? AppColors.activeColor : Colors.transparent,
         width: 8,
       );

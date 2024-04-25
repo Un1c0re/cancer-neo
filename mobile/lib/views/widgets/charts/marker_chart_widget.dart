@@ -99,18 +99,23 @@ class _MarkerChartWidgetState extends State<MarkerChartWidget> {
 
     List<LineChartBarData> groupData(List<List<double>> rawDataList) {
       // Создаем список точек для графика, используя текущий индекс точки
-      List<FlSpot> spots = List.generate(rawDataList.length, (index) {
+      List<FlSpot> spots = [];
+      for (int index = 0; index < rawDataList.length; index++) {
         // Берем значение для текущего индекса точки, или 0 если оно отсутствует
         double value = rawDataList[index].length > currentPointIndex
             ? rawDataList[index][currentPointIndex]
             : 0.0;
-        return FlSpot(index.toDouble(), value);
-      });
+        if (value != 0.0) {
+          // Filter out zero values
+          spots.add(FlSpot(index.toDouble(), value));
+        }
+      }
 
       // Создаем данные для графика из точек
       LineChartBarData lineData = LineChartBarData(
-         isCurved: false,
-        barWidth: 0.0,
+        isCurved: false,
+        barWidth: 1,
+        color: AppColors.redColor,
         isStrokeCapRound: true,
         dotData: FlDotData(
           checkToShowDot: (spot, barData) => spot.y != 0.0,
@@ -229,7 +234,8 @@ class _MarkerChartWidgetState extends State<MarkerChartWidget> {
                             groupData(rawData);
                         return LineChart(
                           LineChartData(
-                            // show border around BarChart
+                            minX: 0,
+                            maxX: 30,
                             borderData: FlBorderData(show: false),
 
                             lineTouchData: LineTouchData(
@@ -263,10 +269,25 @@ class _MarkerChartWidgetState extends State<MarkerChartWidget> {
                                   sideTitles: SideTitles(showTitles: false)),
                               rightTitles: const AxisTitles(
                                   sideTitles: SideTitles(showTitles: false)),
-                              bottomTitles: const AxisTitles(
+                              bottomTitles: AxisTitles(
                                 sideTitles: SideTitles(
                                   showTitles: true,
-                                  getTitlesWidget: bottomTitlesWidget,
+                                  // getTitlesWidget: bottomTitlesWidget,
+                                  getTitlesWidget:
+                                      (double value, TitleMeta meta) {
+                                    for (int i = 0; i < 31; i++) {
+                                      if (value == i * 5) {
+                                        return Text(
+                                          '${value.toInt() + 1}',
+                                          textAlign: TextAlign.start,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                          ),
+                                        );
+                                      }
+                                    }
+                                    return const SizedBox();
+                                  },
                                   reservedSize: 25,
                                 ),
                               ),
@@ -280,7 +301,7 @@ class _MarkerChartWidgetState extends State<MarkerChartWidget> {
                                             symptomsMaxValues[
                                                 currentPointIndex];
                                         i++) {
-                                      if (value == i * 5) {
+                                      if (value % 2 == 0 || (value * 10).toInt() % 10 == 5 ) {
                                         return Text(
                                           '${value.toInt()}',
                                           style: const TextStyle(fontSize: 14),
