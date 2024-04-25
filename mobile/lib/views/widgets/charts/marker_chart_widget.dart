@@ -2,7 +2,6 @@ import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/helpers/datetime_helpers.dart';
-import 'package:diplom/views/widgets/charts/chart_titles.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -53,34 +52,6 @@ class _MarkerChartWidgetState extends State<MarkerChartWidget> {
     });
   }
 
-  List<Widget> _buildPoints() {
-    List<Widget> points = [];
-    for (int i = 0; i < totalPoints; i++) {
-      points.add(
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              currentPointIndex = i;
-              // Тут можно вызвать функцию, которая обновит данные
-            });
-          },
-          child: Container(
-            width: 10, // Ширина точки
-            height: 10, // Высота точки
-            margin: const EdgeInsets.symmetric(
-                vertical: 2), // Расстояние между точками
-            decoration: BoxDecoration(
-                color: i == currentPointIndex
-                    ? AppColors.activeColor
-                    : AppColors.backgroundColor,
-                shape: BoxShape.circle),
-          ),
-        ),
-      );
-    }
-    return points;
-  }
-
   @override
   Widget build(BuildContext context) {
     final DatabaseService service = Get.find();
@@ -113,7 +84,8 @@ class _MarkerChartWidgetState extends State<MarkerChartWidget> {
 
       // Создаем данные для графика из точек
       LineChartBarData lineData = LineChartBarData(
-        isCurved: false,
+        isCurved: true,
+        curveSmoothness: 0.2,
         barWidth: 1,
         color: AppColors.redColor,
         isStrokeCapRound: true,
@@ -235,7 +207,7 @@ class _MarkerChartWidgetState extends State<MarkerChartWidget> {
                         return LineChart(
                           LineChartData(
                             minX: 0,
-                            maxX: 30,
+                            maxX: 31,
                             borderData: FlBorderData(show: false),
 
                             lineTouchData: LineTouchData(
@@ -272,7 +244,6 @@ class _MarkerChartWidgetState extends State<MarkerChartWidget> {
                               bottomTitles: AxisTitles(
                                 sideTitles: SideTitles(
                                   showTitles: true,
-                                  // getTitlesWidget: bottomTitlesWidget,
                                   getTitlesWidget:
                                       (double value, TitleMeta meta) {
                                     for (int i = 0; i < 31; i++) {
@@ -301,7 +272,8 @@ class _MarkerChartWidgetState extends State<MarkerChartWidget> {
                                             symptomsMaxValues[
                                                 currentPointIndex];
                                         i++) {
-                                      if (value % 2 == 0 || (value * 10).toInt() % 10 == 5 ) {
+                                      if (value % 2 == 0 ||
+                                          (value * 10).toInt() % 10 == 5) {
                                         return Text(
                                           '${value.toInt()}',
                                           style: const TextStyle(fontSize: 14),

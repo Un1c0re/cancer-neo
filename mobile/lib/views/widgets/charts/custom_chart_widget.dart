@@ -98,18 +98,23 @@ class _CustomChartWidgetState extends State<CustomChartWidget> {
 
     List<LineChartBarData> groupData(List<List<double>> rawDataList) {
       // Создаем список точек для графика, используя текущий индекс точки
-      List<FlSpot> spots = List.generate(rawDataList.length, (index) {
+      List<FlSpot> spots = [];
+      for (int index = 0; index < rawDataList.length; index++) {
         // Берем значение для текущего индекса точки, или 0 если оно отсутствует
         double value = rawDataList[index].length > currentPointIndex
             ? rawDataList[index][currentPointIndex]
             : 0.0;
-        return FlSpot(index.toDouble(), value);
-      });
+        if (value != 0.0) {
+          // Filter out zero values
+          spots.add(FlSpot(index.toDouble(), value));
+        }
+      }
 
       // Создаем данные для графика из точек
       LineChartBarData lineData = LineChartBarData(
-        isCurved: false,
-        barWidth: 0.0,
+        isCurved: true,
+        curveSmoothness: 0.2,
+        barWidth: 1,
         isStrokeCapRound: true,
         color: AppColors.primaryColor,
         dotData: FlDotData(
@@ -243,7 +248,7 @@ class _CustomChartWidgetState extends State<CustomChartWidget> {
                             return LineChart(
                               LineChartData(
                                 minX: 0,
-                                maxX: 30,
+                                maxX: 31,
                                 // show border around BarChart
                                 borderData: FlBorderData(show: false),
                                 lineTouchData: LineTouchData(

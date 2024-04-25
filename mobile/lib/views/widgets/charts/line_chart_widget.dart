@@ -52,34 +52,6 @@ class _LineChartWidgetState extends State<LineChartWidget> {
     });
   }
 
-  List<Widget> _buildPoints() {
-    List<Widget> points = [];
-    for (int i = 0; i < totalPoints; i++) {
-      points.add(
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              currentPointIndex = i;
-              // Тут можно вызвать функцию, которая обновит данные
-            });
-          },
-          child: Container(
-            width: 10, // Ширина точки
-            height: 10, // Высота точки
-            margin: const EdgeInsets.symmetric(
-                vertical: 8), // Расстояние между точками
-            decoration: BoxDecoration(
-                color: i == currentPointIndex
-                    ? AppColors.activeColor
-                    : AppColors.backgroundColor,
-                shape: BoxShape.circle),
-          ),
-        ),
-      );
-    }
-    return points;
-  }
-
   @override
   Widget build(BuildContext context) {
     final DatabaseService service = Get.find();
@@ -98,18 +70,23 @@ class _LineChartWidgetState extends State<LineChartWidget> {
 
     List<LineChartBarData> groupData(List<List<double>> rawDataList) {
       // Создаем список точек для графика, используя текущий индекс точки
-      List<FlSpot> spots = List.generate(rawDataList.length, (index) {
+      List<FlSpot> spots = [];
+      for (int index = 0; index < rawDataList.length; index++) {
         // Берем значение для текущего индекса точки, или 0 если оно отсутствует
         double value = rawDataList[index].length > currentPointIndex
             ? rawDataList[index][currentPointIndex]
             : 0.0;
-        return FlSpot(index.toDouble(), value);
-      });
+        if (value != 0.0) {
+          // Filter out zero values
+          spots.add(FlSpot(index.toDouble(), value));
+        }
+      }
 
       // Создаем данные для графика из точек
       LineChartBarData lineData = LineChartBarData(
-        isCurved: false,
-        barWidth: 0.0,
+        isCurved: true,
+        curveSmoothness: 0.2,
+        barWidth: 1,
         isStrokeCapRound: true,
         color: AppColors.primaryColor,
         dotData: FlDotData(
@@ -296,8 +273,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                                             symptomsMaxValues[
                                                 currentPointIndex];
                                         i++) {
-                                      if (value % 2 == 0 ||
-                                          (value * 10).toInt() % 10 == 5) {
+                                      if (value == i * 5) {
                                         return Text(
                                           '${value.toInt()}',
                                           style: const TextStyle(fontSize: 14),
