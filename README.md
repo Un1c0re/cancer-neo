@@ -12,5 +12,5 @@
 ### [Зависимости](docs/dependencies.md)
 ### [Use Case](docs/usecase.drawio.png)
 ### [Модели данных](docs/models.drawio.png)
-### [Прототип UI](https://www.figma.com/file/Zor74WefZ93M8iQWmcXvFj/CancerNEO?type=design&node-id=6%3A14579&mode=design&t=eS9AqFl1lmxnXkuX-1)
+### [Прототип UI](https://www.figma.com/file/Zor74WefZ93M8iQWmcXvFj/CancerNEO?type=design&node-id=0%3A1&mode=design&t=SWGBgt2uoXhz2iE6-1)
 
