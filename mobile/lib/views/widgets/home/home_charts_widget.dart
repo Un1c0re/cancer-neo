@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/constants.dart';
+import 'package:diplom/utils/pdf_generator.dart';
 import 'package:diplom/views/widgets/charts/bool_chart_widget.dart';
 import 'package:diplom/views/widgets/charts/custom_chart_widget.dart';
 import 'package:diplom/views/widgets/charts/grade_chart_widget.dart';
@@ -10,6 +13,8 @@ import 'package:month_picker_dialog/month_picker_dialog.dart';
 import '../../../utils/app_style.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+
 
 class HomeChartsWidget extends StatefulWidget {
   final String appBarTitle;
@@ -75,6 +80,37 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
           _selectedDate.year, _selectedDate.month - 1, _selectedDate.day);
     });
   }
+
+  Future<void> uploadFile(String url, String filePath) async {
+    // Создаем объект файла
+    var file = File(filePath);
+  
+    // Создаем POST запрос
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+  
+    // Добавляем файл как часть многокомпонентного запроса
+    request.files.add(await http.MultipartFile.fromPath(
+      'file', // ключ, по которому сервер принимает файл
+      filePath,
+    ));
+  
+    // Можно добавить другие поля в запрос
+    request.fields['user'] = 'Flutter';
+  
+    try {
+      // Отправляем запрос
+      var response = await request.send();
+  
+      if (response.statusCode == 200) {
+        print('Файл успешно отправлен');
+      } else {
+        print('Ошибка при отправке файла: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Ошибка при отправке: $e');
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +212,7 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
                     padding: const MaterialStatePropertyAll(
                         EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
                   ),
-                  onPressed: () {},
+                  onPressed: generatePdfWithTable,
                   child: const Text(
                     'Экспорт отчета за месяц',
                     style: TextStyle(fontSize: 20),
