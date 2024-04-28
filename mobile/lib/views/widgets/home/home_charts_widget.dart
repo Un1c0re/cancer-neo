@@ -15,7 +15,6 @@ import '../../../utils/app_style.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
-
 class HomeChartsWidget extends StatefulWidget {
   final String appBarTitle;
 
@@ -84,23 +83,23 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
   Future<void> uploadFile(String url, String filePath) async {
     // Создаем объект файла
     var file = File(filePath);
-  
+
     // Создаем POST запрос
     var request = http.MultipartRequest('POST', Uri.parse(url));
-  
+
     // Добавляем файл как часть многокомпонентного запроса
     request.files.add(await http.MultipartFile.fromPath(
       'file', // ключ, по которому сервер принимает файл
       filePath,
     ));
-  
+
     // Можно добавить другие поля в запрос
     request.fields['user'] = 'Flutter';
-  
+
     try {
       // Отправляем запрос
       var response = await request.send();
-  
+
       if (response.statusCode == 200) {
         print('Файл успешно отправлен');
       } else {
@@ -110,7 +109,6 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
       print('Ошибка при отправке: $e');
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +202,6 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
                 const SizedBox(height: 5),
                 MarkerChartWidget(selectedDate: _selectedDate),
                 const SizedBox(height: 30),
-                
                 CustomChartWidget(selectedDate: _selectedDate),
                 const SizedBox(height: 30),
                 ElevatedButton(
@@ -212,7 +209,7 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
                     padding: const MaterialStatePropertyAll(
                         EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
                   ),
-                  onPressed: generatePdfWithTable,
+                  onPressed: () => generatePdfWithTable(_selectedDate),
                   child: const Text(
                     'Экспорт отчета за месяц',
                     style: TextStyle(fontSize: 20),
