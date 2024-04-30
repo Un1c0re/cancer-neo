@@ -68,7 +68,8 @@ class DayNotesDao extends DatabaseAccessor<AppDatabase>
       DateTime monthStart, DateTime monthEnd) async {
     final query = customSelect(
         'SELECT date, note FROM day_notes '
-        'WHERE date >= ? AND date < ? ',
+        'WHERE date >= ? AND date < ? '
+        'ORDER BY date',
         readsFrom: {
           dayNotes
         },

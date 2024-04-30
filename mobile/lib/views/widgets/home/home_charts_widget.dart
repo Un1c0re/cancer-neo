@@ -209,7 +209,7 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
                     padding: const MaterialStatePropertyAll(
                         EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
                   ),
-                  onPressed: () => generatePdfWithTable(_selectedDate),
+                  onPressed: () => generatePDF(context, _selectedDate),
                   child: const Text(
                     'Экспорт отчета за месяц',
                     style: TextStyle(fontSize: 20),

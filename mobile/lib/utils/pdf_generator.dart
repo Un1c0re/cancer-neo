@@ -1,7 +1,8 @@
 import 'dart:io';
-import 'dart:ui';
+
 import 'package:diplom/helpers/data_helpers.dart';
 import 'package:diplom/helpers/get_helpers.dart';
+import 'package:diplom/helpers/loading_dialog_helpers.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -11,37 +12,11 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:path_provider/path_provider.dart';
 
-Future<List<List<String>>> getIntSymptomsDataList(
-    List<List<double>> data, int typeID) async {
-  final DatabaseService service = Get.find();
 
-  final List<String> nameList =
-      await service.database.symptomsNamesDao.getSymptomsNamesByTypeID(typeID);
+Future<void> generatePDF(BuildContext context, DateTime date) async {
 
-  List<List<String>> result = [];
+  showLoadingDialog(context, 'Подождите, документ формируется');
 
-  // Проходим по каждому индексу ключей
-  for (int i = 0; i < nameList.length; i++) {
-    // Собираем элементы по текущему индексу из каждого подсписка
-    List<String> column = [];
-    column.add(nameList[i]);
-    for (int j = 0; j < data.length; j++) {
-      if (data[j].isEmpty) {
-        column.add('0');
-      } else {
-        column.add((data[j][i].toInt()).toString());
-      }
-    }
-    // data.map((list) => column.add(list[i].toString()));
-    // Присваиваем собранные элементы соответствующему ключу
-    result.add(column);
-    column;
-  }
-
-  return result;
-}
-
-Future<void> generatePdfWithTable(DateTime date) async {
   final DatabaseService service = Get.find();
 
   final DateTime monthStart = DateTime(date.year, date.month, 1);
@@ -72,8 +47,8 @@ Future<void> generatePdfWithTable(DateTime date) async {
           .getSymptomsSortedByDayAndNameID(5, monthStart, monthEnd),
       5);
 
-  // Map<int, String> daynotesData = await service.database.dayNotesDao
-  //     .getDayNotesForMonth(monthStart, monthEnd);
+  Map<int, String> daynotesData = await service.database.dayNotesDao
+      .getDayNotesForMonth(monthStart, monthEnd);
 
   final pdf = pw.Document();
   final directory = await getApplicationDocumentsDirectory();
@@ -92,6 +67,8 @@ Future<void> generatePdfWithTable(DateTime date) async {
   for (int i = 1; i < 31; i++) {
     tableHeader.add(i.toString());
   }
+
+
 
   pdf.addPage(
     pw.MultiPage(
@@ -407,6 +384,25 @@ Future<void> generatePdfWithTable(DateTime date) async {
           ),
         ]),
         pw.Paragraph(text: '\n'),
+        pw.Text(
+          'Заметки\n',
+          style: pw.TextStyle(
+            color: PdfColor.fromHex('608CC1'),
+            font: font,
+            fontSize: 30,
+            fontFallback: fallbackFonts,
+          ),
+        ),
+        ...daynotesData.entries.map((entry) {
+          return pw.Paragraph(
+            text: 'День: ${entry.key}\nЗапись: ${entry.value}\n',
+            style: pw.TextStyle(
+              font: font,
+              fontFallback: fallbackFonts,
+              fontSize: 25,
+            )
+          );
+        }),
       ],
     ),
   );
@@ -415,6 +411,7 @@ Future<void> generatePdfWithTable(DateTime date) async {
   final file = File(filePath);
   await file.writeAsBytes(await pdf.save());
 
+  Get.back();
   // Открытие файла во внешнем приложении (если это требуется)
   await Printing.sharePdf(bytes: await pdf.save(), filename: fileName);
   submitAction('Документ сохранен');
