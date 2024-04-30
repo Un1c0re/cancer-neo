@@ -32,16 +32,15 @@ class DayNotesDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<bool> ifDayNoteExists(DateTime date) async {
-  final query = customSelect(
-    'SELECT * FROM day_notes '
-    'WHERE date = ?',
-    readsFrom: {dayNotes},
-    variables: [Variable.withInt(date.millisecondsSinceEpoch ~/1000)]
-  );
+    final query = customSelect(
+        'SELECT * FROM day_notes '
+        'WHERE date = ?',
+        readsFrom: {dayNotes},
+        variables: [Variable.withInt(date.millisecondsSinceEpoch ~/ 1000)]);
 
-  final results = await query.getSingleOrNull();
+    final results = await query.getSingleOrNull();
 
-  return results != null;
+    return results != null;
   }
 
   Future<DayNote?> getDayNote(DateTime date) async {
@@ -63,5 +62,30 @@ class DayNotesDao extends DatabaseAccessor<AppDatabase>
     } else {
       return null;
     }
+  }
+
+  Future<Map<int, String>> getDayNotesForMonth(
+      DateTime monthStart, DateTime monthEnd) async {
+    final query = customSelect(
+        'SELECT date, note FROM day_notes '
+        'WHERE date >= ? AND date < ? ',
+        readsFrom: {
+          dayNotes
+        },
+        variables: [
+          Variable.withDateTime(monthStart),
+          Variable.withDateTime(monthEnd)
+        ]);
+
+    final result = await query.get();
+    Map<int, String> notesByDay = {};
+    for (var row in result) {
+      final date = row.read<DateTime>('date');
+      final note = row.read<String>('note');
+
+      notesByDay.putIfAbsent(date.day, () => note);
+    }
+
+    return notesByDay;
   }
 }
