@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:diplom/helpers/data_helpers.dart';
-import 'package:diplom/helpers/get_helpers.dart';
 import 'package:diplom/helpers/loading_dialog_helpers.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/qr_generator.dart';
