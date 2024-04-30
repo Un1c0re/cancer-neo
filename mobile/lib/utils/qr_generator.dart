@@ -1,3 +1,5 @@
+import 'package:diplom/views/screens/qr-code/qr_code_screen.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 Future<void> uploadFile(String filePath) async {
@@ -18,8 +20,7 @@ Future<void> uploadFile(String filePath) async {
 
     if (streamedResponse.statusCode == 200) {
       var response = await http.Response.fromStream(streamedResponse);
-      print('Ссылка на файл: ${response.body}');
-
+      Get.to(() => QrCodeScreen(url: response.body));
     } else {
       print('Ошибка при отправке файла: ${streamedResponse.statusCode}');
     }

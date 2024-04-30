@@ -13,7 +13,6 @@ import 'package:month_picker_dialog/month_picker_dialog.dart';
 import '../../../utils/app_style.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
 
 class HomeChartsWidget extends StatefulWidget {
   final String appBarTitle;

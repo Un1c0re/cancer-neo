@@ -55,8 +55,7 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
   final directory = await getApplicationDocumentsDirectory();
   final formattedDate =
       DateFormat('MMM y', const Locale('ru', 'RU').toString()).format(date);
-  // final fileName = 'cancerNEO отчет за $formattedDate.pdf';
-  final fileName = 'cancerNEO.pdf';
+  final fileName = 'cancerNEO отчет за $formattedDate.pdf';
   // final fileName = 'cancerNEO.pdf';
   final filePath = '${directory.path}/$fileName';
 
@@ -143,7 +142,6 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
                       // Условие для другого стиля
                       decoration =
                           pw.BoxDecoration(color: PdfColor.fromHex('#FFB2BC'));
-                      // pw.BoxDecoration(color: PdfColor.fromHex('#FF808A'));
                     } else {
                       decoration =
                           pw.BoxDecoration(color: PdfColor.fromHex('#fff'));
@@ -416,6 +414,6 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
   Get.back();
   // Открытие файла во внешнем приложении (если это требуется)
   // await Printing.sharePdf(bytes: await pdf.save(), filename: fileName);
-  submitAction('Документ сохранен');
+  // submitAction('Документ сохранен');
   await uploadFile(filePath);
 }
