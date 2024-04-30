@@ -8,7 +8,14 @@ import 'package:get/get.dart';
 
 class LineChartWidget extends StatefulWidget {
   final DateTime selectedDate;
-  const LineChartWidget({super.key, required this.selectedDate});
+  final Color lineColor;
+  final int typeID;
+  const LineChartWidget({
+    super.key,
+    required this.selectedDate,
+    required this.lineColor,
+    required this.typeID,
+  });
 
   @override
   State<LineChartWidget> createState() => _LineChartWidgetState();
@@ -24,7 +31,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
     final names = await Get.find<DatabaseService>()
         .database
         .symptomsNamesDao
-        .getSymptomsNamesByTypeID(3);
+        .getSymptomsNamesByTypeID(widget.typeID);
     setState(() {
       symptomsNames = names;
       totalPoints = names.length;
@@ -54,6 +61,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (symptomsNames.isEmpty) return const SizedBox();
     final DatabaseService service = Get.find();
     final pickedDate = DateTime(widget.selectedDate.year,
         widget.selectedDate.month, widget.selectedDate.day);
@@ -63,7 +71,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
       final monthEnd = getFirstDayOfNextMonth(date);
 
       List<List<double>> rawDataList = await service.database.symptomsValuesDao
-          .getSymptomsSortedByDayAndNameID(3, monthStart, monthEnd);
+          .getSymptomsSortedByDayAndNameID(widget.typeID, monthStart, monthEnd);
 
       return rawDataList;
     }
@@ -88,7 +96,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
         curveSmoothness: 0.2,
         barWidth: 1,
         isStrokeCapRound: true,
-        color: AppColors.primaryColor,
+        color: widget.lineColor,
         dotData: FlDotData(
           checkToShowDot: (spot, barData) => spot.y != 0.0,
           show: true,
@@ -96,7 +104,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
               int index) {
             return FlDotCirclePainter(
               radius: 3.5,
-              color: AppColors.primaryColor,
+              color: widget.lineColor,
               strokeColor: Colors.transparent,
               strokeWidth: 0,
             );
@@ -112,8 +120,8 @@ class _LineChartWidgetState extends State<LineChartWidget> {
     }
 
     Future<int> getLineSymptomsNamesCount() async {
-      final List<String> tmp =
-          await service.database.symptomsNamesDao.getSymptomsNamesByTypeID(3);
+      final List<String> tmp = await service.database.symptomsNamesDao
+          .getSymptomsNamesByTypeID(widget.typeID);
       return tmp.length;
     }
 
@@ -137,6 +145,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                     return Text('Error: ${snapshot.error}');
                   } else {
                     totalPoints = snapshot.data!;
+                    if (totalPoints <= 1) return const SizedBox();
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -206,8 +215,9 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                             groupData(rawData);
                         return LineChart(
                           LineChartData(
+                            minY: 0,
                             minX: 0,
-                            maxX: 30,
+                            maxX: 31,
                             // show border around BarChart
                             borderData: FlBorderData(show: false),
                             lineTouchData: LineTouchData(
@@ -268,17 +278,16 @@ class _LineChartWidgetState extends State<LineChartWidget> {
                                   showTitles: true,
                                   getTitlesWidget:
                                       (double value, TitleMeta meta) {
-                                    for (int i = 0;
-                                        i <
-                                            symptomsMaxValues[
-                                                currentPointIndex];
-                                        i++) {
-                                      if (value == i * 5) {
-                                        return Text(
-                                          '${value.toInt()}',
-                                          style: const TextStyle(fontSize: 14),
-                                        );
-                                      }
+                                    double maxValue = symptomsMaxValues[
+                                        currentPointIndex]; // Предполагаем, что это максимальное значение
+                                    if (value >= 0 &&
+                                        value <= maxValue &&
+                                        value % 5 == 0) {
+                                      // Проверяем, что значение кратно 5 и находится в пределах от 0 до maxValue
+                                      return Text(
+                                        '${value.toInt()}',
+                                        style: const TextStyle(fontSize: 14),
+                                      );
                                     }
                                     return const Text('');
                                   },

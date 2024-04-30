@@ -70,8 +70,8 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
   pdf.addPage(
     pw.MultiPage(
       pageFormat: PdfPageFormat.a4.copyWith(
-        width: 1000,
-        height: 1500,
+        width: 1100,
+        height: 1600,
       ),
       build: (context) => [
         pw.Text(

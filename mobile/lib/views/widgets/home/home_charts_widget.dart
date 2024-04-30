@@ -2,10 +2,8 @@ import 'package:diplom/utils/app_colors.dart';
 import 'package:diplom/utils/constants.dart';
 import 'package:diplom/utils/pdf_generator.dart';
 import 'package:diplom/views/widgets/charts/bool_chart_widget.dart';
-import 'package:diplom/views/widgets/charts/custom_chart_widget.dart';
 import 'package:diplom/views/widgets/charts/grade_chart_widget.dart';
 import 'package:diplom/views/widgets/charts/line_chart_widget.dart';
-import 'package:diplom/views/widgets/charts/marker_chart_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import '../../../utils/app_style.dart';
@@ -160,16 +158,28 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
                   style: TextStyle(fontSize: 22, color: AppColors.activeColor),
                 ),
                 const SizedBox(height: 5),
-                LineChartWidget(selectedDate: _selectedDate),
+                LineChartWidget(
+                  selectedDate: _selectedDate,
+                  lineColor: AppColors.primaryColor,
+                  typeID: 3,
+                ),
                 const SizedBox(height: 30),
                 const Text(
                   'Маркеры',
                   style: TextStyle(fontSize: 22, color: AppColors.activeColor),
                 ),
                 const SizedBox(height: 5),
-                MarkerChartWidget(selectedDate: _selectedDate),
+                LineChartWidget(
+                  selectedDate: _selectedDate,
+                  lineColor: AppColors.redColor,
+                  typeID: 4,
+                ),
                 const SizedBox(height: 30),
-                CustomChartWidget(selectedDate: _selectedDate),
+                LineChartWidget(
+                  selectedDate: _selectedDate,
+                  lineColor: AppColors.activeColor,
+                  typeID: 5,
+                ),
                 const SizedBox(height: 10),
                 ElevatedButton(
                   style: AppButtonStyle.basicButton.copyWith(
