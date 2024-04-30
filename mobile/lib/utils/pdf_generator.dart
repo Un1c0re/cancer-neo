@@ -4,6 +4,7 @@ import 'package:diplom/helpers/data_helpers.dart';
 import 'package:diplom/helpers/get_helpers.dart';
 import 'package:diplom/helpers/loading_dialog_helpers.dart';
 import 'package:diplom/services/database_service.dart';
+import 'package:diplom/utils/qr_generator.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -54,7 +55,8 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
   final directory = await getApplicationDocumentsDirectory();
   final formattedDate =
       DateFormat('MMM y', const Locale('ru', 'RU').toString()).format(date);
-  final fileName = 'cancerNEO отчет за $formattedDate.pdf';
+  // final fileName = 'cancerNEO отчет за $formattedDate.pdf';
+  final fileName = 'cancerNEO.pdf';
   // final fileName = 'cancerNEO.pdf';
   final filePath = '${directory.path}/$fileName';
 
@@ -413,6 +415,7 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
 
   Get.back();
   // Открытие файла во внешнем приложении (если это требуется)
-  await Printing.sharePdf(bytes: await pdf.save(), filename: fileName);
+  // await Printing.sharePdf(bytes: await pdf.save(), filename: fileName);
   submitAction('Документ сохранен');
+  await uploadFile(filePath);
 }

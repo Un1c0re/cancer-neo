@@ -80,36 +80,6 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
     });
   }
 
-  Future<void> uploadFile(String url, String filePath) async {
-    // Создаем объект файла
-    var file = File(filePath);
-
-    // Создаем POST запрос
-    var request = http.MultipartRequest('POST', Uri.parse(url));
-
-    // Добавляем файл как часть многокомпонентного запроса
-    request.files.add(await http.MultipartFile.fromPath(
-      'file', // ключ, по которому сервер принимает файл
-      filePath,
-    ));
-
-    // Можно добавить другие поля в запрос
-    request.fields['user'] = 'Flutter';
-
-    try {
-      // Отправляем запрос
-      var response = await request.send();
-
-      if (response.statusCode == 200) {
-        print('Файл успешно отправлен');
-      } else {
-        print('Ошибка при отправке файла: ${response.statusCode}');
-      }
-    } catch (e) {
-      print('Ошибка при отправке: $e');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     String formattedDate =
