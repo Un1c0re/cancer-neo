@@ -31,10 +31,7 @@ class _ProfileScreenState extends State<ProfileCardScreen> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10),
-        child: ProfileCardWidget(onUpdate: widget.onUpdate),
-      ),
+      body: Center(child: ProfileCardWidget(onUpdate: widget.onUpdate)),
     );
   }
 }

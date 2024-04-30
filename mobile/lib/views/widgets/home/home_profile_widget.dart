@@ -92,6 +92,7 @@ class _ProfileCardState extends State<_ProfileCard> {
         backgroundColor: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             FutureBuilder<UserModel?>(
                 future: getUser(),
@@ -103,7 +104,7 @@ class _ProfileCardState extends State<_ProfileCard> {
                   } else {
                     final UserModel userdata = snapshot.data!;
                     return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
                           userdata.username,
