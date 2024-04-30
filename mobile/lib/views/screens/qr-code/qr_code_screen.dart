@@ -1,13 +1,12 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:diplom/helpers/get_helpers.dart';
 import 'package:diplom/utils/app_style.dart';
 import 'package:diplom/utils/app_widgets.dart';
 import 'package:diplom/utils/constants.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'dart:ui' as ui;
@@ -17,10 +16,10 @@ import 'package:share_plus/share_plus.dart';
 class QrCodeScreen extends StatefulWidget {
   final String url;
 
-  QrCodeScreen({
-    Key? key,
+  const QrCodeScreen({
+    super.key,
     required this.url,
-  }) : super(key: key);
+  });
 
   @override
   State<QrCodeScreen> createState() => _QrCodeScreenState();
@@ -29,12 +28,11 @@ class QrCodeScreen extends StatefulWidget {
 class _QrCodeScreenState extends State<QrCodeScreen> {
   final GlobalKey _globalKey = GlobalKey();
 
-  String _savedFile = '';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text('QR Код'),
       ),
       body: Center(
@@ -58,6 +56,11 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
                     key: _globalKey,
                     child: QrImageView(
                       data: widget.url,
+                      backgroundColor: Colors.white,
+                      eyeStyle: const QrEyeStyle(
+                        eyeShape: QrEyeShape.square,
+                        color: Colors.black,
+                      ),
                       version: QrVersions.auto,
                       size: 200.0,
                       errorStateBuilder: (cxt, err) {
@@ -73,8 +76,11 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
                 ),
               ),
               ElevatedButton(
-                onPressed: () => WidgetsBinding.instance
-                    .addPostFrameCallback((_) => _captureAndSavePNG()),
+                onPressed: () {
+                  WidgetsBinding.instance
+                      .addPostFrameCallback((_) => _captureAndSavePNG(widget.url));
+                  submitAction('QR код сохранен');
+                },
                 style: AppButtonStyle.basicButton.copyWith(
                   padding: const MaterialStatePropertyAll(
                       EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
@@ -82,13 +88,6 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
                 child: const Text('Сохранить QR-код',
                     style: TextStyle(fontSize: 20)),
               ),
-              if (_savedFile.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Сохранено в $_savedFile',
-                  ),
-                ),
             ],
           ),
         ),
@@ -96,11 +95,11 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
     );
   }
 
-  Future<void> _shareImage(String imagePath) async {
-    await Share.shareXFiles([XFile(imagePath)], text: 'Поделиться QR кодом');
+  Future<void> _shareImage(String imagePath, String url) async {
+    await Share.shareXFiles([XFile(imagePath)], text: 'Скачать динамику самочувствия: $url');
   }
 
-  Future<void> _captureAndSavePNG() async {
+  Future<void> _captureAndSavePNG(String url) async {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       // Проверка на null перед использованием
       if (_globalKey.currentContext != null) {
@@ -118,18 +117,9 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
                 await File('${directory.path}/qr_image.png').create();
             await imagePath.writeAsBytes(pngBytes);
 
-            setState(() {
-              _savedFile = imagePath.path;
-            });
-            await _shareImage(imagePath.path);
-          } else {
-            print('Unable to get byte data from image.');
+            await _shareImage(imagePath.path, url);
           }
-        } else {
-          print('Boundary object is not available for image capture.');
         }
-      } else {
-        print('Current context is null.');
       }
     });
   }

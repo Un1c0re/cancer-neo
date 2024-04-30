@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:diplom/helpers/data_helpers.dart';
 import 'package:diplom/helpers/loading_dialog_helpers.dart';
 import 'package:diplom/services/database_service.dart';
-import 'package:diplom/utils/qr_generator.dart';
+import 'package:diplom/utils/file_uploader.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -55,7 +55,6 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
   final formattedDate =
       DateFormat('MMM y', const Locale('ru', 'RU').toString()).format(date);
   final fileName = 'cancerNEO отчет за $formattedDate.pdf';
-  // final fileName = 'cancerNEO.pdf';
   final filePath = '${directory.path}/$fileName';
 
   final font = await PdfGoogleFonts.jostRegular();
@@ -67,8 +66,6 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
   for (int i = 1; i < 31; i++) {
     tableHeader.add(i.toString());
   }
-
-
 
   pdf.addPage(
     pw.MultiPage(
@@ -410,9 +407,5 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
   final file = File(filePath);
   await file.writeAsBytes(await pdf.save());
 
-  Get.back();
-  // Открытие файла во внешнем приложении (если это требуется)
-  // await Printing.sharePdf(bytes: await pdf.save(), filename: fileName);
-  // submitAction('Документ сохранен');
   await uploadFile(filePath);
 }

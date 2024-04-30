@@ -20,9 +20,9 @@ Future<void> uploadFile(String filePath) async {
 
     if (streamedResponse.statusCode == 200) {
       var response = await http.Response.fromStream(streamedResponse);
+
+      Get.back();
       Get.to(() => QrCodeScreen(url: response.body));
-    } else {
-      print('Ошибка при отправке файла: ${streamedResponse.statusCode}');
     }
   } catch (e) {
     print('Ошибка при отправке: $e');

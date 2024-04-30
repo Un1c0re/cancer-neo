@@ -170,7 +170,7 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
                 MarkerChartWidget(selectedDate: _selectedDate),
                 const SizedBox(height: 30),
                 CustomChartWidget(selectedDate: _selectedDate),
-                const SizedBox(height: 30),
+                const SizedBox(height: 10),
                 ElevatedButton(
                   style: AppButtonStyle.basicButton.copyWith(
                     padding: const MaterialStatePropertyAll(
@@ -182,7 +182,7 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
                     style: TextStyle(fontSize: 20),
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 40),
               ]),
         ),
       ),

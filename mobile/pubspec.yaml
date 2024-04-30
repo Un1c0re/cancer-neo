@@ -115,8 +115,8 @@ flutter:
   assets:
       - assets/images/neo1.png
       - .env
-      - lib/l10n/app_en.arb
-      - lib/l10n/app_ru.arb
+      # - lib/l10n/app_en.arb
+      # - lib/l10n/app_ru.arb
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
