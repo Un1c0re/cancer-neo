@@ -1,4 +1,4 @@
-import 'package:diplom/views/screens/qr-code/qr_code_screen.dart';
+import 'package:cancerneo/views/screens/qr-code/qr_code_screen.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -25,6 +25,6 @@ Future<void> uploadFile(String filePath) async {
       Get.to(() => QrCodeScreen(url: response.body));
     }
   } catch (e) {
-    print('Ошибка при отправке: $e');
+    throw UnsupportedError('Ошибка при отправке: $e');
   }
 }

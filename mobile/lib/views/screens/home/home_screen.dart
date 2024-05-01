@@ -1,7 +1,7 @@
-import 'package:diplom/utils/app_colors.dart';
-import 'package:diplom/utils/app_icons.dart';
-import 'package:diplom/views/widgets/home/home_docs_wiget.dart';
-import 'package:diplom/views/widgets/home/home_neo_widget.dart';
+import 'package:cancerneo/utils/app_colors.dart';
+import 'package:cancerneo/utils/app_icons.dart';
+import 'package:cancerneo/views/widgets/home/home_docs_wiget.dart';
+import 'package:cancerneo/views/widgets/home/home_neo_widget.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/app_style_icons.dart';
 import '../../widgets/home/home_charts_widget.dart';

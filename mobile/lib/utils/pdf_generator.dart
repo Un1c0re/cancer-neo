@@ -1,11 +1,11 @@
 import 'dart:io';
 
-import 'package:diplom/helpers/data_helpers.dart';
-import 'package:diplom/helpers/datetime_helpers.dart';
-import 'package:diplom/helpers/loading_dialog_helpers.dart';
-import 'package:diplom/models/user_model.dart';
-import 'package:diplom/services/database_service.dart';
-import 'package:diplom/utils/file_uploader.dart';
+import 'package:cancerneo/helpers/data_helpers.dart';
+import 'package:cancerneo/helpers/datetime_helpers.dart';
+import 'package:cancerneo/helpers/loading_dialog_helpers.dart';
+import 'package:cancerneo/models/user_model.dart';
+import 'package:cancerneo/services/database_service.dart';
+import 'package:cancerneo/utils/file_uploader.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';

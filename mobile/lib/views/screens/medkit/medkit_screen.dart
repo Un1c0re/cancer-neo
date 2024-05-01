@@ -1,4 +1,4 @@
-import 'package:diplom/views/widgets/medkit/medkit_widget.dart';
+import 'package:cancerneo/views/widgets/medkit/medkit_widget.dart';
 import 'package:flutter/material.dart';
 
 class MedKitScreen extends StatefulWidget {

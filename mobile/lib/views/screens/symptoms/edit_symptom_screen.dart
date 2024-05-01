@@ -1,4 +1,4 @@
-import 'package:diplom/views/widgets/symptoms/edit_symptom_widget.dart';
+import 'package:cancerneo/views/widgets/symptoms/edit_symptom_widget.dart';
 import 'package:flutter/material.dart';
 
 class EditSymptomScreen extends StatefulWidget {

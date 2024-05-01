@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:diplom/helpers/get_helpers.dart';
-import 'package:diplom/utils/app_style.dart';
-import 'package:diplom/utils/app_widgets.dart';
-import 'package:diplom/utils/constants.dart';
+import 'package:cancerneo/helpers/get_helpers.dart';
+import 'package:cancerneo/utils/app_style.dart';
+import 'package:cancerneo/utils/app_widgets.dart';
+import 'package:cancerneo/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:path_provider/path_provider.dart';

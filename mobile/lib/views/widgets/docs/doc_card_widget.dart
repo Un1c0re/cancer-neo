@@ -1,8 +1,8 @@
-import 'package:diplom/helpers/datetime_helpers.dart';
-import 'package:diplom/models/doc_list_model.dart';
-import 'package:diplom/utils/app_colors.dart';
-import 'package:diplom/utils/app_widgets.dart';
-import 'package:diplom/views/screens/doc/doc_screen.dart';
+import 'package:cancerneo/helpers/datetime_helpers.dart';
+import 'package:cancerneo/models/doc_list_model.dart';
+import 'package:cancerneo/utils/app_colors.dart';
+import 'package:cancerneo/utils/app_widgets.dart';
+import 'package:cancerneo/views/screens/doc/doc_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

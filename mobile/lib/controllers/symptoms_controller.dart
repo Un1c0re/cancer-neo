@@ -1,4 +1,4 @@
-import 'package:diplom/services/database_service.dart';
+import 'package:cancerneo/services/database_service.dart';
 import 'package:get/get.dart';
 
 class GradeSymptomController extends GetxController {

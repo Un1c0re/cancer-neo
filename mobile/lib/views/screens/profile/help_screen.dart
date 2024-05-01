@@ -1,4 +1,4 @@
-import 'package:diplom/views/widgets/profile/help_widget.dart';
+import 'package:cancerneo/views/widgets/profile/help_widget.dart';
 import 'package:flutter/material.dart';
 
 class HelpScreen extends StatefulWidget {

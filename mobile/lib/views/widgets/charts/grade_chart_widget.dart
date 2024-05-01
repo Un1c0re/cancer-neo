@@ -1,12 +1,11 @@
-import 'package:diplom/services/database_service.dart';
-import 'package:diplom/utils/app_colors.dart';
-import 'package:diplom/utils/app_widgets.dart';
-import 'package:diplom/helpers/datetime_helpers.dart';
-import 'package:diplom/views/widgets/charts/chart_data.dart';
-import 'package:diplom/views/widgets/charts/chart_titles.dart';
+import 'package:cancerneo/services/database_service.dart';
+import 'package:cancerneo/utils/app_colors.dart';
+import 'package:cancerneo/utils/app_widgets.dart';
+import 'package:cancerneo/helpers/datetime_helpers.dart';
+import 'package:cancerneo/views/widgets/charts/chart_data.dart';
+import 'package:cancerneo/views/widgets/charts/chart_titles.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class GradeChart extends StatefulWidget {

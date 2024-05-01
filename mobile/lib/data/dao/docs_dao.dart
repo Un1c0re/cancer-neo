@@ -1,4 +1,6 @@
-part of 'package:diplom/data/moor_db.dart'; 
+// ignore_for_file: non_constant_identifier_names
+
+part of 'package:cancerneo/data/moor_db.dart'; 
 
 
 @UseDao(tables: [Users, Docs])

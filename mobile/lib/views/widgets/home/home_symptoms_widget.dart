@@ -1,22 +1,21 @@
-import 'package:diplom/helpers/datetime_helpers.dart';
-import 'package:diplom/views/widgets/symptoms/custom_symptom_widget.dart';
-import 'package:diplom/views/widgets/symptoms/marker_symptom_widget.dart';
-import 'package:diplom/views/widgets/symptoms/num_symptom_widget.dart';
+import 'package:cancerneo/helpers/datetime_helpers.dart';
+import 'package:cancerneo/views/widgets/symptoms/custom_symptom_widget.dart';
+import 'package:cancerneo/views/widgets/symptoms/marker_symptom_widget.dart';
+import 'package:cancerneo/views/widgets/symptoms/num_symptom_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
-import 'package:diplom/services/database_service.dart';
-import 'package:diplom/models/symptom_value_model.dart';
+import 'package:cancerneo/services/database_service.dart';
+import 'package:cancerneo/models/symptom_value_model.dart';
 
-import 'package:diplom/utils/app_colors.dart';
-import 'package:diplom/utils/app_style.dart';
-import 'package:diplom/utils/app_widgets.dart';
-import 'package:diplom/utils/constants.dart';
+import 'package:cancerneo/utils/app_colors.dart';
+import 'package:cancerneo/utils/app_style.dart';
+import 'package:cancerneo/utils/app_widgets.dart';
+import 'package:cancerneo/utils/constants.dart';
 
-import 'package:diplom/views/screens/symptoms/add_symptom_screen.dart';
-import 'package:diplom/views/widgets/symptoms/bool_symptom_widget.dart';
-import 'package:diplom/views/widgets/symptoms/grade_symptom_widget.dart';
+import 'package:cancerneo/views/screens/symptoms/add_symptom_screen.dart';
+import 'package:cancerneo/views/widgets/symptoms/bool_symptom_widget.dart';
+import 'package:cancerneo/views/widgets/symptoms/grade_symptom_widget.dart';
 
 class SymptomsWidget extends StatefulWidget {
   final String appBarTitle;

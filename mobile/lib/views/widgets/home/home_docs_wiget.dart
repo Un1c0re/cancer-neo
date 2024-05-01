@@ -1,8 +1,8 @@
-import 'package:diplom/models/doc_type_model.dart';
-import 'package:diplom/services/database_service.dart';
-import 'package:diplom/utils/app_colors.dart';
-import 'package:diplom/utils/constants.dart';
-import 'package:diplom/views/widgets/docs/doctype_card_widget.dart';
+import 'package:cancerneo/models/doc_type_model.dart';
+import 'package:cancerneo/services/database_service.dart';
+import 'package:cancerneo/utils/app_colors.dart';
+import 'package:cancerneo/utils/constants.dart';
+import 'package:cancerneo/views/widgets/docs/doctype_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

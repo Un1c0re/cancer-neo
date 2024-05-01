@@ -1,4 +1,4 @@
-import 'package:diplom/views/widgets/profile/profile_card_widget.dart';
+import 'package:cancerneo/views/widgets/profile/profile_card_widget.dart';
 import 'package:flutter/material.dart';
 
 class ProfileCardScreen extends StatefulWidget {

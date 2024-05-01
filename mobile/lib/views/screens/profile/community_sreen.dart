@@ -1,4 +1,4 @@
-import 'package:diplom/views/widgets/profile/community_widget.dart';
+import 'package:cancerneo/views/widgets/profile/community_widget.dart';
 import 'package:flutter/material.dart';
 
 class CommunityScreen extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:diplom/views/widgets/docs/edit_doc_widget.dart';
+import 'package:cancerneo/views/widgets/docs/edit_doc_widget.dart';
 import 'package:flutter/material.dart';
 
 class EditDocScreen extends StatefulWidget {

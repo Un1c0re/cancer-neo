@@ -1,10 +1,9 @@
-import 'package:diplom/helpers/datetime_helpers.dart';
-import 'package:diplom/utils/app_colors.dart';
-import 'package:diplom/utils/constants.dart';
-import 'package:diplom/utils/pdf_generator.dart';
-import 'package:diplom/views/widgets/charts/bool_chart_widget.dart';
-import 'package:diplom/views/widgets/charts/grade_chart_widget.dart';
-import 'package:diplom/views/widgets/charts/line_chart_widget.dart';
+import 'package:cancerneo/utils/app_colors.dart';
+import 'package:cancerneo/utils/constants.dart';
+import 'package:cancerneo/utils/pdf_generator.dart';
+import 'package:cancerneo/views/widgets/charts/bool_chart_widget.dart';
+import 'package:cancerneo/views/widgets/charts/grade_chart_widget.dart';
+import 'package:cancerneo/views/widgets/charts/line_chart_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import '../../../utils/app_style.dart';

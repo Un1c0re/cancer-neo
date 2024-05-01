@@ -1,4 +1,4 @@
-import 'package:diplom/helpers/datetime_helpers.dart';
+import 'package:cancerneo/helpers/datetime_helpers.dart';
 
 String? validateName(String? value) {
   if (value == null || value.isEmpty) {

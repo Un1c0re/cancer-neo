@@ -1,9 +1,9 @@
-import 'package:diplom/services/database_service.dart';
-import 'package:diplom/utils/app_colors.dart';
-import 'package:diplom/utils/app_widgets.dart';
-import 'package:diplom/helpers/datetime_helpers.dart';
-import 'package:diplom/views/widgets/charts/chart_data.dart';
-import 'package:diplom/views/widgets/charts/chart_titles.dart';
+import 'package:cancerneo/services/database_service.dart';
+import 'package:cancerneo/utils/app_colors.dart';
+import 'package:cancerneo/utils/app_widgets.dart';
+import 'package:cancerneo/helpers/datetime_helpers.dart';
+import 'package:cancerneo/views/widgets/charts/chart_data.dart';
+import 'package:cancerneo/views/widgets/charts/chart_titles.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,35 +37,6 @@ class _BoolChartState extends State<BoolChart> {
   void initState() {
     super.initState();
     loadSymptomNames(); // Загружаем имена симптомов при инициализации
-  }
-
-  List<Widget> _buildPoints() {
-    List<Widget> points = [];
-    for (int i = 0; i < totalPoints; i++) {
-      points.add(
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              currentPointIndex = i;
-              // Тут можно вызвать функцию, которая обновит данные
-            });
-          },
-          child: Container(
-            width: 10, // Ширина точки
-            height: 10, // Высота точки
-            margin: EdgeInsets.symmetric(
-                vertical: 25 / totalPoints), // Расстояние между точками
-            decoration: BoxDecoration(
-              color: i == currentPointIndex
-                  ? AppColors.activeColor
-                  : AppColors.backgroundColor,
-              shape: BoxShape.circle,
-            ),
-          ),
-        ),
-      );
-    }
-    return points;
   }
 
   @override

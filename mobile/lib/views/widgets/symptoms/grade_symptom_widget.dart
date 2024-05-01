@@ -1,6 +1,6 @@
-import 'package:diplom/controllers/symptoms_controller.dart';
-import 'package:diplom/utils/app_colors.dart';
-import 'package:diplom/utils/app_widgets.dart';
+import 'package:cancerneo/controllers/symptoms_controller.dart';
+import 'package:cancerneo/utils/app_colors.dart';
+import 'package:cancerneo/utils/app_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

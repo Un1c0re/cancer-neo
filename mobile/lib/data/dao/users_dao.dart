@@ -1,4 +1,4 @@
-part of 'package:diplom/data/moor_db.dart';
+part of 'package:cancerneo/data/moor_db.dart';
 
 @UseDao(tables: [Users])
 class UsersDao extends DatabaseAccessor<AppDatabase> with _$UsersDaoMixin {

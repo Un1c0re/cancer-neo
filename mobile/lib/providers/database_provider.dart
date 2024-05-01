@@ -1,4 +1,4 @@
-import 'package:diplom/data/moor_db.dart';
+import 'package:cancerneo/data/moor_db.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

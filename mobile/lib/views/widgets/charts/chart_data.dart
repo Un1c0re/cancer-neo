@@ -1,4 +1,4 @@
-import 'package:diplom/utils/app_colors.dart';
+import 'package:cancerneo/utils/app_colors.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 

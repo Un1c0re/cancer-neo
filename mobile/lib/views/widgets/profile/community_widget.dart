@@ -1,6 +1,6 @@
-import 'package:diplom/utils/app_colors.dart';
-import 'package:diplom/utils/app_widgets.dart';
-import 'package:diplom/views/screens/webview/webview_screen.dart';
+import 'package:cancerneo/utils/app_colors.dart';
+import 'package:cancerneo/utils/app_widgets.dart';
+import 'package:cancerneo/views/screens/webview/webview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

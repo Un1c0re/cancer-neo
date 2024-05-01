@@ -1,6 +1,6 @@
 import 'dart:typed_data';
-import 'package:diplom/helpers/doc_load_helpers.dart';
-import 'package:diplom/utils/app_colors.dart';
+import 'package:cancerneo/helpers/doc_load_helpers.dart';
+import 'package:cancerneo/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
