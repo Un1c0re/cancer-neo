@@ -144,69 +144,68 @@ class _DocDataWidgetState extends State<DocDataWidget> {
           return SizedBox(
             height: DeviceScreenConstants.screenHeight * 0.5,
             width: double.maxFinite,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  document.name,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    document.name,
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const Text(
-                  'тип документа',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                  const SizedBox(height: 10),
+                  Text(typeName,
+                      style: const TextStyle(
+                          fontSize: 18, fontStyle: FontStyle.italic)),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Дата оформления документа:',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                Text(typeName),
-                const SizedBox(height: 10),
-                const Text(
-                  'Дата оформления документа:',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                  Text(
+                    customFormat
+                        .format(document.date)
+                        .toString()
+                        .substring(0, 10),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
-                ),
-                Text(
-                  customFormat
-                      .format(document.date)
-                      .toString()
-                      .substring(0, 10),
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Учреждение:',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                const Text(
-                  'Учреждение:',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                  Text(
+                    document.place,
+                    style: const TextStyle(fontSize: 18),
                   ),
-                ),
-                Text(
-                  document.place,
-                  style: const TextStyle(fontSize: 18),
-                ),
-                const SizedBox(height: 12),
-                const Text(
-                  'Примечания:',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
+                  const SizedBox(height: 12),
+                  const Text(
+                    'Примечания:',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                Text(
-                  document.notes,
-                  style: const TextStyle(fontSize: 18),
-                ),
-                const SizedBox(height: 20),
-                if (document.file != null) _DocMiniature(document.file),
-              ],
+                  Text(
+                    document.notes,
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(height: 20),
+                  if (document.file != null)
+                    Center(child: _DocMiniature(document.file)),
+                ],
+              ),
             ),
           );
         }
@@ -227,17 +226,26 @@ class _DocMiniature extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints(
-        maxHeight: 70,
-        maxWidth: 70,
+        maxHeight: 120,
+        maxWidth: 250,
       ),
       child: Stack(
         children: [
           const AppStyleCard(
-            backgroundColor: Colors.white,
-            child: Icon(
-              Icons.description_rounded,
-              size: 40,
-              color: AppColors.activeColor,
+            backgroundColor: AppColors.activeColor,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Icon(
+                  Icons.description_rounded,
+                  size: 70,
+                  color: Colors.white,
+                ),
+                Text(
+                  'Просмотреть документ',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
+              ],
             ),
           ),
           Material(

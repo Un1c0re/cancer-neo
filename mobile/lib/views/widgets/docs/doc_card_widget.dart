@@ -34,7 +34,7 @@ class _DocCardWidgetState extends State<DocCardWidget> {
               Expanded(
                 child: Text(
                   widget.data.name,
-                  maxLines: 1,
+                  maxLines: 2,
                   style: const TextStyle(
                     fontSize: 18,
                   ),
