@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:diplom/helpers/data_helpers.dart';
+import 'package:diplom/helpers/datetime_helpers.dart';
 import 'package:diplom/helpers/loading_dialog_helpers.dart';
+import 'package:diplom/models/user_model.dart';
 import 'package:diplom/services/database_service.dart';
 import 'package:diplom/utils/file_uploader.dart';
 import 'package:flutter/widgets.dart';
@@ -12,9 +14,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:path_provider/path_provider.dart';
 
-
 Future<void> generatePDF(BuildContext context, DateTime date) async {
-
   showLoadingDialog(context, 'Подождите, документ формируется');
 
   final DatabaseService service = Get.find();
@@ -50,10 +50,15 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
   Map<int, String> daynotesData = await service.database.dayNotesDao
       .getDayNotesForMonth(monthStart, monthEnd);
 
+  UserModel? userdata = await service.database.usersDao.getUserdata();
+
   final pdf = pw.Document();
   final directory = await getApplicationDocumentsDirectory();
+
   final formattedDate =
-      DateFormat('MMM y', const Locale('ru', 'RU').toString()).format(date);
+      DateFormat('MMMM y', const Locale('ru', 'RU').toString()).format(date);
+  final month = getMonthNameNominative(date);
+  final dateToDraw = '$month ${date.year}';
   final fileName = 'cancerNEO отчет за $formattedDate.pdf';
   final filePath = '${directory.path}/$fileName';
 
@@ -84,8 +89,42 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
             fontFallback: fallbackFonts,
           ),
         ),
+        pw.Paragraph(text: '\n'),
         pw.Text(
-          'Данные за $formattedDate',
+          'Пациент: ${userdata!.username}',
+          style: pw.TextStyle(
+            fontSize: 30,
+            font: font,
+            fontFallback: fallbackFonts,
+          ),
+        ),
+        pw.Text(
+          '${customFormat.format(userdata.birthdate)} года рождения',
+          style: pw.TextStyle(
+            fontSize: 30,
+            font: font,
+            fontFallback: fallbackFonts,
+          ),
+        ),
+        pw.Text(
+          'История болезни: ${userdata.deseaseHistory}',
+          style: pw.TextStyle(
+            fontSize: 30,
+            font: font,
+            fontFallback: fallbackFonts,
+          ),
+        ),
+        pw.Text(
+          'История лечения: ${userdata.threatmentHistory}',
+          style: pw.TextStyle(
+            fontSize: 30,
+            font: font,
+            fontFallback: fallbackFonts,
+          ),
+        ),
+        pw.Paragraph(text: '\n'),
+        pw.Text(
+          'Данные за $dateToDraw',
           style: pw.TextStyle(
             fontSize: 30,
             fontBold: fontBold,
@@ -96,7 +135,7 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
         ),
         pw.Paragraph(text: '\n'),
         pw.Text(
-          'двухуровневые параметры',
+          'Двухуровневые параметры',
           style: pw.TextStyle(
             color: PdfColor.fromHex('608CC1'),
             fontSize: 25,
@@ -107,6 +146,9 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
         pw.Table(
             border: pw.TableBorder.all(),
             defaultVerticalAlignment: pw.TableCellVerticalAlignment.middle,
+            columnWidths: {
+              0: const pw.FixedColumnWidth(100.0),
+            },
             children: [
               pw.TableRow(
                 decoration:
@@ -171,7 +213,9 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
             fontFallback: fallbackFonts,
           ),
         ),
-        pw.Table(border: pw.TableBorder.all(), children: [
+        pw.Table(border: pw.TableBorder.all(), columnWidths: {
+          0: const pw.FixedColumnWidth(100.0),
+        }, children: [
           pw.TableRow(
             decoration: pw.BoxDecoration(color: PdfColor.fromHex('#e8e8e8')),
             children: tableHeader
@@ -201,15 +245,18 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
                     double.parse(cell).toInt() > 0 &&
                     double.parse(cell).toInt() <= 1) {
                   decoration =
-                      pw.BoxDecoration(color: PdfColor.fromHex('#A7FFA6'));
+                      // pw.BoxDecoration(color: PdfColor.fromHex('#A7FFA6'));
+                      pw.BoxDecoration(color: PdfColor.fromHex('#E7E4A6'));
                 } else if (idx > 0 &&
                     double.parse(cell).toInt() > 1 &&
                     double.parse(cell).toInt() <= 2) {
                   decoration =
-                      pw.BoxDecoration(color: PdfColor.fromHex('#FFCFA4'));
+                      // pw.BoxDecoration(color: PdfColor.fromHex('#FFCFA4'));
+                      pw.BoxDecoration(color: PdfColor.fromHex('#FFD280'));
                 } else if (idx > 0 && double.parse(cell).toInt() >= 3) {
                   decoration =
-                      pw.BoxDecoration(color: PdfColor.fromHex('#FF969D'));
+                      // pw.BoxDecoration(color: PdfColor.fromHex('#FF969D'));
+                      pw.BoxDecoration(color: PdfColor.fromHex('#FFAA80'));
                 } else {
                   decoration = const pw.BoxDecoration(color: PdfColors.white);
                 }
@@ -241,7 +288,9 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
             fontFallback: fallbackFonts,
           ),
         ),
-        pw.Table(border: pw.TableBorder.all(), children: [
+        pw.Table(border: pw.TableBorder.all(), columnWidths: {
+          0: const pw.FixedColumnWidth(100.0),
+        }, children: [
           pw.TableRow(
             decoration: pw.BoxDecoration(color: PdfColor.fromHex('#e8e8e8')),
             children: tableHeader
@@ -291,7 +340,9 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
             fontFallback: fallbackFonts,
           ),
         ),
-        pw.Table(border: pw.TableBorder.all(), children: [
+        pw.Table(border: pw.TableBorder.all(), columnWidths: {
+          0: const pw.FixedColumnWidth(100.0),
+        }, children: [
           pw.TableRow(
             decoration: pw.BoxDecoration(color: PdfColor.fromHex('#e8e8e8')),
             children: tableHeader
@@ -341,7 +392,9 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
             fontFallback: fallbackFonts,
           ),
         ),
-        pw.Table(border: pw.TableBorder.all(), children: [
+        pw.Table(border: pw.TableBorder.all(), columnWidths: {
+          0: const pw.FixedColumnWidth(100.0),
+        }, children: [
           pw.TableRow(
             decoration: pw.BoxDecoration(color: PdfColor.fromHex('#e8e8e8')),
             children: tableHeader
@@ -391,13 +444,12 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
         ),
         ...daynotesData.entries.map((entry) {
           return pw.Paragraph(
-            text: 'День: ${entry.key}\nЗапись: ${entry.value}\n',
-            style: pw.TextStyle(
-              font: font,
-              fontFallback: fallbackFonts,
-              fontSize: 25,
-            )
-          );
+              text: 'День: ${entry.key}\nЗапись: ${entry.value}\n',
+              style: pw.TextStyle(
+                font: font,
+                fontFallback: fallbackFonts,
+                fontSize: 25,
+              ));
         }),
       ],
     ),

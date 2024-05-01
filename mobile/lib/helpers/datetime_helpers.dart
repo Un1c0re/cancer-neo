@@ -42,3 +42,28 @@ Future<DateTime?> selectDate(BuildContext context, DateTime pickedDate) async {
   }
   return null;
 }
+
+String getMonthNameNominative(DateTime date) {
+  // Словарь для преобразования месяца из родительного в именительный падеж
+  const monthNames = {
+    'янв.': 'Январь',
+    'фев.': 'Февраль',
+    'мар.': 'Март',
+    'апр.': 'Апрель',
+    'мая': 'Май',
+    'июн.': 'Июнь',
+    'июл.': 'Июль',
+    'авг.': 'Август',
+    'сен.': 'Сентябрь',
+    'окт.': 'Октябрь',
+    'ноя.': 'Ноябрь',
+    'дек.': 'Декабрь'
+  };
+
+  // Форматируем дату в родительном падеже
+  String monthPart =
+      DateFormat('MMM', const Locale('ru', 'RU').toString()).format(date);
+
+  // Преобразуем в именительный падеж, если возможно
+  return monthNames[monthPart] ?? monthPart;
+}
