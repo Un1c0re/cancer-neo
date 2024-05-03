@@ -1,9 +1,16 @@
-<!DOCTYPE html><html data-astro-cid-zm77yjld> <head><title>Все о НЭО</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="/cancer-neo/styles/global.css"><link rel="shortcut icon" href="/cancer-neo/images/cancer-neo.png"><link rel="stylesheet" href="/cancer-neo/_astro/article-1.ZukQxWcs.css"></head> <body class="flex flex-col items-center justify-between gap-10" data-astro-cid-zm77yjld> <header class="article-header w-full h-14 px-10 py-4 rounded-b-xl  grid grid-cols-3 items-top" data-astro-cid-zm77yjld> <div class="text-2xl text-start col-span-1" data-astro-cid-zm77yjld> <a href="/cancer-neo" data-astro-cid-zm77yjld> <img src="/cancer-neo/leftarrow.svg" alt="Назад" width="36" height="36" decoding="async" loading="lazy" data-astro-cid-zm77yjld> </a> </div> <div class="text-3xl text-center col-span-1 text-nowrap" data-astro-cid-zm77yjld> <h1 data-astro-cid-zm77yjld>Все о НЭО</h1> </div> </header> <main class="article-reader gap-10 w-11/12 p-6 " data-astro-cid-zm77yjld> <div class="flex flex-col items-center self-center" data-astro-cid-zm77yjld> <h1 class="font-bold text-3xl" data-astro-cid-zm77yjld>Синдромы, сопровождающие НЭО</h1> <h1 class="font-bold text-xl" data-astro-cid-zm77yjld>основные первичные и вторичные места локализации опухоли</h1> </div> <div class="post-content" data-astro-cid-zm77yjld> <div class="content" data-astro-cid-zm77yjld> <style>
+---
+layout: '../../layouts/ArticleLayout.astro'
+title: 'Синдромы, сопровождающие НЭО'
+excerpt: 'основные первичные и вторичные места локализации опухоли'
+slug: 'article-02'
+---
+
+<style>
     p {
         text-indent: 20px;
     }
 
-    h1 {
+    h2 {
         font-size: 20px; 
         font-weight: bold;
     }
@@ -12,6 +19,8 @@
         padding-left: 20px;
     }
 </style>
+
+
 <p>
     <b>Синдром</b> - это набор специфических симптомов. Если врач говорит,
     что у вас синдром, связанный с НЭО, это означает, 
@@ -19,16 +28,18 @@
     закономерно связанными между собой. Важно понимать, на какие именно симптомы вам
     стоит обращать внимание и как на них реагировать.
 </p>
+
 <br>
 <br>
-<h1> Карциноидный синдром </h1>
+
+<h2> Карциноидный синдром </h2>
 <p>
     Карциноидный синдром возникает при избыточной секреции серотонина и некоторых других гормонов. Вы могли замечать у себя
     проявления данного синдрома при
     наличии у вас первичной НЭО кишечника, легких или яичников или
     при метастазировании в печень.
     К типичным симптомам карциноидного синдрома относят:
-    </p><ul>
+    <ul>
         <li> 
             Приливы (покраснение в области грудной клетки и лица, в ряде случаев - во всем теле). 
             Обычно это сухие приливы, не обязательно сопровождающиеся потливостью (характерной для приливов при менопаузе).
@@ -43,17 +54,19 @@
         <li>Изменения кожи</li>
         <li>Карциноидная болезнь сердца</li>
     </ul>
-<p></p>
+</p>
+
 <br>
 <br>
-<h1> Лечение приливов </h1>
+
+<h2> Лечение приливов </h2>
 <p>
     Многие пациенты с карциноидным синдромом отмечают у себя
     такое неприятное явление, как приливы. Бороться с ними будет легче,
     если вы будете владеть информацией о факторах, провоцирующих
     данное явление. К пусковым механизмам (триггерам) приливов могут
     относиться:
-    </p><ul>
+    <ul>
         <li>Прием алкоголя и/или кофеина</li>
         <li>Прием обильной или острой пищи</li>
         <li>
@@ -65,7 +78,7 @@
         </li>
         <li>Перенапряжение</li>
     </ul>
-<p></p>
+</p>
 <p>
     Некоторые пациенты отмечают,
     что чрезмерная физическая нагрузка или простой наклон головы
@@ -75,9 +88,12 @@
     триггерных факторов и стараться
     минимизировать их.
 </p>
+
 <br>
 <br>
-<h1> Карциноидная болезнь сердца </h1>
+
+<h2> Карциноидная болезнь сердца </h2>
+
 <p>
     <b>Карциноидная болезнь сердца</b> - это поражение сердца, являющееся радикальным проявлением
     карциноидного синдромома. К сожалению, она затрагивает до 80%
@@ -97,10 +113,14 @@
     пациенту требуется лечение или
     операция на сердце с целью замены поврежденных клапанов.
 </p>
+
 <br>
-<p><img  src="/cancer-neo/_astro/heart.BwjfnlOq_ZABRso.webp" alt="alt сердце" width="444" height="438" loading="lazy" decoding="async"></p>
+
+![alt сердце](../../../public/images//article-3/heart.png)
+
 <br>
-<h1> Клиническая гипогликемия </h1>
+
+<h2> Клиническая гипогликемия </h2>
 <p>
     <b>Этот синдром в подавляющем большинстве случаев вызван инсулиномой</b> - опухолью
     поджелудочной железы, которая
@@ -129,7 +149,7 @@
     свидетельствующих о развитии у
     человека инсулиномы, называют
     Триадой Уиппла. К данным симптомам относятся:
-    </p><ul>
+    <ul>
     <li>признаки гипогликемии;</li>
     <li>падение уровня глюкозы в крови до 2,5 ммоль/л;</li>
     <li>
@@ -138,10 +158,12 @@
         сахаром пищи.
     </li>
     </ul>
-<p></p>
+</p>
+
 <br>
 <br>
-<h1> Клиническая гипогликемия </h1>
+
+<h2> Клиническая гипогликемия </h2>
 <p>
     СЗЭ возникает, когда НЭО
     поджелудочной железы или двенадцатиперстной кишки продуцируют в кровоток избыточное количество гормона гастрина. Гастрин
@@ -169,10 +191,15 @@
     вас попросят перейти на альтернативные препараты или прекратить
     прием ИПП. 
 </p>
+
 <br>
 <br>
+
 <p style="font-size: 17px">
     Источник: 
-    <a style="color: blue" href="https://vk.com/doc492172941_490970814?hash=9299bb54a36af80b02&#x26;dl=f915fcd8df0ebfa410"> брошюра пациента c НЭО
+    <a 
+        style="color: blue" 
+        href="https://vk.com/doc492172941_490970814?hash=9299bb54a36af80b02&dl=f915fcd8df0ebfa410"
+        > брошюра пациента c НЭО
     </a>
-</p><p></p> </div> </div> </main> </body></html>
+<p>

@@ -28,7 +28,7 @@ const articlesChunks: ArticleProps[][] = chunkArray(allArticles, 5);
   >
     Синдромы, сопровождающие НЭО
   </h2>
-  <ArticleList articles={articlesChunks[1]} />
+  <ArticleList articles={articlesChunks[1].concat(articlesChunks[2])} />
   <h2
     style="font-weight: 500; color: rgb(3, 63, 53);"
     class="self-start px-10 text-2xl font-semibold mt-10"
@@ -42,7 +42,7 @@ const articlesChunks: ArticleProps[][] = chunkArray(allArticles, 5);
   >
     Питание пациента с НЭО
   </h2>
-  <ArticleList articles={articlesChunks[2]} />
+  <ArticleList articles={articlesChunks[3]} />
 </div>
 
 <style>

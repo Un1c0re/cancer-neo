@@ -2,14 +2,14 @@
 layout: '../../layouts/ArticleLayout.astro'
 title: 'Рецепторы соматостатина'
 excerpt: 'sst2, sst3, sst5; sst1, sst4'
-slug: 'article-5'
+slug: 'article-04'
 ---
 
 <style>
     p {
         text-indent: 20px;
     }
-    h1 {
+    h2 {
         font-size: 20px; 
         font-weight: bold;
     }
@@ -17,7 +17,7 @@ slug: 'article-5'
 
 <br>
 <div style="display: flex; flex-direction: column; align-items: center;">
-    <img src="/cancer-neo/images/article-5/neo-cell.png" alt="стадии развития НЭО">
+    <img src="/cancer-neo/images/article-5/neo_cell.png" alt="стадии развития НЭО">
 </div>
 <br>
 
@@ -40,7 +40,7 @@ slug: 'article-5'
 <br>
 <br>
 
-<h1> Для чего определять рецепторы соматостатина? </h1>
+<h2> Для чего определять рецепторы соматостатина? </h2>
 <p>
     Определение рецепторов соматостатина необходимо для диагностики НЭО посредством ПЭТкт, 
     в котором используются несколько РФП, меченых галлием 68: 68Ga-DOTA-TATE, 68Ga-DOTA-NOC - это радиофармпрепараты, 
@@ -58,3 +58,12 @@ slug: 'article-5'
 </div>
 <br>
 
+<br>
+<p style="font-size: 17px">
+    Источник: 
+    <a 
+        style="color: blue" 
+        href="https://vk.com/doc492172941_490970814?hash=9299bb54a36af80b02&dl=f915fcd8df0ebfa410"
+        > брошюра пациента c НЭО
+    </a>
+<p>
