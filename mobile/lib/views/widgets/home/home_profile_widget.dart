@@ -152,9 +152,8 @@ class _SettingsButtons extends StatelessWidget {
   final List<SettingsButtonsData> data = [
     // SettingsButtonsData(MyFlutterApp.pills, 'Аптечка',
     //     () => Get.to(() => const MedKitScreen())),
-    SettingsButtonsData(Icons.people_alt_outlined, 'Сообщества',
+    SettingsButtonsData(Icons.people_alt_outlined, 'Поддержка пациентов',
         () => Get.to(() => const CommunityScreen())),
-    SettingsButtonsData(Icons.phone_rounded, 'Горячая линия поддержки', () {}),
     SettingsButtonsData(Icons.help_outline_rounded,
         'Как пользоаться приложением', () => Get.to(() => const HelpScreen())),
   ];
@@ -163,7 +162,7 @@ class _SettingsButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints(
-        maxHeight: 200,
+        maxHeight: 120,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

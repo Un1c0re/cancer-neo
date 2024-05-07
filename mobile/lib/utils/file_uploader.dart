@@ -1,3 +1,4 @@
+import 'package:cancerneo/helpers/get_helpers.dart';
 import 'package:cancerneo/views/screens/qr-code/qr_code_screen.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -22,6 +23,7 @@ Future<void> uploadFile(String filePath) async {
       var response = await http.Response.fromStream(streamedResponse);
 
       Get.back();
+      submitAction('Документ сформирован');
       Get.to(() => QrCodeScreen(url: response.body));
     }
   } catch (e) {

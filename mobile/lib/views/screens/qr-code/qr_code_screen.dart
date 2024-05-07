@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cancerneo/helpers/get_helpers.dart';
+import 'package:cancerneo/utils/app_colors.dart';
 import 'package:cancerneo/utils/app_style.dart';
 import 'package:cancerneo/utils/app_widgets.dart';
 import 'package:cancerneo/utils/constants.dart';
@@ -38,13 +39,21 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
       body: Center(
         child: ConstrainedBox(
           constraints: BoxConstraints(
-            maxHeight: DeviceScreenConstants.screenHeight * 0.5,
+            maxHeight: DeviceScreenConstants.screenHeight * 0.6,
             maxWidth: DeviceScreenConstants.screenWidth * 0.9,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const Text(
+                'Данные будут доступны в течение 14 дней с момента формирования. По истечении времени они будут удалены.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                  color: AppColors.activeColor
+                ),
+              ),
               ConstrainedBox(
                 constraints: const BoxConstraints(
                   maxHeight: 300,
@@ -77,15 +86,15 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  WidgetsBinding.instance
-                      .addPostFrameCallback((_) => _captureAndSavePNG(widget.url));
+                  WidgetsBinding.instance.addPostFrameCallback(
+                      (_) => _captureAndSavePNG(widget.url));
                   submitAction('QR код сохранен');
                 },
                 style: AppButtonStyle.basicButton.copyWith(
                   padding: const MaterialStatePropertyAll(
                       EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
                 ),
-                child: const Text('Сохранить QR-код',
+                child: const Text('Поделиться QR-кодом',
                     style: TextStyle(fontSize: 20)),
               ),
             ],
@@ -96,7 +105,8 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
   }
 
   Future<void> _shareImage(String imagePath, String url) async {
-    await Share.shareXFiles([XFile(imagePath)], text: 'Скачать динамику самочувствия: $url');
+    await Share.shareXFiles([XFile(imagePath)],
+        text: 'Скачать динамику самочувствия: $url');
   }
 
   Future<void> _captureAndSavePNG(String url) async {
@@ -114,7 +124,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
             Uint8List pngBytes = byteData.buffer.asUint8List();
             final directory = await getApplicationDocumentsDirectory();
             final imagePath =
-                await File('${directory.path}/qr_image.png').create();
+                await File('${directory.path}/qr_cancerneo.png').create();
             await imagePath.writeAsBytes(pngBytes);
 
             await _shareImage(imagePath.path, url);

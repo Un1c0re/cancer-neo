@@ -1,3 +1,4 @@
+import 'package:cancerneo/helpers/datetime_helpers.dart';
 import 'package:cancerneo/utils/app_colors.dart';
 import 'package:cancerneo/utils/constants.dart';
 import 'package:cancerneo/utils/pdf_generator.dart';
@@ -80,6 +81,9 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
     String formattedDate =
         DateFormat('MMM y', const Locale('ru', 'RU').toString())
             .format(_selectedDate);
+    
+    final month = getMonthNameNominative(_selectedDate);
+    final dateToDraw = '$month ${_selectedDate.year}';
 
     return Scaffold(
       appBar: AppBar(
@@ -187,9 +191,9 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
                         EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
                   ),
                   onPressed: () => generatePDF(context, _selectedDate),
-                  child: const Text(
-                    'Экспорт отчета за месяц',
-                    style: TextStyle(fontSize: 20),
+                  child: Text(
+                    'Экспорт отчета за $dateToDraw',
+                    style: const TextStyle(fontSize: 20),
                   ),
                 ),
                 const SizedBox(height: 40),

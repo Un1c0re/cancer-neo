@@ -8,7 +8,6 @@ import 'package:cancerneo/services/database_service.dart';
 import 'package:cancerneo/utils/file_uploader.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
@@ -55,11 +54,9 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
   final pdf = pw.Document();
   final directory = await getApplicationDocumentsDirectory();
 
-  final formattedDate =
-      DateFormat('MMMM y', const Locale('ru', 'RU').toString()).format(date);
   final month = getMonthNameNominative(date);
   final dateToDraw = '$month ${date.year}';
-  final fileName = 'cancerNEO отчет за $formattedDate.pdf';
+  final fileName = 'cancerNEO отчет за $dateToDraw.pdf';
   final filePath = '${directory.path}/$fileName';
 
   final font = await PdfGoogleFonts.jostRegular();
