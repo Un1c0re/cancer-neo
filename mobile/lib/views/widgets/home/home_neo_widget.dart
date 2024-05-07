@@ -15,47 +15,69 @@ class HomeNeoWidget extends StatefulWidget {
 
 class _HomeNeoWidgetState extends State<HomeNeoWidget> {
   double _progress = 0;
+  bool _isLoadError = false;
   late InAppWebViewController inAppWebViewController;
 
   @override
-void initState() {
-  super.initState();
-  // Устанавливаем стиль системной панели статуса
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: AppColors.primaryColor, // Вы можете выбрать нужный цвет
-    statusBarIconBrightness: Brightness.light, // Иконки статуса бара светлые (для темного фона)
-  ));
-}
+  void initState() {
+    super.initState();
+    // Устанавливаем стиль системной панели статуса
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: AppColors.primaryColor, // Вы можете выбрать нужный цвет
+      statusBarIconBrightness:
+          Brightness.light, // Иконки статуса бара светлые (для темного фона)
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
     final url = dotenv.env['WEB_INFO']!;
     return SafeArea(
       child: Scaffold(
-          body: Stack(
-        children: [
-          InAppWebView(
-            initialUrlRequest: URLRequest(
-              url: WebUri.uri(Uri.parse(url)),
-            ),
-            onWebViewCreated: (InAppWebViewController controller) {
-              inAppWebViewController = controller;
-            },
-            onProgressChanged:
-                (InAppWebViewController contorller, int progress) {
-              setState(() {
-                _progress = progress / 100;
-              });
-            },
-          ),
-          _progress < 1
-              ? LinearProgressIndicator(
-                  color: AppColors.primaryColor,
-                  value: _progress,
+          body: !_isLoadError
+              ? Stack(
+                  children: [
+                    InAppWebView(
+                      initialUrlRequest: URLRequest(
+                        url: WebUri.uri(Uri.parse(url)),
+                      ),
+                      onWebViewCreated: (InAppWebViewController controller) {
+                        inAppWebViewController = controller;
+                      },
+                      onProgressChanged:
+                          (InAppWebViewController contorller, int progress) {
+                        setState(() {
+                          _progress = progress / 100;
+                        });
+                      },
+                      onReceivedError: (InAppWebViewController controller,
+                          WebResourceRequest request, WebResourceError error) {
+                        setState(() {
+                          _progress = 100;
+                          setState(() {
+                            _isLoadError = true;
+                          });
+                        });
+                      },
+                    ),
+                    _progress < 1
+                        ? LinearProgressIndicator(
+                            color: AppColors.primaryColor,
+                            value: _progress,
+                          )
+                        : const SizedBox(),
+                  ],
                 )
-              : const SizedBox(),
-        ],
-      )),
+              : const Center(
+                  child: Text(
+                    'Раздел недоступен\nНет подключения к интернету',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: AppColors.activeColor,
+                    ),
+                  ),
+                )),
     );
   }
 }
