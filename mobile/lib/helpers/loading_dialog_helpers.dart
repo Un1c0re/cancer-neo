@@ -52,11 +52,11 @@ void showDateRangePickerDialog(
     DateTime(DateTime.now().year, DateTime.now().month, 1),
   );
   controller.displayDate = DateTime.now();
-  PickerDateRange? _selectedRange = controller.selectedRange;
+  PickerDateRange? selectedRange = controller.selectedRange;
 
   void handlePropertyChange(String propertyName) {
     if (propertyName == 'selectedRange') {
-      _selectedRange = controller.selectedRange;
+      selectedRange = controller.selectedRange;
     }
   }
 
@@ -111,12 +111,12 @@ void showDateRangePickerDialog(
                         Expanded(
                           child: OutlinedButton(
                             style: AppButtonStyle.basicButton.copyWith(
-                              side: MaterialStatePropertyAll(BorderSide.none)
+                              side: const MaterialStatePropertyAll(BorderSide.none)
                             ),
                             onPressed: () {
                               Get.back();
-                              generatePDF(context, _selectedRange!.startDate!,
-                                  _selectedRange!.endDate!);
+                              generatePDF(context, selectedRange!.startDate!,
+                                  selectedRange!.endDate!);
                             },
                             child: const Text(
                               'Подтвердить',

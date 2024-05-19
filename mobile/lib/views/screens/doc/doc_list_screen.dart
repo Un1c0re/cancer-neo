@@ -1,3 +1,4 @@
+import 'package:cancerneo/helpers/datetime_helpers.dart';
 import 'package:cancerneo/models/doc_list_model.dart';
 import 'package:cancerneo/models/doc_type_model.dart';
 import 'package:cancerneo/services/database_service.dart';
@@ -34,79 +35,6 @@ class _DocsListScreenState extends State<DocsListScreen> {
 
   void _addDoc() {
     Get.to(() => AddDocScreen(onUpdate: _updateData, doctype: widget.doctype));
-  }
-
-  @override
-  void initState() {
-    _pickerController.selectedRange = PickerDateRange(
-      DateTime.now(),
-      DateTime.now().add(const Duration(days: 10)),
-    );
-    _pickerController.displayDate = DateTime.now();
-    _pickerController.addPropertyChangedListener(handlePropertyChange);
-    _filteredData = [];
-    super.initState();
-  }
-
-  void handlePropertyChange(String propertyName) {
-    if (propertyName == 'selectedRange') {
-      _selectedRange = _pickerController.selectedRange;
-    }
-  }
-
-  Future _showCalendar(BuildContext context) {
-    return showDialog<DateRangePickerController>(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-            backgroundColor: const Color.fromRGBO(238, 243, 249, 1),
-            surfaceTintColor: const Color.fromRGBO(238, 243, 249, 1),
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              height: 500,
-              width: 400,
-              child: Theme(
-                data: ThemeData.light().copyWith(
-                  primaryColor: AppColors.primaryColor, // Цвет выбранной даты
-                  colorScheme: const ColorScheme.light(
-                    primary: AppColors.primaryColor, // Цветовая схема
-                    onPrimary: Colors.white, // Цвет текста на выбранной дате
-                    surface: Colors.white, // Цвет фона элементов
-                    onSurface: Colors.black, // Цвет текста элементов
-                  ),
-                  textButtonTheme: TextButtonThemeData(
-                    style: TextButton.styleFrom(
-                      foregroundColor:
-                          AppColors.activeColor, // Цвет текста кнопок
-                    ),
-                  ),
-                ),
-                child: SfDateRangePicker(
-                    maxDate: DateTime.now(),
-                    selectionColor: AppColors.primaryColor,
-                    startRangeSelectionColor: AppColors.primaryColor,
-                    endRangeSelectionColor: AppColors.primaryColor,
-                    confirmText: 'Подтвердить',
-                    cancelText: 'Сбросить',
-                    view: DateRangePickerView.month,
-                    controller: _pickerController,
-                    selectionMode: DateRangePickerSelectionMode.range,
-                    showActionButtons: true,
-                    onCancel: () => {
-                          _selectedRange = null,
-                          setState(() {}),
-                          Navigator.of(context).pop()
-                        },
-                    onSubmit: (dates) => {
-                          setState(() {}),
-                          Navigator.of(context).pop(),
-                        }),
-              ),
-            ),
-          );
-        });
   }
 
   @override
@@ -147,7 +75,8 @@ class _DocsListScreenState extends State<DocsListScreen> {
                       style: const ButtonStyle(
                         foregroundColor: MaterialStatePropertyAll(Colors.white),
                       ),
-                      onPressed: () => _showCalendar(context),
+                      onPressed: () =>
+                          selectDateRange(context, _pickerController, _updateData),
                       icon: const Icon(Icons.calendar_today_outlined),
                     ),
                     IconButton(
@@ -231,5 +160,3 @@ class _DocsListScreenState extends State<DocsListScreen> {
     );
   }
 }
-
-//TODO: Документы распределяются по папкам
