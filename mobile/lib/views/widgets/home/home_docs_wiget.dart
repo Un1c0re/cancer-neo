@@ -28,16 +28,9 @@ class _HomeDocsWidgetState extends State<HomeDocsWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxWidth: DeviceScreenConstants.screenWidth * 0.9,
-          ),
-          child: Center(
-            child: Text(
-              widget.appBarTitle,
-              style: const TextStyle(fontSize: 26),
-            ),
-          ),
+        title: Text(
+          widget.appBarTitle,
+          style: const TextStyle(fontSize: 26),
         ),
         centerTitle: true,
         shape: const RoundedRectangleBorder(

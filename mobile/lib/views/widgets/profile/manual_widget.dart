@@ -25,7 +25,7 @@ class HelpWidget extends StatelessWidget {
                   style: TextStyle(fontSize: 20),
                 ),
                 Image(
-                  image: AssetImage('assets/images/docs_add.png'),
+                  image: AssetImage('assets/images/manual/docs_add.png'),
                 ),
                 Text(
                   '- Загрузите pdf или изображение документа;\n'
@@ -35,7 +35,7 @@ class HelpWidget extends StatelessWidget {
                   style: TextStyle(fontSize: 20),
                 ),
                 Image(
-                  image: AssetImage('assets/images/docs_filter.png'),
+                  image: AssetImage('assets/images/manual/docs_filter.png'),
                 ),
                 SizedBox(height: 20),
 
@@ -56,7 +56,7 @@ class HelpWidget extends StatelessWidget {
                   style: TextStyle(fontSize: 20),
                 ),
                 Image(
-                  image: AssetImage('assets/images/control_filter.png'),
+                  image: AssetImage('assets/images/manual/control_filter.png'),
                 ),
                 Text(
                   'Пользовательские симптомы можно редактировать (изменить имя), либо удалить вовсе.\n'
@@ -78,14 +78,14 @@ class HelpWidget extends StatelessWidget {
                   style: TextStyle(fontSize: 20),
                 ),
                 Image(
-                  image: AssetImage('assets/images/dynamic_card.png'),
+                  image: AssetImage('assets/images/manual/dynamic_card.png'),
                 ),
                 Text(
                   '- Вы можете выбрать, за какой месяц просмотреть динамику;',
                   style: TextStyle(fontSize: 20),
                 ),
                 Image(
-                  image: AssetImage('assets/images/dynamic_filter.png'),
+                  image: AssetImage('assets/images/manual/dynamic_filter.png'),
                 ),
                 Text(
                   '- Графики с численными симптомами не всегда информативны. '
@@ -93,7 +93,7 @@ class HelpWidget extends StatelessWidget {
                   style: TextStyle(fontSize: 20),
                 ),
                 Image(
-                  image: AssetImage('assets/images/dynamic_numchart.png'),
+                  image: AssetImage('assets/images/manual/dynamic_numchart.png'),
                 ),
                 Text(
                   '- Нажмите на кнопку ЭКСПОРТ ОТЧЕТА внизу страницы, '

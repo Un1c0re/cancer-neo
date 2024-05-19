@@ -1,5 +1,6 @@
 import 'package:cancerneo/utils/app_colors.dart';
 import 'package:cancerneo/utils/app_style.dart';
+import 'package:cancerneo/utils/constants.dart';
 import 'package:cancerneo/views/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,38 +16,39 @@ class _TrueHomeScreenState extends State<TrueHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: const Text('Здравствуйте'),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(15.0),
-            bottomRight: Radius.circular(15.0),
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   centerTitle: true,
+      //   title: const Text('Здравствуйте'),
+      //   shape: const RoundedRectangleBorder(
+      //     borderRadius: BorderRadius.only(
+      //       bottomLeft: Radius.circular(15.0),
+      //       bottomRight: Radius.circular(15.0),
+      //     ),
+      //   ),
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
+            const Image(
+              image: AssetImage('assets/images/logo/logo.png'),
+              height: 200,
+              width: 200,
+            ),
+            const Text(
               'CancerNEO - мобильный ассистент пациента',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: AppColors.activeColor,
-                fontSize: 20,
+                fontSize: 22,
+                fontWeight: FontWeight.bold
               ),
             ),
-            Image(
-              image: AssetImage('assets/images/neo1.png'),
-              height: 100,
-              width: 100,
-            ),
             ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: 200),
-              child: Column(
+              constraints: const BoxConstraints(maxHeight: 200),
+              child: const Column(
                 children: [
                   Text(
                     'Будьте грамотными! Будьте ответственными! Будьте защищенными!',
@@ -67,15 +69,23 @@ class _TrueHomeScreenState extends State<TrueHomeScreen> {
                 ],
               ),
             ),
-            ElevatedButton(
-              onPressed: () => Get.offAll(const HomeScreen()),
-              style: AppButtonStyle.basicButton,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
-                child: Text(
-                  'К приложению',
-                  style: TextStyle(fontSize: 20),
-                ),
+            ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: DeviceScreenConstants.screenWidth * 0.6
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () => Get.offAll(const HomeScreen()),
+                      style: AppButtonStyle.basicButton,
+                      child: const Text(
+                        'К приложению',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

@@ -8,7 +8,6 @@ import 'package:cancerneo/views/widgets/charts/grade_chart_widget.dart';
 import 'package:cancerneo/views/widgets/charts/line_chart_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../utils/app_style.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
@@ -122,7 +121,7 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
                 style: const TextStyle(fontSize: 26),
               ),
               SizedBox(
-                width: 200,
+                width: 190,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
