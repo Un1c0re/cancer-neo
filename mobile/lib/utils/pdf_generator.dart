@@ -13,50 +13,49 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:path_provider/path_provider.dart';
 
-Future<void> generatePDF(BuildContext context, DateTime date) async {
+Future<void> generatePDF(BuildContext context, DateTime startDate, DateTime endDate) async {
   showLoadingDialog(context, 'Подождите, документ формируется');
 
   final DatabaseService service = Get.find();
 
-  final DateTime monthStart = DateTime(date.year, date.month, 1);
-  final DateTime monthEnd = DateTime(date.year, date.month + 1, 1);
-
   List<List<String>> boolSymptomsData = await getIntSymptomsDataList(
       await service.database.symptomsValuesDao
-          .getSymptomsSortedByDayAndNameID(1, monthStart, monthEnd),
+          .getSymptomsSortedByDayAndNameID(1, startDate, endDate),
       1);
 
   List<List<String>> gradeSymptomsData = await getIntSymptomsDataList(
       await service.database.symptomsValuesDao
-          .getSymptomsSortedByDayAndNameID(2, monthStart, monthEnd),
+          .getSymptomsSortedByDayAndNameID(2, startDate, endDate),
       2);
 
   List<List<String>> numericSymptomsData = await getSymptomsDataList(
       await service.database.symptomsValuesDao
-          .getSymptomsSortedByDayAndNameID(3, monthStart, monthEnd),
+          .getSymptomsSortedByDayAndNameID(3, startDate, endDate),
       3);
 
   List<List<String>> markerSymptomsData = await getSymptomsDataList(
       await service.database.symptomsValuesDao
-          .getSymptomsSortedByDayAndNameID(4, monthStart, monthEnd),
+          .getSymptomsSortedByDayAndNameID(4, startDate, endDate),
       4);
 
   List<List<String>> customSymptomsData = await getSymptomsDataList(
       await service.database.symptomsValuesDao
-          .getSymptomsSortedByDayAndNameID(5, monthStart, monthEnd),
+          .getSymptomsSortedByDayAndNameID(5, startDate, endDate),
       5);
 
   Map<int, String> daynotesData = await service.database.dayNotesDao
-      .getDayNotesForMonth(monthStart, monthEnd);
+      .getDayNotesForMonth(startDate, endDate);
 
   UserModel? userdata = await service.database.usersDao.getUserdata();
 
   final pdf = pw.Document();
   final directory = await getApplicationDocumentsDirectory();
 
-  final month = getMonthNameNominative(date);
-  final dateToDraw = '$month ${date.year}';
-  final fileName = 'cancerNEO отчет за $dateToDraw.pdf';
+  // final month = getMonthNameNominative(date);
+  // final dateToDraw = '$month ${date.year}';
+  final drawStartDate = customFormat.format(startDate);
+  final drawEndDate = customFormat.format(endDate);
+  final fileName = 'cancerNEO отчет за $drawStartDate - $drawEndDate.pdf';
   final filePath = '${directory.path}/$fileName';
 
   final font = await PdfGoogleFonts.jostRegular();
@@ -65,7 +64,8 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
   final List<String> tableHeader = [];
 
   tableHeader.add('Симптом');
-  for (int i = 1; i < 31; i++) {
+  final duration = endDate.difference(startDate).inDays;
+  for (int i = 1; i <= duration + 1; i++) {
     tableHeader.add(i.toString());
   }
 
@@ -121,7 +121,7 @@ Future<void> generatePDF(BuildContext context, DateTime date) async {
         ),
         pw.Paragraph(text: '\n'),
         pw.Text(
-          'Данные за $dateToDraw',
+          'Данные за $drawStartDate - $drawEndDate',
           style: pw.TextStyle(
             fontSize: 30,
             fontBold: fontBold,

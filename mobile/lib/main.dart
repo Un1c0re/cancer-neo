@@ -20,7 +20,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-  
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +44,7 @@ class MyApp extends StatelessWidget {
           page: () => const HomeScreen(),
         ),
       ],
-      title: 'Diplom demo',
+      title: 'cancerNEO',
       theme: ThemeData(
         useMaterial3: true,
         scaffoldBackgroundColor: AppColors.backgroundColor,

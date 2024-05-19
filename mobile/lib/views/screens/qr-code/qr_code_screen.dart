@@ -39,7 +39,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
       body: Center(
         child: ConstrainedBox(
           constraints: BoxConstraints(
-            maxHeight: DeviceScreenConstants.screenHeight * 0.6,
+            maxHeight: DeviceScreenConstants.screenHeight * 0.9,
             maxWidth: DeviceScreenConstants.screenWidth * 0.9,
           ),
           child: Column(
@@ -50,7 +50,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
                 'Данные будут доступны в течение 14 дней с момента формирования. По истечении времени они будут удалены.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 18,
                   color: AppColors.activeColor
                 ),
               ),

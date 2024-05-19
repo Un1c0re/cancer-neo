@@ -1,6 +1,11 @@
+import 'package:cancerneo/helpers/datetime_helpers.dart';
 import 'package:cancerneo/utils/app_colors.dart';
+import 'package:cancerneo/utils/app_style.dart';
 import 'package:cancerneo/utils/constants.dart';
+import 'package:cancerneo/utils/pdf_generator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 void showLoadingDialog(BuildContext context, String text) {
   showDialog(
@@ -35,4 +40,100 @@ void showLoadingDialog(BuildContext context, String text) {
       );
     },
   );
+}
+
+void showDateRangePickerDialog(
+  BuildContext context,
+  Function onSubmit,
+) {
+  DateRangePickerController controller = DateRangePickerController();
+  controller.selectedRange = PickerDateRange(
+    DateTime(DateTime.now().year, DateTime.now().month - 1, 1),
+    DateTime(DateTime.now().year, DateTime.now().month, 1),
+  );
+  controller.displayDate = DateTime.now();
+  PickerDateRange? _selectedRange = controller.selectedRange;
+
+  void handlePropertyChange(String propertyName) {
+    if (propertyName == 'selectedRange') {
+      _selectedRange = controller.selectedRange;
+    }
+  }
+
+  controller.addPropertyChangedListener(handlePropertyChange);
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            final startDate = customFormat
+                .format(controller.selectedRange?.startDate ?? DateTime.now());
+            final endDate = customFormat
+                .format(controller.selectedRange?.endDate ?? DateTime.now());
+
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              content: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: DeviceScreenConstants.screenHeight * 0.3,
+                  maxWidth: DeviceScreenConstants.screenWidth,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Пожалуйста, выберите промежуток',
+                      style: TextStyle(fontSize: 22),
+                      textAlign: TextAlign.center,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          'с   $startDate\nпо $endDate',
+                          style: const TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                        IconButton(
+                            onPressed: () => selectDateRange(
+                                context, controller, () => setState(() {})),
+                            icon: const Icon(
+                              Icons.calendar_month,
+                              color: AppColors.activeColor,
+                              size: 40,
+                            ))
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton(
+                            style: AppButtonStyle.basicButton.copyWith(
+                              side: MaterialStatePropertyAll(BorderSide.none)
+                            ),
+                            onPressed: () {
+                              Get.back();
+                              generatePDF(context, _selectedRange!.startDate!,
+                                  _selectedRange!.endDate!);
+                            },
+                            child: const Text(
+                              'Подтвердить',
+                              style: TextStyle(
+                                fontSize: 22,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      });
 }

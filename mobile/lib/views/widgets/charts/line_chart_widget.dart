@@ -68,7 +68,7 @@ class _LineChartWidgetState extends State<LineChartWidget> {
 
     Future<List<List<double>>> getLineData(DateTime date) async {
       final monthStart = getFirstDayOfMonth(date);
-      final monthEnd = getFirstDayOfNextMonth(date);
+      final monthEnd = getLastDayOfMonth(date);
 
       List<List<double>> rawDataList = await service.database.symptomsValuesDao
           .getSymptomsSortedByDayAndNameID(widget.typeID, monthStart, monthEnd);

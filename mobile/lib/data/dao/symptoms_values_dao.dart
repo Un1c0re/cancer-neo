@@ -98,7 +98,7 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
       'SELECT sv.date, sv.value, sv.name_id '
       'FROM symptoms_values AS sv '
       'JOIN symptoms_names AS sn ON sv.name_id = sn.id '
-      'WHERE sn.type_id = ? AND sv.date >= ? AND sv.date < ? '
+      'WHERE sn.type_id = ? AND sv.date >= ? AND sv.date <= ? '
       'ORDER BY sv.date, sv.name_id',
       readsFrom: {symptomsValues, symptomsNames},
       variables: [
@@ -122,7 +122,7 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
     // Преобразуем карту в список списков для соблюдения порядка дней
     List<List<double>> sortedSymptoms = [];
     for (DateTime day = monthStart;
-        day.isBefore(monthEnd);
+        !day.isAfter(monthEnd);
         day = day.add(const Duration(days: 1))) {
       int dayKey = day.day;
       sortedSymptoms.add(symptomsByDay[dayKey] ?? []);

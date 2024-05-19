@@ -58,7 +58,7 @@ class _GradeChartState extends State<GradeChart> {
 
     Future<List<List<double>>> getGradeData(DateTime date) async {
       final monthStart = getFirstDayOfMonth(date);
-      final monthEnd = getFirstDayOfNextMonth(date);
+      final monthEnd = getLastDayOfMonth(date);
 
       List<List<double>> rawDataList = await service.database.symptomsValuesDao
           .getSymptomsSortedByDayAndNameID(2, monthStart, monthEnd);

@@ -1,4 +1,5 @@
 import 'package:cancerneo/helpers/datetime_helpers.dart';
+import 'package:cancerneo/helpers/loading_dialog_helpers.dart';
 import 'package:cancerneo/utils/app_colors.dart';
 import 'package:cancerneo/utils/constants.dart';
 import 'package:cancerneo/utils/pdf_generator.dart';
@@ -7,6 +8,7 @@ import 'package:cancerneo/views/widgets/charts/grade_chart_widget.dart';
 import 'package:cancerneo/views/widgets/charts/line_chart_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../utils/app_style.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
@@ -21,6 +23,24 @@ class HomeChartsWidget extends StatefulWidget {
 
 class _HomeChartsWidgetState extends State<HomeChartsWidget> {
   DateTime _selectedDate = DateTime.now();
+  // DateRangePickerController dateRangeController = DateRangePickerController();
+
+  // @override
+  // void initState() {
+  //   dateRangeController.selectedRange = PickerDateRange(
+  //     DateTime.now().subtract(const Duration(days: 30)),
+  //     DateTime.now(),
+  //   );
+  //   dateRangeController.displayDate = DateTime.now();
+  //   dateRangeController.addPropertyChangedListener(handlePropertyChange);
+  //   super.initState();
+  // }
+
+  // void handlePropertyChange(String propertyName) {
+  //   if (propertyName == 'selectedRange') {
+  //     _selectedRange = dateRangeController.selectedRange;
+  //   }
+  // }
 
   Future<void> _selectMonthYear(BuildContext context) async {
     return showMonthPicker(
@@ -59,6 +79,10 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
     });
   }
 
+  void onUpdate() {
+    setState(() {});
+  }
+
   void _incrementDate() {
     if (_selectedDate
         .isBefore(DateTime(DateTime.now().year, DateTime.now().month, 1))) {
@@ -81,7 +105,7 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
     String formattedDate =
         DateFormat('MMM y', const Locale('ru', 'RU').toString())
             .format(_selectedDate);
-    
+
     final month = getMonthNameNominative(_selectedDate);
     final dateToDraw = '$month ${_selectedDate.year}';
 
@@ -190,7 +214,12 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
                     padding: const MaterialStatePropertyAll(
                         EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
                   ),
-                  onPressed: () => generatePDF(context, _selectedDate),
+                  onPressed: () => showDateRangePickerDialog(
+                      context,
+                      generatePDF,
+                      // onUpdate,
+                      // dateRangeController
+                    ),
                   child: Text(
                     'Экспорт отчета за $dateToDraw',
                     style: const TextStyle(fontSize: 20),
