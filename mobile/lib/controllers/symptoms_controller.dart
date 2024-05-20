@@ -39,11 +39,6 @@ class BoolSymptomController extends GetxController {
       newValue: currentValue.value,
     );
   }
-
-  Future<void> deleteBoolValueFromDB(String name) async {
-    final DatabaseService databaseService = Get.find();
-    await databaseService.database.symptomsValuesDao.deleteSymptomValues(name);
-  }
 }
 
 class NumSymptomController extends GetxController {
