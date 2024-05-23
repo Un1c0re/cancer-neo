@@ -1,0 +1,90 @@
+---
+
+---
+
+<html>
+  <head>
+    <title>Загрузка документа</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/cancer-neo/styles/global.css" />
+    <link rel="shortcut icon" href="/cancer-neo/images/cancer-neo.png" />
+  </head>
+  <body
+    class="flex flex-col items-center justify-between gap-10 overflow-x-hidden"
+  >
+    <header class="main-header w-full h-16 text-center px-10 py-4 rounded-b-lg">
+      <h1 class="text-3xl">Ваш документ готов к скачиванию</h1>
+    </header>
+    <main class="flex flex-col items-center justify-between gap-10">
+      <astro-fragment>
+        <h1 class="document-name mt-40"></h1>
+      </astro-fragment>
+      <!-- <LoadButton onClick={fetchDocument}>Загрузить</LoadButton> -->
+      <button class="load-button" id="fetchButton">Загрузить</button>
+    </main>
+    <script>
+      const urlSearchParams = new URLSearchParams(window.location.search);
+      const params: Record<string, string> = Object.fromEntries(
+        urlSearchParams.entries()
+      );
+
+      // Получаем значение параметра docName и обновляем содержимое <h1>
+      const docName: string = params.name || "Default Document Name";
+      const documentNameElement: HTMLHeadingElement | null =
+        document.querySelector(".document-name");
+      if (documentNameElement) {
+        documentNameElement.innerText = docName;
+      }
+
+      const fetchButton: HTMLButtonElement | null = document.getElementById(
+        "fetchButton"
+      ) as HTMLButtonElement;
+
+      if (fetchButton) {
+        fetchButton.addEventListener("click", async () => {
+          try {
+            const docId: string = params.id; // замените это на ваше значение docId
+            const response = await fetch(
+              `http://localhost:3000?key=${docId}&name=${docName}`
+            );
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = docName;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+          } catch (error) {
+            console.error("Error fetching document:", error);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  body {
+    background: rgb(226, 247, 254);
+  }
+
+  .main-header {
+    background: rgb(96, 140, 193);
+    color: white;
+  }
+  .load-button {
+    background-color: rgb(96, 140, 193);
+    color: white;
+    font-size: large;
+    padding: 20px;
+    border-radius: 15px;
+  }
+  .document-name {
+    font-size: 2vw;
+    color: rgb(76, 96, 133);
+  }
+</style>
