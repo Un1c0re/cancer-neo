@@ -19,6 +19,7 @@ class DayNotesDao extends DatabaseAccessor<AppDatabase>
     await into(dayNotes).insert(dayNoteEntry);
   }
 
+  // Обновить заметку за конкретный  день
   Future<void> updateDayNote({
     String? note,
     required DateTime? date,
@@ -31,6 +32,7 @@ class DayNotesDao extends DatabaseAccessor<AppDatabase>
         .write(dayNoteEntry);
   }
 
+  // Проверка на наличие заметки за конкретный день
   Future<bool> ifDayNoteExists(DateTime date) async {
     final query = customSelect(
         'SELECT * FROM day_notes '
@@ -43,6 +45,7 @@ class DayNotesDao extends DatabaseAccessor<AppDatabase>
     return results != null;
   }
 
+  // Выбор записки по дате
   Future<DayNote?> getDayNote(DateTime date) async {
     final query = customSelect(
         'SELECT * FROM day_notes '
@@ -54,25 +57,23 @@ class DayNotesDao extends DatabaseAccessor<AppDatabase>
     // Если результат запроса не null, преобразуем его в объект DayNote
     if (result != null) {
       return DayNote(
-          id: result.read<int>('id'),
+          id:       result.read<int>('id'),
           owner_id: result.read<int>('owner_id'),
-          date: DateTime.fromMillisecondsSinceEpoch(
-              result.read<int>('date') * 1000),
-          note: result.read<String>('note'));
+          date:     DateTime.fromMillisecondsSinceEpoch(result.read<int>('date') * 1000),
+          note:     result.read<String>('note'));
     } else {
       return null;
     }
   }
 
-  Future<Map<int, String>> getDayNotesForMonth(
+  // Получить все заметки за выбранный промежуток
+  Future<Map<int, String>> getDayNotesForPeriod(
       DateTime monthStart, DateTime monthEnd) async {
     final query = customSelect(
         'SELECT date, note FROM day_notes '
-        'WHERE date >= ? AND date < ? '
+        'WHERE date >= ? AND date <= ? '
         'ORDER BY date',
-        readsFrom: {
-          dayNotes
-        },
+        readsFrom: { dayNotes },
         variables: [
           Variable.withDateTime(monthStart),
           Variable.withDateTime(monthEnd)
@@ -80,6 +81,8 @@ class DayNotesDao extends DatabaseAccessor<AppDatabase>
 
     final result = await query.get();
     Map<int, String> notesByDay = {};
+
+    // Преобразуем результат запроса в json. Ключ по дням
     for (var row in result) {
       final date = row.read<DateTime>('date');
       final note = row.read<String>('note');

@@ -44,7 +44,7 @@ Future<void> generatePDF(BuildContext context, DateTime startDate, DateTime endD
       5);
 
   Map<int, String> daynotesData = await service.database.dayNotesDao
-      .getDayNotesForMonth(startDate, endDate);
+      .getDayNotesForPeriod(startDate, endDate);
 
   UserModel? userdata = await service.database.usersDao.getUserdata();
 
@@ -65,7 +65,7 @@ Future<void> generatePDF(BuildContext context, DateTime startDate, DateTime endD
 
   tableHeader.add('Симптом');
   final duration = endDate.difference(startDate).inDays;
-  for (int i = 1; i <= duration + 1; i++) {
+  for (int i = 1; i <= duration; i++) {
     tableHeader.add(i.toString());
   }
 

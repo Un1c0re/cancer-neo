@@ -7,13 +7,16 @@ class SymptomsTypesDao extends DatabaseAccessor<AppDatabase>
 
   SymptomsTypesDao(this.db) : super(db);
 
+  // Инициализация типов симптомов
+  // Выполняется один раз при первом старте приложения
   Future<void> initSymptomsTypes() async {
     final query = select(symptomsTypes)..limit(1);
     final List<SymptomsType> types = await query.get();
     final bool doTypesExist = types.isNotEmpty;
 
     if(doTypesExist) return;
-
+    
+    // Считываемс типы симптомов из .env  
     List<String> symptomsTypesList = dotenv.env['SYMPTOMS_TYPES']!.split(',');
       for(int i = 0; i < symptomsTypesList.length; i++) {
         await into(symptomsTypes)
@@ -21,6 +24,7 @@ class SymptomsTypesDao extends DatabaseAccessor<AppDatabase>
     }
   }
 
+  // Получаем все типы симптомов
   Future<List<SymptomTypeModel>> getSymptomTypes() async {
     final query = customSelect(
       'SELECT * FROM symptoms_types',

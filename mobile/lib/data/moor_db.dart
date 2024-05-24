@@ -28,61 +28,59 @@ part 'package:cancerneo/data/dao/daynotes_dao.dart';
 ////////////////////////////////// USERS //////////////////////////////////////
 
 class Users extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  TextColumn get name => text()();
-  DateTimeColumn get birthdate => dateTime().nullable()();
-  TextColumn get deseaseHistory => text()();
-  TextColumn get threatmentHistory => text()();
+  IntColumn       get id                => integer().autoIncrement()();
+  TextColumn      get name              => text()();
+  DateTimeColumn  get birthdate         => dateTime().nullable()();
+  TextColumn      get deseaseHistory    => text()();
+  TextColumn      get threatmentHistory => text()();
 }
 
 ////////////////////////////////// CATEGORIES //////////////////////////////////
 
 class Doctypes extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  TextColumn get name => text()();
+  IntColumn   get id    => integer().autoIncrement()();
+  TextColumn  get name  => text()();
 }
 
 ////////////////////////////////// DOCUMENTS //////////////////////////////////
 
 class Docs extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  IntColumn get owner_id => integer().customConstraint('REFERENCES users(id)')();
-  TextColumn get name => text()();
-  IntColumn get type_id => integer().customConstraint('REFERENCES doctypes(id)')();
-  DateTimeColumn get date => dateTime().nullable()();
-  TextColumn get place => text()();
-  TextColumn get notes => text()();
-  BlobColumn get file => blob().nullable()();
+  IntColumn       get id        => integer().autoIncrement()();
+  IntColumn       get owner_id  => integer().customConstraint('REFERENCES users(id)')();
+  TextColumn      get name      => text()();
+  IntColumn       get type_id   => integer().customConstraint('REFERENCES doctypes(id)')();
+  DateTimeColumn  get date      => dateTime().nullable()();
+  TextColumn      get place     => text()();
+  TextColumn      get notes     => text()();
+  BlobColumn      get file      => blob().nullable()();
 }
 
 ////////////////////////////////// SYMPTOMS ///////////////////////////////////
 
 class SymptomsTypes extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  TextColumn get name => text()();
+  IntColumn   get id    => integer().autoIncrement()();
+  TextColumn  get name  => text()();
 }
 
 class SymptomsNames extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  IntColumn get type_id =>
-      integer().customConstraint('REFERENCES symptomsTypes(id)')();
-  TextColumn get name => text()();
+  IntColumn   get id      => integer().autoIncrement()();
+  IntColumn   get type_id => integer().customConstraint('REFERENCES symptomsTypes(id)')();
+  TextColumn  get name    => text()();
 }
 
 class SymptomsValues extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  IntColumn get owner_id => integer().customConstraint('REFERENCES users(id)')();
-  DateTimeColumn get date => dateTime()();
-  IntColumn get name_id =>
-      integer().customConstraint('REFERENCES symptomsNames(id)')();
-  RealColumn get value => real().withDefault(const Constant(0.0))();
+  IntColumn       get id        => integer().autoIncrement()();
+  IntColumn       get owner_id  => integer().customConstraint('REFERENCES users(id)')();
+  DateTimeColumn  get date      => dateTime()();
+  IntColumn       get name_id   => integer().customConstraint('REFERENCES symptomsNames(id)')();
+  RealColumn      get value     => real().withDefault(const Constant(0.0))();
 }
 
 class DayNotes extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  IntColumn get owner_id => integer().customConstraint('REFERENCES users(id)')();
-  DateTimeColumn get date => dateTime()();
-  TextColumn get note => text()();
+  IntColumn       get id        => integer().autoIncrement()();
+  IntColumn       get owner_id  => integer().customConstraint('REFERENCES users(id)')();
+  DateTimeColumn  get date      => dateTime()();
+  TextColumn      get note      => text()();
 }
 
 

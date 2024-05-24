@@ -28,6 +28,10 @@ class DatabaseService extends GetxService {
     await _database.symptomsTypesDao.initSymptomsTypes();
     await _database.symptomsNamesDao.initSymptomsNames();
 
+    await _database.symptomsValuesDao.deleteSymptomValues('Диарея');
+    await _database.symptomsNamesDao.deleteSymptomName('Диарея');
+    await _database.symptomsNamesDao.updateSymptomName('Хромографин', 'Хромогранин А');
+
   }
 
   AppDatabase get database => _database;

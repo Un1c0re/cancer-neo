@@ -7,6 +7,8 @@ class SymptomsNamesDao extends DatabaseAccessor<AppDatabase>
 
   SymptomsNamesDao(this.db) : super(db);
 
+  // Инициализация названия симптомов
+  // Выполняется один раз при первом старте
   Future<void> initSymptomsNames() async {
     final query = select(symptomsNames)..limit(1);
     final List<SymptomsName> names = await query.get();
@@ -14,6 +16,7 @@ class SymptomsNamesDao extends DatabaseAccessor<AppDatabase>
 
     if (doNamesExist) return;
 
+    // Считываем названия симптомов для каждого типа из .env 
     List<String> boolSymptomsNames =
         dotenv.env['BOOL_SYMPTOMS_NAMES']!.split(',');
     List<String> gradeSymptomsNames =
@@ -23,6 +26,7 @@ class SymptomsNamesDao extends DatabaseAccessor<AppDatabase>
     List<String> markerSymptomsNames =
         dotenv.env['MARKER_SYMPTOMS_NAMES']!.split(',');
 
+    // Добавляем названия симптомов
     for (int i = 0; i < boolSymptomsNames.length; i++) {
       await into(symptomsNames).insert(SymptomsNamesCompanion(
           type_id: const Value(1), name: Value(boolSymptomsNames[i])));
@@ -44,6 +48,7 @@ class SymptomsNamesDao extends DatabaseAccessor<AppDatabase>
     }
   }
 
+  // Получить названия симптомов по type_id
   Future<List<String>> getSymptomsNamesByTypeID(int typeID) async {
     final query = customSelect(
       'SELECT name '
@@ -61,6 +66,9 @@ class SymptomsNamesDao extends DatabaseAccessor<AppDatabase>
     return namesList;
   }
 
+  // Добавить название симптома 
+  // Работает в addSymptomScteen
+  // Добавляет название с type_id = 5 (пользовательский симптом)
   Future<void> addSymptomName(String newName) async {
     await into(symptomsNames).insert(
         SymptomsNamesCompanion(type_id: const Value(5), name: Value(newName)));
@@ -71,6 +79,8 @@ class SymptomsNamesDao extends DatabaseAccessor<AppDatabase>
         .go();
   }
 
+  // Изменить имя симптома
+  // Работает в editSymptomScteen
   Future<void> updateSymptomName(String oldName, String newName) async {
     final symptomNameEntry = SymptomsNamesCompanion(
       name: Value(newName),
