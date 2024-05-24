@@ -45,44 +45,13 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
   void updateData() {
     _notesInputController.clear();
     _loadNoteForSelectedDate();
-    setState(() {
-      // Это заставит виджет перерисоваться
-    });
+    setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
     _loadNoteForSelectedDate();
-  }
-
-  // Calendar
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      locale: const Locale('ru', 'RU'),
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(2020),
-      lastDate: DateTime.now(),
-      cancelText: 'Отменить',
-      confirmText: 'Подтвердить',
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: AppColors.primaryColor, // Цвет выбранной даты
-            colorScheme: const ColorScheme.light(
-                primary: AppColors.primaryColor), // Цветовая схема
-            buttonTheme: const ButtonThemeData(
-                textTheme: ButtonTextTheme.primary), // Тема кнопок
-          ),
-          child: child!,
-        );
-      },
-    );
-    if (picked != null && picked != selectedDate) {
-      selectedDate = picked;
-      updateData();
-    }
   }
 
   void _addSymptom() => Get.to(() => AddSymptomScreen(
@@ -175,7 +144,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                         foregroundColor: MaterialStatePropertyAll(
                             Color.fromARGB(255, 255, 255, 255)),
                       ),
-                      onPressed: () => _selectDate(context),
+                      onPressed: () => selectDate(context, selectedDate),
                       child: Text(
                         customFormat
                             .format(selectedDate)
@@ -219,12 +188,17 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                     return Text('Error: ${snapshot.error}');
                   } else {
                     final List<SymptomDetails> symptoms = snapshot.data!;
+
+                    // Массивы для каджого типа симптомов
                     final List<SymptomDetails> gradeSymptoms = [];
                     final List<SymptomDetails> boolSymptoms = [];
                     final List<SymptomDetails> numSymptoms = [];
                     final List<SymptomDetails> markerSymptoms = [];
                     final List<SymptomDetails> customSymptoms = [];
 
+                    // TODO: изменить порядок отображения симптомов
+                    
+                    // Заполнение массива - разделение данных
                     for (int i = 0; i < symptoms.length; i++) {
                       if (symptoms[i].symptomType == 'bool') {
                         boolSymptoms.add(symptoms[i]);
@@ -239,6 +213,8 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                       }
                     }
 
+                    // Массив для отображения виджетов по типу:
+                    // условный + 2 двухуровневых
                     final List<Widget> combinedSymptomsWidgets = [];
                     int gradeIndex = 0;
                     int boolIndex = 0;
@@ -286,6 +262,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                         combinedSymptomsWidgets.add(const SizedBox(height: 20));
                       }
                     }
+
                     while (numIndex < numSymptoms.length) {
                       combinedSymptomsWidgets.add(NumSymptomWidget(
                         symptomID: numSymptoms[numIndex].id,

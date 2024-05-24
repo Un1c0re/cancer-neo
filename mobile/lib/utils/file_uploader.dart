@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 Future<void> uploadFile(String filePath) async {
+  // TODO: добавить шифрование файла по ключу
+  
   var uri = Uri.parse('https://transfer.adttemp.com.br/');
 
   // Создаем POST запрос

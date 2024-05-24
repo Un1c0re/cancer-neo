@@ -6,6 +6,8 @@ import 'package:cancerneo/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+// TODO: добавить минимальную валидацию данных
+
 class NumSymptomWidget extends StatelessWidget {
   final int symptomID;
   final String label;

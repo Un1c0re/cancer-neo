@@ -4,6 +4,8 @@ import 'package:cancerneo/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
+// TODO: протестировать на разных форматах изображений, исправить баги
+
 class PdfViewerScreen extends StatelessWidget {
   final Uint8List bytes;
 

@@ -46,7 +46,7 @@ class _HomeProfileWidgetState extends State<HomeProfileWidget> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const _ProfileCard(),
+              const ProfileCard(),
               const SizedBox(height: 25),
               _SettingsButtons(),
             ],
@@ -61,13 +61,14 @@ class _HomeProfileWidgetState extends State<HomeProfileWidget> {
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 
-class _ProfileCard extends StatefulWidget {
-  const _ProfileCard();
+
+class ProfileCard extends StatefulWidget {
+  const ProfileCard({super.key});
   @override
-  State<_ProfileCard> createState() => _ProfileCardState();
+  State<ProfileCard> createState() => _ProfileCardState();
 }
 
-class _ProfileCardState extends State<_ProfileCard> {
+class _ProfileCardState extends State<ProfileCard> {
   bool isDataFetched = false;
 
   void _updateData() {

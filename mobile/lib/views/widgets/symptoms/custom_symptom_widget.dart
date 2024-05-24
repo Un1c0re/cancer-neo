@@ -7,6 +7,8 @@ import 'package:cancerneo/views/screens/symptoms/edit_symptom_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+// TODO: добавить минимальную валидацию данных
+
 class CustomSymptomWidget extends StatelessWidget {
   final int symptomID;
   final String label;
