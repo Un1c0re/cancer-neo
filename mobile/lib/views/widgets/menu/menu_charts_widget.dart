@@ -1,4 +1,4 @@
-import 'package:cancerneo/helpers/datetime_helpers.dart';
+// import 'package:cancerneo/helpers/datetime_helpers.dart';
 import 'package:cancerneo/helpers/loading_dialog_helpers.dart';
 import 'package:cancerneo/utils/app_colors.dart';
 import 'package:cancerneo/utils/constants.dart';
@@ -105,8 +105,8 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
         DateFormat('MMM y', const Locale('ru', 'RU').toString())
             .format(_selectedDate);
 
-    final month = getMonthNameNominative(_selectedDate);
-    final dateToDraw = '$month ${_selectedDate.year}';
+    // final month = getMonthNameNominative(_selectedDate);
+    // final dateToDraw = '$month ${_selectedDate.year}';
 
     return Scaffold(
       appBar: AppBar(
@@ -208,20 +208,29 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
                   typeID: 5,
                 ),
                 const SizedBox(height: 10),
-                ElevatedButton(
-                  style: AppButtonStyle.basicButton.copyWith(
-                    padding: const MaterialStatePropertyAll(
-                        EdgeInsets.symmetric(horizontal: 10, vertical: 10)),
-                  ),
-                  onPressed: () => showDateRangePickerDialog(
-                      context,
-                      generatePDF,
-                      // onUpdate,
-                      // dateRangeController
-                    ),
-                  child: Text(
-                    'Экспорт отчета за $dateToDraw',
-                    style: const TextStyle(fontSize: 20),
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: DeviceScreenConstants.screenWidth * 0.6),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          style: AppButtonStyle.basicButton.copyWith(
+                            padding: const MaterialStatePropertyAll(
+                                EdgeInsets.symmetric(horizontal: 10, vertical: 12)),
+                          ),
+                          onPressed: () => showDateRangePickerDialog(
+                              context,
+                              generatePDF,
+                              // onUpdate,
+                              // dateRangeController
+                            ),
+                          child: const Text(
+                            'Экспорт отчета',
+                            style: TextStyle(fontSize: 22),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 40),

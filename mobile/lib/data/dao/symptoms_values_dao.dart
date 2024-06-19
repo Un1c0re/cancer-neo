@@ -7,16 +7,21 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
 
   SymptomsValuesDao(this.db) : super(db);
 
+  // Инициализируем значения симптомов за день нулями.
+  // Необходимо для отображения карточек симптомов.
   Future<void> initSymptomsValues(DateTime date) async {
     final query = customSelect(
       'SELECT id FROM symptoms_names',
       readsFrom: {symptomsNames},
     );
 
+    // Получаем названия всех симптомов
+    // и преобразуем результат запроса в список
     final namesID = await query.get().then((rows) {
       return rows.map((row) => row.read<int>('id')).toList();
     });
 
+    // Добавляем нулевое значение за текущий день каждому симптому
     for (int i = 0; i < namesID.length; i++) {
       await into(symptomsValues).insert(
         SymptomsValuesCompanion.insert(
@@ -29,6 +34,7 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
     }
   }
 
+  // Добавить значение симптома
   Future<void> addSymptomValue({
     required String symptomName,
     required double value,
@@ -51,6 +57,7 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
     ));
   }
 
+  // Изменить значения симптомов
   Future<void> updateSymptomValue({
     required int symptomValueId,
     double? newValue,
@@ -66,7 +73,11 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
         .write(symptomValueEntry);
   }
 
+  // Получаем значения симптомов за текущий лень
   Future<List<SymptomDetails>> getSymptomsDetails(DateTime date) async {
+    
+    // Объединяем данные из таблиц SymptomNames, SymptomTypes, SymptomValues
+    // Фильтруем данные по выбранному дню
     final query = customSelect(
         'SELECT sv.id AS symptomID, sn.name AS symptomName, st.name AS symptomType, sv.value AS symptomValue '
         'FROM symptoms_values AS sv '
@@ -92,6 +103,8 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
     return symptomsList;
   }
 
+  // Объединяем данные из таблиц SymptomNames, SymptomTypes, SymptomValues
+  // Выбираем значения симптомов по выбранному промежутку даты
   Future<List<List<double>>> getSymptomsSortedByDayAndNameID(
       int symptomTypeId, DateTime monthStart, DateTime monthEnd) async {
     final query = customSelect(
@@ -119,7 +132,7 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
       symptomsByDay.putIfAbsent(date.day, () => []).add(value);
     }
 
-    // Преобразуем карту в список списков для соблюдения порядка дней
+    // Преобразуем в список списков для соблюдения порядка дней
     List<List<double>> sortedSymptoms = [];
     for (DateTime day = monthStart;
         !day.isAfter(monthEnd);
@@ -131,6 +144,8 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
     return sortedSymptoms;
   }
 
+  // Удалить значения симптома
+  // Необходимо для удаления всех данных о пользовательских симптомах
   Future<void> deleteSymptomValues(String symptomName) async {
     final query = select(symptomsNames)
       ..where((tbl) => tbl.name.equals(symptomName));
@@ -141,6 +156,8 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
         .go();
   }
 
+  // Получить максимальное значение симптома
+  // Необходимо для отображения на графиках численных симптомов
   Future<double> getMaxValueByName(String name) async {
     final query = customSelect(
       'SELECT MAX(sv.value) AS max_value '

@@ -1,6 +1,7 @@
 import 'package:cancerneo/utils/app_colors.dart';
 import 'package:cancerneo/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -125,11 +126,13 @@ Future selectDateRange(
                   onCancel: () {
                     controller.selectedRange = null;
                     updateState();
-                    Navigator.of(context).pop();
+                    Get.back();
                   },
-                  onSubmit: (dates) {
-                    updateState();
-                    Navigator.of(context).pop();
+                  onSubmit: (Object? args) {
+                    if (args is PickerDateRange) {
+                      updateState(args);
+                    }
+                    Get.back();
                   }),
             ),
           ),

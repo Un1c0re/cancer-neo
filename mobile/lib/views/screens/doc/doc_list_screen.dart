@@ -28,9 +28,15 @@ class _DocsListScreenState extends State<DocsListScreen> {
   final DateRangePickerController _pickerController =
       DateRangePickerController();
   PickerDateRange? _selectedRange;
-
+  
   void _updateData() {
     setState(() {});
+  }
+
+  void _updateDateRange(PickerDateRange? range) {
+    setState(() {
+      _selectedRange = range;
+    });
   }
 
   void _addDoc() {
@@ -76,7 +82,7 @@ class _DocsListScreenState extends State<DocsListScreen> {
                         foregroundColor: MaterialStatePropertyAll(Colors.white),
                       ),
                       onPressed: () =>
-                          selectDateRange(context, _pickerController, _updateData),
+                          selectDateRange(context, _pickerController, _updateDateRange),
                       icon: const Icon(Icons.calendar_today_outlined),
                     ),
                     IconButton(
@@ -112,7 +118,7 @@ class _DocsListScreenState extends State<DocsListScreen> {
             builder: ((context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(color: AppColors.activeColor),
                 );
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');

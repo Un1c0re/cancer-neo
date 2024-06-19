@@ -1,13 +1,11 @@
 import 'package:cancerneo/services/database_service.dart';
 import 'package:cancerneo/utils/app_colors.dart';
 import 'package:cancerneo/utils/constants.dart';
-import 'package:cancerneo/views/screens/home/home_screen.dart';
-import 'package:cancerneo/views/screens/home/true_home_screen.dart';
+import 'package:cancerneo/views/screens/home/menu_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:intl/intl.dart';
 import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
 
@@ -25,7 +23,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DeviceScreenConstants.init(context);
-    Intl.defaultLocale = 'ru_RU';
     return GetMaterialApp(
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
@@ -42,7 +39,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(
           name: '/',
-          page: () => const HomeScreen(),
+          page: () => const MenuScreen(),
         ),
       ],
       title: 'cancerNEO',
@@ -56,7 +53,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Jost',
       ),
       debugShowCheckedModeBanner: false,
-      home: const TrueHomeScreen(),
+      home: const MenuScreen(),
     );
   }
 }

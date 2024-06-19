@@ -60,3 +60,7 @@ Future<List<List<String>>> getIntSymptomsDataList(
 
   return result;
 }
+
+// String getDayAndMonth() {
+
+// }

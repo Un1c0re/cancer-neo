@@ -64,11 +64,11 @@ class DayNotesDao extends DatabaseAccessor<AppDatabase>
     }
   }
 
-  Future<Map<int, String>> getDayNotesForMonth(
+  Future<Map<int, String>> getDayNotesForPeriod(
       DateTime monthStart, DateTime monthEnd) async {
     final query = customSelect(
         'SELECT date, note FROM day_notes '
-        'WHERE date >= ? AND date < ? '
+        'WHERE date >= ? AND date <= ? '
         'ORDER BY date',
         readsFrom: {
           dayNotes

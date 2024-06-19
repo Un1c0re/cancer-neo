@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:cancerneo/helpers/get_helpers.dart';
+import 'package:cancerneo/helpers/url_format_helpers.dart';
 import 'package:cancerneo/utils/app_colors.dart';
 import 'package:cancerneo/utils/app_style.dart';
 import 'package:cancerneo/utils/app_widgets.dart';
@@ -31,6 +32,8 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final directUrl = formatToDirectLoadUrl(widget.url);
+    
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -64,7 +67,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
                   child: RepaintBoundary(
                     key: _globalKey,
                     child: QrImageView(
-                      data: widget.url,
+                      data: directUrl,
                       backgroundColor: Colors.white,
                       eyeStyle: const QrEyeStyle(
                         eyeShape: QrEyeShape.square,
@@ -75,7 +78,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
                       errorStateBuilder: (cxt, err) {
                         return Center(
                           child: Text(
-                            'Что-то пошло не так. воспользуйтесь ссылкой напрямую: ${widget.url}',
+                            'Что-то пошло не так. воспользуйтесь ссылкой напрямую: $directUrl',
                             textAlign: TextAlign.center,
                           ),
                         );
@@ -87,7 +90,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
               ElevatedButton(
                 onPressed: () {
                   WidgetsBinding.instance.addPostFrameCallback(
-                      (_) => _captureAndSavePNG(widget.url));
+                      (_) => _captureAndSavePNG(directUrl));
                   submitAction('QR код сохранен');
                 },
                 style: AppButtonStyle.basicButton.copyWith(
@@ -110,8 +113,9 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
   }
 
   Future<void> _captureAndSavePNG(String url) async {
+    final directUrl = formatToDirectLoadUrl(url);
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // Проверка на null перед использованием
       if (_globalKey.currentContext != null) {
         RenderRepaintBoundary? boundary = _globalKey.currentContext!
             .findRenderObject() as RenderRepaintBoundary?;
@@ -127,7 +131,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
                 await File('${directory.path}/qr_cancerneo.png').create();
             await imagePath.writeAsBytes(pngBytes);
 
-            await _shareImage(imagePath.path, url);
+            await _shareImage(imagePath.path, directUrl);
           }
         }
       }

@@ -13,7 +13,8 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:path_provider/path_provider.dart';
 
-Future<void> generatePDF(BuildContext context, DateTime startDate, DateTime endDate) async {
+Future<void> generatePDF(
+    BuildContext context, DateTime startDate, DateTime endDate) async {
   showLoadingDialog(context, 'Подождите, документ формируется');
 
   final DatabaseService service = Get.find();
@@ -44,7 +45,7 @@ Future<void> generatePDF(BuildContext context, DateTime startDate, DateTime endD
       5);
 
   Map<int, String> daynotesData = await service.database.dayNotesDao
-      .getDayNotesForMonth(startDate, endDate);
+      .getDayNotesForPeriod(startDate, endDate);
 
   UserModel? userdata = await service.database.usersDao.getUserdata();
 
@@ -55,7 +56,8 @@ Future<void> generatePDF(BuildContext context, DateTime startDate, DateTime endD
   // final dateToDraw = '$month ${date.year}';
   final drawStartDate = customFormat.format(startDate);
   final drawEndDate = customFormat.format(endDate);
-  final fileName = 'cancerNEO отчет за $drawStartDate - $drawEndDate.pdf';
+
+  final fileName = 'cancerNEO - $drawStartDate - $drawEndDate.pdf';
   final filePath = '${directory.path}/$fileName';
 
   final font = await PdfGoogleFonts.jostRegular();
@@ -65,8 +67,8 @@ Future<void> generatePDF(BuildContext context, DateTime startDate, DateTime endD
 
   tableHeader.add('Симптом');
   final duration = endDate.difference(startDate).inDays;
-  for (int i = 1; i <= duration + 1; i++) {
-    tableHeader.add(i.toString());
+  for (int i = 0; i <= duration + 1; i++) {
+    tableHeader.add((startDate.day + i).toString());
   }
 
   pdf.addPage(
@@ -242,17 +244,14 @@ Future<void> generatePDF(BuildContext context, DateTime startDate, DateTime endD
                     double.parse(cell).toInt() > 0 &&
                     double.parse(cell).toInt() <= 1) {
                   decoration =
-                      // pw.BoxDecoration(color: PdfColor.fromHex('#A7FFA6'));
                       pw.BoxDecoration(color: PdfColor.fromHex('#E7E4A6'));
                 } else if (idx > 0 &&
                     double.parse(cell).toInt() > 1 &&
                     double.parse(cell).toInt() <= 2) {
                   decoration =
-                      // pw.BoxDecoration(color: PdfColor.fromHex('#FFCFA4'));
                       pw.BoxDecoration(color: PdfColor.fromHex('#FFD280'));
                 } else if (idx > 0 && double.parse(cell).toInt() >= 3) {
                   decoration =
-                      // pw.BoxDecoration(color: PdfColor.fromHex('#FF969D'));
                       pw.BoxDecoration(color: PdfColor.fromHex('#FFAA80'));
                 } else {
                   decoration = const pw.BoxDecoration(color: PdfColors.white);
@@ -441,7 +440,8 @@ Future<void> generatePDF(BuildContext context, DateTime startDate, DateTime endD
         ),
         ...daynotesData.entries.map((entry) {
           return pw.Paragraph(
-              text: 'День: ${entry.key}\nЗапись: ${entry.value}\n',
+              text:
+                  'День: ${entry.key}\nЗапись: ${entry.value}\n',
               style: pw.TextStyle(
                 font: font,
                 fontFallback: fallbackFonts,

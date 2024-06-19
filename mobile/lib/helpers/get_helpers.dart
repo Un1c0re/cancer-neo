@@ -41,3 +41,16 @@ void deleteAction(title) {
     animationDuration: const Duration(milliseconds: 500),
   );
 }
+
+void errorAction(title) {
+  Get.back();
+  Get.snackbar(
+    'Ошибка',
+    title,
+    backgroundColor: const Color.fromARGB(255, 255, 180, 82).withOpacity(0.4),
+    colorText: const Color.fromARGB(255, 99, 50, 31),
+    snackPosition: SnackPosition.TOP,
+    duration: const Duration(milliseconds: 1500),
+    animationDuration: const Duration(milliseconds: 500),
+  );
+}
