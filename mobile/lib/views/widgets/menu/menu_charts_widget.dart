@@ -9,7 +9,6 @@ import 'package:cancerneo/views/widgets/charts/line_chart_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import '../../../utils/app_style.dart';
-// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 class HomeChartsWidget extends StatefulWidget {
@@ -22,25 +21,8 @@ class HomeChartsWidget extends StatefulWidget {
 
 class _HomeChartsWidgetState extends State<HomeChartsWidget> {
   DateTime _selectedDate = DateTime.now();
-  // DateRangePickerController dateRangeController = DateRangePickerController();
 
-  // @override
-  // void initState() {
-  //   dateRangeController.selectedRange = PickerDateRange(
-  //     DateTime.now().subtract(const Duration(days: 30)),
-  //     DateTime.now(),
-  //   );
-  //   dateRangeController.displayDate = DateTime.now();
-  //   dateRangeController.addPropertyChangedListener(handlePropertyChange);
-  //   super.initState();
-  // }
-
-  // void handlePropertyChange(String propertyName) {
-  //   if (propertyName == 'selectedRange') {
-  //     _selectedRange = dateRangeController.selectedRange;
-  //   }
-  // }
-
+  // Окно выбора месяца для отображения данных
   Future<void> _selectMonthYear(BuildContext context) async {
     return showMonthPicker(
       context: context,
@@ -78,10 +60,13 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
     });
   }
 
+  // Для передачи в другие виджеты
   void onUpdate() {
     setState(() {});
   }
 
+  // Верхнее меню: выбрать следующий месяц.
+  // Нельзя выбрать дальше, чем текущий месяц
   void _incrementDate() {
     if (_selectedDate
         .isBefore(DateTime(DateTime.now().year, DateTime.now().month, 1))) {
@@ -92,6 +77,7 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
     }
   }
 
+  // Верхнее меню: выбрать предыдущий месяц.
   void _decrementDate() {
     setState(() {
       _selectedDate = DateTime(

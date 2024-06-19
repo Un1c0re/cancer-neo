@@ -46,6 +46,7 @@ Future<void> generatePDF(
 
   Map<int, String> daynotesData = await service.database.dayNotesDao
       .getDayNotesForPeriod(startDate, endDate);
+      .getDayNotesForPeriod(startDate, endDate);
 
   UserModel? userdata = await service.database.usersDao.getUserdata();
 

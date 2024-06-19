@@ -7,21 +7,22 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
 
   SymptomsValuesDao(this.db) : super(db);
 
-  // Инициализируем значения симптомов за день нулями.
-  // Необходимо для отображения карточек симптомов.
+  // Инициализация значений симптомов
+  // Выполняется каждый раз при выборе нового дня на экране home_symptoms_widget
+  // Заполняет все симптомы нулями, чтобы они отображались
+  // Иначе экран будет пустым
   Future<void> initSymptomsValues(DateTime date) async {
+    // получаем имена симптомов
     final query = customSelect(
       'SELECT id FROM symptoms_names',
       readsFrom: {symptomsNames},
     );
-
-    // Получаем названия всех симптомов
-    // и преобразуем результат запроса в список
+    
     final namesID = await query.get().then((rows) {
       return rows.map((row) => row.read<int>('id')).toList();
     });
 
-    // Добавляем нулевое значение за текущий день каждому симптому
+    // Вставляем нули для каждого симптома
     for (int i = 0; i < namesID.length; i++) {
       await into(symptomsValues).insert(
         SymptomsValuesCompanion.insert(
@@ -34,7 +35,7 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
     }
   }
 
-  // Добавить значение симптома
+  // Добавить значение  симптома
   Future<void> addSymptomValue({
     required String symptomName,
     required double value,
@@ -43,12 +44,12 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
     final userQuery = select(users)..where((u) => u.id.equals(0));
     final user = await userQuery.getSingle();
 
-    // Поиск имени симптома по названию
+    // Поиск имени симптома
     final symptomNameQuery = select(symptomsNames)
       ..where((n) => n.name.equals(symptomName));
     final symptomNameEntry = await symptomNameQuery.getSingle();
 
-    // Добавление значения симптома
+    // Вставляем новое значение симптома
     await into(symptomsValues).insert(SymptomsValuesCompanion.insert(
       owner_id: user.id,
       name_id: symptomNameEntry.id,
@@ -57,7 +58,7 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
     ));
   }
 
-  // Изменить значения симптомов
+  // Обновление значения  симптома
   Future<void> updateSymptomValue({
     required int symptomValueId,
     double? newValue,
@@ -73,7 +74,9 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
         .write(symptomValueEntry);
   }
 
-  // Получаем значения симптомов за текущий лень
+  // Получаем значения всех симптомов
+  // Записываем их в список объектов SymptomDetails
+  // Применяется на экране home_symptoms_widget
   Future<List<SymptomDetails>> getSymptomsDetails(DateTime date) async {
     
     // Объединяем данные из таблиц SymptomNames, SymptomTypes, SymptomValues
@@ -103,8 +106,7 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
     return symptomsList;
   }
 
-  // Объединяем данные из таблиц SymptomNames, SymptomTypes, SymptomValues
-  // Выбираем значения симптомов по выбранному промежутку даты
+  // Получаем значения симптомов, отсортированных по дате и id
   Future<List<List<double>>> getSymptomsSortedByDayAndNameID(
       int symptomTypeId, DateTime monthStart, DateTime monthEnd) async {
     final query = customSelect(
@@ -144,20 +146,22 @@ class SymptomsValuesDao extends DatabaseAccessor<AppDatabase>
     return sortedSymptoms;
   }
 
-  // Удалить значения симптома
-  // Необходимо для удаления всех данных о пользовательских симптомах
+  Future<void> fix(String symptomName) async {}
+
+  // Удалить  
   Future<void> deleteSymptomValues(String symptomName) async {
     final query = select(symptomsNames)
       ..where((tbl) => tbl.name.equals(symptomName));
     final nameData = await query.getSingleOrNull();
-
-    await (delete(symptomsValues)
-          ..where((tbl) => tbl.name_id.equals(nameData!.id)))
-        .go();
+    if (nameData != null) {
+      await (delete(symptomsValues)
+            ..where((tbl) => tbl.name_id.equals(nameData.id)))
+          .go();
+    }
   }
 
-  // Получить максимальное значение симптома
-  // Необходимо для отображения на графиках численных симптомов
+  // Получить максимальное значение симптома из существующих по имени
+  // Используюется для отображения графика численных симптомов
   Future<double> getMaxValueByName(String name) async {
     final query = customSelect(
       'SELECT MAX(sv.value) AS max_value '

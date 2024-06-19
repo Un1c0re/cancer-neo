@@ -41,8 +41,8 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
         userId: 0,
         name: newName,
         birthdate: newBirthdate,
-        diseaseHistory: newDiseaseHistory,
-        threatmentHistory: newThreatmentHistory,
+        disease: newDiseaseHistory,
+        threatment: newThreatmentHistory,
       );
     }
 
