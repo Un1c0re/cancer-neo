@@ -16,16 +16,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   centerTitle: true,
-      //   title: const Text('Здравствуйте'),
-      //   shape: const RoundedRectangleBorder(
-      //     borderRadius: BorderRadius.only(
-      //       bottomLeft: Radius.circular(15.0),
-      //       bottomRight: Radius.circular(15.0),
-      //     ),
-      //   ),
-      // ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(

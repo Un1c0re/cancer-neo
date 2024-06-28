@@ -113,7 +113,6 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
   }
 
   Future<void> _captureAndSavePNG(String url) async {
-    final directUrl = formatToDirectLoadUrl(url);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (_globalKey.currentContext != null) {
@@ -131,7 +130,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
                 await File('${directory.path}/qr_cancerneo.png').create();
             await imagePath.writeAsBytes(pngBytes);
 
-            await _shareImage(imagePath.path, directUrl);
+            await _shareImage(imagePath.path, url);
           }
         }
       }

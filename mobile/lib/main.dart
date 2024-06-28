@@ -2,6 +2,7 @@ import 'package:cancerneo/services/database_service.dart';
 import 'package:cancerneo/utils/app_colors.dart';
 import 'package:cancerneo/utils/constants.dart';
 import 'package:cancerneo/views/screens/home/menu_screen.dart';
+import 'package:cancerneo/views/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Jost',
       ),
       debugShowCheckedModeBanner: false,
-      home: const MenuScreen(),
+      home: const HomeScreen(),
     );
   }
 }

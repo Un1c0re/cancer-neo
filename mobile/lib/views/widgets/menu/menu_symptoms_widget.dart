@@ -48,6 +48,11 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
     setState(() {});
   }
 
+  void updateSelectedDate(DateTime pickedDate) {
+    selectedDate = pickedDate;
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
@@ -144,7 +149,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                         foregroundColor: MaterialStatePropertyAll(
                             Color.fromARGB(255, 255, 255, 255)),
                       ),
-                      onPressed: () => selectDate(context, selectedDate),
+                      onPressed: () => selectDate(context, selectedDate, updateSelectedDate),
                       child: Text(
                         customFormat
                             .format(selectedDate)
@@ -335,7 +340,9 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
                         cursorColor: AppColors.activeColor,
                         controller: _notesInputController,
                         textInputAction: TextInputAction.done,
-                        onSubmitted: (_) => _handleNoteSubmission(),
+                        onEditingComplete: () => _handleNoteSubmission(),
+                        onTapOutside: (_) { FocusScope.of(context).unfocus(); _handleNoteSubmission(); },
+                        // onSubmitted: (_) => _handleNoteSubmission(),
                       ),
                     ],
                   ),

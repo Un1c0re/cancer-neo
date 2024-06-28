@@ -48,7 +48,7 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
     required DateTime date,
     required String   place,
     required String   notes,
-    Uint8List?        file,
+    String?           file,
   }) async {
     // Находим пользователя по имени
     final userQuery = select(users)..where((tbl) => tbl.id.equals(0));
@@ -63,7 +63,7 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
         date: Value(date),
         place: Value(place),
         notes: Value(notes),
-        file: Value(file),
+        file: Value(file ?? ''),
       ));
     }
   }
@@ -76,7 +76,7 @@ class DocsDao extends DatabaseAccessor<AppDatabase> with _$DocsDaoMixin {
     DateTime? date,
     String? place,
     String? notes,
-    Uint8List? file,
+    String? file,
   }) async {
     // С помощью компаньона формируем новый объект Docs
     final docEntry = DocsCompanion(

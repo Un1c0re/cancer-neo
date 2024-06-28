@@ -27,7 +27,7 @@ DateTime getLastDayOfMonth(DateTime date) {
   return DateTime(nextYear, nextMonth, 0);
 }
 
-Future<DateTime?> selectDate(BuildContext context, DateTime pickedDate) async {
+Future<DateTime?> selectDate(BuildContext context, DateTime pickedDate, Function updateParentState) async {
   final DateTime? picked = await showDatePicker(
     locale: const Locale('ru', 'RU'),
     context: context,
@@ -49,7 +49,7 @@ Future<DateTime?> selectDate(BuildContext context, DateTime pickedDate) async {
     },
   );
   if (picked != null && picked != pickedDate) {
-    return picked;
+    updateParentState(picked);
   }
   return null;
 }

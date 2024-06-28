@@ -1,12 +1,9 @@
-import 'dart:typed_data';
-import 'package:mime/mime.dart';
+bool isPdf(String path) {
+    return path.toLowerCase().endsWith('.pdf');
+  }
 
-bool isImage(Uint8List data) {
-  String? mimeType = lookupMimeType('', headerBytes: data);
-  return mimeType != null && mimeType.startsWith('image');
-}
-
-bool isPdf(Uint8List data) {
-  String? mimeType = lookupMimeType('', headerBytes: data);
-  return mimeType != null && mimeType == 'application/pdf';
-}
+  bool isImage(String path) {
+    return path.toLowerCase().endsWith('.png') ||
+           path.toLowerCase().endsWith('.jpg') ||
+           path.toLowerCase().endsWith('.jpeg');
+  }

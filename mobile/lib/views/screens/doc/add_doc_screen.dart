@@ -12,6 +12,7 @@ import 'package:cancerneo/utils/app_widgets.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 
 class AddDocScreen extends StatefulWidget {
   final DoctypeModel doctype;
@@ -40,6 +41,7 @@ class _AddDocScreenState extends State<AddDocScreen> {
 
   File? docFile; // file by itself
   Uint8List? docFileBytes; // bytes to store in db
+  String? filePath;
   late DateTime _pickedDate; // date pick
 
   Future<void> selectFile() async {
@@ -48,9 +50,32 @@ class _AddDocScreenState extends State<AddDocScreen> {
     if (result != null) {
       docFile = File(result.files.single.path!);
       docFileBytes = await docFile!.readAsBytes();
+      filePath = await saveFile(docFileBytes!, result.files.single.extension);
 
       setState(() {});
     }
+  }
+
+  Future<String> saveFile(Uint8List fileBytes, String? extension) async {
+    final directory = await getApplicationDocumentsDirectory();
+    String filePath;
+
+    if (extension != null && extension.toLowerCase() == 'pdf') {
+      filePath =
+          '${directory.path}/document_${DateTime.now().millisecondsSinceEpoch}.pdf';
+    } else if (extension != null &&
+        (extension.toLowerCase() == 'png' ||
+            extension.toLowerCase() == 'jpg' ||
+            extension.toLowerCase() == 'jpeg')) {
+      filePath =
+          '${directory.path}/image_${DateTime.now().millisecondsSinceEpoch}.$extension';
+    } else {
+      throw Exception('Unsupported file type');
+    }
+
+    final file = File(filePath);
+    await file.writeAsBytes(fileBytes);
+    return filePath;
   }
 
   @override
@@ -59,6 +84,13 @@ class _AddDocScreenState extends State<AddDocScreen> {
     _pickedDate = DateTime.now();
     _dateInputController.text =
         customFormat.format(_pickedDate).toString().substring(0, 10);
+  }
+
+  void updateSelectedDate(DateTime pickedDate) {
+    _pickedDate = pickedDate;
+    _dateInputController.text =
+        customFormat.format(_pickedDate).toString().substring(0, 10);
+    setState(() {});
   }
 
   @override
@@ -73,16 +105,7 @@ class _AddDocScreenState extends State<AddDocScreen> {
     final dateInputDecoration = AppStyleTextFields.sharedDecoration.copyWith(
       label: const Text('Дата оформления'),
       suffix: IconButton(
-        onPressed: () async {
-          DateTime? newDate = await selectDate(context, _pickedDate);
-          if (newDate != null) {
-            setState(() {
-              _pickedDate = newDate;
-              _dateInputController.text =
-                  customFormat.format(_pickedDate).toString().substring(0, 10);
-            });
-          }
-        },
+        onPressed: () async => await selectDate(context, _pickedDate, updateSelectedDate),
         icon: const Icon(Icons.calendar_today),
       ),
     );
@@ -103,7 +126,7 @@ class _AddDocScreenState extends State<AddDocScreen> {
     );
 
     Future<void> saveDoc(String docName, int docType, DateTime docDate,
-        String docPlace, String docNotes, Uint8List? docFile) async {
+        String docPlace, String docNotes, String? docFile) async {
       await service.database.docsDao.insertDoc(
         name: docName,
         type_id: docType,
@@ -242,7 +265,7 @@ class _AddDocScreenState extends State<AddDocScreen> {
                             String docNote = _notesInputController.text;
 
                             await saveDoc(docName, docType, docDate, docPlace,
-                                docNote, docFileBytes);
+                                docNote, filePath);
                             submitAction('Документ добавлен');
                             widget.onUpdate();
                           }

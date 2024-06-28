@@ -52,7 +52,7 @@ class Docs extends Table {
   DateTimeColumn  get date      => dateTime().nullable()();
   TextColumn      get place     => text()();
   TextColumn      get notes     => text()();
-  BlobColumn      get file      => blob().nullable()();
+  TextColumn      get file      => text()();
 }
 
 ////////////////////////////////// SYMPTOMS ///////////////////////////////////

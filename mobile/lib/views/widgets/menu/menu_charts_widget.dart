@@ -208,7 +208,6 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
                               context,
                               generatePDF,
                               onUpdate,
-                              // dateRangeController
                             ),
                           child: const Text(
                             'Экспорт отчета',

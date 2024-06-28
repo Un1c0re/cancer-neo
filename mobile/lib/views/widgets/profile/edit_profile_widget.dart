@@ -13,7 +13,7 @@ import 'package:get/get.dart';
 class EditProfileWidget extends StatefulWidget {
   final Function onUpdate;
   const EditProfileWidget({
-    super.key, 
+    super.key,
     required this.onUpdate,
   });
 
@@ -30,6 +30,13 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
 
   late DateTime _pickedDate;
   bool _isDateInitialized = false;
+
+  void updateSelectedDate(DateTime pickedDate) {
+    _pickedDate = pickedDate;
+    _birthDateInputController.text =
+        customFormat.format(_pickedDate).toString().substring(0, 10);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,16 +61,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
         AppStyleTextFields.sharedDecoration.copyWith(
       label: const Text('Дата рожднния'),
       suffix: IconButton(
-        onPressed: () async {
-          DateTime? newDate = await selectDate(context, _pickedDate);
-          if (newDate != null) {
-            setState(() {
-              _pickedDate = newDate;
-              _birthDateInputController.text =
-                  customFormat.format(_pickedDate).toString().substring(0, 10);
-            });
-          }
-        },
+        onPressed: () async => await selectDate(context, _pickedDate, updateSelectedDate),
         icon: const Icon(Icons.calendar_today),
       ),
     );
@@ -107,8 +105,10 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                       _pickedDate = userdata.birthdate;
                       _isDateInitialized = true;
                     }
-                    _birthDateInputController.text =
-                        customFormat.format(_pickedDate).toString().substring(0, 10);
+                    _birthDateInputController.text = customFormat
+                        .format(_pickedDate)
+                        .toString()
+                        .substring(0, 10);
                     _diseaseInputController.text = userdata.deseaseHistory;
                     _threatmentInputController.text =
                         userdata.threatmentHistory;

@@ -12,6 +12,7 @@ import 'package:cancerneo/utils/app_widgets.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../../utils/app_style.dart';
 import '../../../utils/constants.dart';
@@ -40,6 +41,7 @@ class _EditDocWidgetState extends State<EditDocWidget> {
 
   File? docFile;
   Uint8List? docFileBytes;
+  String? filePath;
   late DateTime _pickedDate;
   int? selectedCategoryIndex;
 
@@ -49,16 +51,31 @@ class _EditDocWidgetState extends State<EditDocWidget> {
     if (result != null) {
       docFile = File(result.files.single.path!);
       docFileBytes = await docFile!.readAsBytes();
-      _isFileLoaded = true;
+      filePath = await saveFile(docFileBytes!);
 
       setState(() {});
     }
+  }
+
+  Future<String> saveFile(Uint8List imageBytes) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final filePath = '${directory.path}/image_${DateTime.now().millisecondsSinceEpoch}.png';
+    final file = File(filePath);
+    await file.writeAsBytes(imageBytes);
+    return filePath;
   }
 
   void _onCategorySelected(int? index) {
     setState(() {
       selectedCategoryIndex = index;
     });
+  }
+
+  void updateSelectedDate(DateTime pickedDate) {
+    _pickedDate = pickedDate;
+    _dateInputController.text =
+                  customFormat.format(_pickedDate).toString().substring(0, 10);
+    setState(() {});
   }
 
   @override
@@ -72,16 +89,8 @@ class _EditDocWidgetState extends State<EditDocWidget> {
     final dateInputDecoration = AppStyleTextFields.sharedDecoration.copyWith(
       label: const Text('дд.мм.гггг'),
       suffix: IconButton(
-        onPressed: () async {
-          DateTime? newDate = await selectDate(context, _pickedDate);
-          if (newDate != null) {
-            setState(() {
-              _pickedDate = newDate;
-              _dateInputController.text =
-                  customFormat.format(_pickedDate).toString().substring(0, 10);
-            });
-          }
-        },
+        onPressed: () async => await selectDate(context, _pickedDate, updateSelectedDate),
+      
         icon: const Icon(Icons.calendar_today),
       ),
     );
@@ -103,7 +112,7 @@ class _EditDocWidgetState extends State<EditDocWidget> {
         date: docDate,
         place: docPlace,
         notes: docNotes,
-        file: docFile,
+        file: filePath,
       );
     }
 
@@ -149,7 +158,7 @@ class _EditDocWidgetState extends State<EditDocWidget> {
                           .substring(0, 10);
                       _notesInputController.text = data.notes;
                       if (data.file != null && !_isFileLoaded) {
-                        docFileBytes = data.file;
+                        filePath = data.file;
                         _isFileLoaded = true;
                       }
 

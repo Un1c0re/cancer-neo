@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:cancerneo/helpers/datetime_helpers.dart';
 import 'package:cancerneo/helpers/get_helpers.dart';
 import 'package:cancerneo/models/docs_models.dart';
@@ -215,11 +213,11 @@ class _DocDataWidgetState extends State<DocDataWidget> {
 }
 
 class _DocMiniature extends StatelessWidget {
-  final Uint8List? pdfBytes;
-  const _DocMiniature(this.pdfBytes);
+  final String? filePath;
+  const _DocMiniature(this.filePath);
 
-  Future<void> _openPdf(Uint8List pdfBytes) async {
-    Get.to(() => PdfViewerScreen(bytes: pdfBytes));
+  Future<void> _openPdf(String filePath) async {
+    Get.to(() => PdfViewerScreen(filePath: filePath));
   }
 
   @override
@@ -251,7 +249,7 @@ class _DocMiniature extends StatelessWidget {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () => pdfBytes != null ? _openPdf(pdfBytes!) : {},
+              onTap: () => filePath != null ? _openPdf(filePath!) : {},
               overlayColor:
                   const MaterialStatePropertyAll(AppColors.overlayColor),
               splashColor: AppColors.splashColor,

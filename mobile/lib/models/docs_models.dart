@@ -1,7 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'dart:typed_data';
-
 class DocModel {
   final int id;
   final String name;
@@ -9,7 +7,7 @@ class DocModel {
   final DateTime date;
   final String place;
   final String notes;
-  final Uint8List? file;
+  final String? file;
 
   DocModel({
     required this.id, 
@@ -29,7 +27,7 @@ class DocModel {
       date:  DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
       place: map['place'] as String,
       notes: map['notes'] as String,
-      file: map['file'] as Uint8List?,
+      file: map['file'] as String?,
     );
   }
 

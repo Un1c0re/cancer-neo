@@ -480,7 +480,7 @@ class Doc extends DataClass implements Insertable<Doc> {
   final DateTime? date;
   final String place;
   final String notes;
-  final Uint8List? file;
+  final String file;
   Doc(
       {required this.id,
       required this.owner_id,
@@ -489,7 +489,7 @@ class Doc extends DataClass implements Insertable<Doc> {
       this.date,
       required this.place,
       required this.notes,
-      this.file});
+      required this.file});
   factory Doc.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String? prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -508,8 +508,8 @@ class Doc extends DataClass implements Insertable<Doc> {
           .mapFromDatabaseResponse(data['${effectivePrefix}place'])!,
       notes: const StringType()
           .mapFromDatabaseResponse(data['${effectivePrefix}notes'])!,
-      file: const BlobType()
-          .mapFromDatabaseResponse(data['${effectivePrefix}file']),
+      file: const StringType()
+          .mapFromDatabaseResponse(data['${effectivePrefix}file'])!,
     );
   }
   @override
@@ -524,9 +524,7 @@ class Doc extends DataClass implements Insertable<Doc> {
     }
     map['place'] = Variable<String>(place);
     map['notes'] = Variable<String>(notes);
-    if (!nullToAbsent || file != null) {
-      map['file'] = Variable<Uint8List?>(file);
-    }
+    map['file'] = Variable<String>(file);
     return map;
   }
 
@@ -539,7 +537,7 @@ class Doc extends DataClass implements Insertable<Doc> {
       date: date == null && nullToAbsent ? const Value.absent() : Value(date),
       place: Value(place),
       notes: Value(notes),
-      file: file == null && nullToAbsent ? const Value.absent() : Value(file),
+      file: Value(file),
     );
   }
 
@@ -554,7 +552,7 @@ class Doc extends DataClass implements Insertable<Doc> {
       date: serializer.fromJson<DateTime?>(json['date']),
       place: serializer.fromJson<String>(json['place']),
       notes: serializer.fromJson<String>(json['notes']),
-      file: serializer.fromJson<Uint8List?>(json['file']),
+      file: serializer.fromJson<String>(json['file']),
     );
   }
   @override
@@ -568,7 +566,7 @@ class Doc extends DataClass implements Insertable<Doc> {
       'date': serializer.toJson<DateTime?>(date),
       'place': serializer.toJson<String>(place),
       'notes': serializer.toJson<String>(notes),
-      'file': serializer.toJson<Uint8List?>(file),
+      'file': serializer.toJson<String>(file),
     };
   }
 
@@ -580,7 +578,7 @@ class Doc extends DataClass implements Insertable<Doc> {
           DateTime? date,
           String? place,
           String? notes,
-          Uint8List? file}) =>
+          String? file}) =>
       Doc(
         id: id ?? this.id,
         owner_id: owner_id ?? this.owner_id,
@@ -631,7 +629,7 @@ class DocsCompanion extends UpdateCompanion<Doc> {
   final Value<DateTime?> date;
   final Value<String> place;
   final Value<String> notes;
-  final Value<Uint8List?> file;
+  final Value<String> file;
   const DocsCompanion({
     this.id = const Value.absent(),
     this.owner_id = const Value.absent(),
@@ -650,12 +648,13 @@ class DocsCompanion extends UpdateCompanion<Doc> {
     this.date = const Value.absent(),
     required String place,
     required String notes,
-    this.file = const Value.absent(),
+    required String file,
   })  : owner_id = Value(owner_id),
         name = Value(name),
         type_id = Value(type_id),
         place = Value(place),
-        notes = Value(notes);
+        notes = Value(notes),
+        file = Value(file);
   static Insertable<Doc> custom({
     Expression<int>? id,
     Expression<int>? owner_id,
@@ -664,7 +663,7 @@ class DocsCompanion extends UpdateCompanion<Doc> {
     Expression<DateTime?>? date,
     Expression<String>? place,
     Expression<String>? notes,
-    Expression<Uint8List?>? file,
+    Expression<String>? file,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -686,7 +685,7 @@ class DocsCompanion extends UpdateCompanion<Doc> {
       Value<DateTime?>? date,
       Value<String>? place,
       Value<String>? notes,
-      Value<Uint8List?>? file}) {
+      Value<String>? file}) {
     return DocsCompanion(
       id: id ?? this.id,
       owner_id: owner_id ?? this.owner_id,
@@ -724,7 +723,7 @@ class DocsCompanion extends UpdateCompanion<Doc> {
       map['notes'] = Variable<String>(notes.value);
     }
     if (file.present) {
-      map['file'] = Variable<Uint8List?>(file.value);
+      map['file'] = Variable<String>(file.value);
     }
     return map;
   }
@@ -793,9 +792,9 @@ class $DocsTable extends Docs with TableInfo<$DocsTable, Doc> {
       type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _fileMeta = const VerificationMeta('file');
   @override
-  late final GeneratedColumn<Uint8List?> file = GeneratedColumn<Uint8List?>(
-      'file', aliasedName, true,
-      type: const BlobType(), requiredDuringInsert: false);
+  late final GeneratedColumn<String?> file = GeneratedColumn<String?>(
+      'file', aliasedName, false,
+      type: const StringType(), requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
       [id, owner_id, name, type_id, date, place, notes, file];
@@ -848,6 +847,8 @@ class $DocsTable extends Docs with TableInfo<$DocsTable, Doc> {
     if (data.containsKey('file')) {
       context.handle(
           _fileMeta, file.isAcceptableOrUnknown(data['file']!, _fileMeta));
+    } else if (isInserting) {
+      context.missing(_fileMeta);
     }
     return context;
   }
