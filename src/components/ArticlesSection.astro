@@ -21,21 +21,21 @@ const articlesChunks: ArticleProps[][] = chunkArray(allArticles, 5);
   >
     Что такое НЭО
   </h2>
-  <ArticleList articles={articlesChunks[0]} />
+  <ArticleList articles={allArticles.slice(0, 5)} />
   <h2
     style="font-weight: 500; color: rgb(3, 63, 53);"
     class="self-start px-10 text-2xl font-semibold mt-10"
   >
     Исследования и анализы
   </h2>
-  <ArticleList articles={articlesChunks[1].concat(articlesChunks[2])} />
+  <ArticleList articles={allArticles.slice(5, 13)} />
   <h2
     style="font-weight: 500; color: rgb(3, 63, 53);"
     class="self-start px-10 text-2xl font-semibold mt-10"
   >
     Поддержка пациентов
   </h2>
-  <ArticleList articles={articlesChunks[3]} />
+  <ArticleList articles={allArticles.slice(13, 15)} />
   <h2
     style="font-weight: 500; color: rgb(3, 63, 53);"
     class="self-start px-10 text-2xl font-semibold mt-10"
