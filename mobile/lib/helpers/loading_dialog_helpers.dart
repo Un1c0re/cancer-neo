@@ -45,6 +45,7 @@ void showLoadingDialog(BuildContext context, String text) {
 void showDateRangePickerDialog(
   BuildContext context,
   Function onSubmit,
+  Function updateParentState,
 ) {
   DateRangePickerController controller = DateRangePickerController();
   controller.selectedRange = PickerDateRange(
@@ -70,6 +71,11 @@ void showDateRangePickerDialog(
                 .format(controller.selectedRange?.startDate ?? DateTime.now());
             final endDate = customFormat
                 .format(controller.selectedRange?.endDate ?? DateTime.now());
+
+            void onUpdate() {
+              setState(() {});
+              updateParentState();
+            }
 
             return AlertDialog(
               backgroundColor: Colors.white,
@@ -98,7 +104,7 @@ void showDateRangePickerDialog(
                         ),
                         IconButton(
                             onPressed: () => selectDateRange(
-                                context, controller, () => setState(() {})),
+                                context, controller, onUpdate),
                             icon: const Icon(
                               Icons.calendar_month,
                               color: AppColors.activeColor,

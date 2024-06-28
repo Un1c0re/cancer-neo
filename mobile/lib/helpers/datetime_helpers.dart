@@ -130,7 +130,7 @@ Future selectDateRange(
                   },
                   onSubmit: (Object? args) {
                     if (args is PickerDateRange) {
-                      updateState(args);
+                      updateState();
                     }
                     Get.back();
                   }),

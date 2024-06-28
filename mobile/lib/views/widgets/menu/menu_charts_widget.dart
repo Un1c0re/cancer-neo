@@ -207,7 +207,7 @@ class _HomeChartsWidgetState extends State<HomeChartsWidget> {
                           onPressed: () => showDateRangePickerDialog(
                               context,
                               generatePDF,
-                              // onUpdate,
+                              onUpdate,
                               // dateRangeController
                             ),
                           child: const Text(
